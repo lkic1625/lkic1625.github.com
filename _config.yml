@@ -94,9 +94,9 @@ analytics:
 # Site Author
 author:
   name             : "조원빈"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : ""
-  location         : "Somewhere"
+  avatar           : "/assets/images/avatar_logo.gif"
+  bio              : "개발 중 기록해야 할 것들은 적어놓는 블로그입니다."
+  location         : "South Korea"
   email            :
   links:
     - label: "Email"
@@ -113,10 +113,10 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+      url: "https://github.com/lkic1625"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
+      url: "https://www.instagram.com/__b1n__/"
 
 # Site Footer
 footer:
