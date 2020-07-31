@@ -1,4 +1,20 @@
-I"2<h1 id="이분매칭">이분매칭</h1>
+I"�<h1 id="bipartite-matching이분-매칭">Bipartite Matching(이분 매칭)</h1>
+<h3 id="graph-mathcing">Graph Mathcing</h3>
+<hr />
+<p>Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다.
+아래 사진은 올바른 매칭이 진행되었을 때 결과이다.</p>
+
+<p><img src="/assets/images/matching.png" alt="그래프 이미지" /></p>
+
+<p>이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다.
+하지만 가장 General한 Mathcing 알고리즘은 꽤나 <a href="https://en.wikipedia.org/wiki/Blossom_algorithm">복잡하여</a> 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게 된다.</p>
+
+<h3 id="이분매칭">이분매칭</h3>
+<hr />
+<p>이분 그래프란 정점을 두 그룹으로 나누어 모든 간선이 서로 다른 그룹의 정점들을 연결하도록 할 수 있는 그래프다.
+이분 그래프는 집합의 대응 관계</p>
+
+<h3 id="code">Code</h3>
 <hr />
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define MAX_N 1001
 </span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span>

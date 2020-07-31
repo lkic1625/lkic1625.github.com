@@ -1,7 +1,7 @@
 var store = [{
         "title": "Bipartite Matching",
-        "excerpt":"이분매칭 #define MAX_N 1001 int n, m; int visited[MAX_N]; int b[MAX_N]; vector&lt;vector&lt;int&gt;&gt; node; int dfs(int here) { if (visited[here]) return 0; //방문 된 정점은 매칭 불가 visited[here] = 1; for (int i = 0; i&lt;node[here].size(); i++) { int there = node[here][i]; if (!b[there] || dfs(b[there])) { //매칭이 되어있지 않은 정점을...","categories": ["algorithm"],
+        "excerpt":"Bipartite Matching(이분 매칭) 1. Graph Mathcing Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다. 아래 사진은 올바른 매칭이 진행되었을 때 결과이다. 이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다. 하지만 가장 General한 Mathcing 알고리즘은 꽤나 복잡하여 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게...","categories": ["algorithm"],
         "tags": ["network flow","algorithm"],
-        "url": "http://localhost:4000/%EC%9D%B4%EB%B6%84-%EB%A7%A4%EC%B9%AD/",
+        "url": "http://localhost:4000/algorithm/bipartite_matching/",
         "teaser": null
       }]

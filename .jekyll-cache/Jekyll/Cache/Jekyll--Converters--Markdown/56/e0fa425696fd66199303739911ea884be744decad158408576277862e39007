@@ -1,0 +1,7 @@
+I"a<h1 id="bipartite-matching이분-매칭">Bipartite Matching(이분 매칭)</h1>
+<h3 id="1-graph-mathcing">1. Graph Mathcing</h3>
+<hr />
+
+<p>Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다.
+아래 사진은 올바른 매칭이 진행되었을 때 결과이다.</p>
+:ET

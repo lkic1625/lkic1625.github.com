@@ -58,6 +58,7 @@ body {
     .page__content,
     .page__meta,
     .page__share {
+
       position: relative;
       float: left;
       margin-left: 0;
@@ -83,6 +84,7 @@ body {
 }
 
 .page__content {
+  font-size: $type-size-6;
   h2 {
     padding-bottom: 0.5em;
     border-bottom: 1px solid $border-color;

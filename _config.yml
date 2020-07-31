@@ -12,11 +12,11 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "ko-KR"
-title                    : "b1n"
+title                    : "untitled"
 title_separator          : " | "
 subtitle                 : ""
 name                     : "조원빈"
@@ -94,14 +94,14 @@ analytics:
 # Site Author
 author:
   name             : "조원빈"
-  avatar           : "/assets/images/avatar_logo.gif"
-  bio              : "개발 중 기록해야 할 것들은 적어놓는 블로그입니다."
+  avatar           : "/assets/images/avatar_logo.jpg"
+  bio              : "기록용 블로그입니다. 개발관련 게시글을 주로 올립니다."
   location         : "South Korea"
   email            :
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      url: "lkic1625@gmail.com"
+      url: "mailto:lkic1625@gmail.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -129,7 +129,7 @@ footer:
       # url:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url:
+      url: "https://github.com/lkic1625"
     - label: "GitLab"
       icon: "fab fa-fw fa-gitlab"
       # url:
@@ -138,7 +138,7 @@ footer:
       # url:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url:
+      url: "https://www.instagram.com/__b1n__/"
 
 
 # Reading Files
