@@ -1,4 +1,4 @@
-I"�
+I"�
 
 <div class="masthead">
   <div class="masthead__inner-wrap">
@@ -7,7 +7,7 @@
         
         <a class="site-title" href="/">
           untitled
-          <span class="site-subtitle"></span>
+          <span class="site-subtitle">기록용 블로그입니다.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/categories/">Categories</a>
