@@ -1,0 +1,9 @@
+I"Î<ul class="toc__menu">
+  <li><a href="#hibernate">Hibernate</a>
+      - {:.} <a href="#jpa-hibernate">JPA, Hibernate</a>
+    <ul>
+      <li><a href="#hibernate-1">Hibernate</a></li>
+    </ul>
+  </li>
+</ul>
+:ET
