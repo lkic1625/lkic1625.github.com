@@ -16,4 +16,10 @@ var store = [{
         "tags": ["spring","hibernate"],
         "url": "http://localhost:4000/spring/hibernate_02_spring/",
         "teaser": null
+      },{
+        "title": "Hibernate 03(작성 중)",
+        "excerpt":"Hibernate CURD features SessionFactory, Session SessionFactory SessionFactory 인터페이스는 Session 객체를 얻기 위한 메소드를 제공한다. Hibernate config file을 읽어 Session 객체를 생성한다. App 동작 단계에서 한 번만 생성된다(Heavy-weight object). Session Database의 JDBC connection의 Wrapper이다. Short-lived object로써 Database의 한 번 접근 후 재사용하지 않는다. Primary Key primary key란 Table의 행을 특정할 수...","categories": ["spring"],
+        "tags": ["spring","hibernate"],
+        "url": "http://localhost:4000/spring/hibernate_03_spring/",
+        "teaser": null
       }]
