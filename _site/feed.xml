@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-05T03:31:45+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Hibernate 01</title><link href="http://localhost:4000/spring/hibernate_01_spring/" rel="alternate" type="text/html" title="Hibernate 01" /><published>2020-08-05T00:00:00+09:00</published><updated>2020-07-31T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_01_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_01_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-07T00:18:11+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Hibernate 01</title><link href="http://localhost:4000/spring/hibernate_01_spring/" rel="alternate" type="text/html" title="Hibernate 01" /><published>2020-08-05T00:00:00+09:00</published><updated>2020-07-31T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_01_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_01_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;hibernate&quot;&gt;Hibernate&lt;/h1&gt;
@@ -12,17 +12,19 @@ JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 �
   &lt;p&gt;마치 일반적인 백엔드 API가 클라이언트가 어떻게 서버를 사용해야 하는지를 정의한 것처럼, JPA 역시 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를 정의하는 한 방법일 뿐이다.&amp;gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;JPA는 단순히 명세이기 때문에 구현이 없다. JPA를 정의한 javax.persistence 패키지의 대부분은 interface, enum, Exception, 그리고 각종 Annotation으로 이루어져 있다. 예를 들어, JPA의 핵심이 되는 EntityManager는 아래와 같이 javax.persistence.EntityManager 라는 파일에 interface로 정의되어 있다.&lt;/p&gt;
-
 &lt;h4 id=&quot;hibernate-1&quot;&gt;Hibernate&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/visualized_hibernate_implementation.svg&quot; alt=&quot;이미지1&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/hibernate-architecture.png&quot; alt=&quot;이미지0&quot; /&gt;
+&lt;img src=&quot;/assets/images/visualized_hibernate_implementation.svg&quot; alt=&quot;이미지1&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
 
 &lt;p&gt;Hibernate, as an ORM solution, effectively “sits between” the Java application data access layer and the Relational Database, as can be seen in the diagram above. The Java application makes use of the Hibernate APIs to load, store, query, etc. its domain data. Here we will introduce the essential Hibernate APIs. This will be a brief introduction; we will discuss these contracts in detail later.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/JPA_Hibernate.svg&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;JPA를 사용하기 위해서 반드시 Hibernate를 사용할 필요가 없다는 것이다. Hibernate의 작동 방식이 마음에 들지 않는다면 언제든지 DataNucleus, EclipseLink 등 다른 JPA 구현체를 사용해도 되고, 심지어 본인이 직접 JPA를 구현해서 사용할 수도 있다. 다만 그렇게 하지 않는 이유는 단지 Hibernate가 굉장히 성숙한 라이브러리이기 때문일 뿐이다.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;One of the great things about Hibernate is open source and therefore free.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;reference&lt;br /&gt;&lt;br /&gt;

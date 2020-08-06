@@ -21,10 +21,10 @@ JPA는 Java에서 적용하는 ORM(object-relational mapping) 기술에 대한 �
 JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 의미이다.
 >마치 일반적인 백엔드 API가 클라이언트가 어떻게 서버를 사용해야 하는지를 정의한 것처럼, JPA 역시 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를 정의하는 한 방법일 뿐이다.>
 
-JPA는 단순히 명세이기 때문에 구현이 없다. JPA를 정의한 javax.persistence 패키지의 대부분은 interface, enum, Exception, 그리고 각종 Annotation으로 이루어져 있다. 예를 들어, JPA의 핵심이 되는 EntityManager는 아래와 같이 javax.persistence.EntityManager 라는 파일에 interface로 정의되어 있다.
 
 #### Hibernate
 
+![이미지0](/assets/images/hibernate-architecture.png)
 ![이미지1](/assets/images/visualized_hibernate_implementation.svg)<br>
 
 Hibernate, as an ORM solution, effectively "sits between" the Java application data access layer and the Relational Database, as can be seen in the diagram above. The Java application makes use of the Hibernate APIs to load, store, query, etc. its domain data. Here we will introduce the essential Hibernate APIs. This will be a brief introduction; we will discuss these contracts in detail later.
@@ -33,6 +33,7 @@ Hibernate, as an ORM solution, effectively "sits between" the Java application d
 ![이미지2](/assets/images/JPA_Hibernate.svg)
 
 JPA를 사용하기 위해서 반드시 Hibernate를 사용할 필요가 없다는 것이다. Hibernate의 작동 방식이 마음에 들지 않는다면 언제든지 DataNucleus, EclipseLink 등 다른 JPA 구현체를 사용해도 되고, 심지어 본인이 직접 JPA를 구현해서 사용할 수도 있다. 다만 그렇게 하지 않는 이유는 단지 Hibernate가 굉장히 성숙한 라이브러리이기 때문일 뿐이다.
+>One of the great things about Hibernate is open source and therefore free.
 
 
 
