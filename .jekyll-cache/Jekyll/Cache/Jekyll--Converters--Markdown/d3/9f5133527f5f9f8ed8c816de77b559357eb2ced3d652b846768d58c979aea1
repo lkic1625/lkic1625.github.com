@@ -1,0 +1,39 @@
+I"=<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="hibernate-with-java-annotation">Hibernate with Java Annotation</h1>
+
+<h3 id="java-annotation-종류">Java Annotation 종류</h3>
+<hr />
+<ol>
+  <li>@Entity
+    <ul>
+      <li>Database와 Mapping할 것을 알리는 Annotation</li>
+    </ul>
+  </li>
+  <li>@Table(name=’’)
+    <ul>
+      <li>Database Table에서 사용될 name을 명시한다.</li>
+    </ul>
+  </li>
+  <li>@Id
+    <ul>
+      <li>Database Table에서 <code class="language-plaintext highlighter-rouge">primary key</code>를 특정할 때 쓴다.</li>
+    </ul>
+  </li>
+  <li>@Column
+    <ul>
+      <li>실제 Table의 속성 값을 특정할 떄 사용.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>background에서 hibernate는 JDBC를 통해 communication한다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+https://suhwan.dev/2019/02/24/jpa-vs-hibernate-vs-spring-data-jpa/
+https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html</p>
+</blockquote>
+:ET

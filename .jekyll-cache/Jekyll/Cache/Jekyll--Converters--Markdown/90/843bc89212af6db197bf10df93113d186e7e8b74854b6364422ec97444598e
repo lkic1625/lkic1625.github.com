@@ -1,0 +1,18 @@
+I"E<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="hibernate-with-java-annotation">Hibernate with Java Annotation</h1>
+
+<h3 id="java-annotation-종류">Java Annotation 종류</h3>
+<hr />
+<p>@Id</p>
+
+<p>background에서 hibernate는 JDBC를 통해 communication한다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+https://suhwan.dev/2019/02/24/jpa-vs-hibernate-vs-spring-data-jpa/
+https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html</p>
+</blockquote>
+:ET

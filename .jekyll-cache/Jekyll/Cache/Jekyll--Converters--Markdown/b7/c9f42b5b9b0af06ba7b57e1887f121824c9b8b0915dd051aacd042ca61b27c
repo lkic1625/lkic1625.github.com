@@ -1,0 +1,38 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="hibernate">Hibernate</h1>
+<h3 id="jpa-hibernate">JPA, Hibernate</h3>
+<hr />
+<h4 id="jpajava-persistence-api">JPA(Java persistence API)</h4>
+
+<p>JPA는 Java에서 적용하는 ORM(object-relational mapping) 기술에 대한 표준 명세이다.
+JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 의미이다.</p>
+
+<p>ORM이란 객체와 DB의 Table이 mapping을 이루는 것을 말한다.
+ORM을 이용하면 SQL Query가 아닌 직관적인 코드(메서드)로서 데이터를 조작할 수 있다.</p>
+
+<p>JPA는 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를 정의하는 한 방법일 뿐이다.</p>
+
+<h4 id="hibernate-1">Hibernate</h4>
+
+<p><img src="/assets/images/hibernate-architecture.png" alt="이미지0" /><br /></p>
+
+<blockquote>
+  <p>Hibernate, as an ORM solution, effectively “sits between” the Java application data access layer and the Relational Database, as can be seen in the diagram above. The Java application makes use of the Hibernate APIs to load, store, query, etc. its domain data. Here we will introduce the essential Hibernate APIs. This will be a brief introduction; we will discuss these contracts in detail later.</p>
+</blockquote>
+
+<p><img src="/assets/images/JPA_Hibernate.svg" alt="이미지2" /></p>
+
+<p>JPA를 사용하기 위해서 반드시 <code class="language-plaintext highlighter-rouge">Hibernate</code>를 사용할 필요는 없다. 작동 방식이 맘에 안 든다면 언제든지 다른 JPA 구현체를 사용할 수 있다.</p>
+
+<blockquote>
+  <p>One of the great things about Hibernate is open source and therefore free.</p>
+</blockquote>
+
+<blockquote>
+  <p>reference<br /><br />
+https://suhwan.dev/2019/02/24/jpa-vs-hibernate-vs-spring-data-jpa/
+https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html</p>
+</blockquote>
+:ET

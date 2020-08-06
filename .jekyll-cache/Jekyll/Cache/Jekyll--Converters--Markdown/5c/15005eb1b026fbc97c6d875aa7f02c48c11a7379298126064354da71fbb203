@@ -1,0 +1,46 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="hibernate-with-java-annotation">Hibernate with Java Annotation</h1>
+
+<h3 id="java-annotation-종류">Java Annotation 종류</h3>
+<hr />
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">@Entity</code>
+    <ul>
+      <li>Database와 Mapping할 것을 알리는 Annotation</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Table(name='')</code>
+    <ul>
+      <li>Database Table에서 사용될 name을 명시한다. class name과 table name이 같다면 명시할 필요 없다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Id</code>
+    <ul>
+      <li>Database Table에서 <code class="language-plaintext highlighter-rouge">primary key</code>를 특정할 때 쓴다.</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">@Column(name='')</code>
+    <ul>
+      <li>실제 Table의 속성 값을 특정할 떄 사용. field name과 column name이 같다면 명시할 필요 없다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="faq-why-we-are-using-jpa-annotation-instead-of-hibernate">FAQ: Why we are using JPA Annotation instead of Hibernate?</h3>
+<hr />
+<p>ANSWER:
+<code class="language-plaintext highlighter-rouge">JPA</code> is a standard specification. <code class="language-plaintext highlighter-rouge">Hibernate</code> is an implementation of the <code class="language-plaintext highlighter-rouge">JPA</code> specification.</p>
+
+<p>Hibernate implements all of the JPA annotations.</p>
+
+<p>The Hibernate team recommends the use of <code class="language-plaintext highlighter-rouge">JPA annotations</code> as a best practice.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+https://suhwan.dev/2019/02/24/jpa-vs-hibernate-vs-spring-data-jpa/
+https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html</p>
+</blockquote>
+:ET

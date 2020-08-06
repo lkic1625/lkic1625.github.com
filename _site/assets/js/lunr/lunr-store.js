@@ -6,8 +6,14 @@ var store = [{
         "teaser": null
       },{
         "title": "Hibernate 01",
-        "excerpt":"Hibernate JPA, Hibernate JPA(Java persistence API) JPA는 Java에서 적용하는 ORM(object-relational mapping) 기술에 대한 표준 명세이다. JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 의미이다. 마치 일반적인 백엔드 API가 클라이언트가 어떻게 서버를 사용해야 하는지를 정의한 것처럼, JPA 역시 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를 정의하는 한 방법일 뿐이다.&gt; Hibernate Hibernate, as...","categories": ["spring"],
+        "excerpt":"Hibernate JPA, Hibernate JPA(Java persistence API) JPA는 Java에서 적용하는 ORM(object-relational mapping) 기술에 대한 표준 명세이다. JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 의미이다. ORM이란 객체와 DB의 Table이 mapping을 이루는 것을 말한다. ORM을 이용하면 SQL Query가 아닌 직관적인 코드(메서드)로서 데이터를 조작할 수 있다. JPA는 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를...","categories": ["spring"],
         "tags": ["spring","hibernate"],
         "url": "http://localhost:4000/spring/hibernate_01_spring/",
+        "teaser": null
+      },{
+        "title": "Hibernate 02",
+        "excerpt":"Hibernate with Java Annotation Java Annotation 종류 @Entity Database와 Mapping할 것을 알리는 Annotation @Table(name='') Database Table에서 사용될 name을 명시한다. class name과 table name이 같다면 명시할 필요 없다. @Id Database Table에서 primary key를 특정할 때 쓴다. @Column(name='') 실제 Table의 속성 값을 특정할 떄 사용. field name과 column name이 같다면 명시할 필요...","categories": ["spring"],
+        "tags": ["spring","hibernate"],
+        "url": "http://localhost:4000/spring/hibernate_02_spring/",
         "teaser": null
       }]
