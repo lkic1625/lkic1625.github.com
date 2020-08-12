@@ -1,0 +1,54 @@
+I"�
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="flutter-시작하기">Flutter 시작하기</h1>
+
+<h3 id="설치">설치</h3>
+<hr />
+<p><img src="/assets/images/flutter-sdk-download.png" alt="이미지2" /></p>
+
+<p><a href="https://flutter.dev/docs/get-started/install/windows">Flutter 홈페이지</a> 접속 후
+SDK를 특정 경로에 압축 해제한다. 작성자는 <code class="language-plaintext highlighter-rouge">C:\sdk\flutter</code>에 압축해제하였다.
+<br /> (이 때 <code class="language-plaintext highlighter-rouge">C:\Program Files\</code>과 같은 권한 상승이 필요한 <code class="language-plaintext highlighter-rouge">directory</code>에 저장하지 않는다.)</p>
+<h3 id="환경-변수-설정">환경 변수 설정.</h3>
+<hr />
+
+<p><img src="/assets/images/system-variable-serach.png" alt="이미지3" /></p>
+
+<p>시스템 환경 변수 설정을 위해 시작 탭에서 환경 변수를 검색한다.</p>
+
+<p><img src="/assets/images/system-variable-01.png" alt="이미지4" /></p>
+
+<p>아래 보이는 환경 변수를 클릭 후</p>
+
+<p><img src="/assets/images/system-variable-02.png" alt="이미지5" /></p>
+
+<p>시스템 변수의 Path 변수가 존재 시 더블 클릭한다.</p>
+
+<p>없을 경우 새로 추가한다.</p>
+
+<p><img src="/assets/images/system-variable-03.png" alt="이미지6" /></p>
+
+<p>Flutter를 압축해제 했던 <code class="language-plaintext highlighter-rouge">directory</code>의 위치의 맞게 <code class="language-plaintext highlighter-rouge">/flutter/bin</code>를 추가해준다.</p>
+
+<h3 id="flutter-doctor-실행">flutter doctor 실행.</h3>
+<hr />
+<p>환경 변수가 제대로 설정 되어 있는지를 확인하기 위해 <code class="language-plaintext highlighter-rouge">console</code>에서 flutter가 설치된 경로에 이동 후
+<code class="language-plaintext highlighter-rouge">fluuter doctor</code>를 입력한다. 아래와 같은 형식의 창이 뜬다면 성공이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[-] Android toolchain - develop for Android devices
+    • Android SDK at D:\Android\sdk
+    ✗ Android SDK is missing command line tools; download from https://goo.gl/XxQghQ
+    • Try re-installing or updating your Android SDK,
+      visit https://flutter.dev/setup/#android-setup for detailed instructions.
+</code></pre></div></div>
+
+<p>이후 추가로 설치할 Tool들을 설치 후 마무리한다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+https://flutter.dev/docs/get-started/install/windows</p>
+</blockquote>
+:ET

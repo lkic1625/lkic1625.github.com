@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-07T02:19:35+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Hibernate 03(작성 중)</title><link href="http://localhost:4000/spring/hibernate_03_spring/" rel="alternate" type="text/html" title="Hibernate 03(작성 중)" /><published>2020-08-07T00:00:00+09:00</published><updated>2020-08-07T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_03_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_03_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-12T22:46:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Chapter5 npm</title><link href="http://localhost:4000/nodejs/npm_00/" rel="alternate" type="text/html" title="Chapter5 npm" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/nodejs/npm_00</id><content type="html" xml:base="http://localhost:4000/nodejs/npm_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;npmnode-package-manager&quot;&gt;npm(Node Package Manager)&lt;/h1&gt;
+
+&lt;h3 id=&quot;설치&quot;&gt;설치&lt;/h3&gt;
+&lt;hr /&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;&lt;br /&gt;
+https://flutter.dev/docs/get-started/install/windows&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="npm" /><summary type="html"></summary></entry><entry><title type="html">Flutter 시작하기</title><link href="http://localhost:4000/flutter/get_started_flutter/" rel="alternate" type="text/html" title="Flutter 시작하기" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/flutter/get_started_flutter</id><content type="html" xml:base="http://localhost:4000/flutter/get_started_flutter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;flutter-시작하기&quot;&gt;Flutter 시작하기&lt;/h1&gt;
+
+&lt;h3 id=&quot;설치&quot;&gt;설치&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/flutter-sdk-download.png&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://flutter.dev/docs/get-started/install/windows&quot;&gt;Flutter 홈페이지&lt;/a&gt; 접속 후
+SDK를 특정 경로에 압축 해제한다. 작성자는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C:\sdk\flutter&lt;/code&gt;에 압축해제하였다.
+&lt;br /&gt; (이 때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C:\Program Files\&lt;/code&gt;과 같은 권한 상승이 필요한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;directory&lt;/code&gt;에 저장하지 않는다.)&lt;/p&gt;
+&lt;h3 id=&quot;환경-변수-설정&quot;&gt;환경 변수 설정.&lt;/h3&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/system-variable-serach.png&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;시스템 환경 변수 설정을 위해 시작 탭에서 환경 변수를 검색한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/system-variable-01.png&quot; alt=&quot;이미지4&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;아래 보이는 환경 변수를 클릭 후&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/system-variable-02.png&quot; alt=&quot;이미지5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;시스템 변수의 Path 변수가 존재 시 더블 클릭한다.&lt;/p&gt;
+
+&lt;p&gt;없을 경우 새로 추가한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/system-variable-03.png&quot; alt=&quot;이미지6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Flutter를 압축해제 했던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;directory&lt;/code&gt;의 위치의 맞게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/flutter/bin&lt;/code&gt;를 추가해준다.&lt;/p&gt;
+
+&lt;h3 id=&quot;flutter-doctor-실행&quot;&gt;flutter doctor 실행.&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;환경 변수가 제대로 설정 되어 있는지를 확인하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;console&lt;/code&gt;에서 flutter가 설치된 경로에 이동 후
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fluuter doctor&lt;/code&gt;를 입력한다. 아래와 같은 형식의 창이 뜬다면 성공이다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[-] Android toolchain - develop for Android devices
+    • Android SDK at D:\Android\sdk
+    ✗ Android SDK is missing command line tools; download from https://goo.gl/XxQghQ
+    • Try re-installing or updating your Android SDK,
+      visit https://flutter.dev/setup/#android-setup for detailed instructions.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;이후 추가로 설치할 Tool들을 설치 후 마무리한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;&lt;br /&gt;
+https://flutter.dev/docs/get-started/install/windows&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="flutter" /><category term="flutter" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 03(작성 중)</title><link href="http://localhost:4000/spring/hibernate_03_spring/" rel="alternate" type="text/html" title="Hibernate 03(작성 중)" /><published>2020-08-07T00:00:00+09:00</published><updated>2020-08-07T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_03_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_03_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;hibernate-curd-features&quot;&gt;Hibernate CURD features&lt;/h1&gt;

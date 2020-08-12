@@ -22,4 +22,16 @@ var store = [{
         "tags": ["spring","hibernate"],
         "url": "http://localhost:4000/spring/hibernate_03_spring/",
         "teaser": null
+      },{
+        "title": "Flutter 시작하기",
+        "excerpt":"Flutter 시작하기 설치 Flutter 홈페이지 접속 후 SDK를 특정 경로에 압축 해제한다. 작성자는 C:\\sdk\\flutter에 압축해제하였다. (이 때 C:\\Program Files\\과 같은 권한 상승이 필요한 directory에 저장하지 않는다.) 환경 변수 설정. 시스템 환경 변수 설정을 위해 시작 탭에서 환경 변수를 검색한다. 아래 보이는 환경 변수를 클릭 후 시스템 변수의 Path 변수가 존재...","categories": ["flutter"],
+        "tags": ["flutter"],
+        "url": "http://localhost:4000/flutter/get_started_flutter/",
+        "teaser": null
+      },{
+        "title": "Chapter5 npm",
+        "excerpt":"  npm(Node Package Manager)   설치       Refernce     https://flutter.dev/docs/get-started/install/windows   ","categories": ["nodejs"],
+        "tags": ["nodejs","npm"],
+        "url": "http://localhost:4000/nodejs/npm_00/",
+        "teaser": null
       }]
