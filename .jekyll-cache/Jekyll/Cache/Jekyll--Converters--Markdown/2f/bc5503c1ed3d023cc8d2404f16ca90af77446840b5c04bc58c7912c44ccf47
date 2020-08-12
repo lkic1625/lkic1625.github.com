@@ -1,0 +1,64 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="npm-node-package-manager">NPM (Node Package Manager)</h1>
+
+<h3 id="npm-이란">npm 이란.</h3>
+<hr />
+<p>npm 이란 이름 그대로 노드 패키지 매니저이다. 대부분의 패키지가 npm에 등록되어 있으므로 특정 기능의 패키지가 필요하다면 npm에서 찾아 설치하면 된다.
+npm에 업로드된 모듈을 패키지라 부른다. 모듈이 다른 모듈을 사용할 수 있는 것처럼, 패키지가 다른 패키지를 사용할 수 있다.
+이런 관계를 의존 관계라 하며 의존 관계는 조금 있다가 알아보자.</p>
+
+<h3 id="packagejson">package.json</h3>
+<hr />
+
+<p>서비스에 필요한 패키지 수가 매우 많기 때문에 저마다의 고유 버전을 기록해두어야 한다.
+<br /><br />
+같은 패키지라도 버전별로 기능이 다를 수 있으므로 동일한 버전을 설치해야 하는 것이다.
+그것을 관리하는 파일이 바로 <code class="language-plaintext highlighter-rouge">package.json</code>이다.
+<br />
+콘솔로 프로젝트 시작 폴더로 이동 후 다음 명령어를 입력하자<br />
+<code class="language-plaintext highlighter-rouge">npm init</code></p>
+
+<ul>
+  <li>package name: 패키지의 이름이다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">name</code> 속성의 저장된다.</li>
+  <li>version: 패키지의 버전이다. npm에서는 다소 엄격하게 다룬다.</li>
+  <li>entry point: 자바스크립트 실행 파일의 진입점이다. 보통 마지막으로 module.exports를 하는 파일이 저장된다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">main</code> 속성에 저장된다.</li>
+  <li>test command: 코드를 테스트할 때 입력할 명령어를 의미한다. <code class="language-plaintext highlighter-rouge">package.json</code> <code class="language-plaintext highlighter-rouge">scripts</code> 속성안의 <code class="language-plaintext highlighter-rouge">test</code>의 저장된다.</li>
+  <li>git repository: 코드를 저장해둔 Git 저장소 주소를 의미한다. 나중에 소스에 문제가 생겼을 때 사용자들이 이 저장소의 방문해 문제를 제기할 수도 있고 코드 수정본을 올릴 수도 있다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">repository</code> 속성에 저장된다.</li>
+  <li>keywords: 키워드는 npm 공식 홈페이지에서 패키지를 쉽게 찾을 수 있게 해준다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">repository</code> 속성에 저장된다.</li>
+  <li>license: 해당 패키지 라이선스를 넣어주면 된다.</li>
+</ul>
+
+<h3 id="npm-install">npm install</h3>
+<hr />
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">npm install morgan cookie-parser expresds-session</code>: 동시에 여러 패키지를 설치할 수 있다.</li>
+  <li><code class="language-plaintext highlighter-rouge">npm insatll --save-dev []</code>: 배포 시에 사용되지 않고 개발 중에만 사용되는 패키지들이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">npm insatll --global []</code>: 현재 패키지 폴더에 설치하는 것이 아니라 npm이 설치되어 있는 폴더에 설치한다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">npm i</code>나 <code class="language-plaintext highlighter-rouge">npm -D</code>, <code class="language-plaintext highlighter-rouge">npm -g</code>로 줄여서 쓸 수 있다.\</p>
+
+<h3 id="package-version">package version</h3>
+<hr />
+<p>노드 패키지들의 버전은 항상 세 자리로 이루어져 있다. 이는 <code class="language-plaintext highlighter-rouge">SemVer</code> 방식의 버전 넘버링을 따르기 때문이다.</p>
+<blockquote>
+
+  <ol>
+    <li>기존 버전과 호환되지 않게 API가 바뀌면 “주(主) 버전”을 올리고,</li>
+    <li>기존 버전과 호환되면서 새로운 기능을 추가할 때는 “부(部) 버전”을 올리고,</li>
+    <li>기존 버전과 호환되면서 버그를 수정한 것이라면 “수(修) 버전”을 올린다.</li>
+    <li>주.부.수 형식에 정식배포 전 버전이나 빌드 메타데이터를 위한 라벨을 덧붙이는 방법도 있다.<br /><br />
+<a href="https://semver.org/lang/ko/">출처 : https://semver.org/lang/ko/</a></li>
+  </ol>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">SemVer</code>는 Semantic Versioning의 약어이다. 세 자리 모두 의미를 가지고 있다는 뜻이다.
+각각 패키지는</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br /></p>
+</blockquote>
+:ET

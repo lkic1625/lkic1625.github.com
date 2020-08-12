@@ -1,0 +1,15 @@
+I"<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="express">Express</h1>
+<hr />
+<p>4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다.
+npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.</p>
+
+<h3 id="express-generator">express-generator</h3>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br /></p>
+</blockquote>
+:ET

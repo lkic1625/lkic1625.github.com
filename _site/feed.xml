@@ -1,16 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-12T22:46:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Chapter5 npm</title><link href="http://localhost:4000/nodejs/npm_00/" rel="alternate" type="text/html" title="Chapter5 npm" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/nodejs/npm_00</id><content type="html" xml:base="http://localhost:4000/nodejs/npm_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-13T01:03:32+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Chapter5 npm</title><link href="http://localhost:4000/nodejs/npm_00/" rel="alternate" type="text/html" title="Chapter5 npm" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/nodejs/npm_00</id><content type="html" xml:base="http://localhost:4000/nodejs/npm_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
-&lt;h1 id=&quot;npmnode-package-manager&quot;&gt;npm(Node Package Manager)&lt;/h1&gt;
+&lt;h1 id=&quot;npm-node-package-manager&quot;&gt;npm (Node Package Manager)&lt;/h1&gt;
 
-&lt;h3 id=&quot;설치&quot;&gt;설치&lt;/h3&gt;
+&lt;h3 id=&quot;npm-이란&quot;&gt;npm 이란.&lt;/h3&gt;
 &lt;hr /&gt;
+&lt;p&gt;npm 이란 이름 그대로 노드 패키지 매니저이다. 대부분의 패키지가 npm에 등록되어 있으므로 특정 기능의 패키지가 필요하다면 npm에서 찾아 설치하면 된다.
+npm에 업로드된 모듈을 패키지라 부른다. 모듈이 다른 모듈을 사용할 수 있는 것처럼, 패키지가 다른 패키지를 사용할 수 있다.
+이런 관계를 의존 관계라 하며 의존 관계는 조금 있다가 알아보자.&lt;/p&gt;
+
+&lt;h3 id=&quot;packagejson&quot;&gt;package.json&lt;/h3&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;서비스에 필요한 패키지 수가 매우 많기 때문에 저마다의 고유 버전을 기록해두어야 한다.
+&lt;br /&gt;&lt;br /&gt;
+같은 패키지라도 버전별로 기능이 다를 수 있으므로 동일한 버전을 설치해야 하는 것이다.
+그것을 관리하는 파일이 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;이다.
+&lt;br /&gt;
+콘솔로 프로젝트 시작 폴더로 이동 후 다음 명령어를 입력하자&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm init&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;package name: 패키지의 이름이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;name&lt;/code&gt; 속성의 저장된다.&lt;/li&gt;
+  &lt;li&gt;version: 패키지의 버전이다. npm에서는 다소 엄격하게 다룬다.&lt;/li&gt;
+  &lt;li&gt;entry point: 자바스크립트 실행 파일의 진입점이다. 보통 마지막으로 module.exports를 하는 파일이 저장된다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
+  &lt;li&gt;test command: 코드를 테스트할 때 입력할 명령어를 의미한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scripts&lt;/code&gt; 속성안의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test&lt;/code&gt;의 저장된다.&lt;/li&gt;
+  &lt;li&gt;git repository: 코드를 저장해둔 Git 저장소 주소를 의미한다. 나중에 소스에 문제가 생겼을 때 사용자들이 이 저장소의 방문해 문제를 제기할 수도 있고 코드 수정본을 올릴 수도 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repository&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
+  &lt;li&gt;keywords: 키워드는 npm 공식 홈페이지에서 패키지를 쉽게 찾을 수 있게 해준다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repository&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
+  &lt;li&gt;license: 해당 패키지 라이선스를 넣어주면 된다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;npm-install&quot;&gt;npm install&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm install morgan cookie-parser expresds-session&lt;/code&gt;: 동시에 여러 패키지를 설치할 수 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm insatll --save-dev []&lt;/code&gt;: 배포 시에 사용되지 않고 개발 중에만 사용되는 패키지들이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm insatll --global []&lt;/code&gt;: 현재 패키지 폴더에 설치하는 것이 아니라 npm이 설치되어 있는 폴더에 설치한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm i&lt;/code&gt;나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm -D&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm -g&lt;/code&gt;로 줄여서 쓸 수 있다.\&lt;/p&gt;
+
+&lt;h3 id=&quot;package-version&quot;&gt;package version&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;노드 패키지들의 버전은 항상 세 자리로 이루어져 있다. 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SemVer&lt;/code&gt; 방식의 버전 넘버링을 따르기 때문이다.&lt;/p&gt;
+&lt;blockquote&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;기존 버전과 호환되지 않게 API가 바뀌면 “주(主) 버전”을 올리고,&lt;/li&gt;
+    &lt;li&gt;기존 버전과 호환되면서 새로운 기능을 추가할 때는 “부(部) 버전”을 올리고,&lt;/li&gt;
+    &lt;li&gt;기존 버전과 호환되면서 버그를 수정한 것이라면 “수(修) 버전”을 올린다.&lt;/li&gt;
+    &lt;li&gt;주.부.수 형식에 정식배포 전 버전이나 빌드 메타데이터를 위한 라벨을 덧붙이는 방법도 있다.&lt;br /&gt;&lt;br /&gt;
+&lt;a href=&quot;https://semver.org/lang/ko/&quot;&gt;출처 : https://semver.org/lang/ko/&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SemVer&lt;/code&gt;는 Semantic Versioning의 약어이다. 세 자리 모두 의미를 가지고 있다는 뜻이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;에는 SemVer식 세 자리 버전 외에도 ^나 ~또는 &amp;gt;, &amp;lt;같은 문자가 붙어있다.
+이 문자는 버전에는 포함되지 않지만 설치 또는 업데이트 시 어떤 버전을 설치해야 하는지 알려준다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;^ 는 부(部) 버전까지만 설치 또는 업데이트 한다.&lt;/li&gt;
+  &lt;li&gt;~ 는 수(修) 버전까지만 설치 또는 업데이트 한다.&lt;/li&gt;
+  &lt;li&gt;&amp;lt;, &amp;gt;, &amp;gt;=, &amp;lt;=, = 는 알기 쉽게 초과, 미만, 이상, 이하, 동일을 뜻하며 npm i express@&amp;gt;1.1.1처럼 반드시 1.1.1 버전보다 높은 버전이 설치된다.&lt;/li&gt;
+  &lt;li&gt;@latest 도 사용하는데, 항상 최신 버전의 패키지를 설치한다 @x로도 표현할 수 있다.
+    &lt;blockquote&gt;
+      &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+      &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="npm" /><summary type="html"></summary></entry><entry><title type="html">Chapter6 express(작성 중)</title><link href="http://localhost:4000/nodejs/express/" rel="alternate" type="text/html" title="Chapter6 express(작성 중)" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/nodejs/express</id><content type="html" xml:base="http://localhost:4000/nodejs/express/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;express&quot;&gt;Express&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다.
+npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.&lt;/p&gt;
+
+&lt;h3 id=&quot;express-generator&quot;&gt;express-generator&lt;/h3&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;p&gt;&lt;br /&gt;
-https://flutter.dev/docs/get-started/install/windows&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="npm" /><summary type="html"></summary></entry><entry><title type="html">Flutter 시작하기</title><link href="http://localhost:4000/flutter/get_started_flutter/" rel="alternate" type="text/html" title="Flutter 시작하기" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/flutter/get_started_flutter</id><content type="html" xml:base="http://localhost:4000/flutter/get_started_flutter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+  &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html"></summary></entry><entry><title type="html">Flutter 시작하기</title><link href="http://localhost:4000/flutter/get_started_flutter/" rel="alternate" type="text/html" title="Flutter 시작하기" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/flutter/get_started_flutter</id><content type="html" xml:base="http://localhost:4000/flutter/get_started_flutter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;flutter-시작하기&quot;&gt;Flutter 시작하기&lt;/h1&gt;
@@ -61,83 +132,7 @@ SDK를 특정 경로에 압축 해제한다. 작성자는 &lt;code class=&quot;l
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;p&gt;&lt;br /&gt;
 https://flutter.dev/docs/get-started/install/windows&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="flutter" /><category term="flutter" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 03(작성 중)</title><link href="http://localhost:4000/spring/hibernate_03_spring/" rel="alternate" type="text/html" title="Hibernate 03(작성 중)" /><published>2020-08-07T00:00:00+09:00</published><updated>2020-08-07T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_03_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_03_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;hibernate-curd-features&quot;&gt;Hibernate CURD features&lt;/h1&gt;
-
-&lt;h3 id=&quot;sessionfactory-session&quot;&gt;SessionFactory, Session&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;&lt;img src=&quot;/assets/images/JPA_Hibernate.svg&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SessionFactory&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SessionFactory&lt;/code&gt; 인터페이스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Session&lt;/code&gt; 객체를 얻기 위한 메소드를 제공한다.&lt;/li&gt;
-      &lt;li&gt;Hibernate config file을 읽어 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Session&lt;/code&gt; 객체를 생성한다.&lt;/li&gt;
-      &lt;li&gt;App 동작 단계에서 한 번만 생성된다(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Heavy-weight object&lt;/code&gt;).&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Session&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;Database의 JDBC connection의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Wrapper&lt;/code&gt;이다.&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Short-lived object&lt;/code&gt;로써 Database의 한 번 접근 후 재사용하지 않는다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;primary-key&quot;&gt;Primary Key&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;primary key&lt;/code&gt;란 Table의 행을 특정할 수 있는 key이다.
-중복과 null이 불가능한 value라고 생각하면 된다.&lt;/p&gt;
-&lt;h3 id=&quot;code&quot;&gt;Code&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.b1n.hibernate.demo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.b1n.hibernate.demo.entity.Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.hibernate.Session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.hibernate.SessionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.hibernate.cfg.Configuration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CreateStudentDemo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;// create session factory&lt;/span&gt;
-        &lt;span class=&quot;nc&quot;&gt;SessionFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Configuration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hibernate.cfg.xml&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addAnnotatedClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildSessionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//create session&lt;/span&gt;
-        &lt;span class=&quot;nc&quot;&gt;Session&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCurrentSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// use the session object to save Java object&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// create a student object&lt;/span&gt;
-            &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Creating new Student object..&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;nc&quot;&gt;Student&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Jo&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Wonbin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lkic1625@gmail.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// start a transaction&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beginTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// save the student object&lt;/span&gt;
-            &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Saving the Student.. &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// commit transaction&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-            &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Done.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="spring" /><category term="spring" /><category term="hibernate" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 02</title><link href="http://localhost:4000/spring/hibernate_02_spring/" rel="alternate" type="text/html" title="Hibernate 02" /><published>2020-08-07T00:00:00+09:00</published><updated>2020-08-07T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_02_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_02_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="flutter" /><category term="flutter" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 02</title><link href="http://localhost:4000/spring/hibernate_02_spring/" rel="alternate" type="text/html" title="Hibernate 02" /><published>2020-08-07T00:00:00+09:00</published><updated>2020-08-07T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_02_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_02_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;hibernate-with-java-annotation&quot;&gt;Hibernate with Java Annotation&lt;/h1&gt;
@@ -250,6 +245,82 @@ https://flutter.dev/docs/get-started/install/windows&lt;/p&gt;
   &lt;p&gt;&lt;br /&gt;
 https://joosjuliet.github.io/hibernate_structure/
 https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="spring" /><category term="spring" /><category term="hibernate" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 03(작성 중)</title><link href="http://localhost:4000/spring/hibernate_03_spring/" rel="alternate" type="text/html" title="Hibernate 03(작성 중)" /><published>2020-08-07T00:00:00+09:00</published><updated>2020-08-07T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_03_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_03_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;hibernate-curd-features&quot;&gt;Hibernate CURD features&lt;/h1&gt;
+
+&lt;h3 id=&quot;sessionfactory-session&quot;&gt;SessionFactory, Session&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/JPA_Hibernate.svg&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SessionFactory&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SessionFactory&lt;/code&gt; 인터페이스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Session&lt;/code&gt; 객체를 얻기 위한 메소드를 제공한다.&lt;/li&gt;
+      &lt;li&gt;Hibernate config file을 읽어 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Session&lt;/code&gt; 객체를 생성한다.&lt;/li&gt;
+      &lt;li&gt;App 동작 단계에서 한 번만 생성된다(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Heavy-weight object&lt;/code&gt;).&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Session&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Database의 JDBC connection의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Wrapper&lt;/code&gt;이다.&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Short-lived object&lt;/code&gt;로써 Database의 한 번 접근 후 재사용하지 않는다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;primary-key&quot;&gt;Primary Key&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;primary key&lt;/code&gt;란 Table의 행을 특정할 수 있는 key이다.
+중복과 null이 불가능한 value라고 생각하면 된다.&lt;/p&gt;
+&lt;h3 id=&quot;code&quot;&gt;Code&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.b1n.hibernate.demo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.b1n.hibernate.demo.entity.Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.hibernate.Session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.hibernate.SessionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.hibernate.cfg.Configuration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CreateStudentDemo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// create session factory&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;SessionFactory&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Configuration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;configure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;hibernate.cfg.xml&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addAnnotatedClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;buildSessionFactory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;//create session&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;Session&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCurrentSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// use the session object to save Java object&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// create a student object&lt;/span&gt;
+            &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Creating new Student object..&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;nc&quot;&gt;Student&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Jo&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Wonbin&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lkic1625@gmail.com&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// start a transaction&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beginTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// save the student object&lt;/span&gt;
+            &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Saving the Student.. &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// commit transaction&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getTransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+            &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Done.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="spring" /><category term="spring" /><category term="hibernate" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 01</title><link href="http://localhost:4000/spring/hibernate_01_spring/" rel="alternate" type="text/html" title="Hibernate 01" /><published>2020-08-05T00:00:00+09:00</published><updated>2020-07-31T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_01_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_01_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
