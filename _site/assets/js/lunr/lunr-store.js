@@ -29,15 +29,15 @@ var store = [{
         "url": "http://localhost:4000/flutter/get_started_flutter/",
         "teaser": null
       },{
-        "title": "Chapter6 express(작성 중)",
-        "excerpt":"  Express   4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다. npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.   express-generator      Refernce       ","categories": ["nodejs"],
+        "title": "Chapter6 express",
+        "excerpt":"Express 4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다. npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다. express 외에도 koa나 hapi 같은 웹 서버 프레임워크가 존재하지만, express의 다운로드 수가 압도적으로 높다. 이는 성능과 직접적인 연관이 없을지 모르지만 기능 추가나 유지보수 측면에서...","categories": ["nodejs"],
         "tags": ["nodejs","express"],
-        "url": "http://localhost:4000/nodejs/express/",
+        "url": "http://localhost:4000/nodejs/express_01/",
         "teaser": null
       },{
         "title": "Chapter5 npm",
         "excerpt":"npm (Node Package Manager) npm 이란. npm 이란 이름 그대로 노드 패키지 매니저이다. 대부분의 패키지가 npm에 등록되어 있으므로 특정 기능의 패키지가 필요하다면 npm에서 찾아 설치하면 된다. npm에 업로드된 모듈을 패키지라 부른다. 모듈이 다른 모듈을 사용할 수 있는 것처럼, 패키지가 다른 패키지를 사용할 수 있다. 이런 관계를 의존 관계라 하며 의존...","categories": ["nodejs"],
         "tags": ["nodejs","npm"],
-        "url": "http://localhost:4000/nodejs/npm_00/",
+        "url": "http://localhost:4000/nodejs/npm/",
         "teaser": null
       }]

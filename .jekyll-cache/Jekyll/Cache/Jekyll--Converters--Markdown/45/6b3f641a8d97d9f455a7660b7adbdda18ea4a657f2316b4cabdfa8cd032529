@@ -1,0 +1,68 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="express">Express</h1>
+<hr />
+<p>4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다.
+npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.</p>
+
+<p>express 외에도 koa나 hapi 같은 웹 서버 프레임워크가 존재하지만, express의 다운로드 수가 압도적으로 높다.
+이는 성능과 직접적인 연관이 없을지 모르지만 기능 추가나 유지보수 측면에서 좋게 작용할 것이다.</p>
+
+<h3 id="express-generator">express-generator</h3>
+<hr />
+<p>익스프레스 프레임워크는 많은 패키지를 사용하여 입문자 입장에서는 찾아서 설치하기 어렵다.
+<code class="language-plaintext highlighter-rouge">express-generator</code>가 이를 대신 해줄 수 있는 패키지이다.</p>
+
+<p>콘솔에서 <code class="language-plaintext highlighter-rouge">npm i -g express-generator</code>를 입력하자.</p>
+
+<p><br /></p>
+
+<p>설치가 완료되었다면 새 익스프레스 프로젝트 생성을 위해 <code class="language-plaintext highlighter-rouge">express &lt;project-name&gt;</code>을 입력하자</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>express learn-express --view=pug
+
+   create : learn-express\
+   create : learn-express\public\
+   create : learn-express\public\javascripts\
+   create : learn-express\public\images\
+   create : learn-express\public\stylesheets\
+   create : learn-express\public\stylesheets\style.css
+   create : learn-express\routes\
+   create : learn-express\routes\index.js
+   create : learn-express\routes\users.js
+   create : learn-express\views\
+   create : learn-express\views\error.pug
+   create : learn-express\views\index.pug
+   create : learn-express\views\layout.pug
+   create : learn-express\app.js
+   create : learn-express\package.json
+   create : learn-express\bin\
+   create : learn-express\bin\www
+
+   change directory:
+     &gt; cd learn-express
+
+   install dependencies:
+     &gt; npm install
+
+   run the app:
+     &gt; SET DEBUG=learn-express:* &amp; npm start
+</code></pre></div></div>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">--view=pug</code>는 <code class="language-plaintext highlighter-rouge">express-generator</code>가 <code class="language-plaintext highlighter-rouge">Jade</code>템플릿 엔진으로 설치하기 떄문이다. <code class="language-plaintext highlighter-rouge">Jade</code>는 <code class="language-plaintext highlighter-rouge">Pug</code>로 개명한 지 오래되었다. 따라서 <code class="language-plaintext highlighter-rouge">Pug</code>설치를 위해 옵션을 주는 것.</p>
+
+<p>이후 learn-express 폴더가 생성되었을 것이기에 이동 후 npm 모듈을 설치한다.
+<br /><code class="language-plaintext highlighter-rouge">cd learn-express &amp;&amp; npm i</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">scripts</code> 설정 값에 <code class="language-plaintext highlighter-rouge">start</code>속성이 있고 <code class="language-plaintext highlighter-rouge">node ./bin/www</code>가 적혀있다. 따라서 <code class="language-plaintext highlighter-rouge">npm run start</code> 명령어로 서버를 실행할 수 있다.
+http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있을 것이다.</p>
+
+<h3 id="익스프레스-구조">익스프레스 구조</h3>
+<hr />
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br /></p>
+</blockquote>
+:ET
