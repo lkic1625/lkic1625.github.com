@@ -1,0 +1,215 @@
+I"�\<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="express">Express</h1>
+<hr />
+<p>4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다.
+npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.</p>
+
+<p>express 외에도 koa나 hapi 같은 웹 서버 프레임워크가 존재하지만, express의 다운로드 수가 압도적으로 높다.
+이는 성능과 직접적인 연관이 없을지 모르지만 기능 추가나 유지보수 측면에서 좋게 작용할 것이다.</p>
+
+<h3 id="express-generator">express-generator</h3>
+<hr />
+<p>익스프레스 프레임워크는 많은 패키지를 사용하여 입문자 입장에서는 찾아서 설치하기 어렵다.
+<code class="language-plaintext highlighter-rouge">express-generator</code>가 이를 대신 해줄 수 있는 패키지이다.</p>
+
+<p>콘솔에서 <code class="language-plaintext highlighter-rouge">npm i -g express-generator</code>를 입력하자.</p>
+
+<p><br /></p>
+
+<p>설치가 완료되었다면 새 익스프레스 프로젝트 생성을 위해 <code class="language-plaintext highlighter-rouge">express &lt;project-name&gt;</code>을 입력하자</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>express learn-express --view=pug
+
+   create : learn-express\
+   create : learn-express\public\
+   create : learn-express\public\javascripts\
+   create : learn-express\public\images\
+   create : learn-express\public\stylesheets\
+   create : learn-express\public\stylesheets\style.css
+   create : learn-express\routes\
+   create : learn-express\routes\index.js
+   create : learn-express\routes\users.js
+   create : learn-express\views\
+   create : learn-express\views\error.pug
+   create : learn-express\views\index.pug
+   create : learn-express\views\layout.pug
+   create : learn-express\app.js
+   create : learn-express\package.json
+   create : learn-express\bin\
+   create : learn-express\bin\www
+
+   change directory:
+     &gt; cd learn-express
+
+   install dependencies:
+     &gt; npm install
+
+   run the app:
+     &gt; SET DEBUG=learn-express:* &amp; npm start
+</code></pre></div></div>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">--view=pug</code>는 <code class="language-plaintext highlighter-rouge">express-generator</code>가 <code class="language-plaintext highlighter-rouge">Jade</code>템플릿 엔진으로 설치하기 떄문이다. <code class="language-plaintext highlighter-rouge">Jade</code>는 <code class="language-plaintext highlighter-rouge">Pug</code>로 개명한 지 오래되었다. 따라서 <code class="language-plaintext highlighter-rouge">Pug</code>설치를 위해 옵션을 주는 것.</p>
+
+<p>이후 learn-express 폴더가 생성되었을 것이기에 이동 후 npm 모듈을 설치한다.
+<br /><code class="language-plaintext highlighter-rouge">cd learn-express &amp;&amp; npm i</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">scripts</code> 설정 값에 <code class="language-plaintext highlighter-rouge">start</code>속성이 있고 <code class="language-plaintext highlighter-rouge">node ./bin/www</code>가 적혀있다. 따라서 <code class="language-plaintext highlighter-rouge">npm run start</code> 명령어로 서버를 실행할 수 있다.
+http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있을 것이다.</p>
+
+<h3 id="익스프레스-구조">익스프레스 구조</h3>
+<hr />
+<p>가장 중요한 <code class="language-plaintext highlighter-rouge">www</code> 파일 구조부터 살펴보자
+<code class="language-plaintext highlighter-rouge">bin/www</code> 파일은 <code class="language-plaintext highlighter-rouge">http</code> 모듈에 <code class="language-plaintext highlighter-rouge">express</code>를 연결하고 포트를 지정하는 부분이다.</p>
+
+<p>js 확장자가 붙어있지 않은 이유는 추후에 14장에서 설명 가능하다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">../app</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">debug</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">debug</span><span class="dl">'</span><span class="p">)(</span><span class="dl">'</span><span class="s1">learn-express:server</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">http</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="cm">/**
+ * Get port from environment and store in Express.
+ debug 모듈은 콘솔에 로그를 남기는 모듈이다.
+ app 모듈은 나중에 살펴보도록 하자.
+ */</span>
+
+<span class="kd">var</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">normalizePort</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">3000</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">port</span><span class="dl">'</span><span class="p">,</span> <span class="nx">port</span><span class="p">);</span>
+
+<span class="cm">/**
+ * process.env 객체에 PORT 속성이 있다면 그 값을 사용하고 아니라면 3000을 사용한다.
+ */</span>
+
+<span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span>
+
+<span class="cm">/**
+ * Listen on provided port, on all network interfaces.
+ app 모듈을 넣어준다. app 모듈이 createServer 메서드의 콜백 함수 역할을 한다.
+ */</span>
+
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">port</span><span class="p">);</span>
+<span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">,</span> <span class="nx">onError</span><span class="p">);</span>
+<span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">listening</span><span class="dl">'</span><span class="p">,</span> <span class="nx">onListening</span><span class="p">);</span>
+
+<span class="cm">/**
+ * Normalize a port into a number, string, or false.
+ 콜백 함수를 달아주고 포트를 연결하여 서버를 실행시킨다.
+ */</span>
+</code></pre></div></div>
+
+<p>app 모듈은 어떻게 생겼는지 보자.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">createError</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">http-errors</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">cookieParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">cookie-parser</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">logger</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">morgan</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">indexRouter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./routes/index</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">usersRouter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./routes/users</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="c1">//express 패키지를 호출하여 app 변수 객체를 만들었다. 이 변수의 각종 기능을 연결.</span>
+<span class="c1">// view engine setup</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">view engine</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pug</span><span class="dl">'</span><span class="p">);</span>
+<span class="c1">//app set method로 express app을 설정할 수 있다.</span>
+
+<span class="c1">//~~~ middleware 부분은 이후 알아보도록 하자.</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">app</span><span class="p">;</span>
+</code></pre></div></div>
+<p>클라이언트 요청을 받아서 처리한 후 다시 클라이언트에게 응답한다. 이는 4장의 <code class="language-plaintext highlighter-rouge">http</code> 서버와 같지만 중간에 <code class="language-plaintext highlighter-rouge">middleware</code>를 거친다는 것이 다릅니다
+그럼 미들웨어가 무슨 역할을 하는지 알아보자.</p>
+
+<h3 id="미들웨어">미들웨어</h3>
+<hr />
+<p><code class="language-plaintext highlighter-rouge">middleware</code>는 <code class="language-plaintext highlighter-rouge">express</code>의 핵심이다. 요청과 응답의 중간에 위치하여 <code class="language-plaintext highlighter-rouge">middleware</code>라고 부른다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">logger</span><span class="p">(</span><span class="dl">'</span><span class="s1">dev</span><span class="dl">'</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">json</span><span class="p">());</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">urlencoded</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">cookieParser</span><span class="p">());</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kd">static</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">public</span><span class="dl">'</span><span class="p">)));</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="nx">indexRouter</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="dl">'</span><span class="s1">/users</span><span class="dl">'</span><span class="p">,</span> <span class="nx">usersRouter</span><span class="p">);</span>
+
+<span class="c1">// catch 404 and forward to error handler</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">next</span><span class="p">(</span><span class="nx">createError</span><span class="p">(</span><span class="mi">404</span><span class="p">));</span>
+<span class="p">});</span>
+
+<span class="c1">// error handler</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// set locals, only providing error in development</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">error</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">env</span><span class="dl">'</span><span class="p">)</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">development</span><span class="dl">'</span> <span class="p">?</span> <span class="nx">err</span> <span class="p">:</span> <span class="p">{};</span>
+
+  <span class="c1">// render the error page</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="mi">500</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">middleware</code>는 주로 <code class="language-plaintext highlighter-rouge">app.use</code>와 함께 사용된다. 위에서 본 것과 같이 <code class="language-plaintext highlighter-rouge">app.js</code>에선 <code class="language-plaintext highlighter-rouge">app.use</code>를 계속 사용하고 있다.
+<code class="language-plaintext highlighter-rouge">app.use</code> 메서드의 인자로 들어 있는 함수가 <code class="language-plaintext highlighter-rouge">middleware</code>이며, <code class="language-plaintext highlighter-rouge">app</code>에 장착된다.</p>
+
+<p>제일 위에 <code class="language-plaintext highlighter-rouge">logger('dev')</code>부터 시작하여 순차적으로 거친 후 라우터에서 클라이언트로 응답을 보낸다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">logger</code> -&gt; <code class="language-plaintext highlighter-rouge">logger(morgan)</code> -&gt; <code class="language-plaintext highlighter-rouge">json, unlencoded</code> -&gt; <code class="language-plaintext highlighter-rouge">cookieParser</code> -&gt; <code class="language-plaintext highlighter-rouge">Router</code> -&gt; <code class="language-plaintext highlighter-rouge">404 handler</code> -&gt; <code class="language-plaintext highlighter-rouge">error handler</code></p>
+
+<h3 id="커스텀-미들웨어">커스텀 미들웨어</h3>
+<hr />
+<p>단순히 request에 대해 콘솔에 메세지를 찍는 미들웨어를 만들어 보자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">,</span> <span class="dl">'</span><span class="s1">im middleware</span><span class="dl">'</span><span class="p">)</span>
+  <span class="nx">next</span><span class="p">();</span>
+<span class="p">});</span>
+<span class="c1">//반드시 next();를 호출해주어야 다음 미들웨어로 넘어간다.</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">logger</span><span class="p">(</span><span class="dl">'</span><span class="s1">dev</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">next()</code>를 호출하지 않으면 다음 미들웨어로 넘어가지 않으며, <code class="language-plaintext highlighter-rouge">logger</code>나 <code class="language-plaintext highlighter-rouge">express.json</code>, <code class="language-plaintext highlighter-rouge">express.urlencoded</code>, <code class="language-plaintext highlighter-rouge">cookieParser</code>, <code class="language-plaintext highlighter-rouge">express.static</code> 모두 내부적으로 <code class="language-plaintext highlighter-rouge">next()</code>
+를 호출하므로 다음 미들웨어로 넘어간다. <code class="language-plaintext highlighter-rouge">next()</code>는 흐름 제어의 핵심적인 함수이다!</p>
+
+<p><code class="language-plaintext highlighter-rouge">next</code>는 인자에 따라 특정한 역할도 하는데 <code class="language-plaintext highlighter-rouge">route</code>를 넣으면 특수한 기능을 수행한다. 이는 라우터와 함께 알아보도록 하고,
+<code class="language-plaintext highlighter-rouge">route</code>이외에 다른 값을 넣으면 바로 에러 헨들러로 이동한다. 넣어준 값은 에러에 대한 내용으로 간주된다.
+express가 기본적으로 주어주는 에러 핸들링 미들웨어를 보면 이해가 쉽다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="c1">// catch 404 and forward to error handler</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">next</span><span class="p">(</span><span class="nx">createError</span><span class="p">(</span><span class="mi">404</span><span class="p">));</span>
+<span class="p">});</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="c1">// error handler</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// set locals, only providing error in development</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">error</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">env</span><span class="dl">'</span><span class="p">)</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">development</span><span class="dl">'</span> <span class="p">?</span> <span class="nx">err</span> <span class="p">:</span> <span class="p">{};</span>
+
+  <span class="c1">// render the error page</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="mi">500</span><span class="p">);</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p>일반적으로 에러 헨들링 미들웨어는 가장 아래 위치하여 위에 있는 미들웨어에서 발생하는 에러를 받아 처리한다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+조헌영, Node.js 교과서, 길벗, 6장 express</p>
+</blockquote>
+:ET

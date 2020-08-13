@@ -40,4 +40,10 @@ var store = [{
         "tags": ["nodejs","npm"],
         "url": "http://localhost:4000/nodejs/npm/",
         "teaser": null
+      },{
+        "title": "ford-fulkerson",
+        "excerpt":"network flow flow network란 그래프 이론에서 flow network란 각각의 edge가 capacity을 가지고 있고 flow를 전달하는 Directed Graph이다. 네트워크는 graph이며 \\(G = (V, E)\\), \\(V\\)는 정점의 집합, \\(E\\)는 \\(V\\)의 간선의 집합으로써 \\(V\\) x \\(V\\)의 subset이다. 이와 함께 \\(c: V\\) x \\(V → ℝ∞\\) 용량 함수 또한 정의된다. \\(WLOG\\) if \\((u, v)...","categories": ["algorithm"],
+        "tags": ["network flow","algorithm"],
+        "url": "http://localhost:4000/algorithm/ford_fulkerson/",
+        "teaser": null
       }]
