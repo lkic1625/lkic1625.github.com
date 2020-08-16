@@ -1,0 +1,285 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="network-flow">network flow</h1>
+
+<h3 id="flow-network란">flow network란</h3>
+<hr />
+<p>그래프 이론에서 <code class="language-plaintext highlighter-rouge">flow network</code>란 각각의 <code class="language-plaintext highlighter-rouge">edge</code>가 <code class="language-plaintext highlighter-rouge">capacity</code>을 가지고 있고 <code class="language-plaintext highlighter-rouge">flow</code>를 전달하는 <code class="language-plaintext highlighter-rouge">Directed Graph</code>이다.</p>
+
+<p>네트워크는 <code class="language-plaintext highlighter-rouge">graph</code>이며 \(G = (V, E)\), \(V\)는 정점의 집합, \(E\)는 \(V\)의 간선의 집합으로써 \(V\) x \(V\)의 <code class="language-plaintext highlighter-rouge">subset</code>이다.
+이와 함께 \(c: V\) x \(V → ℝ∞\) 용량 함수 또한 정의된다.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Without_loss_of_generality">\(WLOG\)</a><br />
+if \((u, v) ∈ E\) then \((v, u) ∈ E\)<br />
+if \((u, v) ∉ E\) then \(c(v, u)\) = 0</p>
+
+<p>서로 다른 노드 <code class="language-plaintext highlighter-rouge">source</code> \(s\)와 <code class="language-plaintext highlighter-rouge">sink</code> \(t\)가 구분될 경우 \((G, c, s, t)\) 를 <code class="language-plaintext highlighter-rouge">flow network</code>라 한다.
+<img src="\assets\images\Network_Flow.svg.png" alt="이미지1" /></p>
+
+<h3 id="유량-네트워크-성질">유량 네트워크 성질</h3>
+<hr />
+<p>\(Def\) of flow network</p>
+<ul>
+  <li>\(f(u, v)\): u, v로 흐르는 실제 유량이다.<br /></li>
+  <li>\(c(u, v)\): u, v로 흐를 수 있는 용량이다.<br /></li>
+</ul>
+
+<p>\(Thm\) of flow network</p>
+<ul>
+  <li>(용량 제한 속성) \(f(u, v) \leq c(u, v)\):
+가장 자명한 속성으로, 각 간선의 유량은 해당 간선의 용량을 초과할 수 없다.</li>
+  <li>(유량 대칭성)  \(f(u, v) = -f(v, u)\):
+\(v\)로 유량이 흘러올 경우 \(v\)의 입장에서는 음수의 유량을 보내는 것이라 생각하자.</li>
+  <li>(유량 보존)  \(\Sigma f(u,v) = 0\):
+유량의 대칭성으로 의해 들어오는 유량과 나가는 유량을 합하면 결국 0이 되어야 한다.</li>
+</ul>
+
+<h3 id="ford-fulkerson-algorithm">ford-fulkerson Algorithm</h3>
+<hr />
+<p><a href="https://en.wikipedia.org/wiki/Maximum_flow_problem"><code class="language-plaintext highlighter-rouge">maximum flow problem</code></a>은 <code class="language-plaintext highlighter-rouge">flow netwrok</code>에서 얻을 수 있는 가장 큰 유량을 구하는 문제이다. 이를 해결하기 위해 가장 간단한 알고리즘인 <code class="language-plaintext highlighter-rouge">ford-fulkerson</code> 알고리즘에 대해 알아보자.
+최초로 고안된 네트워크 유량 알고리즘으로 비교적 개념이 간단하다.</p>
+
+<ol>
+  <li>
+    <p>유량 네트워크 간선의 유량을 모두 0으로 설정 후 소스에서 싱크로 더 보낼 수 있는 경로를 찾아 보내기를 반복한다.
+유량을 보내는 경로를 증가 경로(<code class="language-plaintext highlighter-rouge">augmenting path</code>)라 한다.</p>
+  </li>
+  <li>
+    <p>증가 경로이려면 흐르고 있는 유량을 제외하더라도 여유 용량이 존재해야 한다.
+이를 잔여 용량(<code class="language-plaintext highlighter-rouge">residual capacity</code>)라 하며,<br /><br />
+\(r: V\) x \(V → ℝ∞\)<br /> \(r(u, v) = c(u, v) - f(u, v)\)<br /><br />
+로 정의하자. 흘려 보낼 수 있는 유량의 최대량은 포함된 간선의 잔여 용량 중 최소값으로 정의된다.</p>
+  </li>
+</ol>
+
+<p>단순히 위 속성만으로는 알고리즘이 항상 최대 유량을 얻는다는 것은 의문점이 들 것이다. 여기서 <code class="language-plaintext highlighter-rouge">ford-fulkerson</code> 알고리즘의 핵심이 되는 아이디어는 유량의 대칭성을 이용한 접근법이다.</p>
+
+<p><img src="\assets\images\ford-fulkerson-example-01.png" alt="이미지2" /></p>
+
+<p>if \(f(A, B) = 1\) then \(f(B, A) = -1\) <br />
+\(\rightarrow r(B, A) = c(B, A) - f(B, A) = 0 + (-1) = 1\)<br /><br />
+위 과정은 실제로 존재하지 않는 간선 \((B, A)\)에 대해 용량의 1만큼의 유량을 더 보낼 수 있다는 의미이다. 특정 방향으로 보내는 유량을 줄이는 것은 그 반대쪽에서 유량을 보내주는 것과 같은 효과를 내기 때문이다. 따라서, 기존 유량을 상쇄하는 방향으로 증가 경로를 건설하고, 탐색 알고리즘을 진행한다면, 우리가 원하는 최대 유량을 찾을 수 있는 것이다.</p>
+
+<h3 id="정당성-증명">정당성 증명</h3>
+<hr />
+<blockquote>
+  <p>링크 참조<br />
+<a href="../proof_of_correctness_ford_fulkerson">포드 풀커슨 알고리즘 정당성 증명</a>
+Min-cut-Max-flow Theorem.</p>
+</blockquote>
+
+<h3 id="구현-및-코드">구현 및 코드</h3>
+<hr />
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//source code for praticing ford-fulkerson Algorithm</span>
+
+<span class="cp">#include&lt;algorithm&gt;
+#include&lt;queue&gt;
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_V</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">V</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">capacity</span><span class="p">[</span><span class="n">MAX_V</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">MAX_V</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">flow</span><span class="p">[</span><span class="n">MAX_V</span><span class="p">][</span><span class="n">MAX_V</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">FordFulkerson</span> <span class="p">(</span><span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sink</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">memset</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">flow</span><span class="p">));</span>
+	<span class="kt">int</span> <span class="n">totalFlow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">(</span><span class="n">MAX_V</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+		<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+		<span class="n">parent</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="p">;</span>
+		<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+		<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">here</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span> <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">there</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">there</span> <span class="o">&lt;</span> <span class="n">V</span><span class="p">;</span> <span class="n">there</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">capacity</span><span class="p">[</span><span class="n">here</span><span class="p">][</span><span class="n">there</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="n">here</span><span class="p">][</span><span class="n">there</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+					<span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">there</span><span class="p">);</span>
+					<span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">=</span> <span class="n">here</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">sink</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">amount</span> <span class="o">=</span> <span class="mi">123123123</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sink</span><span class="p">;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">source</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">amount</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">capacity</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]);</span>
+		<span class="p">}</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sink</span><span class="p">;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">source</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">flow</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
+			<span class="n">flow</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">totalFlow</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">totalFlow</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="응용-및-문제">응용 및 문제</h3>
+<hr />
+<p>승부조작, https://www.algospot.com/judge/problem/read/MATCHFIX/, ALGOSPOT</p>
+
+<p>예제 입력</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3
+2 2
+3 3
+0 1
+0 1
+3 3
+4 2 2
+1 2
+1 2
+1 2
+4 4
+5 3 3 2
+0 1
+1 2
+2 3
+1 3
+</code></pre></div></div>
+
+<p>예제 출력</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5
+-1
+5
+</code></pre></div></div>
+
+<p>구현 코드</p>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+https://www.algospot.com/judge/problem/read/MATCHFIX\
+
+networkFlow, ford-fulkerson Algorithm
+
+input
+입력의 첫 줄에는 테스트 케이스의 수 C (C &lt;= 50) 가 주어집니다.
+각 테스트 케이스의 첫 줄에는 결승 리그에 참가하는 선수의 수 N (2 &lt;= N &lt;= 12) 과 남아 있는 경기의 수 M (0 &lt;= M &lt;= 100) 이 주어집니다.
+이 때 각 선수에게는 0부터 N-1 까지의 번호가 주어집니다.
+그 다음 줄에는 N 개의 정수로 0번부터 N-1 번까지 순서대로 각 선수의 현재 승수가 주어집니다.
+그 후 M 줄에는 각 경기를 치르는 두 선수의 번호가 주어집니다. 모든 선수의 현재 승수는 1000 이하입니다.
+
+output
+각 테스트 케이스마다 한 줄에 X가 리그를 단독 우승하기 위해 필요한 최소 승수를 출력합니다. 만약 이것이 불가능하다면 -1 을 출력합니다.
+
+*/</span>
+<span class="cp">#include&lt;iostream&gt;
+#include&lt;tuple&gt;
+#include&lt;algorithm&gt;
+#include&lt;string.h&gt;
+#include&lt;queue&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_N</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">MAX_M</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">PLAYER_X</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">=</span> <span class="n">MAX_N</span> <span class="o">+</span> <span class="n">MAX_M</span><span class="p">,</span> <span class="n">SOURCE</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">,</span>  <span class="n">SINK</span> <span class="o">=</span> <span class="n">SIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">C</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">input</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">wins</span><span class="p">[</span><span class="n">MAX_N</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">capacity</span><span class="p">[</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">flow</span><span class="p">[</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span>
+<span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">match</span><span class="p">[</span><span class="n">MAX_M</span><span class="p">];</span>
+
+<span class="kt">int</span> <span class="nf">bellmanFord</span><span class="p">(</span><span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sink</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">memset</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">flow</span><span class="p">));</span>
+	<span class="kt">int</span> <span class="n">totalFlow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">(</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+		<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+		<span class="n">parent</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">source</span><span class="p">;</span>
+		<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">source</span><span class="p">);</span>
+		<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">here</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span> <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">there</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">there</span> <span class="o">&lt;</span> <span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span> <span class="n">there</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">if</span> <span class="p">(</span><span class="n">capacity</span><span class="p">[</span><span class="n">here</span><span class="p">][</span><span class="n">there</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="n">here</span><span class="p">][</span><span class="n">there</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+					<span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+					<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">there</span><span class="p">);</span>
+					<span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">=</span> <span class="n">here</span><span class="p">;</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+
+		<span class="p">}</span>
+		<span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">sink</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">amount</span> <span class="o">=</span> <span class="mi">123123123</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sink</span><span class="p">;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">source</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">amount</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">capacity</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]);</span>
+		<span class="p">}</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sink</span><span class="p">;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">source</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
+			<span class="n">flow</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
+			<span class="n">flow</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="n">totalFlow</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">totalFlow</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">isChampionshipable</span><span class="p">(</span><span class="kt">int</span> <span class="n">totalWins</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">max_element</span><span class="p">(</span><span class="n">wins</span>  <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wins</span> <span class="o">+</span> <span class="n">N</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">totalWins</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="n">memset</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">capacity</span><span class="p">));</span>
+	<span class="kt">int</span> <span class="n">boundary</span> <span class="o">=</span> <span class="n">MAX_N</span><span class="p">;</span>
+
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">int</span> <span class="n">u</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">v</span> <span class="o">=</span> <span class="n">match</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+		<span class="n">capacity</span><span class="p">[</span><span class="n">SOURCE</span><span class="p">][</span><span class="n">boundary</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">capacity</span><span class="p">[</span><span class="n">boundary</span> <span class="o">+</span> <span class="n">i</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="n">capacity</span><span class="p">[</span><span class="n">boundary</span> <span class="o">+</span> <span class="n">i</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">node</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">node</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">node</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">capacity</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">totalWins</span> <span class="o">-</span> <span class="n">wins</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="n">capacity</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">=</span> <span class="n">totalWins</span> <span class="o">-</span> <span class="n">wins</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">];</span>
+
+	<span class="k">return</span> <span class="n">bellmanFord</span><span class="p">(</span><span class="n">SOURCE</span><span class="p">,</span> <span class="n">SINK</span><span class="p">)</span> <span class="o">==</span> <span class="n">M</span> <span class="o">&amp;&amp;</span> <span class="n">flow</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">==</span> <span class="n">capacity</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">];</span>
+
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">//fast I/O</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span> <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="c1">//input</span>
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">C</span><span class="p">;</span>
+	<span class="k">while</span> <span class="p">(</span><span class="n">C</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="kt">int</span> <span class="n">totalMatchCountOfX</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span> <span class="o">&gt;&gt;</span> <span class="n">M</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">player</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">player</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">player</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">input</span><span class="p">;</span>
+			<span class="n">wins</span><span class="p">[</span><span class="n">player</span><span class="p">]</span> <span class="o">=</span> <span class="n">input</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">game</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">game</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">game</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">u</span> <span class="o">&gt;&gt;</span> <span class="n">v</span><span class="p">;</span>
+			<span class="n">match</span><span class="p">[</span><span class="n">game</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="n">u</span> <span class="p">,</span><span class="n">v</span> <span class="p">};</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">u</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">v</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">totalMatchCountOfX</span><span class="o">++</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="kt">int</span> <span class="n">flag</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">totalMatchCountOfX</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">isChampionshipable</span><span class="p">(</span><span class="n">wins</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="p">))</span> <span class="p">{</span>
+				<span class="n">flag</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+			<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">+</span> <span class="n">wins</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+		<span class="k">else</span>
+			<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
+https://en.wikipedia.org/wiki/Flow_network</p>
+</blockquote>
+:ET

@@ -1,11 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-16T15:23:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">ford-fulkerson 정당성 증명*(작성 중)</title><link href="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/" rel="alternate" type="text/html" title="ford-fulkerson 정당성 증명*(작성 중)" /><published>2020-08-16T00:00:00+09:00</published><updated>2020-08-13T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson</id><content type="html" xml:base="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-16T17:11:27+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">ford-fulkerson 정당성 증명</title><link href="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/" rel="alternate" type="text/html" title="ford-fulkerson 정당성 증명" /><published>2020-08-16T00:00:00+09:00</published><updated>2020-08-13T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson</id><content type="html" xml:base="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
+
+&lt;p&gt;이 포스트는 &lt;a href=&quot;../ford_fulkerson&quot;&gt;FordFulkerson&lt;/a&gt;의 정당성 증명에 관한 포스트입니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;proof-of-correctness&quot;&gt;proof of correctness&lt;/h1&gt;
 
-&lt;h3 id=&quot;cut-이란&quot;&gt;cut 이란.&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Min-cut&lt;/code&gt; 문제를 이용하여 증명을 하기 때문에 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Min-cut&lt;/code&gt;에 대해 알아보자&lt;/p&gt;
+&lt;h2 id=&quot;cut-이란&quot;&gt;cut 이란.&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Min-cut&lt;/code&gt; 문제를 이용하여 증명을 하기 때문에 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cut&lt;/code&gt;에 대해 알아보자&lt;/p&gt;
 
 &lt;p&gt;그래프 이론에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cut&lt;/code&gt;이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다. 어떤 컷이든 하나의 끝점이 있는 간선의 집합 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cut-set&lt;/code&gt;을 결정한다.&lt;/p&gt;
 
@@ -18,7 +20,7 @@
 &lt;p&gt;\(Thm\) of cut in flow network&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;컷의 유량은 소스에서 싱크로 가는 총 유량과 같다.
-네트워크의 모든 유량은 \(S\)에 포함된 소스에서 흘러나와 \(T\)에 포함된 싱크로 흘러들어가기 때문이다.&lt;/li&gt;
+네트워크의 모든 유량은 \(s\)에 포함된 소스에서 흘러나와 \(t\)에 포함된 싱크로 흘러들어가기 때문이다.&lt;/li&gt;
   &lt;li&gt;컷의 유량은 용량과 같거나 더 작다. 이는 용량 제한 속성 때문이다.&lt;br /&gt;
     &lt;ul&gt;
       &lt;li&gt;(용량 제한 속성) \(f(u, v) \leq c(u, v)\):&lt;/li&gt;
@@ -26,25 +28,43 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&quot;정당성-증명&quot;&gt;정당성 증명&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;네트워크에서 용량이 가장 작은 컷을 찾아내는 문제를 최소 컷(min cut) 문제라고 한다.&lt;/p&gt;
+&lt;h2 id=&quot;min-cut-max-flow-theorem&quot;&gt;Min-cut Max-flow Theorem&lt;/h2&gt;
 
-&lt;p&gt;최소 컷 문제는 최대 유량 문제와 밀접하게 연관되어 있다.&lt;br /&gt;
-용량과 유량이 같은 컷 \(S, T\)가 존재한다 하자&lt;/p&gt;
+&lt;p&gt;네트워크에서 용량이 가장 작은 컷을 찾아내는 문제를 최소 컷(min cut) 문제라고 한다.
+최소 컷 문제는 최대 유량 문제와 밀접하게 연관되어 있다.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;만약 용량과 유량이 같은 컷 \(S, T\)가 존재한다 하자&lt;br /&gt;
+\(Claim\): 컷 \(s, t\)는 항상 최소 컷이며, 소스에서 싱크로 가는 유량은 최대 유량이다.&lt;br /&gt;&lt;br /&gt;
+\(Proof\)&lt;br /&gt;
+\(s, t\)보다 용량이 작은 컷이 존재한다면 해당 컷에 대해 유량이 용량보다 크므로 모순이다. 이보다 많은 유량을 보내는 방법이 있을 경우에도 \(s, t\)에 대해 유량이 용량보다 크므로 모순이다. 따라서 컷 \(s, t\)는 항상 최소 컷이며, 소스에서 싱크로 가는 유량은 최대 유량이다.(최소 컷 최대 유량 정리)&lt;/p&gt;
+
+&lt;h2 id=&quot;정당성-증명&quot;&gt;정당성 증명&lt;/h2&gt;
+
+&lt;p&gt;최소 용량 최대 유량 정리는 증가 경로가 존재하지 않는 유량 네트워크에서 용량과 유량이 같은 컷을 찾아내는 방법을 보여준다.&lt;/p&gt;
+
+&lt;p&gt;방법은 소스에서 잔여 용량이 있는 간선을 통해 갈 수 있는 정점들의 집합 \(s\)와 그럴 수 없는 정점 \(t\)로 정접의 집합을 나누는 것이다.
+이와 같은 분류에서 소스는 항상 \(s\)에 속할 것이고 증가 경로가 존재하지 않기 때문에 싱크는 항상 \(t\)에 속할 것이다.
+따라서, \(s,t\)는 유량 네트워크의 컷이 된다.&lt;/p&gt;
+
+&lt;p&gt;알고리즘이 시행된 후 \(s\)에 속한 정점에서 \(t\)에 속한 정점으로 가는 모든 간선의 잔여 용량은 0이다.
+잔여 용량이 0이 아니라면 \(s\)에 포함되어야 하기 때문이다.&lt;/p&gt;
+
+&lt;p&gt;즉, 모든 간선에 대해 용량과 유량이 같다는 뜻이고 이 컷은 우리가 원하는 용량과 유량이 같은 컷이 된다.
+네트워크의 최대 유량이다.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;p&gt;&lt;br /&gt;
-구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
-https://en.wikipedia.org/wiki/Cut_(graph_theory)&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="network flow" /><category term="algorithm" /><summary type="html">proof of correctness</summary></entry><entry><title type="html">ford-fulkerson(작성중)</title><link href="http://localhost:4000/algorithm/ford_fulkerson/" rel="alternate" type="text/html" title="ford-fulkerson(작성중)" /><published>2020-08-13T00:00:00+09:00</published><updated>2020-08-13T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/ford_fulkerson</id><content type="html" xml:base="http://localhost:4000/algorithm/ford_fulkerson/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장&lt;br /&gt;
+https://en.wikipedia.org/wiki/Cut_(graph_theory)&lt;br /&gt;
+http://www.cs.toronto.edu/~lalla/373s16/notes/MFMC.pdf&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="network flow" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">ford-fulkerson</title><link href="http://localhost:4000/algorithm/ford_fulkerson/" rel="alternate" type="text/html" title="ford-fulkerson" /><published>2020-08-13T00:00:00+09:00</published><updated>2020-08-13T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/ford_fulkerson</id><content type="html" xml:base="http://localhost:4000/algorithm/ford_fulkerson/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;network-flow&quot;&gt;network flow&lt;/h1&gt;
 
-&lt;h3 id=&quot;flow-network란&quot;&gt;flow network란&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;flow-network란&quot;&gt;flow network란&lt;/h2&gt;
+
 &lt;p&gt;그래프 이론에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flow network&lt;/code&gt;란 각각의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;edge&lt;/code&gt;가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capacity&lt;/code&gt;을 가지고 있고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flow&lt;/code&gt;를 전달하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Directed Graph&lt;/code&gt;이다.&lt;/p&gt;
 
 &lt;p&gt;네트워크는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;graph&lt;/code&gt;이며 \(G = (V, E)\), \(V\)는 정점의 집합, \(E\)는 \(V\)의 간선의 집합으로써 \(V\) x \(V\)의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;subset&lt;/code&gt;이다.
@@ -57,8 +77,8 @@ if \((u, v) ∉ E\) then \(c(v, u)\) = 0&lt;/p&gt;
 &lt;p&gt;서로 다른 노드 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;source&lt;/code&gt; \(s\)와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sink&lt;/code&gt; \(t\)가 구분될 경우 \((G, c, s, t)\) 를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flow network&lt;/code&gt;라 한다.
 &lt;img src=&quot;\assets\images\Network_Flow.svg.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;유량-네트워크-성질&quot;&gt;유량 네트워크 성질&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;유량-네트워크-성질&quot;&gt;유량 네트워크 성질&lt;/h2&gt;
+
 &lt;p&gt;\(Def\) of flow network&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;\(f(u, v)\): u, v로 흐르는 실제 유량이다.&lt;br /&gt;&lt;/li&gt;
@@ -75,8 +95,8 @@ if \((u, v) ∉ E\) then \(c(v, u)\) = 0&lt;/p&gt;
 유량의 대칭성으로 의해 들어오는 유량과 나가는 유량을 합하면 결국 0이 되어야 한다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;ford-fulkerson-algorithm&quot;&gt;ford-fulkerson Algorithm&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;ford-fulkerson-algorithm&quot;&gt;ford-fulkerson Algorithm&lt;/h2&gt;
+
 &lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Maximum_flow_problem&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;maximum flow problem&lt;/code&gt;&lt;/a&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flow netwrok&lt;/code&gt;에서 얻을 수 있는 가장 큰 유량을 구하는 문제이다. 이를 해결하기 위해 가장 간단한 알고리즘인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ford-fulkerson&lt;/code&gt; 알고리즘에 대해 알아보자.
 최초로 고안된 네트워크 유량 알고리즘으로 비교적 개념이 간단하다.&lt;/p&gt;
 
@@ -101,13 +121,15 @@ if \((u, v) ∉ E\) then \(c(v, u)\) = 0&lt;/p&gt;
 \(\rightarrow r(B, A) = c(B, A) - f(B, A) = 0 + (-1) = 1\)&lt;br /&gt;&lt;br /&gt;
 위 과정은 실제로 존재하지 않는 간선 \((B, A)\)에 대해 용량의 1만큼의 유량을 더 보낼 수 있다는 의미이다. 특정 방향으로 보내는 유량을 줄이는 것은 그 반대쪽에서 유량을 보내주는 것과 같은 효과를 내기 때문이다. 따라서, 기존 유량을 상쇄하는 방향으로 증가 경로를 건설하고, 탐색 알고리즘을 진행한다면, 우리가 원하는 최대 유량을 찾을 수 있는 것이다.&lt;/p&gt;
 
-&lt;h3 id=&quot;정당성-증명&quot;&gt;정당성 증명&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;&lt;a href=&quot;../proof_of_correctness_ford_fulkerson&quot;&gt;포드 풀커슨 알고리즘 정당성 증명&lt;/a&gt;
-Min-cut-Max-flow Theorem.&lt;/p&gt;
+&lt;h2 id=&quot;정당성-증명&quot;&gt;정당성 증명&lt;/h2&gt;
 
-&lt;h3 id=&quot;구현-및-코드&quot;&gt;구현 및 코드&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;링크 참조&lt;br /&gt;
+&lt;a href=&quot;../proof_of_correctness_ford_fulkerson&quot;&gt;포드 풀커슨 알고리즘 정당성 증명&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;구현-및-코드&quot;&gt;구현 및 코드&lt;/h2&gt;
+
 &lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//source code for praticing ford-fulkerson Algorithm&lt;/span&gt;
 
 &lt;span class=&quot;cp&quot;&gt;#include&amp;lt;algorithm&amp;gt;
@@ -156,8 +178,8 @@ Min-cut-Max-flow Theorem.&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;응용-및-문제&quot;&gt;응용 및 문제&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;응용-및-문제&quot;&gt;응용 및 문제&lt;/h2&gt;
+
 &lt;p&gt;승부조작, https://www.algospot.com/judge/problem/read/MATCHFIX/, ALGOSPOT&lt;/p&gt;
 
 &lt;p&gt;예제 입력&lt;/p&gt;
@@ -189,7 +211,7 @@ Min-cut-Max-flow Theorem.&lt;/p&gt;
 &lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/*
 https://www.algospot.com/judge/problem/read/MATCHFIX\
 
-networkFlow, ford-fulkerson Algorithm
+networkFlow, bellmanFord Algorithm
 
 input
 입력의 첫 줄에는 테스트 케이스의 수 C (C &amp;lt;= 50) 가 주어집니다.
@@ -216,8 +238,10 @@ output
 &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;pair&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
 
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bellmanFord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;FordFulkerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;//init flow edge&lt;/span&gt;
 	&lt;span class=&quot;n&quot;&gt;memset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;totalFlow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;totalFlow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 	&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 		&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
@@ -228,7 +252,7 @@ output
 			&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;here&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;front&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
 			&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;there&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;there&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 				&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;here&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;here&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-					&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+					&lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//If there is a node that has not been visited and can flow, push to the queue.&lt;/span&gt;
 					&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 					&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;here&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 				&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -236,10 +260,12 @@ output
 
 		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-		&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;123123123&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+		&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+		&lt;span class=&quot;c1&quot;&gt;//finding the minimum amount of flow.&lt;/span&gt;
 		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 			&lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
 		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+		&lt;span class=&quot;c1&quot;&gt;//flowing..&lt;/span&gt;
 		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 			&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 			&lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;amount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
@@ -253,8 +279,11 @@ output
 
 &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isChampionshipable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;totalWins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 
+	&lt;span class=&quot;c1&quot;&gt;//If there is a Wins greater than totalWins, then return false;&lt;/span&gt;
 	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wins&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wins&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;totalWins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;//init capacity edge&lt;/span&gt;
 	&lt;span class=&quot;n&quot;&gt;memset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;sizeof&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;//boundary of Indexing&lt;/span&gt;
 	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;boundary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 
 	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -264,12 +293,15 @@ output
 		&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;boundary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;u&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 		&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;boundary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+	&lt;span class=&quot;c1&quot;&gt;//If X is to win alone with a w win, the win or loss of the remaining games will be properly determined&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;//and all other players must finish the league with less than w - 1 win.&lt;/span&gt;
 	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
 		&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;totalWins&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 	&lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PLAYER_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;totalWins&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PLAYER_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
 
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bellmanFord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOURCE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PLAYER_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PLAYER_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;FordFulkerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SOURCE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PLAYER_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;capacity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PLAYER_X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SINK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
@@ -311,6 +343,7 @@ output
 
 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;blockquote&gt;
@@ -393,15 +426,13 @@ w21q`&lt;/p&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;express&quot;&gt;Express&lt;/h1&gt;
-&lt;hr /&gt;
 &lt;p&gt;4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다.
 npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.&lt;/p&gt;
 
 &lt;p&gt;express 외에도 koa나 hapi 같은 웹 서버 프레임워크가 존재하지만, express의 다운로드 수가 압도적으로 높다.
 이는 성능과 직접적인 연관이 없을지 모르지만 기능 추가나 유지보수 측면에서 좋게 작용할 것이다.&lt;/p&gt;
 
-&lt;h3 id=&quot;express-generator&quot;&gt;express-generator&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;express-generator&quot;&gt;express-generator&lt;/h2&gt;
 &lt;p&gt;익스프레스 프레임워크는 많은 패키지를 사용하여 입문자 입장에서는 찾아서 설치하기 어렵다.
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;express-generator&lt;/code&gt;가 이를 대신 해줄 수 있는 패키지이다.&lt;/p&gt;
 
@@ -449,8 +480,7 @@ npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가�
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scripts&lt;/code&gt; 설정 값에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;start&lt;/code&gt;속성이 있고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node ./bin/www&lt;/code&gt;가 적혀있다. 따라서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm run start&lt;/code&gt; 명령어로 서버를 실행할 수 있다.
 http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있을 것이다.&lt;/p&gt;
 
-&lt;h3 id=&quot;익스프레스-구조&quot;&gt;익스프레스 구조&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;익스프레스-구조&quot;&gt;익스프레스 구조&lt;/h2&gt;
 &lt;p&gt;가장 중요한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www&lt;/code&gt; 파일 구조부터 살펴보자
 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bin/www&lt;/code&gt; 파일은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http&lt;/code&gt; 모듈에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;express&lt;/code&gt;를 연결하고 포트를 지정하는 부분이다.&lt;/p&gt;
 
@@ -514,7 +544,7 @@ http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있�
 &lt;p&gt;클라이언트 요청을 받아서 처리한 후 다시 클라이언트에게 응답한다. 이는 4장의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http&lt;/code&gt; 서버와 같지만 중간에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;middleware&lt;/code&gt;를 거친다는 것이 다릅니다
 그럼 미들웨어가 무슨 역할을 하는지 알아보자.&lt;/p&gt;
 
-&lt;h3 id=&quot;미들웨어&quot;&gt;미들웨어&lt;/h3&gt;
+&lt;h2 id=&quot;미들웨어&quot;&gt;미들웨어&lt;/h2&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;middleware&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;express&lt;/code&gt;의 핵심이다. 요청과 응답의 중간에 위치하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;middleware&lt;/code&gt;라고 부른다.&lt;/p&gt;
 
@@ -553,8 +583,7 @@ http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있�
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;logger&lt;/code&gt; -&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;logger(morgan)&lt;/code&gt; -&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;json, unlencoded&lt;/code&gt; -&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cookieParser&lt;/code&gt; -&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Router&lt;/code&gt; -&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;404 handler&lt;/code&gt; -&amp;gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;error handler&lt;/code&gt;&lt;/p&gt;
 
-&lt;h3 id=&quot;커스텀-미들웨어&quot;&gt;커스텀 미들웨어&lt;/h3&gt;
-&lt;hr /&gt;
+&lt;h2 id=&quot;커스텀-미들웨어&quot;&gt;커스텀 미들웨어&lt;/h2&gt;
 &lt;p&gt;단순히 request에 대해 콘솔에 메세지를 찍는 미들웨어를 만들어 보자.&lt;/p&gt;
 
 &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;

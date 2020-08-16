@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>ford-fulkerson(작성중)  |  untitled</title>
+<!-- begin _includes/seo.html --><title>ford-fulkerson  |  untitled</title>
 <meta name="description" content="network flow">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="ford-fulkerson(작성중)">
+<meta property="og:title" content="ford-fulkerson">
 <meta property="og:url" content="http://localhost:4000/algorithm/ford_fulkerson/">
 
 
@@ -281,7 +281,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="ford-fulkerson(작성중)">
+    <meta itemprop="headline" content="ford-fulkerson">
     <meta itemprop="description" content="network flow">
     <meta itemprop="datePublished" content="2020-08-13T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-08-13T05:00:00+09:00">
@@ -289,7 +289,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">ford-fulkerson(작성중)
+          <h1 id="page-title" class="page__title" itemprop="headline">ford-fulkerson
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -311,12 +311,15 @@
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
   <li><a href="#network-flow">network flow</a>
-      - {:.} <a href="#flow-network란">flow network란</a>
-      - {:.} <a href="#유량-네트워크-성질">유량 네트워크 성질</a>
-      - {:.} <a href="#ford-fulkerson-algorithm">ford-fulkerson Algorithm</a>
-      - {:.} <a href="#정당성-증명">정당성 증명</a>
-      - {:.} <a href="#구현-및-코드">구현 및 코드</a>
-      - {:.} <a href="#응용-및-문제">응용 및 문제</a></li>
+    <ul>
+      <li><a href="#flow-network란">flow network란</a></li>
+      <li><a href="#유량-네트워크-성질">유량 네트워크 성질</a></li>
+      <li><a href="#ford-fulkerson-algorithm">ford-fulkerson Algorithm</a></li>
+      <li><a href="#정당성-증명">정당성 증명</a></li>
+      <li><a href="#구현-및-코드">구현 및 코드</a></li>
+      <li><a href="#응용-및-문제">응용 및 문제</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -327,8 +330,8 @@
 
 <h1 id="network-flow">network flow</h1>
 
-<h3 id="flow-network란">flow network란</h3>
-<hr />
+<h2 id="flow-network란">flow network란</h2>
+
 <p>그래프 이론에서 <code class="language-plaintext highlighter-rouge">flow network</code>란 각각의 <code class="language-plaintext highlighter-rouge">edge</code>가 <code class="language-plaintext highlighter-rouge">capacity</code>을 가지고 있고 <code class="language-plaintext highlighter-rouge">flow</code>를 전달하는 <code class="language-plaintext highlighter-rouge">Directed Graph</code>이다.</p>
 
 <p>네트워크는 <code class="language-plaintext highlighter-rouge">graph</code>이며 \(G = (V, E)\), \(V\)는 정점의 집합, \(E\)는 \(V\)의 간선의 집합으로써 \(V\) x \(V\)의 <code class="language-plaintext highlighter-rouge">subset</code>이다.
@@ -341,8 +344,8 @@ if \((u, v) ∉ E\) then \(c(v, u)\) = 0</p>
 <p>서로 다른 노드 <code class="language-plaintext highlighter-rouge">source</code> \(s\)와 <code class="language-plaintext highlighter-rouge">sink</code> \(t\)가 구분될 경우 \((G, c, s, t)\) 를 <code class="language-plaintext highlighter-rouge">flow network</code>라 한다.
 <img src="\assets\images\Network_Flow.svg.png" alt="이미지1" /></p>
 
-<h3 id="유량-네트워크-성질">유량 네트워크 성질</h3>
-<hr />
+<h2 id="유량-네트워크-성질">유량 네트워크 성질</h2>
+
 <p>\(Def\) of flow network</p>
 <ul>
   <li>\(f(u, v)\): u, v로 흐르는 실제 유량이다.<br /></li>
@@ -359,8 +362,8 @@ if \((u, v) ∉ E\) then \(c(v, u)\) = 0</p>
 유량의 대칭성으로 의해 들어오는 유량과 나가는 유량을 합하면 결국 0이 되어야 한다.</li>
 </ul>
 
-<h3 id="ford-fulkerson-algorithm">ford-fulkerson Algorithm</h3>
-<hr />
+<h2 id="ford-fulkerson-algorithm">ford-fulkerson Algorithm</h2>
+
 <p><a href="https://en.wikipedia.org/wiki/Maximum_flow_problem"><code class="language-plaintext highlighter-rouge">maximum flow problem</code></a>은 <code class="language-plaintext highlighter-rouge">flow netwrok</code>에서 얻을 수 있는 가장 큰 유량을 구하는 문제이다. 이를 해결하기 위해 가장 간단한 알고리즘인 <code class="language-plaintext highlighter-rouge">ford-fulkerson</code> 알고리즘에 대해 알아보자.
 최초로 고안된 네트워크 유량 알고리즘으로 비교적 개념이 간단하다.</p>
 
@@ -385,13 +388,15 @@ if \((u, v) ∉ E\) then \(c(v, u)\) = 0</p>
 \(\rightarrow r(B, A) = c(B, A) - f(B, A) = 0 + (-1) = 1\)<br /><br />
 위 과정은 실제로 존재하지 않는 간선 \((B, A)\)에 대해 용량의 1만큼의 유량을 더 보낼 수 있다는 의미이다. 특정 방향으로 보내는 유량을 줄이는 것은 그 반대쪽에서 유량을 보내주는 것과 같은 효과를 내기 때문이다. 따라서, 기존 유량을 상쇄하는 방향으로 증가 경로를 건설하고, 탐색 알고리즘을 진행한다면, 우리가 원하는 최대 유량을 찾을 수 있는 것이다.</p>
 
-<h3 id="정당성-증명">정당성 증명</h3>
-<hr />
-<p><a href="../proof_of_correctness_ford_fulkerson">포드 풀커슨 알고리즘 정당성 증명</a>
-Min-cut-Max-flow Theorem.</p>
+<h2 id="정당성-증명">정당성 증명</h2>
 
-<h3 id="구현-및-코드">구현 및 코드</h3>
-<hr />
+<blockquote>
+  <p>링크 참조<br />
+<a href="../proof_of_correctness_ford_fulkerson">포드 풀커슨 알고리즘 정당성 증명</a></p>
+</blockquote>
+
+<h2 id="구현-및-코드">구현 및 코드</h2>
+
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//source code for praticing ford-fulkerson Algorithm</span>
 
 <span class="cp">#include&lt;algorithm&gt;
@@ -440,8 +445,8 @@ Min-cut-Max-flow Theorem.</p>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<h3 id="응용-및-문제">응용 및 문제</h3>
-<hr />
+<h2 id="응용-및-문제">응용 및 문제</h2>
+
 <p>승부조작, https://www.algospot.com/judge/problem/read/MATCHFIX/, ALGOSPOT</p>
 
 <p>예제 입력</p>
@@ -473,7 +478,7 @@ Min-cut-Max-flow Theorem.</p>
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
 https://www.algospot.com/judge/problem/read/MATCHFIX\
 
-networkFlow, ford-fulkerson Algorithm
+networkFlow, bellmanFord Algorithm
 
 input
 입력의 첫 줄에는 테스트 케이스의 수 C (C &lt;= 50) 가 주어집니다.
@@ -500,8 +505,10 @@ output
 <span class="kt">int</span> <span class="n">wins</span><span class="p">[</span><span class="n">MAX_N</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">capacity</span><span class="p">[</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">flow</span><span class="p">[</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">][</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">];</span>
 <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">match</span><span class="p">[</span><span class="n">MAX_M</span><span class="p">];</span>
 
-<span class="kt">int</span> <span class="nf">bellmanFord</span><span class="p">(</span><span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sink</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">FordFulkerson</span><span class="p">(</span><span class="kt">int</span> <span class="n">source</span><span class="p">,</span> <span class="kt">int</span> <span class="n">sink</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">//init flow edge</span>
 	<span class="n">memset</span><span class="p">(</span><span class="n">flow</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">flow</span><span class="p">));</span>
+	<span class="kt">int</span> <span class="n">totalFlow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 	<span class="kt">int</span> <span class="n">totalFlow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 	<span class="k">while</span> <span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="p">{</span>
 		<span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">parent</span><span class="p">(</span><span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
@@ -512,7 +519,7 @@ output
 			<span class="kt">int</span> <span class="n">here</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span> <span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
 			<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">there</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">there</span> <span class="o">&lt;</span> <span class="n">SIZE</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span> <span class="n">there</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 				<span class="k">if</span> <span class="p">(</span><span class="n">capacity</span><span class="p">[</span><span class="n">here</span><span class="p">][</span><span class="n">there</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="n">here</span><span class="p">][</span><span class="n">there</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
-					<span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+					<span class="o">&amp;&amp;</span> <span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span><span class="c1">//If there is a node that has not been visited and can flow, push to the queue.</span>
 					<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">there</span><span class="p">);</span>
 					<span class="n">parent</span><span class="p">[</span><span class="n">there</span><span class="p">]</span> <span class="o">=</span> <span class="n">here</span><span class="p">;</span>
 				<span class="p">}</span>
@@ -520,10 +527,12 @@ output
 
 		<span class="p">}</span>
 		<span class="k">if</span> <span class="p">(</span><span class="n">parent</span><span class="p">[</span><span class="n">sink</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">break</span><span class="p">;</span>
-		<span class="kt">int</span> <span class="n">amount</span> <span class="o">=</span> <span class="mi">123123123</span><span class="p">;</span>
+		<span class="kt">int</span> <span class="n">amount</span> <span class="o">=</span> <span class="n">MAX_N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+		<span class="c1">//finding the minimum amount of flow.</span>
 		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sink</span><span class="p">;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">source</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
 			<span class="n">amount</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">capacity</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]</span> <span class="o">-</span> <span class="n">flow</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]);</span>
 		<span class="p">}</span>
+		<span class="c1">//flowing..</span>
 		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">p</span> <span class="o">=</span> <span class="n">sink</span><span class="p">;</span> <span class="n">p</span> <span class="o">!=</span> <span class="n">source</span><span class="p">;</span> <span class="n">p</span> <span class="o">=</span> <span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">])</span> <span class="p">{</span>
 			<span class="n">flow</span><span class="p">[</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]][</span><span class="n">p</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amount</span><span class="p">;</span>
 			<span class="n">flow</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="n">parent</span><span class="p">[</span><span class="n">p</span><span class="p">]]</span> <span class="o">-=</span> <span class="n">amount</span><span class="p">;</span>
@@ -537,8 +546,11 @@ output
 
 <span class="kt">int</span> <span class="nf">isChampionshipable</span><span class="p">(</span><span class="kt">int</span> <span class="n">totalWins</span><span class="p">)</span> <span class="p">{</span>
 
+	<span class="c1">//If there is a Wins greater than totalWins, then return false;</span>
 	<span class="k">if</span> <span class="p">(</span><span class="o">*</span><span class="n">max_element</span><span class="p">(</span><span class="n">wins</span>  <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wins</span> <span class="o">+</span> <span class="n">N</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">totalWins</span><span class="p">)</span> <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+	<span class="c1">//init capacity edge</span>
 	<span class="n">memset</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">capacity</span><span class="p">));</span>
+	<span class="c1">//boundary of Indexing</span>
 	<span class="kt">int</span> <span class="n">boundary</span> <span class="o">=</span> <span class="n">MAX_N</span><span class="p">;</span>
 
 	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -548,12 +560,15 @@ output
 		<span class="n">capacity</span><span class="p">[</span><span class="n">boundary</span> <span class="o">+</span> <span class="n">i</span><span class="p">][</span><span class="n">u</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 		<span class="n">capacity</span><span class="p">[</span><span class="n">boundary</span> <span class="o">+</span> <span class="n">i</span><span class="p">][</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 	<span class="p">}</span>
+
+	<span class="c1">//If X is to win alone with a w win, the win or loss of the remaining games will be properly determined</span>
+	<span class="c1">//and all other players must finish the league with less than w - 1 win.</span>
 	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">node</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">node</span> <span class="o">&lt;</span> <span class="n">N</span><span class="p">;</span> <span class="n">node</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 		<span class="n">capacity</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">totalWins</span> <span class="o">-</span> <span class="n">wins</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 	<span class="p">}</span>
 	<span class="n">capacity</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">=</span> <span class="n">totalWins</span> <span class="o">-</span> <span class="n">wins</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">];</span>
 
-	<span class="k">return</span> <span class="n">bellmanFord</span><span class="p">(</span><span class="n">SOURCE</span><span class="p">,</span> <span class="n">SINK</span><span class="p">)</span> <span class="o">==</span> <span class="n">M</span> <span class="o">&amp;&amp;</span> <span class="n">flow</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">==</span> <span class="n">capacity</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">];</span>
+	<span class="k">return</span> <span class="n">FordFulkerson</span><span class="p">(</span><span class="n">SOURCE</span><span class="p">,</span> <span class="n">SINK</span><span class="p">)</span> <span class="o">==</span> <span class="n">M</span> <span class="o">&amp;&amp;</span> <span class="n">flow</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">]</span> <span class="o">==</span> <span class="n">capacity</span><span class="p">[</span><span class="n">PLAYER_X</span><span class="p">][</span><span class="n">SINK</span><span class="p">];</span>
 
 <span class="p">}</span>
 
@@ -595,6 +610,7 @@ output
 
 
 <span class="p">}</span>
+
 </code></pre></div></div>
 
 <blockquote>
@@ -665,7 +681,7 @@ https://en.wikipedia.org/wiki/Flow_network</p>
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=ford-fulkerson%28%EC%9E%91%EC%84%B1%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fford_fulkerson%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=ford-fulkerson%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fford_fulkerson%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fford_fulkerson%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -680,7 +696,7 @@ https://en.wikipedia.org/wiki/Flow_network</p>
 ">이전</a>
     
     
-      <a href="/algorithm/proof_of_correctness_ford_fulkerson/" class="pagination--pager" title="ford-fulkerson 정당성 증명*(작성 중)
+      <a href="/algorithm/proof_of_correctness_ford_fulkerson/" class="pagination--pager" title="ford-fulkerson 정당성 증명
 ">다음</a>
     
   </nav>
@@ -705,7 +721,7 @@ https://en.wikipedia.org/wiki/Flow_network</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/proof_of_correctness_ford_fulkerson/" rel="permalink">ford-fulkerson 정당성 증명*(작성 중)
+        <a href="/algorithm/proof_of_correctness_ford_fulkerson/" rel="permalink">ford-fulkerson 정당성 증명
 </a>
       
     </h2>
@@ -715,13 +731,12 @@ https://en.wikipedia.org/wiki/Flow_network</p>
 
 
 
-  최대 1 분 소요
+  1 분 소요
 
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">
 
-proof of correctness
 </p>
   </article>
 </div>

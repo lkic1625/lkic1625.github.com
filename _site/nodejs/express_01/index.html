@@ -311,10 +311,13 @@
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
   <li><a href="#express">Express</a>
-      - {:.} <a href="#express-generator">express-generator</a>
-      - {:.} <a href="#익스프레스-구조">익스프레스 구조</a>
-      - {:.} <a href="#미들웨어">미들웨어</a>
-      - {:.} <a href="#커스텀-미들웨어">커스텀 미들웨어</a></li>
+    <ul>
+      <li><a href="#express-generator">express-generator</a></li>
+      <li><a href="#익스프레스-구조">익스프레스 구조</a></li>
+      <li><a href="#미들웨어">미들웨어</a></li>
+      <li><a href="#커스텀-미들웨어">커스텀 미들웨어</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -324,15 +327,13 @@
 </script>
 
 <h1 id="express">Express</h1>
-<hr />
 <p>4장에서 웹 서버를 http 모듈만으로 만들기 때문에 불편하고 확장성도 떨어진다 느꼈을 것이다.
 npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가한 웹 서버 프레임워크가 있다.</p>
 
 <p>express 외에도 koa나 hapi 같은 웹 서버 프레임워크가 존재하지만, express의 다운로드 수가 압도적으로 높다.
 이는 성능과 직접적인 연관이 없을지 모르지만 기능 추가나 유지보수 측면에서 좋게 작용할 것이다.</p>
 
-<h3 id="express-generator">express-generator</h3>
-<hr />
+<h2 id="express-generator">express-generator</h2>
 <p>익스프레스 프레임워크는 많은 패키지를 사용하여 입문자 입장에서는 찾아서 설치하기 어렵다.
 <code class="language-plaintext highlighter-rouge">express-generator</code>가 이를 대신 해줄 수 있는 패키지이다.</p>
 
@@ -380,8 +381,7 @@ npm에는 서버 제작 시 불편함을 해소하고, 편의 기능을 추가�
 <p><code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">scripts</code> 설정 값에 <code class="language-plaintext highlighter-rouge">start</code>속성이 있고 <code class="language-plaintext highlighter-rouge">node ./bin/www</code>가 적혀있다. 따라서 <code class="language-plaintext highlighter-rouge">npm run start</code> 명령어로 서버를 실행할 수 있다.
 http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있을 것이다.</p>
 
-<h3 id="익스프레스-구조">익스프레스 구조</h3>
-<hr />
+<h2 id="익스프레스-구조">익스프레스 구조</h2>
 <p>가장 중요한 <code class="language-plaintext highlighter-rouge">www</code> 파일 구조부터 살펴보자
 <code class="language-plaintext highlighter-rouge">bin/www</code> 파일은 <code class="language-plaintext highlighter-rouge">http</code> 모듈에 <code class="language-plaintext highlighter-rouge">express</code>를 연결하고 포트를 지정하는 부분이다.</p>
 
@@ -445,7 +445,7 @@ http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있�
 <p>클라이언트 요청을 받아서 처리한 후 다시 클라이언트에게 응답한다. 이는 4장의 <code class="language-plaintext highlighter-rouge">http</code> 서버와 같지만 중간에 <code class="language-plaintext highlighter-rouge">middleware</code>를 거친다는 것이 다릅니다
 그럼 미들웨어가 무슨 역할을 하는지 알아보자.</p>
 
-<h3 id="미들웨어">미들웨어</h3>
+<h2 id="미들웨어">미들웨어</h2>
 <hr />
 <p><code class="language-plaintext highlighter-rouge">middleware</code>는 <code class="language-plaintext highlighter-rouge">express</code>의 핵심이다. 요청과 응답의 중간에 위치하여 <code class="language-plaintext highlighter-rouge">middleware</code>라고 부른다.</p>
 
@@ -484,8 +484,7 @@ http://localhost:3000 으로 접속하면 기본 페이지가 구성되어 있�
 
 <p><code class="language-plaintext highlighter-rouge">logger</code> -&gt; <code class="language-plaintext highlighter-rouge">logger(morgan)</code> -&gt; <code class="language-plaintext highlighter-rouge">json, unlencoded</code> -&gt; <code class="language-plaintext highlighter-rouge">cookieParser</code> -&gt; <code class="language-plaintext highlighter-rouge">Router</code> -&gt; <code class="language-plaintext highlighter-rouge">404 handler</code> -&gt; <code class="language-plaintext highlighter-rouge">error handler</code></p>
 
-<h3 id="커스텀-미들웨어">커스텀 미들웨어</h3>
-<hr />
+<h2 id="커스텀-미들웨어">커스텀 미들웨어</h2>
 <p>단순히 request에 대해 콘솔에 메세지를 찍는 미들웨어를 만들어 보자.</p>
 
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
@@ -636,7 +635,7 @@ express가 기본적으로 주어주는 에러 핸들링 미들웨어를 보면 
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/proof_of_correctness_ford_fulkerson/" rel="permalink">ford-fulkerson 정당성 증명*(작성 중)
+        <a href="/algorithm/proof_of_correctness_ford_fulkerson/" rel="permalink">ford-fulkerson 정당성 증명
 </a>
       
     </h2>
@@ -646,13 +645,12 @@ express가 기본적으로 주어주는 에러 핸들링 미들웨어를 보면 
 
 
 
-  최대 1 분 소요
+  1 분 소요
 
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">
 
-proof of correctness
 </p>
   </article>
 </div>
@@ -667,7 +665,7 @@ proof of correctness
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/ford_fulkerson/" rel="permalink">ford-fulkerson(작성중)
+        <a href="/algorithm/ford_fulkerson/" rel="permalink">ford-fulkerson
 </a>
       
     </h2>

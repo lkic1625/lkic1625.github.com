@@ -41,14 +41,14 @@ var store = [{
         "url": "http://localhost:4000/nodejs/npm/",
         "teaser": null
       },{
-        "title": "ford-fulkerson(작성중)",
+        "title": "ford-fulkerson",
         "excerpt":"network flow flow network란 그래프 이론에서 flow network란 각각의 edge가 capacity을 가지고 있고 flow를 전달하는 Directed Graph이다. 네트워크는 graph이며 \\(G = (V, E)\\), \\(V\\)는 정점의 집합, \\(E\\)는 \\(V\\)의 간선의 집합으로써 \\(V\\) x \\(V\\)의 subset이다. 이와 함께 \\(c: V\\) x \\(V → ℝ∞\\) 용량 함수 또한 정의된다. \\(WLOG\\) if \\((u, v)...","categories": ["algorithm"],
         "tags": ["network flow","algorithm"],
         "url": "http://localhost:4000/algorithm/ford_fulkerson/",
         "teaser": null
       },{
-        "title": "ford-fulkerson 정당성 증명*(작성 중)",
-        "excerpt":"proof of correctness cut 이란. Min-cut 문제를 이용하여 증명을 하기 때문에 먼저 Min-cut에 대해 알아보자 그래프 이론에서 cut이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다. 어떤 컷이든 하나의 끝점이 있는 간선의 집합 cut-set을 결정한다. flow netwrok에서는 s-t cut이라하며, 소스와 싱크를 다른 부분집합에 속하게 한다. 이 때 cut-set은...","categories": ["algorithm"],
+        "title": "ford-fulkerson 정당성 증명",
+        "excerpt":"이 포스트는 FordFulkerson의 정당성 증명에 관한 포스트입니다. proof of correctness cut 이란. Min-cut 문제를 이용하여 증명을 하기 때문에 먼저 cut에 대해 알아보자 그래프 이론에서 cut이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다. 어떤 컷이든 하나의 끝점이 있는 간선의 집합 cut-set을 결정한다. flow netwrok에서는 s-t cut이라하며, 소스와 싱크를...","categories": ["algorithm"],
         "tags": ["network flow","algorithm"],
         "url": "http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/",
         "teaser": null

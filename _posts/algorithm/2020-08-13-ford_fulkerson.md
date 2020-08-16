@@ -1,5 +1,5 @@
 ---
-title: "ford-fulkerson(작성중)"
+title: "ford-fulkerson"
 tags:
   - network flow
   - algorithm
@@ -13,8 +13,8 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 # network flow
 
-### flow network란
-***
+## flow network란
+
 그래프 이론에서 `flow network`란 각각의 `edge`가 `capacity`을 가지고 있고 `flow`를 전달하는 `Directed Graph`이다.
 
 네트워크는 `graph`이며 $$G = (V, E)$$, $$V$$는 정점의 집합, $$E$$는 $$V$$의 간선의 집합으로써 $$V$$ x $$V$$의 `subset`이다.
@@ -27,8 +27,8 @@ if $$(u, v) ∉ E$$ then $$c(v, u)$$ = 0
 서로 다른 노드 `source` $$s$$와 `sink` $$t$$가 구분될 경우 $$(G, c, s, t)$$ 를 `flow network`라 한다.
 ![이미지1](\assets\images\Network_Flow.svg.png)
 
-### 유량 네트워크 성질
-***
+## 유량 네트워크 성질
+
 $$Def$$ of flow network
 - $$f(u, v)$$: u, v로 흐르는 실제 유량이다.<br>
 - $$c(u, v)$$: u, v로 흐를 수 있는 용량이다.<br>
@@ -41,8 +41,8 @@ $$v$$로 유량이 흘러올 경우 $$v$$의 입장에서는 음수의 유량을
 - (유량 보존)  $$\Sigma f(u,v) = 0$$:
 유량의 대칭성으로 의해 들어오는 유량과 나가는 유량을 합하면 결국 0이 되어야 한다.
 
-### ford-fulkerson Algorithm
-***
+## ford-fulkerson Algorithm
+
 [`maximum flow problem`](https://en.wikipedia.org/wiki/Maximum_flow_problem)은 `flow netwrok`에서 얻을 수 있는 가장 큰 유량을 구하는 문제이다. 이를 해결하기 위해 가장 간단한 알고리즘인 `ford-fulkerson` 알고리즘에 대해 알아보자.
 최초로 고안된 네트워크 유량 알고리즘으로 비교적 개념이 간단하다.
 
@@ -62,14 +62,14 @@ if $$f(A, B) = 1$$ then $$f(B, A) = -1$$ <br>
 $$\rightarrow r(B, A) = c(B, A) - f(B, A) = 0 + (-1) = 1$$<br><br>
 위 과정은 실제로 존재하지 않는 간선 $$(B, A)$$에 대해 용량의 1만큼의 유량을 더 보낼 수 있다는 의미이다. 특정 방향으로 보내는 유량을 줄이는 것은 그 반대쪽에서 유량을 보내주는 것과 같은 효과를 내기 때문이다. 따라서, 기존 유량을 상쇄하는 방향으로 증가 경로를 건설하고, 탐색 알고리즘을 진행한다면, 우리가 원하는 최대 유량을 찾을 수 있는 것이다.
 
-### 정당성 증명
-***
+## 정당성 증명
+
+> 링크 참조<br>
 [포드 풀커슨 알고리즘 정당성 증명](../proof_of_correctness_ford_fulkerson)
-Min-cut-Max-flow Theorem.
 
 
-### 구현 및 코드
-***
+## 구현 및 코드
+
 ```cpp
 //source code for praticing ford-fulkerson Algorithm
 
@@ -119,8 +119,8 @@ int FordFulkerson (int source, int sink) {
 }
 ```
 
-### 응용 및 문제
-***
+## 응용 및 문제
+
 승부조작, https://www.algospot.com/judge/problem/read/MATCHFIX/, ALGOSPOT
 
 예제 입력
@@ -155,7 +155,7 @@ int FordFulkerson (int source, int sink) {
 /*
 https://www.algospot.com/judge/problem/read/MATCHFIX\
 
-networkFlow, ford-fulkerson Algorithm
+networkFlow, bellmanFord Algorithm
 
 input
 입력의 첫 줄에는 테스트 케이스의 수 C (C <= 50) 가 주어집니다.
@@ -182,8 +182,10 @@ int C, N, M, input, u, v;
 int wins[MAX_N + 2], capacity[SIZE + 2][SIZE + 2], flow[SIZE + 2][SIZE + 2];
 pair<int, int> match[MAX_M];
 
-int bellmanFord(int source, int sink) {
+int FordFulkerson(int source, int sink) {
+	//init flow edge
 	memset(flow, 0, sizeof(flow));
+	int totalFlow = 0;
 	int totalFlow = 0;
 	while (true) {
 		vector<int> parent(SIZE + 2, -1);
@@ -194,7 +196,7 @@ int bellmanFord(int source, int sink) {
 			int here = q.front(); q.pop();
 			for (int there = 0; there < SIZE + 2; there++) {
 				if (capacity[here][there] - flow[here][there] > 0
-					&& parent[there] == -1) {
+					&& parent[there] == -1) {//If there is a node that has not been visited and can flow, push to the queue.
 					q.push(there);
 					parent[there] = here;
 				}
@@ -202,10 +204,12 @@ int bellmanFord(int source, int sink) {
 
 		}
 		if (parent[sink] == -1) break;
-		int amount = 123123123;
+		int amount = MAX_N + 1;
+		//finding the minimum amount of flow.
 		for (int p = sink; p != source; p = parent[p]) {
 			amount = min(amount, capacity[parent[p]][p] - flow[parent[p]][p]);
 		}
+		//flowing..
 		for (int p = sink; p != source; p = parent[p]) {
 			flow[parent[p]][p] += amount;
 			flow[p][parent[p]] -= amount;
@@ -219,8 +223,11 @@ int bellmanFord(int source, int sink) {
 
 int isChampionshipable(int totalWins) {
 
+	//If there is a Wins greater than totalWins, then return false;
 	if (*max_element(wins  + 1, wins + N) >= totalWins) return false;
+	//init capacity edge
 	memset(capacity, 0, sizeof(capacity));
+	//boundary of Indexing
 	int boundary = MAX_N;
 
 	for (int i = 0; i < M; i++) {
@@ -230,12 +237,15 @@ int isChampionshipable(int totalWins) {
 		capacity[boundary + i][u] = 1;
 		capacity[boundary + i][v] = 1;
 	}
+
+	//If X is to win alone with a w win, the win or loss of the remaining games will be properly determined
+	//and all other players must finish the league with less than w - 1 win.
 	for (int node = 0; node < N; node++) {
 		capacity[node][SINK] = max(totalWins - wins[node] - 1, 0);
 	}
 	capacity[PLAYER_X][SINK] = totalWins - wins[PLAYER_X];
 
-	return bellmanFord(SOURCE, SINK) == M && flow[PLAYER_X][SINK] == capacity[PLAYER_X][SINK];
+	return FordFulkerson(SOURCE, SINK) == M && flow[PLAYER_X][SINK] == capacity[PLAYER_X][SINK];
 
 }
 
@@ -277,8 +287,8 @@ int main() {
 
 
 }
-```
 
+```
 
 ><font size="6">Refernce</font><br>
 구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장

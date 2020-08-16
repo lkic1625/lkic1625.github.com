@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>ford-fulkerson 정당성 증명*(작성 중)  |  untitled</title>
-<meta name="description" content="proof of correctness">
+<!-- begin _includes/seo.html --><title>ford-fulkerson 정당성 증명  |  untitled</title>
+<meta name="description" content="">
 
 
   <meta name="author" content="조원빈">
@@ -19,11 +19,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="ford-fulkerson 정당성 증명*(작성 중)">
+<meta property="og:title" content="ford-fulkerson 정당성 증명">
 <meta property="og:url" content="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">
 
 
-  <meta property="og:description" content="proof of correctness">
+  <meta property="og:description" content="">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="ford-fulkerson 정당성 증명*(작성 중)">
-    <meta itemprop="description" content="proof of correctness">
+    <meta itemprop="headline" content="ford-fulkerson 정당성 증명">
+    <meta itemprop="description" content="">
     <meta itemprop="datePublished" content="2020-08-16T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-08-13T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">ford-fulkerson 정당성 증명*(작성 중)
+          <h1 id="page-title" class="page__title" itemprop="headline">ford-fulkerson 정당성 증명
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  1 분 소요
 
 </p>
           
@@ -311,8 +311,12 @@
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
   <li><a href="#proof-of-correctness">proof of correctness</a>
-      - {:.} <a href="#cut-이란">cut 이란.</a>
-      - {:.} <a href="#정당성-증명">정당성 증명</a></li>
+    <ul>
+      <li><a href="#cut-이란">cut 이란.</a></li>
+      <li><a href="#min-cut-max-flow-theorem">Min-cut Max-flow Theorem</a></li>
+      <li><a href="#정당성-증명">정당성 증명</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -321,11 +325,13 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
+<p>이 포스트는 <a href="../ford_fulkerson">FordFulkerson</a>의 정당성 증명에 관한 포스트입니다.</p>
+
 <h1 id="proof-of-correctness">proof of correctness</h1>
 
-<h3 id="cut-이란">cut 이란.</h3>
-<hr />
-<p><code class="language-plaintext highlighter-rouge">Min-cut</code> 문제를 이용하여 증명을 하기 때문에 먼저 <code class="language-plaintext highlighter-rouge">Min-cut</code>에 대해 알아보자</p>
+<h2 id="cut-이란">cut 이란.</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Min-cut</code> 문제를 이용하여 증명을 하기 때문에 먼저 <code class="language-plaintext highlighter-rouge">cut</code>에 대해 알아보자</p>
 
 <p>그래프 이론에서 <code class="language-plaintext highlighter-rouge">cut</code>이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다. 어떤 컷이든 하나의 끝점이 있는 간선의 집합 <code class="language-plaintext highlighter-rouge">cut-set</code>을 결정한다.</p>
 
@@ -338,7 +344,7 @@
 <p>\(Thm\) of cut in flow network</p>
 <ol>
   <li>컷의 유량은 소스에서 싱크로 가는 총 유량과 같다.
-네트워크의 모든 유량은 \(S\)에 포함된 소스에서 흘러나와 \(T\)에 포함된 싱크로 흘러들어가기 때문이다.</li>
+네트워크의 모든 유량은 \(s\)에 포함된 소스에서 흘러나와 \(t\)에 포함된 싱크로 흘러들어가기 때문이다.</li>
   <li>컷의 유량은 용량과 같거나 더 작다. 이는 용량 제한 속성 때문이다.<br />
     <ul>
       <li>(용량 제한 속성) \(f(u, v) \leq c(u, v)\):</li>
@@ -346,18 +352,36 @@
   </li>
 </ol>
 
-<h3 id="정당성-증명">정당성 증명</h3>
-<hr />
-<p>네트워크에서 용량이 가장 작은 컷을 찾아내는 문제를 최소 컷(min cut) 문제라고 한다.</p>
+<h2 id="min-cut-max-flow-theorem">Min-cut Max-flow Theorem</h2>
 
-<p>최소 컷 문제는 최대 유량 문제와 밀접하게 연관되어 있다.<br />
-용량과 유량이 같은 컷 \(S, T\)가 존재한다 하자</p>
+<p>네트워크에서 용량이 가장 작은 컷을 찾아내는 문제를 최소 컷(min cut) 문제라고 한다.
+최소 컷 문제는 최대 유량 문제와 밀접하게 연관되어 있다.<br /></p>
+
+<p>만약 용량과 유량이 같은 컷 \(S, T\)가 존재한다 하자<br />
+\(Claim\): 컷 \(s, t\)는 항상 최소 컷이며, 소스에서 싱크로 가는 유량은 최대 유량이다.<br /><br />
+\(Proof\)<br />
+\(s, t\)보다 용량이 작은 컷이 존재한다면 해당 컷에 대해 유량이 용량보다 크므로 모순이다. 이보다 많은 유량을 보내는 방법이 있을 경우에도 \(s, t\)에 대해 유량이 용량보다 크므로 모순이다. 따라서 컷 \(s, t\)는 항상 최소 컷이며, 소스에서 싱크로 가는 유량은 최대 유량이다.(최소 컷 최대 유량 정리)</p>
+
+<h2 id="정당성-증명">정당성 증명</h2>
+
+<p>최소 용량 최대 유량 정리는 증가 경로가 존재하지 않는 유량 네트워크에서 용량과 유량이 같은 컷을 찾아내는 방법을 보여준다.</p>
+
+<p>방법은 소스에서 잔여 용량이 있는 간선을 통해 갈 수 있는 정점들의 집합 \(s\)와 그럴 수 없는 정점 \(t\)로 정접의 집합을 나누는 것이다.
+이와 같은 분류에서 소스는 항상 \(s\)에 속할 것이고 증가 경로가 존재하지 않기 때문에 싱크는 항상 \(t\)에 속할 것이다.
+따라서, \(s,t\)는 유량 네트워크의 컷이 된다.</p>
+
+<p>알고리즘이 시행된 후 \(s\)에 속한 정점에서 \(t\)에 속한 정점으로 가는 모든 간선의 잔여 용량은 0이다.
+잔여 용량이 0이 아니라면 \(s\)에 포함되어야 하기 때문이다.</p>
+
+<p>즉, 모든 간선에 대해 용량과 유량이 같다는 뜻이고 이 컷은 우리가 원하는 용량과 유량이 같은 컷이 된다.
+네트워크의 최대 유량이다.</p>
 
 <blockquote>
   <font size="6">Refernce</font>
   <p><br />
-구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
-https://en.wikipedia.org/wiki/Cut_(graph_theory)</p>
+구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장<br />
+https://en.wikipedia.org/wiki/Cut_(graph_theory)<br />
+http://www.cs.toronto.edu/~lalla/373s16/notes/MFMC.pdf</p>
 </blockquote>
 
         
@@ -421,7 +445,7 @@ https://en.wikipedia.org/wiki/Cut_(graph_theory)</p>
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=ford-fulkerson+%EC%A0%95%EB%8B%B9%EC%84%B1+%EC%A6%9D%EB%AA%85%2A%28%EC%9E%91%EC%84%B1+%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fproof_of_correctness_ford_fulkerson%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=ford-fulkerson+%EC%A0%95%EB%8B%B9%EC%84%B1+%EC%A6%9D%EB%AA%85%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fproof_of_correctness_ford_fulkerson%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fproof_of_correctness_ford_fulkerson%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -432,7 +456,7 @@ https://en.wikipedia.org/wiki/Cut_(graph_theory)</p>
       
   <nav class="pagination">
     
-      <a href="/algorithm/ford_fulkerson/" class="pagination--pager" title="ford-fulkerson(작성중)
+      <a href="/algorithm/ford_fulkerson/" class="pagination--pager" title="ford-fulkerson
 ">이전</a>
     
     
@@ -460,7 +484,7 @@ https://en.wikipedia.org/wiki/Cut_(graph_theory)</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/ford_fulkerson/" rel="permalink">ford-fulkerson(작성중)
+        <a href="/algorithm/ford_fulkerson/" rel="permalink">ford-fulkerson
 </a>
       
     </h2>
