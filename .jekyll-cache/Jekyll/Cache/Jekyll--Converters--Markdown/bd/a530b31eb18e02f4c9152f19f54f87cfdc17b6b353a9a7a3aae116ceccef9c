@@ -1,0 +1,77 @@
+I"<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="미들웨어">미들웨어</h1>
+
+<h2 id="morgan">morgan</h2>
+
+<p><code class="language-plaintext highlighter-rouge">morgan</code> 미들웨어는 콘솔에 요청에 대한 정보를 기록해준다.</p>
+
+<p>사용법</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">var</span> <span class="nx">logger</span> <span class="o">=</span> <span class="nx">reqire</span><span class="p">(</span><span class="dl">'</span><span class="s1">morgan</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">logger</span><span class="p">(</span><span class="dl">'</span><span class="s1">dev</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">...</span>
+</code></pre></div></div>
+<p>개발 시에는 주로 <code class="language-plaintext highlighter-rouge">short</code>, <code class="language-plaintext highlighter-rouge">dev</code>를 인자로 주며,
+배포 시에는 <code class="language-plaintext highlighter-rouge">common</code>, <code class="language-plaintext highlighter-rouge">combined</code>를 사용한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">parameter</th>
+      <th style="text-align: left">format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">tiny</code></td>
+      <td style="text-align: left">:method :url :status :res[content-length] - :response-time ms</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">dev</code></td>
+      <td style="text-align: left">:method :url :status :response-time ms - :res[content-length]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">short</code></td>
+      <td style="text-align: left">:remote-addr :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">common</code></td>
+      <td style="text-align: left">:remote-addr - :remote-user [:date[clf]] “:method :url HTTP/:http-version” :status :res[content-length]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">combined</code></td>
+      <td style="text-align: left">:remote-addr - :remote-user [:date[clf]] “:method :url HTTP/:http-version” :status :res[content-length] “:referrer” “:user-agent”</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>참고로 데이터베이스에 로깅을 위해서는 <code class="language-plaintext highlighter-rouge">winsotn</code>모듈을 더 많이 사용한다.</p>
+
+<h2 id="body-parser">body-parser</h2>
+<p>요청 본문 해석용 미들웨어다. 보통 폼 데이터와 <code class="language-plaintext highlighter-rouge">AJAX</code> 요청을 처리한다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">var</span> <span class="nx">bodyParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">body-parser</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">json</span><span class="p">());</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">urlencoded</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}));</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p>4.16.0 버전부터 <code class="language-plaintext highlighter-rouge">express</code>에 bodyParser 일부 기능이 내장되었기 때문에 설치하지 않고도 사용이 가능하다. 사용법은 아래와 같다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">json</span><span class="p">());</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">urlencoded</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}));</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+조헌영, Node.js 교과서, 길벗, 6장 express<br />
+https://www.npmjs.com/package/morgan<br /></p>
+</blockquote>
+:ET

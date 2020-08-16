@@ -52,4 +52,10 @@ var store = [{
         "tags": ["network flow","algorithm"],
         "url": "http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/",
         "teaser": null
+      },{
+        "title": "express, middleware",
+        "excerpt":"미들웨어 morgan morgan 미들웨어는 콘솔에 요청에 대한 정보를 기록해준다. 사용법 ... var logger = reqire('morgan'); ... app.use(logger('dev')); ... 개발 시에는 주로 short, dev를 인자로 주며, 배포 시에는 common, combined를 사용한다. parameter format tiny :method :url :status :res[content-length] - :response-time ms dev :method :url :status :response-time ms - :res[content-length] short :remote-addr...","categories": ["nodejs"],
+        "tags": ["nodejs","express"],
+        "url": "http://localhost:4000/nodejs/express_02/",
+        "teaser": null
       }]
