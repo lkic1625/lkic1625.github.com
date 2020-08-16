@@ -1,0 +1,21 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="proof-of-correctness">proof of correctness</h1>
+
+<h3 id="cut-이란">cut 이란.</h3>
+<hr />
+<p><code class="language-plaintext highlighter-rouge">Min-cut</code> 문제를 이용하여 증명을 하기 때문에 먼저 <code class="language-plaintext highlighter-rouge">Min-cut</code>에 대해 알아보자</p>
+
+<p>그래프 이론에서 <code class="language-plaintext highlighter-rouge">cut</code>이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다.
+In graph theory, a cut is a partition of the vertices of a graph into two disjoint subsets. Any cut determines a cut-set, the set of edges that have one endpoint in each subset of the partition. These edges are said to cross the cut. In a connected graph, each cut-set determines a unique cut, and in some cases cuts are identified with their cut-sets rather than with their vertex partitions.</p>
+
+<p>In a flow network, an s–t cut is a cut that requires the source and the sink to be in different subsets, and its cut-set only consists of edges going from the source’s side to the sink’s side. The capacity of an s–t cut is defined as the sum of the capacity of each edge in the cut-set.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
+https://en.wikipedia.org/wiki/Cut_(graph_theory)</p>
+</blockquote>
+:ET

@@ -1,5 +1,5 @@
 ---
-title: "ford-fulkerson"
+title: "ford-fulkerson(작성중)"
 tags:
   - network flow
   - algorithm
@@ -20,7 +20,7 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 네트워크는 `graph`이며 $$G = (V, E)$$, $$V$$는 정점의 집합, $$E$$는 $$V$$의 간선의 집합으로써 $$V$$ x $$V$$의 `subset`이다.
 이와 함께 $$c: V$$ x $$V → ℝ∞$$ 용량 함수 또한 정의된다.
 
-$$WLOG$$ <br>
+[$$WLOG$$](https://en.wikipedia.org/wiki/Without_loss_of_generality)<br>
 if $$(u, v) ∈ E$$ then $$(v, u) ∈ E$$<br>
 if $$(u, v) ∉ E$$ then $$c(v, u)$$ = 0
 
@@ -56,12 +56,101 @@ $$r: V$$ x $$V → ℝ∞$$<br> $$r(u, v) = c(u, v) - f(u, v)$$<br><br>
 
 단순히 위 속성만으로는 알고리즘이 항상 최대 유량을 얻는다는 것은 의문점이 들 것이다. 여기서 `ford-fulkerson` 알고리즘의 핵심이 되는 아이디어는 유량의 대칭성을 이용한 접근법이다.
 
-만약 $$f(u, v) = 1$$, $$c(u, v) = 1$$, $$c(v, u) = 0$$ 이라면 $$f(v, u) = -1$$ 일 것이다. 그렇다면 $$r(v, u) = c(v, u) - f(v, u) = 1$$이다. 이는 실제로 존재하지 않는 용량의 1만큼의 유량을 보낼 수 있다는 의미이다. 이는 이쪽에서 보내는 유량을 줄이는 것은 반대쪽에서 유량을 보내주는 것과 같은 효과를 내기 때문이다. 따라서, 기존 유량을 상쇄하는 방향으로 증가 경로를 건설하고, 탐색 알고리즘을 진행한다면, 우리가 원하는 최대 유량을 찾을 수 있는 것이다.
+![이미지2](\assets\images\ford-fulkerson-example-01.png)
+
+if $$f(A, B) = 1$$ then $$f(B, A) = -1$$ <br>
+$$\rightarrow r(B, A) = c(B, A) - f(B, A) = 0 + (-1) = 1$$<br><br>
+위 과정은 실제로 존재하지 않는 간선 $$(B, A)$$에 대해 용량의 1만큼의 유량을 더 보낼 수 있다는 의미이다. 특정 방향으로 보내는 유량을 줄이는 것은 그 반대쪽에서 유량을 보내주는 것과 같은 효과를 내기 때문이다. 따라서, 기존 유량을 상쇄하는 방향으로 증가 경로를 건설하고, 탐색 알고리즘을 진행한다면, 우리가 원하는 최대 유량을 찾을 수 있는 것이다.
+
+### 정당성 증명
+***
+[포드 풀커슨 알고리즘 정당성 증명](../proof_of_correctness_ford_fulkerson)
+Min-cut-Max-flow Theorem.
+
 
 ### 구현 및 코드
+***
+```cpp
+//source code for praticing ford-fulkerson Algorithm
 
+#include<algorithm>
+#include<queue>
+#include<iostream>
+#include<vector>
+using namespace std;
 
+const int MAX_V = 100;
 
+int V;
+int capacity[MAX_V + 1][MAX_V + 1], flow[MAX_V][MAX_V];
+
+int FordFulkerson (int source, int sink) {
+	memset(flow, 0, sizeof(flow));
+	int totalFlow = 0;
+
+	while (true) {
+		vector<int> parent(MAX_V + 1, -1);
+		queue<int> q;
+		parent[source] = source;
+		q.push(source);
+		while (!q.empty()) {
+			int here = q.front(); q.pop();
+			for (int there = 0; there < V; there++) {
+				if (capacity[here][there] - flow[here][there] > 0
+					&& parent[there] == -1) {
+					q.push(there);
+					parent[there] = here;
+				}
+			}
+
+		}
+		if (parent[sink] == -1) break;
+		int amount = 123123123;
+		for (int p = sink; p != source; p = parent[p]) {
+			amount = min(amount, capacity[parent[p]][p] - flow[parent[p]][p]);
+		}
+		for (int p = sink; p != source; p = parent[p]) {
+			flow[parent[p]][p] += amount;
+			flow[p][parent[p]] -= amount;
+		}
+		totalFlow += amount;
+	}
+	return totalFlow;
+}
+```
+
+### 응용 및 문제
+***
+승부조작, https://www.algospot.com/judge/problem/read/MATCHFIX/, ALGOSPOT
+
+예제 입력
+```
+3
+2 2
+3 3
+0 1
+0 1
+3 3
+4 2 2
+1 2
+1 2
+1 2
+4 4
+5 3 3 2
+0 1
+1 2
+2 3
+1 3
+```
+
+예제 출력
+```
+5
+-1
+5
+```
+
+구현 코드
 ```cpp
 /*
 https://www.algospot.com/judge/problem/read/MATCHFIX\

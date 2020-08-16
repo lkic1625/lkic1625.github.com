@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Hibernate 03(작성 중)  |  untitled</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>ford-fulkerson 정당성 증명*(작성 중)  |  untitled</title>
+<meta name="description" content="proof of correctness">
 
 
   <meta name="author" content="조원빈">
@@ -19,32 +19,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="Hibernate 03(작성 중)">
-<meta property="og:url" content="http://localhost:4000/spring/hibernate_03_spring/">
+<meta property="og:title" content="ford-fulkerson 정당성 증명*(작성 중)">
+<meta property="og:url" content="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">
 
 
-  <meta property="og:description" content="">
-
-
-
+  <meta property="og:description" content="proof of correctness">
 
 
 
 
-  <meta property="article:published_time" content="2020-08-07T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2020-08-07T05:00:00+09:00">
+  <meta property="article:published_time" content="2020-08-16T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2020-08-13T05:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/spring/hibernate_03_spring/">
+
+<link rel="canonical" href="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Hibernate 03(작성 중)">
-    <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-08-07T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-08-07T05:00:00+09:00">
+    <meta itemprop="headline" content="ford-fulkerson 정당성 증명*(작성 중)">
+    <meta itemprop="description" content="proof of correctness">
+    <meta itemprop="datePublished" content="2020-08-16T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-08-13T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Hibernate 03(작성 중)
+          <h1 id="page-title" class="page__title" itemprop="headline">ford-fulkerson 정당성 증명*(작성 중)
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -310,10 +310,9 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#hibernate-curd-features">Hibernate CURD features</a>
-      - {:.} <a href="#sessionfactory-session">SessionFactory, Session</a>
-      - {:.} <a href="#primary-key">Primary Key</a>
-      - {:.} <a href="#code">Code</a></li>
+  <li><a href="#proof-of-correctness">proof of correctness</a>
+      - {:.} <a href="#cut-이란">cut 이란.</a>
+      - {:.} <a href="#정당성-증명">정당성 증명</a></li>
 </ul>
 
             </nav>
@@ -322,79 +321,43 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<h1 id="hibernate-curd-features">Hibernate CURD features</h1>
+<h1 id="proof-of-correctness">proof of correctness</h1>
 
-<h3 id="sessionfactory-session">SessionFactory, Session</h3>
+<h3 id="cut-이란">cut 이란.</h3>
 <hr />
-<p><img src="/assets/images/JPA_Hibernate.svg" alt="이미지2" /></p>
+<p><code class="language-plaintext highlighter-rouge">Min-cut</code> 문제를 이용하여 증명을 하기 때문에 먼저 <code class="language-plaintext highlighter-rouge">Min-cut</code>에 대해 알아보자</p>
 
+<p>그래프 이론에서 <code class="language-plaintext highlighter-rouge">cut</code>이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다. 어떤 컷이든 하나의 끝점이 있는 간선의 집합 <code class="language-plaintext highlighter-rouge">cut-set</code>을 결정한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">flow netwrok</code>에서는  <code class="language-plaintext highlighter-rouge">s-t cut</code>이라하며, 소스와 싱크를 다른 부분집합에 속하게 한다. 이 때 <code class="language-plaintext highlighter-rouge">cut-set</code>은 반드시 소스에서 싱크로가는 간선만을 포함한다. <code class="language-plaintext highlighter-rouge">The capacity of an s–t cut</code>은  <code class="language-plaintext highlighter-rouge">cut-set</code>의 포함되는 간선의 용량의 총합이다.</p>
+
+<p><img src="/assets/images/s-t-cut-example-01.png" alt="이미지1" /></p>
+
+<p>위 그림에서 s-t 컷의 용량은 \(12 + 7 + 4 = 33\)이다.</p>
+
+<p>\(Thm\) of cut in flow network</p>
 <ol>
-  <li><code class="language-plaintext highlighter-rouge">SessionFactory</code>
+  <li>컷의 유량은 소스에서 싱크로 가는 총 유량과 같다.
+네트워크의 모든 유량은 \(S\)에 포함된 소스에서 흘러나와 \(T\)에 포함된 싱크로 흘러들어가기 때문이다.</li>
+  <li>컷의 유량은 용량과 같거나 더 작다. 이는 용량 제한 속성 때문이다.<br />
     <ul>
-      <li><code class="language-plaintext highlighter-rouge">SessionFactory</code> 인터페이스는 <code class="language-plaintext highlighter-rouge">Session</code> 객체를 얻기 위한 메소드를 제공한다.</li>
-      <li>Hibernate config file을 읽어 <code class="language-plaintext highlighter-rouge">Session</code> 객체를 생성한다.</li>
-      <li>App 동작 단계에서 한 번만 생성된다(<code class="language-plaintext highlighter-rouge">Heavy-weight object</code>).</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">Session</code>
-    <ul>
-      <li>Database의 JDBC connection의 <code class="language-plaintext highlighter-rouge">Wrapper</code>이다.</li>
-      <li><code class="language-plaintext highlighter-rouge">Short-lived object</code>로써 Database의 한 번 접근 후 재사용하지 않는다.</li>
+      <li>(용량 제한 속성) \(f(u, v) \leq c(u, v)\):</li>
     </ul>
   </li>
 </ol>
 
-<h3 id="primary-key">Primary Key</h3>
+<h3 id="정당성-증명">정당성 증명</h3>
 <hr />
-<p><code class="language-plaintext highlighter-rouge">primary key</code>란 Table의 행을 특정할 수 있는 key이다.
-중복과 null이 불가능한 value라고 생각하면 된다.</p>
-<h3 id="code">Code</h3>
-<hr />
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.b1n.hibernate.demo</span><span class="o">;</span>
+<p>네트워크에서 용량이 가장 작은 컷을 찾아내는 문제를 최소 컷(min cut) 문제라고 한다.</p>
 
-<span class="kn">import</span> <span class="nn">com.b1n.hibernate.demo.entity.Student</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.hibernate.Session</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.hibernate.SessionFactory</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.hibernate.cfg.Configuration</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CreateStudentDemo</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-
-        <span class="c1">// create session factory</span>
-        <span class="nc">SessionFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Configuration</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">configure</span><span class="o">(</span><span class="s">"hibernate.cfg.xml"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addAnnotatedClass</span><span class="o">(</span><span class="nc">Student</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">buildSessionFactory</span><span class="o">();</span>
-        <span class="c1">//create session</span>
-        <span class="nc">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">getCurrentSession</span><span class="o">();</span>
-
-        <span class="k">try</span><span class="o">{</span>
-            <span class="c1">// use the session object to save Java object</span>
-            <span class="c1">// create a student object</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Creating new Student object.."</span><span class="o">);</span>
-            <span class="nc">Student</span> <span class="n">student</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Student</span><span class="o">(</span><span class="s">"Jo"</span><span class="o">,</span> <span class="s">"Wonbin"</span><span class="o">,</span> <span class="s">"lkic1625@gmail.com"</span><span class="o">);</span>
-            <span class="c1">// start a transaction</span>
-            <span class="n">session</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
-            <span class="c1">// save the student object</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Saving the Student.. "</span><span class="o">);</span>
-            <span class="n">session</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">student</span><span class="o">);</span>
-            <span class="c1">// commit transaction</span>
-            <span class="n">session</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">().</span><span class="na">commit</span><span class="o">();</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Done."</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">factory</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-        <span class="o">}</span>
-
-    <span class="o">}</span>
-<span class="o">}</span>
-
-
-</code></pre></div></div>
+<p>최소 컷 문제는 최대 유량 문제와 밀접하게 연관되어 있다.<br />
+용량과 유량이 같은 컷 \(S, T\)가 존재한다 하자</p>
 
 <blockquote>
   <font size="6">Refernce</font>
-  <p><br /></p>
+  <p><br />
+구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
+https://en.wikipedia.org/wiki/Cut_(graph_theory)</p>
 </blockquote>
 
         
@@ -416,11 +379,11 @@
     
       
       
-      <a href="/tags/#hibernate" class="page__taxonomy-item" rel="tag">hibernate</a><span class="sep">, </span>
+      <a href="/tags/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#spring" class="page__taxonomy-item" rel="tag">spring</a>
+      <a href="/tags/#network-flow" class="page__taxonomy-item" rel="tag">network flow</a>
     
     </span>
   </p>
@@ -441,14 +404,14 @@
     
       
       
-      <a href="/categories/#spring" class="page__taxonomy-item" rel="tag">spring</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-08-07">August 7, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-08-13">August 13, 2020</time></p>
 
 
       </footer>
@@ -458,23 +421,22 @@
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Hibernate+03%28%EC%9E%91%EC%84%B1+%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fspring%2Fhibernate_03_spring%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=ford-fulkerson+%EC%A0%95%EB%8B%B9%EC%84%B1+%EC%A6%9D%EB%AA%85%2A%28%EC%9E%91%EC%84%B1+%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fproof_of_correctness_ford_fulkerson%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fspring%2Fhibernate_03_spring%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fproof_of_correctness_ford_fulkerson%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fspring%2Fhibernate_03_spring%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fproof_of_correctness_ford_fulkerson%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/spring/hibernate_02_spring/" class="pagination--pager" title="Hibernate 02
+      <a href="/algorithm/ford_fulkerson/" class="pagination--pager" title="ford-fulkerson(작성중)
 ">이전</a>
     
     
-      <a href="/flutter/get_started_flutter/" class="pagination--pager" title="Flutter 시작하기
-">다음</a>
+      <a href="#" class="pagination--pager disabled">다음</a>
     
   </nav>
 
@@ -498,37 +460,6 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/proof_of_correctness_ford_fulkerson/" rel="permalink">ford-fulkerson 정당성 증명*(작성 중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-proof of correctness
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
         <a href="/algorithm/ford_fulkerson/" rel="permalink">ford-fulkerson(작성중)
 </a>
       
@@ -539,7 +470,7 @@ proof of correctness
 
 
 
-  4 분 소요
+  5 분 소요
 
 </p>
     
@@ -601,6 +532,36 @@ network flow
 
 
   3 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/flutter/get_started_flutter/" rel="permalink">Flutter 시작하기
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
 
 </p>
     
