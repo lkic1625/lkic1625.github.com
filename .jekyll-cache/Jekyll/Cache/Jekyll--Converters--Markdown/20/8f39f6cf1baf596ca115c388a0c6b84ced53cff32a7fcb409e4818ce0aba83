@@ -1,0 +1,7 @@
+I"8<h1 id="promise">promise</h1>
+<p>이 포스트는 <code class="language-plaintext highlighter-rouge">JavaScript</code> 비동기 프로그래밍에 관한 포스트입니다.
+비동기처리와 관련된 설명은 <a href="../await_async">링크</a>를 참고하여 주세요.</p>
+<h2 id="promise란">promise란,</h2>
+<p><code class="language-plaintext highlighter-rouge">promise</code>는 생성 시 꼭 알려지지 않아도 되는 <code class="language-plaintext highlighter-rouge">proxy</code>로써, 결과 값이나 실패 이유를 처리할 수 있게 핸들러와 연결시켜 준다.
+프로미스는 비동기적 메서드를 동기적 메서드처럼 값을 리턴하게 해준다. 바로 최종 상황을 리턴하지는 않고, 프로미스를 반환하여 어떤 시점에 결과를 제공할 수 있다.</p>
+:ET

@@ -1,4 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-17T02:19:15+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">express, middleware</title><link href="http://localhost:4000/nodejs/express_02/" rel="alternate" type="text/html" title="express, middleware" /><published>2020-08-17T00:00:00+09:00</published><updated>2020-08-12T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/express_02</id><content type="html" xml:base="http://localhost:4000/nodejs/express_02/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-17T18:55:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">async/await(작성중)</title><link href="http://localhost:4000/js/await_async/" rel="alternate" type="text/html" title="async/await(작성중)" /><published>2020-08-17T00:00:00+09:00</published><updated>2020-08-17T04:00:00+09:00</updated><id>http://localhost:4000/js/await_async</id><content type="html" xml:base="http://localhost:4000/js/await_async/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;비동기-프로그래밍&quot;&gt;비동기 프로그래밍&lt;/h1&gt;
+
+&lt;h2 id=&quot;비동기-처리란&quot;&gt;비동기 처리란?&lt;/h2&gt;
+&lt;p&gt;일반적으로 코드는 순차적으로 진행된다. 이를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;synchronous&lt;/code&gt;이라하며, 순차적 진행으로 코드가 요청한 결과가 반드시 선언한 자리에서 일어나야 한다.
+하지만 요즘과 같이 멀티 코어로 컴퓨터의 성능이 올라간 결과 효율적으로 쓰기 위해서는 이런 순차적 진행은 어울리지 않을 것이다.&lt;/p&gt;
+
+&lt;p&gt;그렇게 해서 나온 것이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;asynchronous&lt;/code&gt;이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;당신이 다른 코어 프로세서에 다른 작업들을 움직이게 하고 작업이 완료되면 알려줄 수 있을 때, 무언가를 기다리는 것은 의미가 없습니다 .그 동안 다른 작업을 수행할 수 있고, 이것이 비동기 프로그래밍의 기본입니다. &lt;br /&gt;&lt;br /&gt;이러한 작업을 비동기적으로 실행할 수 있는 API를 제공하는 것은 당신이 사용하고 있는 프로그래밍 환경(웹 개발의 경우 웹브라우저) 에 달려 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;비동기는 컴퓨터 프로그래밍에서 메인 프로그램의 흐름과 독립된 이벤트의 발생과 그러한 이벤트 처리 방법을 가리킨다.
+이는 signal을 전달 받는 외부 이벤트 혹은 동시 실행과 관련된 작업일 수 있으며, 비동기에서는 프로그램의 결과를 기다리기 위한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blocking&lt;/code&gt;이 일어나지 않는다. 따라서, 병렬적인 작업 처리가 가능하다.&lt;/p&gt;
+
+&lt;h2 id=&quot;콜백-지옥&quot;&gt;콜백 지옥&lt;/h2&gt;
+&lt;p&gt;비동기 콜백 함수에서도 task들이 순차적으로 진행되어야 하는 상황이 있을 수 있다.
+이럴 경우 프로그래머는 난해한 코드 상황에 맞닥뜨릴 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/callback-hell.png&quot; alt=&quot;이미지1&quot; /&gt;
+출처: https://adrianalonso.es/desarrollo-web/apis/trabajando-con-promises-pagination-promise-chain/&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;js&lt;/code&gt;에서는 이렇게 난잡한 코드를 조금이나마 해소하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ES6+&lt;/code&gt;부터 여러가지 기능을 지원하는데 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aysnc/await&lt;/code&gt;이 대표적인 예이다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt;는 간단하게 설명해서 비동기를 강제하는 특별한 오브젝트 형태다.&lt;/p&gt;
+
+&lt;p&gt;더욱 자세한 설명은 &lt;a href=&quot;../promise&quot;&gt;promise 포스팅을&lt;/a&gt; 통해 알아보도록 하고 포스팅의 본주제로 넘어가보자.&lt;/p&gt;
+
+&lt;h2 id=&quot;asyncawait&quot;&gt;async/await&lt;/h2&gt;
+
+&lt;p&gt;하지만 많은 분들이 놓치는게 있습니다. async/await의 기반이 promise라는 사실입니다.
+사실, 우리가 쓰는 모든 async 함수는 promise를 리턴하고, 모든 await 함수는 일반적으로 promise가 됩니다.
+제가 이걸 왜 강조하는걸까요? 왜냐하면 오늘날 쓰여지는 거의 모든 javascript 코드가 callback 패턴을 사용하기 때문입니다.
+즉, 많은 분들이 promise 를 안쓰신다는거죠. 그리고 그분들은 async/await 의 중요한 점을 놓치고 있습니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;&lt;br /&gt;
+https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Concepts&lt;br /&gt;
+https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)&lt;br /&gt;
+https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="js" /><category term="asynchronous" /><summary type="html"></summary></entry><entry><title type="html">express, middleware</title><link href="http://localhost:4000/nodejs/express_02/" rel="alternate" type="text/html" title="express, middleware" /><published>2020-08-17T00:00:00+09:00</published><updated>2020-08-12T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/express_02</id><content type="html" xml:base="http://localhost:4000/nodejs/express_02/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;미들웨어&quot;&gt;미들웨어&lt;/h1&gt;
@@ -115,7 +158,85 @@
   &lt;p&gt;&lt;br /&gt;
 조헌영, Node.js 교과서, 길벗, 6장 express&lt;br /&gt;
 https://www.npmjs.com/package/morgan&lt;br /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html"></summary></entry><entry><title type="html">ford-fulkerson 정당성 증명</title><link href="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/" rel="alternate" type="text/html" title="ford-fulkerson 정당성 증명" /><published>2020-08-16T00:00:00+09:00</published><updated>2020-08-13T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson</id><content type="html" xml:base="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html"></summary></entry><entry><title type="html">promise(작성중)</title><link href="http://localhost:4000/js/promise/" rel="alternate" type="text/html" title="promise(작성중)" /><published>2020-08-17T00:00:00+09:00</published><updated>2020-08-17T04:00:00+09:00</updated><id>http://localhost:4000/js/promise</id><content type="html" xml:base="http://localhost:4000/js/promise/">&lt;h1 id=&quot;promise&quot;&gt;promise&lt;/h1&gt;
+&lt;p&gt;이 포스트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JavaScript&lt;/code&gt; 비동기 프로그래밍에 관한 포스트입니다.
+비동기처리와 관련된 설명은 &lt;a href=&quot;../await_async&quot;&gt;링크&lt;/a&gt;를 참고하여 주세요.&lt;/p&gt;
+&lt;h2 id=&quot;promise란&quot;&gt;promise란,&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;promise&lt;/code&gt;는 생성 시 꼭 알려지지 않아도 되는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;proxy&lt;/code&gt;로써, 결과 값이나 실패 이유를 처리할 수 있게 핸들러와 연결시켜 준다.
+프로미스는 비동기적 메서드를 동기적 메서드처럼 값을 리턴하게 해준다. 바로 최종 상황을 리턴하지는 않고, 프로미스를 반환하여 어떤 시점에 결과를 제공할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;프로미스는 아래와 같은 상태 중 하나를 가지게 된다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pending&lt;/code&gt;(대기): 이행하거나 거부되지 않은 초기상태이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fulfield&lt;/code&gt;(이행): 오퍼레이션이 성공적으로 완료됨.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rejected&lt;/code&gt;(거부): 오퍼레이션이 실패함.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;대기 프로미스는 거부 혹은 이행상태로 진입가능하며, 이 상태로 진입하게 되면, 핸들러는 프로미스에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;then&lt;/code&gt; 메서드에 의해 대기열에 오르게 된다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Promise.prototype.then()&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Promise.prototype.catch()&lt;/code&gt; 메서드는 다른 프로미스를 반환하므로 서로 연결할 수 있다.
+&lt;img src=&quot;/assets/images/promise-lifecycle.png&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;프로미스는 오브젝트 안에 오브젝트를 포함하는 특별한 형태의 자바스크립트 오브젝트로써 비동기를 강제하는 역할을 할 수 있다.
+위에서 언급했 듯이 시점은 상관없으며, 어떤 경우에도  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;then()&lt;/code&gt;을 부르기만 하면 된다.&lt;/p&gt;
+
+&lt;h2 id=&quot;promise-사용법&quot;&gt;promise 사용법.&lt;/h2&gt;
+
+&lt;p&gt;고급예제&lt;/p&gt;
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;use strict&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;promiseCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;testPromise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisPromiseCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;promiseCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;insertAdjacentHTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;beforeend&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisPromiseCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+        &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;) 시작 (&amp;lt;small&amp;gt;동기적 코드 시작&amp;lt;/small&amp;gt;)&amp;lt;br/&amp;gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 새 프로미스 생성 - 프로미스의 생성 순서를 전달하겠다는 약속을 함 (3초 기다린 후)&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;p1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 실행 함수는 프로미스를 이행(resolve)하거나&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 거부(reject)할 수 있음&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;insertAdjacentHTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;beforeend&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisPromiseCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;) 프로미스 시작 (&amp;lt;small&amp;gt;비동기적 코드 시작&amp;lt;/small&amp;gt;)&amp;lt;br/&amp;gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// setTimeout은 비동기적 코드를 만드는 예제에 불과&lt;/span&gt;
+            &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setTimeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                    &lt;span class=&quot;c1&quot;&gt;// 프로미스 이행 !&lt;/span&gt;
+                    &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thisPromiseCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Math&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;random&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2000&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 프로미스를 이행했을 때 할 일은 then() 호출로 정의하고,&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 거부됐을 때 할 일은 catch() 호출로 정의&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;p1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 이행 값 기록&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;insertAdjacentHTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;beforeend&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+                &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;) 프로미스 이행 (&amp;lt;small&amp;gt;비동기적 코드 종료&amp;lt;/small&amp;gt;)&amp;lt;br/&amp;gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// 거부 이유 기록&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;reason&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;여기서 거부된 프로미스(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reason&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;)를 처리하세요.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;insertAdjacentHTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;beforeend&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;thisPromiseCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
+        &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;) 프로미스 생성 (&amp;lt;small&amp;gt;동기적 코드 종료&amp;lt;/small&amp;gt;)&amp;lt;br/&amp;gt;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;다음의 작은 예제는 Promise의 동작 방식을 보여줍니다. testPromise() 함수는 button을 클릭할 때마다 호출되며, window.setTimeout()을 사용해 1~3초의 무작위 간격 이후 프로미스 횟수(1부터 시작하는 숫자)로 이행하는 프로미스를 생성합니다. Promise() 생성자는 프로미스를 만드는 데 쓰입니다.&lt;/p&gt;
+
+&lt;p&gt;프로미스 이행은 p1.then()을 사용하는 이행 콜백 세트를 통해 단순히 로그에 남습니다. 약간의 로그를 통해, 함수의 동기 부분이 비동기적 프로미스의 완료와 어떻게 분리되어 있는지 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;&lt;br /&gt;
+https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4&lt;br /&gt;
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise&lt;br /&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="js" /><category term="asynchronous" /><summary type="html">promise 이 포스트는 JavaScript 비동기 프로그래밍에 관한 포스트입니다. 비동기처리와 관련된 설명은 링크를 참고하여 주세요. promise란, promise는 생성 시 꼭 알려지지 않아도 되는 proxy로써, 결과 값이나 실패 이유를 처리할 수 있게 핸들러와 연결시켜 준다. 프로미스는 비동기적 메서드를 동기적 메서드처럼 값을 리턴하게 해준다. 바로 최종 상황을 리턴하지는 않고, 프로미스를 반환하여 어떤 시점에 결과를 제공할 수 있다.</summary></entry><entry><title type="html">ford-fulkerson 정당성 증명</title><link href="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/" rel="alternate" type="text/html" title="ford-fulkerson 정당성 증명" /><published>2020-08-16T00:00:00+09:00</published><updated>2020-08-13T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson</id><content type="html" xml:base="http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;p&gt;이 포스트는 &lt;a href=&quot;../ford_fulkerson&quot;&gt;FordFulkerson&lt;/a&gt;의 정당성 증명에 관한 포스트입니다.&lt;/p&gt;
@@ -468,78 +589,7 @@ output
   &lt;p&gt;&lt;br /&gt;
 구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
 https://en.wikipedia.org/wiki/Flow_network&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="network flow" /><category term="algorithm" /><summary type="html">network flow</summary></entry><entry><title type="html">Chapter5 npm</title><link href="http://localhost:4000/nodejs/npm/" rel="alternate" type="text/html" title="Chapter5 npm" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/nodejs/npm</id><content type="html" xml:base="http://localhost:4000/nodejs/npm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;npm-node-package-manager&quot;&gt;npm (Node Package Manager)&lt;/h1&gt;
-
-&lt;h3 id=&quot;npm-이란&quot;&gt;npm 이란.&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;npm 이란 이름 그대로 노드 패키지 매니저이다. 대부분의 패키지가 npm에 등록되어 있으므로 특정 기능의 패키지가 필요하다면 npm에서 찾아 설치하면 된다.
-npm에 업로드된 모듈을 패키지라 부른다. 모듈이 다른 모듈을 사용할 수 있는 것처럼, 패키지가 다른 패키지를 사용할 수 있다.
-이런 관계를 의존 관계라 하며 의존 관계는 조금 있다가 알아보자.
-w21q`&lt;/p&gt;
-&lt;h3 id=&quot;packagejson&quot;&gt;package.json&lt;/h3&gt;
-&lt;hr /&gt;
-
-&lt;p&gt;서비스에 필요한 패키지 수가 매우 많기 때문에 저마다의 고유 버전을 기록해두어야 한다.
-&lt;br /&gt;&lt;br /&gt;
-같은 패키지라도 버전별로 기능이 다를 수 있으므로 동일한 버전을 설치해야 하는 것이다.
-그것을 관리하는 파일이 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;이다.
-&lt;br /&gt;
-콘솔로 프로젝트 시작 폴더로 이동 후 다음 명령어를 입력하자&lt;br /&gt;
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm init&lt;/code&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;package name: 패키지의 이름이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;name&lt;/code&gt; 속성의 저장된다.&lt;/li&gt;
-  &lt;li&gt;version: 패키지의 버전이다. npm에서는 다소 엄격하게 다룬다.&lt;/li&gt;
-  &lt;li&gt;entry point: 자바스크립트 실행 파일의 진입점이다. 보통 마지막으로 module.exports를 하는 파일이 저장된다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
-  &lt;li&gt;test command: 코드를 테스트할 때 입력할 명령어를 의미한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scripts&lt;/code&gt; 속성안의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test&lt;/code&gt;의 저장된다.&lt;/li&gt;
-  &lt;li&gt;git repository: 코드를 저장해둔 Git 저장소 주소를 의미한다. 나중에 소스에 문제가 생겼을 때 사용자들이 이 저장소의 방문해 문제를 제기할 수도 있고 코드 수정본을 올릴 수도 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repository&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
-  &lt;li&gt;keywords: 키워드는 npm 공식 홈페이지에서 패키지를 쉽게 찾을 수 있게 해준다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repository&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
-  &lt;li&gt;license: 해당 패키지 라이선스를 넣어주면 된다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;npm-install&quot;&gt;npm install&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm install morgan cookie-parser expresds-session&lt;/code&gt;: 동시에 여러 패키지를 설치할 수 있다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm insatll --save-dev []&lt;/code&gt;: 배포 시에 사용되지 않고 개발 중에만 사용되는 패키지들이다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm insatll --global []&lt;/code&gt;: 현재 패키지 폴더에 설치하는 것이 아니라 npm이 설치되어 있는 폴더에 설치한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm i&lt;/code&gt;나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm -D&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm -g&lt;/code&gt;로 줄여서 쓸 수 있다.\&lt;/p&gt;
-
-&lt;h3 id=&quot;package-version&quot;&gt;package version&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;노드 패키지들의 버전은 항상 세 자리로 이루어져 있다. 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SemVer&lt;/code&gt; 방식의 버전 넘버링을 따르기 때문이다.&lt;/p&gt;
-&lt;blockquote&gt;
-
-  &lt;ol&gt;
-    &lt;li&gt;기존 버전과 호환되지 않게 API가 바뀌면 “주(主) 버전”을 올리고,&lt;/li&gt;
-    &lt;li&gt;기존 버전과 호환되면서 새로운 기능을 추가할 때는 “부(部) 버전”을 올리고,&lt;/li&gt;
-    &lt;li&gt;기존 버전과 호환되면서 버그를 수정한 것이라면 “수(修) 버전”을 올린다.&lt;/li&gt;
-    &lt;li&gt;주.부.수 형식에 정식배포 전 버전이나 빌드 메타데이터를 위한 라벨을 덧붙이는 방법도 있다.&lt;br /&gt;&lt;br /&gt;
-&lt;a href=&quot;https://semver.org/lang/ko/&quot;&gt;출처 : https://semver.org/lang/ko/&lt;/a&gt;&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SemVer&lt;/code&gt;는 Semantic Versioning의 약어이다. 세 자리 모두 의미를 가지고 있다는 뜻이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;에는 SemVer식 세 자리 버전 외에도 ^나 ~또는 &amp;gt;, &amp;lt;같은 문자가 붙어있다.
-이 문자는 버전에는 포함되지 않지만 설치 또는 업데이트 시 어떤 버전을 설치해야 하는지 알려준다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;^ 는 부(部) 버전까지만 설치 또는 업데이트 한다.&lt;/li&gt;
-  &lt;li&gt;~ 는 수(修) 버전까지만 설치 또는 업데이트 한다.&lt;/li&gt;
-  &lt;li&gt;&amp;lt;, &amp;gt;, &amp;gt;=, &amp;lt;=, = 는 알기 쉽게 초과, 미만, 이상, 이하, 동일을 뜻하며 npm i express@&amp;gt;1.1.1처럼 반드시 1.1.1 버전보다 높은 버전이 설치된다.&lt;/li&gt;
-  &lt;li&gt;@latest 도 사용하는데, 항상 최신 버전의 패키지를 설치한다 @x로도 표현할 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;p&gt;&lt;br /&gt;
-조헌영, Node.js 교과서, 길벗, 5장 npm&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="npm" /><summary type="html"></summary></entry><entry><title type="html">Chapter6 express</title><link href="http://localhost:4000/nodejs/express_01/" rel="alternate" type="text/html" title="Chapter6 express" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/express_01</id><content type="html" xml:base="http://localhost:4000/nodejs/express_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="network flow" /><category term="algorithm" /><summary type="html">network flow</summary></entry><entry><title type="html">Chapter6 express</title><link href="http://localhost:4000/nodejs/express_01/" rel="alternate" type="text/html" title="Chapter6 express" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/express_01</id><content type="html" xml:base="http://localhost:4000/nodejs/express_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;express&quot;&gt;Express&lt;/h1&gt;
@@ -752,7 +802,78 @@ express가 기본적으로 주어주는 에러 핸들링 미들웨어를 보면 
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;p&gt;&lt;br /&gt;
 조헌영, Node.js 교과서, 길벗, 6장 express&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html"></summary></entry><entry><title type="html">Flutter 시작하기</title><link href="http://localhost:4000/flutter/get_started_flutter/" rel="alternate" type="text/html" title="Flutter 시작하기" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/flutter/get_started_flutter</id><content type="html" xml:base="http://localhost:4000/flutter/get_started_flutter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html"></summary></entry><entry><title type="html">Chapter5 npm</title><link href="http://localhost:4000/nodejs/npm/" rel="alternate" type="text/html" title="Chapter5 npm" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/nodejs/npm</id><content type="html" xml:base="http://localhost:4000/nodejs/npm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;npm-node-package-manager&quot;&gt;npm (Node Package Manager)&lt;/h1&gt;
+
+&lt;h3 id=&quot;npm-이란&quot;&gt;npm 이란.&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;npm 이란 이름 그대로 노드 패키지 매니저이다. 대부분의 패키지가 npm에 등록되어 있으므로 특정 기능의 패키지가 필요하다면 npm에서 찾아 설치하면 된다.
+npm에 업로드된 모듈을 패키지라 부른다. 모듈이 다른 모듈을 사용할 수 있는 것처럼, 패키지가 다른 패키지를 사용할 수 있다.
+이런 관계를 의존 관계라 하며 의존 관계는 조금 있다가 알아보자.
+w21q`&lt;/p&gt;
+&lt;h3 id=&quot;packagejson&quot;&gt;package.json&lt;/h3&gt;
+&lt;hr /&gt;
+
+&lt;p&gt;서비스에 필요한 패키지 수가 매우 많기 때문에 저마다의 고유 버전을 기록해두어야 한다.
+&lt;br /&gt;&lt;br /&gt;
+같은 패키지라도 버전별로 기능이 다를 수 있으므로 동일한 버전을 설치해야 하는 것이다.
+그것을 관리하는 파일이 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;이다.
+&lt;br /&gt;
+콘솔로 프로젝트 시작 폴더로 이동 후 다음 명령어를 입력하자&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm init&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;package name: 패키지의 이름이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;name&lt;/code&gt; 속성의 저장된다.&lt;/li&gt;
+  &lt;li&gt;version: 패키지의 버전이다. npm에서는 다소 엄격하게 다룬다.&lt;/li&gt;
+  &lt;li&gt;entry point: 자바스크립트 실행 파일의 진입점이다. 보통 마지막으로 module.exports를 하는 파일이 저장된다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;main&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
+  &lt;li&gt;test command: 코드를 테스트할 때 입력할 명령어를 의미한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scripts&lt;/code&gt; 속성안의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;test&lt;/code&gt;의 저장된다.&lt;/li&gt;
+  &lt;li&gt;git repository: 코드를 저장해둔 Git 저장소 주소를 의미한다. 나중에 소스에 문제가 생겼을 때 사용자들이 이 저장소의 방문해 문제를 제기할 수도 있고 코드 수정본을 올릴 수도 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repository&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
+  &lt;li&gt;keywords: 키워드는 npm 공식 홈페이지에서 패키지를 쉽게 찾을 수 있게 해준다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;repository&lt;/code&gt; 속성에 저장된다.&lt;/li&gt;
+  &lt;li&gt;license: 해당 패키지 라이선스를 넣어주면 된다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;npm-install&quot;&gt;npm install&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm install morgan cookie-parser expresds-session&lt;/code&gt;: 동시에 여러 패키지를 설치할 수 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm insatll --save-dev []&lt;/code&gt;: 배포 시에 사용되지 않고 개발 중에만 사용되는 패키지들이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm insatll --global []&lt;/code&gt;: 현재 패키지 폴더에 설치하는 것이 아니라 npm이 설치되어 있는 폴더에 설치한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm i&lt;/code&gt;나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm -D&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm -g&lt;/code&gt;로 줄여서 쓸 수 있다.\&lt;/p&gt;
+
+&lt;h3 id=&quot;package-version&quot;&gt;package version&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;p&gt;노드 패키지들의 버전은 항상 세 자리로 이루어져 있다. 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SemVer&lt;/code&gt; 방식의 버전 넘버링을 따르기 때문이다.&lt;/p&gt;
+&lt;blockquote&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;기존 버전과 호환되지 않게 API가 바뀌면 “주(主) 버전”을 올리고,&lt;/li&gt;
+    &lt;li&gt;기존 버전과 호환되면서 새로운 기능을 추가할 때는 “부(部) 버전”을 올리고,&lt;/li&gt;
+    &lt;li&gt;기존 버전과 호환되면서 버그를 수정한 것이라면 “수(修) 버전”을 올린다.&lt;/li&gt;
+    &lt;li&gt;주.부.수 형식에 정식배포 전 버전이나 빌드 메타데이터를 위한 라벨을 덧붙이는 방법도 있다.&lt;br /&gt;&lt;br /&gt;
+&lt;a href=&quot;https://semver.org/lang/ko/&quot;&gt;출처 : https://semver.org/lang/ko/&lt;/a&gt;&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SemVer&lt;/code&gt;는 Semantic Versioning의 약어이다. 세 자리 모두 의미를 가지고 있다는 뜻이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;package.json&lt;/code&gt;에는 SemVer식 세 자리 버전 외에도 ^나 ~또는 &amp;gt;, &amp;lt;같은 문자가 붙어있다.
+이 문자는 버전에는 포함되지 않지만 설치 또는 업데이트 시 어떤 버전을 설치해야 하는지 알려준다.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;^ 는 부(部) 버전까지만 설치 또는 업데이트 한다.&lt;/li&gt;
+  &lt;li&gt;~ 는 수(修) 버전까지만 설치 또는 업데이트 한다.&lt;/li&gt;
+  &lt;li&gt;&amp;lt;, &amp;gt;, &amp;gt;=, &amp;lt;=, = 는 알기 쉽게 초과, 미만, 이상, 이하, 동일을 뜻하며 npm i express@&amp;gt;1.1.1처럼 반드시 1.1.1 버전보다 높은 버전이 설치된다.&lt;/li&gt;
+  &lt;li&gt;@latest 도 사용하는데, 항상 최신 버전의 패키지를 설치한다 @x로도 표현할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;&lt;br /&gt;
+조헌영, Node.js 교과서, 길벗, 5장 npm&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="npm" /><summary type="html"></summary></entry><entry><title type="html">Flutter 시작하기</title><link href="http://localhost:4000/flutter/get_started_flutter/" rel="alternate" type="text/html" title="Flutter 시작하기" /><published>2020-08-12T00:00:00+09:00</published><updated>2020-08-12T05:00:00+09:00</updated><id>http://localhost:4000/flutter/get_started_flutter</id><content type="html" xml:base="http://localhost:4000/flutter/get_started_flutter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;flutter-시작하기&quot;&gt;Flutter 시작하기&lt;/h1&gt;
@@ -992,123 +1113,4 @@ https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Gu
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="spring" /><category term="spring" /><category term="hibernate" /><summary type="html"></summary></entry><entry><title type="html">Hibernate 01</title><link href="http://localhost:4000/spring/hibernate_01_spring/" rel="alternate" type="text/html" title="Hibernate 01" /><published>2020-08-05T00:00:00+09:00</published><updated>2020-07-31T05:00:00+09:00</updated><id>http://localhost:4000/spring/hibernate_01_spring</id><content type="html" xml:base="http://localhost:4000/spring/hibernate_01_spring/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;hibernate&quot;&gt;Hibernate&lt;/h1&gt;
-&lt;h3 id=&quot;jpa-hibernate&quot;&gt;JPA, Hibernate&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;h4 id=&quot;jpajava-persistence-api&quot;&gt;JPA(Java persistence API)&lt;/h4&gt;
-
-&lt;p&gt;JPA는 Java에서 적용하는 ORM(object-relational mapping) 기술에 대한 표준 명세이다.
-JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 의미이다.&lt;/p&gt;
-
-&lt;p&gt;ORM이란 객체와 DB의 Table이 mapping을 이루는 것을 말한다.
-ORM을 이용하면 SQL Query가 아닌 직관적인 코드(메서드)로서 데이터를 조작할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;JPA는 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를 정의하는 한 방법일 뿐이다.&lt;/p&gt;
-
-&lt;h4 id=&quot;hibernate-1&quot;&gt;Hibernate&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/hibernate-architecture.png&quot; alt=&quot;이미지0&quot; /&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Hibernate, as an ORM solution, effectively “sits between” the Java application data access layer and the Relational Database, as can be seen in the diagram above. The Java application makes use of the Hibernate APIs to load, store, query, etc. its domain data. Here we will introduce the essential Hibernate APIs. This will be a brief introduction; we will discuss these contracts in detail later.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/JPA_Hibernate.svg&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;JPA를 사용하기 위해서 반드시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hibernate&lt;/code&gt;를 사용할 필요는 없다. 작동 방식이 맘에 안 든다면 언제든지 다른 JPA 구현체를 사용할 수 있다. 심지어 본인이 직접 JPA를 구현해서 사용할 수도 있다. 다만 그렇게 하지 않는 이유는 단지 Hibernate가 굉장히 성숙한 라이브러리이기 때문일 뿐이다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;One of the great things about Hibernate is open source and therefore free.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;p&gt;&lt;br /&gt;
-https://suhwan.dev/2019/02/24/jpa-vs-hibernate-vs-spring-data-jpa/
-https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html&lt;/p&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="spring" /><category term="spring" /><category term="hibernate" /><summary type="html"></summary></entry><entry><title type="html">Bipartite Matching</title><link href="http://localhost:4000/algorithm/bipartite_matching/" rel="alternate" type="text/html" title="Bipartite Matching" /><published>2020-07-31T00:00:00+09:00</published><updated>2020-07-31T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/bipartite_matching</id><content type="html" xml:base="http://localhost:4000/algorithm/bipartite_matching/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;bipartite-matching이분-매칭&quot;&gt;Bipartite Matching(이분 매칭)&lt;/h1&gt;
-&lt;h3 id=&quot;1-graph-mathcing&quot;&gt;1. Graph Mathcing&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다.
-아래 사진은 올바른 매칭이 진행되었을 때 결과이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/matching.png&quot; alt=&quot;그래프 이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다.
-하지만 가장 General한 Mathcing 알고리즘은 꽤나 &lt;a href=&quot;https://en.wikipedia.org/wiki/Blossom_algorithm&quot;&gt;복잡하여&lt;/a&gt; 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게 된다.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-이분매칭&quot;&gt;2. 이분매칭&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;p&gt;이분 그래프란 정점을 두 그룹으로 나누어 모든 간선이 서로 다른 그룹의 정점들을 연결하도록 할 수 있는 그래프다.
-이분 그래프는 두 집합의 대응 관계를 표현하기 위해 흔히 사용된다.&lt;/p&gt;
-
-&lt;p&gt;작업 분담, 사람을 짝짓는 방법 등 현실세계에서 직관적인 의미를 가지기 때문에 이분 매칭은 매칭 알고리즘 중에서 따로 언급할 가치가 있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;3-구현-및-설명&quot;&gt;3. 구현 및 설명&lt;/h3&gt;
-&lt;hr /&gt;
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;iostream&amp;gt;
-#include&amp;lt;vector&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;//A와 B의 정점의 개수&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//인접리스트&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//각 정점에 매칭된 상대 정점의 번호를 저장한다.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//dfs 방문 여부&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;visited&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//A의 정점인 a에서 B의 매칭되지 않은 정점으로 가는 경로를 찾는다.&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;visited&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;visited&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;adj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//b가 이미 매칭되어 있다면 bMatch[b]에서부터 시작해 증가경로를 찾는다&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-				&lt;span class=&quot;c1&quot;&gt;//증가 경로를 발견할 경우 a와 b를 매치 시킨다&lt;/span&gt;
-				&lt;span class=&quot;n&quot;&gt;aMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-				&lt;span class=&quot;n&quot;&gt;bMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-				&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bipartiteMatch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//처음에는 정점이 모두 연결되어 있지 않음.&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;aMatch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;bMatch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;visited&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dfs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-			&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;포드-풀커슨 알고리즘을 통해 이분 매칭을 구현할 수도 있지만, 이분 매칭 문제는 일반적인 네트워크 유량 문제보다 비교적 자주 출현하기 때문에 좀 더 간단한 형식의 코드를 작성해둘 필요가 있다.&lt;/p&gt;
-
-&lt;p&gt;작성된 코드는 이분매칭의 관련된 속성으로 인해 동작한다.&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;최대 유량이 \(O(\left\lvert V \right\rvert)\)로 고정된다. 포드 풀커슨 알고리즘을 이용한 구현은 수행시간이 최대 유량에 비례하므로, 깊이 우선 탐색을 사용하여도 될 것이다.&lt;/li&gt;
-  &lt;li&gt;증가 경로를 찾기 위해 탐색하는 도중 B에 포함된 정점에 도착했는데 이 정점이 이미 매칭된 상황이라면, 증가 경로의 다음 간선은 유일하게 결정된다.
-    &lt;ul&gt;
-      &lt;li&gt;싱크로 나가는 간선 하나 밖에 없는 경우이고, 매칭된 상황에서는 이 간선의 잔여용량이 남아있지 않을 것이다.&lt;/li&gt;
-      &lt;li&gt;이는 곧 매칭된 정점 A로 유량을 상쇄하는 방법 밖에 남지 않았다는 것이다.&lt;/li&gt;
-      &lt;li&gt;따라서, b와 인접한 정점을 확인하는 것이 아니라 매칭된 a를 곧장 재귀호출 하는 부분은 위와 같은 속성을 이용한 것이다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="network flow" /><category term="algorithm" /><summary type="html">Bipartite Matching(이분 매칭) 1. Graph Mathcing Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다. 아래 사진은 올바른 매칭이 진행되었을 때 결과이다.</summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="spring" /><category term="spring" /><category term="hibernate" /><summary type="html"></summary></entry></feed>

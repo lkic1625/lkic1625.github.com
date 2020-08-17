@@ -1,0 +1,25 @@
+I"�<h1 id="promise">promise</h1>
+<p>이 포스트는 <code class="language-plaintext highlighter-rouge">JavaScript</code> 비동기 프로그래밍에 관한 포스트입니다.
+비동기처리와 관련된 설명은 <a href="../await_async">링크</a>를 참고하여 주세요.</p>
+<h2 id="promise란">promise란,</h2>
+<p><code class="language-plaintext highlighter-rouge">promise</code>는 생성 시 꼭 알려지지 않아도 되는 <code class="language-plaintext highlighter-rouge">proxy</code>로써, 결과 값이나 실패 이유를 처리할 수 있게 핸들러와 연결시켜 준다.
+프로미스는 비동기적 메서드를 동기적 메서드처럼 값을 리턴하게 해준다. 바로 최종 상황을 리턴하지는 않고, 프로미스를 반환하여 어떤 시점에 결과를 제공할 수 있다.</p>
+
+<p>프로미스는 아래와 같은 상태 중 하나를 가지게 된다.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">pending</code>(대기): 이행하거나 거부되지 않은 초기상태이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">fulfield</code>(이행): 오퍼레이션이 성공적으로 완료됨.</li>
+  <li><code class="language-plaintext highlighter-rouge">rejected</code>(거부): 오퍼레이션이 실패함.</li>
+</ul>
+
+<p>A pending promise can either be fulfilled with a value, or rejected with a reason (error). When either of these options happens, the associated handlers queued up by a promise’s then method are called. If the promise has already been fulfilled or rejected when a corresponding handler is attached, the handler will be called, so there is no race condition between an asynchronous operation completing and its handlers being attached.</p>
+
+<p>As the Promise.prototype.then() and Promise.prototype.catch() methods return promises, they can be chained.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p><br />
+https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4<br />
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise<br /></p>
+</blockquote>
+:ET

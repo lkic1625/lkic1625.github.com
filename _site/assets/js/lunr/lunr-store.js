@@ -53,6 +53,18 @@ var store = [{
         "url": "http://localhost:4000/algorithm/proof_of_correctness_ford_fulkerson/",
         "teaser": null
       },{
+        "title": "async/await(작성중)",
+        "excerpt":"비동기 프로그래밍 비동기 처리란? 일반적으로 코드는 순차적으로 진행된다. 이를 synchronous이라하며, 순차적 진행으로 코드가 요청한 결과가 반드시 선언한 자리에서 일어나야 한다. 하지만 요즘과 같이 멀티 코어로 컴퓨터의 성능이 올라간 결과 효율적으로 쓰기 위해서는 이런 순차적 진행은 어울리지 않을 것이다. 그렇게 해서 나온 것이 asynchronous이다. 당신이 다른 코어 프로세서에 다른 작업들을 움직이게...","categories": ["js"],
+        "tags": ["js","asynchronous"],
+        "url": "http://localhost:4000/js/await_async/",
+        "teaser": null
+      },{
+        "title": "promise(작성중)",
+        "excerpt":"promise 이 포스트는 JavaScript 비동기 프로그래밍에 관한 포스트입니다. 비동기처리와 관련된 설명은 링크를 참고하여 주세요. promise란, promise는 생성 시 꼭 알려지지 않아도 되는 proxy로써, 결과 값이나 실패 이유를 처리할 수 있게 핸들러와 연결시켜 준다. 프로미스는 비동기적 메서드를 동기적 메서드처럼 값을 리턴하게 해준다. 바로 최종 상황을 리턴하지는 않고, 프로미스를 반환하여 어떤 시점에...","categories": ["js"],
+        "tags": ["js","asynchronous"],
+        "url": "http://localhost:4000/js/promise/",
+        "teaser": null
+      },{
         "title": "express, middleware",
         "excerpt":"미들웨어 morgan morgan 미들웨어는 콘솔에 요청에 대한 정보를 기록해준다. 사용법 ... var logger = reqire('morgan'); ... app.use(logger('dev')); ... 개발 시에는 주로 short, dev를 인자로 주며, 배포 시에는 common, combined를 사용한다. parameter format tiny :method :url :status :res[content-length] - :response-time ms dev :method :url :status :response-time ms - :res[content-length] short :remote-addr...","categories": ["nodejs"],
         "tags": ["nodejs","express"],
