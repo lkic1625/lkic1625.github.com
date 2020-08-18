@@ -314,7 +314,11 @@
     <ul>
       <li><a href="#비동기-처리란">비동기 처리란?</a></li>
       <li><a href="#콜백-지옥">콜백 지옥</a></li>
-      <li><a href="#asyncawait">async/await</a></li>
+      <li><a href="#asyncawait">async/await</a>
+        <ul>
+          <li><a href="#promise와-비교">promise와 비교</a></li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
@@ -347,24 +351,69 @@
 <p><img src="/assets/images/callback-hell.png" alt="이미지1" />
 출처: https://adrianalonso.es/desarrollo-web/apis/trabajando-con-promises-pagination-promise-chain/</p>
 
-<p><code class="language-plaintext highlighter-rouge">js</code>에서는 이렇게 난잡한 코드를 조금이나마 해소하기 위해 <code class="language-plaintext highlighter-rouge">ES6+</code>부터 여러가지 기능을 지원하는데 <code class="language-plaintext highlighter-rouge">promise</code>와 <code class="language-plaintext highlighter-rouge">aysnc/await</code>이 대표적인 예이다.
+<p><code class="language-plaintext highlighter-rouge">js</code>에서는 이렇게 난잡한 코드를 조금이나마 해소하기 위해 <code class="language-plaintext highlighter-rouge">promise</code>나 <code class="language-plaintext highlighter-rouge">ES2017</code>의 <code class="language-plaintext highlighter-rouge">aysnc/await</code>이 대표적인 예이다.
 <code class="language-plaintext highlighter-rouge">promise</code>는 간단하게 설명해서 비동기를 강제하는 특별한 오브젝트 형태다.</p>
 
 <p>더욱 자세한 설명은 <a href="../promise">promise 포스팅을</a> 통해 알아보도록 하고 포스팅의 본주제로 넘어가보자.</p>
 
 <h2 id="asyncawait">async/await</h2>
 
-<p>하지만 많은 분들이 놓치는게 있습니다. async/await의 기반이 promise라는 사실입니다.
-사실, 우리가 쓰는 모든 async 함수는 promise를 리턴하고, 모든 await 함수는 일반적으로 promise가 됩니다.
-제가 이걸 왜 강조하는걸까요? 왜냐하면 오늘날 쓰여지는 거의 모든 javascript 코드가 callback 패턴을 사용하기 때문입니다.
-즉, 많은 분들이 promise 를 안쓰신다는거죠. 그리고 그분들은 async/await 의 중요한 점을 놓치고 있습니다.</p>
+<p>콜백 지옥에서 벗어나기 위해 프로미스를 사용한 것처럼 프로미스 패턴 극복을 위해 다시 나온 것이 async/await이다.</p>
+
+<p>기본적으로 알아야 할 사실은  async/await의 기반이 promise라는 것이다.
+<code class="language-plaintext highlighter-rouge">async</code>는 프로미스를 리턴하고 모든 <code class="language-plaintext highlighter-rouge">await</code> 함수는 일반적으로 프로미스가 된다.</p>
+
+<h3 id="promise와-비교">promise와 비교</h3>
+
+<p>promise 코드</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">findAndSaveUser</span><span class="p">(</span><span class="nx">Users</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">Users</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">user</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">zero</span><span class="dl">'</span><span class="p">;</span>
+      <span class="k">return</span> <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">Users</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">gender</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m</span><span class="dl">'</span> <span class="p">});</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// 생략</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>async/await 코드</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">async</span> <span class="kd">function</span> <span class="nx">findAndSaveUser</span><span class="p">(</span><span class="nx">Users</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Users</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({});</span>
+  <span class="nx">user</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">zero</span><span class="dl">'</span><span class="p">;</span>
+  <span class="nx">user</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+  <span class="nx">user</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">Users</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">gender</span><span class="p">:</span> <span class="dl">'</span><span class="s1">m</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="c1">// 생략</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>단순히 길이만 보더라도 코드가 짧아진 것을 볼 수 있다. 위 코드에는 에러 처리하는 부분이 없는데 동기식 프로그래밍과 같이 <code class="language-plaintext highlighter-rouge">try ~ catch</code> 구문으로 처리 가능하다.
+<code class="language-plaintext highlighter-rouge">ES2018</code>부터 추가된 기능이지만, <code class="language-plaintext highlighter-rouge">Promise.all</code>을 대체하는 방법도 있다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">promise1</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">성공1</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">promise2</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="dl">'</span><span class="s1">성공2</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="k">await</span> <span class="p">(</span><span class="nx">promise</span> <span class="k">of</span> <span class="p">[</span><span class="nx">promise1</span><span class="p">,</span> <span class="nx">promise2</span><span class="p">])</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">promise</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">})();</span>
+</code></pre></div></div>
 
 <blockquote>
   <font size="6">Refernce</font>
-  <p><br />
-https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Concepts<br />
-https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)<br />
-https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4<br /></p>
+  <p><br /></p>
+  <ul>
+    <li>https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Concepts<br /></li>
+    <li>https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)<br /></li>
+    <li>https://www.zerocho.com/category/ECMAScript/post/58d142d8e6cda10018195f5a<br /></li>
+    <li>https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4<br /></li>
+  </ul>
 </blockquote>
 
         
@@ -508,7 +557,7 @@ https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC
 
 
 
-  1 분 소요
+  2 분 소요
 
 </p>
     

@@ -32,19 +32,66 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 ![이미지1](/assets/images/callback-hell.png)
 출처: https://adrianalonso.es/desarrollo-web/apis/trabajando-con-promises-pagination-promise-chain/
 
-`js`에서는 이렇게 난잡한 코드를 조금이나마 해소하기 위해 `ES6+`부터 여러가지 기능을 지원하는데 `promise`와 `aysnc/await`이 대표적인 예이다.
+`js`에서는 이렇게 난잡한 코드를 조금이나마 해소하기 위해 `promise`나 `ES2017`의 `aysnc/await`이 대표적인 예이다.
 `promise`는 간단하게 설명해서 비동기를 강제하는 특별한 오브젝트 형태다.
 
 더욱 자세한 설명은 [promise 포스팅을](../promise) 통해 알아보도록 하고 포스팅의 본주제로 넘어가보자.
 
 ## async/await
 
-하지만 많은 분들이 놓치는게 있습니다. async/await의 기반이 promise라는 사실입니다.
-사실, 우리가 쓰는 모든 async 함수는 promise를 리턴하고, 모든 await 함수는 일반적으로 promise가 됩니다.
-제가 이걸 왜 강조하는걸까요? 왜냐하면 오늘날 쓰여지는 거의 모든 javascript 코드가 callback 패턴을 사용하기 때문입니다.
-즉, 많은 분들이 promise 를 안쓰신다는거죠. 그리고 그분들은 async/await 의 중요한 점을 놓치고 있습니다.
+콜백 지옥에서 벗어나기 위해 프로미스를 사용한 것처럼 프로미스 패턴 극복을 위해 다시 나온 것이 async/await이다.
+
+기본적으로 알아야 할 사실은  async/await의 기반이 promise라는 것이다.
+`async`는 프로미스를 리턴하고 모든 `await` 함수는 일반적으로 프로미스가 된다.
+
+### promise와 비교
+
+promise 코드
+```javascript
+function findAndSaveUser(Users) {
+  Users.findOne({})
+    .then((user) => {
+      user.name = 'zero';
+      return user.save();
+    })
+    .then((user) => {
+      return Users.findOne({ gender: 'm' });
+    })
+    .then((user) => {
+      // 생략
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+```
+
+async/await 코드
+```javascript
+async function findAndSaveUser(Users) {
+  let user = await Users.findOne({});
+  user.name = 'zero';
+  user = await user.save();
+  user = await Users.findOne({ gender: 'm' });
+  // 생략
+}
+```
+
+단순히 길이만 보더라도 코드가 짧아진 것을 볼 수 있다. 위 코드에는 에러 처리하는 부분이 없는데 동기식 프로그래밍과 같이 `try ~ catch` 구문으로 처리 가능하다.
+`ES2018`부터 추가된 기능이지만, `Promise.all`을 대체하는 방법도 있다.
+```javascript
+const promise1 = Promise.resolve('성공1');
+const promise2 = Promise.resolve('성공2');
+(async () => {
+  for await (promise of [promise1, promise2]) {
+    console.log(promise);
+  }
+})();
+```
+
 
 ><font size="6">Refernce</font><br>
-https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Concepts<br>
-https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)<br>
-https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4<br>
+- https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Concepts<br>
+- https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)<br>
+- https://www.zerocho.com/category/ECMAScript/post/58d142d8e6cda10018195f5a<br>
+- https://medium.com/@kiwanjung/%EB%B2%88%EC%97%AD-async-await-%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-%EC%A0%84%EC%97%90-promise%EB%A5%BC-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-955dbac2c4a4<br>
