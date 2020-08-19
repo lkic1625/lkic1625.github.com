@@ -62,7 +62,7 @@ $$s, t$$보다 용량이 작은 컷이 존재한다면 해당 컷에 대해 유�
 
 
 
-><font size="6">Refernce</font><br>
-구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장<br>
-https://en.wikipedia.org/wiki/Cut_(graph_theory)<br>
-http://www.cs.toronto.edu/~lalla/373s16/notes/MFMC.pdf
+><font size="6">Refernce</font>
+- 구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장<br>
+- https://en.wikipedia.org/wiki/Cut_(graph_theory)<br>
+- http://www.cs.toronto.edu/~lalla/373s16/notes/MFMC.pdf

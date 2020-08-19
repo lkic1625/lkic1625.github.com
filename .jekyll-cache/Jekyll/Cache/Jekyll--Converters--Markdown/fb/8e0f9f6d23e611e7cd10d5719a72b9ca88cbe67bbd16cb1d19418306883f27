@@ -1,0 +1,24 @@
+I"<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="템플릿-엔진-사용">템플릿 엔진 사용</h1>
+
+<h2 id="pugjade">Pug(Jade)</h2>
+<p>루비 문법과 흡사하여 사용해보았다면 익숙할 것이다.</p>
+
+<h3 id="사용법">사용법</h3>
+
+<p><code class="language-plaintext highlighter-rouge">app.js</code>에는 아래 코드가 반드시 있어야 한다.</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">view engine</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pug</span><span class="dl">'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>조헌영, Node.js 교과서, 길벗, 6장 express<br /></li>
+  </ul>
+</blockquote>
+:ET

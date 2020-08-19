@@ -290,6 +290,6 @@ int main() {
 
 ```
 
-><font size="6">Refernce</font><br>
-구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
-https://en.wikipedia.org/wiki/Flow_network
+><font size="6">Refernce</font>
+- 구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장
+- https://en.wikipedia.org/wiki/Flow_network

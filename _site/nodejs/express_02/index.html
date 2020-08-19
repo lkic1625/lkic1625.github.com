@@ -297,7 +297,7 @@
 
 
 
-  1 분 소요
+  2 분 소요
 
 </p>
           
@@ -316,6 +316,7 @@
       <li><a href="#body-parser">body-parser</a></li>
       <li><a href="#cookie-parser">cookie-parser</a></li>
       <li><a href="#static">static</a></li>
+      <li><a href="#express-session">express-session</a></li>
     </ul>
   </li>
 </ul>
@@ -435,11 +436,47 @@
 <span class="p">...</span>
 </code></pre></div></div>
 
+<h2 id="express-session">express-session</h2>
+<p>세션 관리용 미들웨어.
+로그인을 이유로 세션을 구현할 때 매우 유용하다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">var</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">express-session</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">session</span><span class="p">({</span>
+  <span class="na">resave</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">saveUninitialized</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">secret</span><span class="p">:</span> <span class="dl">'</span><span class="s1">secret code</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">cookie</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">httpOnly</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">secure</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}));</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p>1.5 버전 이전에는 내부적으로 <code class="language-plaintext highlighter-rouge">cookie-parser</code>를 사용하고 있어 <code class="language-plaintext highlighter-rouge">cookie-parser</code>보다 뒤에 있어야 했지만, 사용하지 않게 되어 순서가 상관없어졌다.</p>
+
+<p>인자로는 세션에 대한 설정을 받게 되는데,</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">resave</code>는 요청이 왔을 때 세션에 수정사항이 생기지 않더라도 세션을 다시 저장할지에 대한 설정이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">saveUninitialized</code>는 세션에 저장할 내역이 없더라도 세션을 저장할지에 대한 설정이다.
+둘 다 보통 방문자를 추적할 때 사용하는 옵션이다.</li>
+  <li><code class="language-plaintext highlighter-rouge">secret</code>은 <code class="language-plaintext highlighter-rouge">cookie-parser</code>의 비밀키와 같은 역할을 한다.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">express-session</code>은 세션 관리 시 클라이언트에게 쿠키를 보내며, 이를 세션 쿠키라고 부른다.
+보안성을 위해 세션의 서명이 필요한데, 이 때 <code class="language-plaintext highlighter-rouge">secret</code> 인자 값이 필요한 것이다.
+<code class="language-plaintext highlighter-rouge">cookie-parser</code>의 secret과 <code class="language-plaintext highlighter-rouge">같게</code> 설정해야 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cookie</code>는 쿠키 옵션에 대한 설정이다. <code class="language-plaintext highlighter-rouge">maxAge</code>, <code class="language-plaintext highlighter-rouge">domain</code>, <code class="language-plaintext highlighter-rouge">path</code>, <code class="language-plaintext highlighter-rouge">expires</code>, <code class="language-plaintext highlighter-rouge">sameSite</code>, <code class="language-plaintext highlighter-rouge">httpOnly</code>, <code class="language-plaintext highlighter-rouge">secure</code> 등 일반적인 옵션이 모두 제공된다.</p>
+
 <blockquote>
   <font size="6">Refernce</font>
-  <p><br />
-조헌영, Node.js 교과서, 길벗, 6장 express<br />
-https://www.npmjs.com/package/morgan<br /></p>
+  <ul>
+    <li>조헌영, Node.js 교과서, 길벗, 6장 express<br /></li>
+    <li>https://www.npmjs.com/package/morgan<br /></li>
+  </ul>
 </blockquote>
 
         
@@ -514,11 +551,12 @@ https://www.npmjs.com/package/morgan<br /></p>
       
   <nav class="pagination">
     
-      <a href="/js/promise/" class="pagination--pager" title="promise(작성중)
+      <a href="/js/promise/" class="pagination--pager" title="promise
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/nodejs/express_03/" class="pagination--pager" title="express, Router
+">다음</a>
     
   </nav>
 
@@ -542,7 +580,69 @@ https://www.npmjs.com/package/morgan<br /></p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/js/promise/" rel="permalink">promise(작성중)
+        <a href="/nodejs/express_04/" rel="permalink">express, view engine
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+템플릿 엔진 사용
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/nodejs/express_03/" rel="permalink">express, Router
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+라우팅
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/js/promise/" rel="permalink">promise
 </a>
       
     </h2>
@@ -574,7 +674,7 @@ promise는 생성 시 꼭 알려지지 않아도 되는 proxy로써, 결과 값�
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/js/await_async/" rel="permalink">async/await(작성중)
+        <a href="/js/await_async/" rel="permalink">async/await
 </a>
       
     </h2>
@@ -584,73 +684,12 @@ promise는 생성 시 꼭 알려지지 않아도 되는 proxy로써, 결과 값�
 
 
 
-  1 분 소요
+  2 분 소요
 
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">
 
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/algorithm/proof_of_correctness_ford_fulkerson/" rel="permalink">ford-fulkerson 정당성 증명
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/algorithm/ford_fulkerson/" rel="permalink">ford-fulkerson
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  5 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-network flow
 </p>
   </article>
 </div>

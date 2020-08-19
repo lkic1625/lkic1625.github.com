@@ -20,7 +20,7 @@ Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하
 ![그래프 이미지](/assets/images/matching.png)
 
 이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다.
-하지만 가장 General한 Mathcing 알고리즘은 꽤나 [복잡하여](https://en.wikipedia.org/wiki/Blossom_algorithm) 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게 된다.
+하지만 가장 General한 Mathcing 알고리즘은 [꽤나 복잡하여](https://en.wikipedia.org/wiki/Blossom_algorithm) 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게 된다.
 
 ### 2. 이분매칭
 ***
@@ -87,3 +87,6 @@ int bipartiteMatch() {
   - 싱크로 나가는 간선 하나 밖에 없는 경우이고, 매칭된 상황에서는 이 간선의 잔여용량이 남아있지 않을 것이다.
   - 이는 곧 매칭된 정점 A로 유량을 상쇄하는 방법 밖에 남지 않았다는 것이다.
   - 따라서, b와 인접한 정점을 확인하는 것이 아니라 매칭된 a를 곧장 재귀호출 하는 부분은 위와 같은 속성을 이용한 것이다.
+
+  ><font size="6">Refernce</font>
+  - 구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 32장

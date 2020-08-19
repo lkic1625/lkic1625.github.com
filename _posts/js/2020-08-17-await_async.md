@@ -1,5 +1,5 @@
 ---
-title: "async/await(작성중)"
+title: "async/await"
 tags:
   - js
   - asynchronous
@@ -68,16 +68,47 @@ function findAndSaveUser(Users) {
 
 async/await 코드
 ```javascript
-async function findAndSaveUser(Users) {
-  let user = await Users.findOne({});
-  user.name = 'zero';
-  user = await user.save();
-  user = await Users.findOne({ gender: 'm' });
-  // 생략
+async function findUser() {
+  try {
+    let user = await Users.findOne({}).exec();
+    user.name = 'zero';
+    user = await user.save();
+    user = await Users.findOne({ gender: 'm' }).exec();
+    ...
+  } catch (err) {
+    console.error(err);
+  }
 }
 ```
 
-단순히 길이만 보더라도 코드가 짧아진 것을 볼 수 있다. 위 코드에는 에러 처리하는 부분이 없는데 동기식 프로그래밍과 같이 `try ~ catch` 구문으로 처리 가능하다.
+### 사용법
+`promise`보다 비교적 사용법이 쉽다. `function` 키워드 앞에 `async`만 붙여주면 되고 비동기로 처리되는 부분 앞에 `await`만 붙여주면 사용할 수 있다.
+
+다만, 몇 가지 주의할 점이 있다면 `await` 뒷부분이 반드시 `promise` 를 반환해야 한다는 것과 `async function` 자체도 `promise` 를 반환한다는 것이다.
+또한, `await`은 반드시 `async` 함수 바로 안에서만 쓰여야한다. `async` 함수 안에 또 다른 일반 함수가 있고, 그 안에 `await`이 있다면 안 된다.
+
+아래 코드는 일반 함수가 포함될 경우와 정상 작동하는 경우이다.
+```javascript
+async function a() {
+  (function b() {
+    await Promise.resolve(true); // async 함수 바로 안이 아니라서 에러. 아래와 같이 수정
+  })();
+}
+```
+```javascript
+function a() {
+  (async function b() {
+    await Promise.resolve(true); // 이제 정상 작동. 차이점이 보이시죠?
+  })();
+}
+```
+> 프로미스가 도입되었음에도 여전히 콜백을 사용하는 것처럼, async/await이 도입되었다고 해서 프로미스나 콜백을 사용하지 않아야 하는 것은 아닙니다.
+
+콜백은 문법이 간단하기 때문에 콜백 지옥으로 여겨지지 않는 한 여전히 유용합니다. 보통 코드가 적은 게 좋죠? 프로미스와 async/await이 나왔음에도 콜백이 계속 쓰이는 것은 간단함에 있습니다. 콜백을 async 함수로 전환하려면 Promise를 거쳐야 합니다. 두 단계를 거쳐 async/await을 사용하느니 그냥 콜백을 사용하는 게 나은 경우가 많습니다.
+
+async/await이 나왔음에도 불구하고 콜백이 계속 사용되는 이유는 간단함에 있다. 즉, 콜백지옥이 아니라면 계속해서 사용하는 것이 나은 경우가 많다.
+
+### 참고 Promise.all
 `ES2018`부터 추가된 기능이지만, `Promise.all`을 대체하는 방법도 있다.
 ```javascript
 const promise1 = Promise.resolve('성공1');
@@ -90,7 +121,7 @@ const promise2 = Promise.resolve('성공2');
 ```
 
 
-><font size="6">Refernce</font><br>
+><font size="6">Refernce</font>
 - https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Concepts<br>
 - https://en.wikipedia.org/wiki/Asynchrony_(computer_programming)<br>
 - https://www.zerocho.com/category/ECMAScript/post/58d142d8e6cda10018195f5a<br>
