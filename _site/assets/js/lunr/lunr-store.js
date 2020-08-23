@@ -82,4 +82,10 @@ var store = [{
         "tags": ["nodejs","express"],
         "url": "http://localhost:4000/nodejs/express_04/",
         "teaser": null
+      },{
+        "title": "개구리 점프",
+        "excerpt":"개구리 점프 SCPC 예선 1차 입출력 input 입력 파일에는 여러 개의 테스트 케이스가 포함될 수 있다. 파일의 첫째 줄에는 테스트 케이스 개수를 나타내는 자연수 \\(T\\)가 주어지고, 이후 차례로 T개의 테스트 케이스가 주어진다. \\(( 1≤T≤5 )\\) 각각의 테스트 케이스 첫 번째 줄에는 ‘좌표 \\(0\\)‘에 놓인 돌을 제외한 나머지 돌들의 개수 \\(N\\)...","categories": ["algorithm"],
+        "tags": ["scpc","algorithm","greedy"],
+        "url": "http://localhost:4000/algorithm/scpc_01_01/",
+        "teaser": null
       }]

@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>express, view engine  |  untitled</title>
+<!-- begin _includes/seo.html --><title>express, view engine(작성 중)  |  untitled</title>
 <meta name="description" content="템플릿 엔진 사용">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="express, view engine">
+<meta property="og:title" content="express, view engine(작성 중)">
 <meta property="og:url" content="http://localhost:4000/nodejs/express_04/">
 
 
@@ -281,7 +281,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="express, view engine">
+    <meta itemprop="headline" content="express, view engine(작성 중)">
     <meta itemprop="description" content="템플릿 엔진 사용">
     <meta itemprop="datePublished" content="2020-08-19T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-08-19T04:00:00+09:00">
@@ -289,7 +289,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">express, view engine
+          <h1 id="page-title" class="page__title" itemprop="headline">express, view engine(작성 중)
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -315,6 +315,7 @@
       <li><a href="#pugjade">Pug(Jade)</a>
         <ul>
           <li><a href="#사용법">사용법</a></li>
+          <li><a href="#html-표현">HTML 표현</a></li>
         </ul>
       </li>
     </ul>
@@ -337,9 +338,13 @@
 <p><code class="language-plaintext highlighter-rouge">app.js</code>에는 아래 코드가 반드시 있어야 한다.</p>
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
 <span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">));</span>
-<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">view engine</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pug</span><span class="dl">'</span><span class="p">)</span>
-
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">view engine</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pug</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">...</span>
 </code></pre></div></div>
+
+<p>템플릿 파일들이 위치한 폴더를 지정하고, <code class="language-plaintext highlighter-rouge">res.render</code> 메서드가 이 폴더를 기준으로 템플릿 엔진을 찾아 렌더링한다.</p>
+
+<h3 id="html-표현">HTML 표현</h3>
 
 <blockquote>
   <font size="6">Refernce</font>
@@ -409,7 +414,7 @@
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=express%2C+view+engine%20http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fexpress_04%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=express%2C+view+engine%28%EC%9E%91%EC%84%B1+%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fexpress_04%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fexpress_04%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -424,7 +429,8 @@
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/algorithm/scpc_01_01/" class="pagination--pager" title="개구리 점프
+">다음</a>
     
   </nav>
 
@@ -438,6 +444,37 @@
     <div class="page__related">
       <h4 class="page__related-title">참고</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/scpc_01_01/" rel="permalink">개구리 점프
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+개구리 점프
+</p>
+  </article>
+</div>
+
         
           
 
@@ -528,36 +565,6 @@
 비동기처리와 관련된 설명은 링크를 참고하여 주세요.
 promise란,
 promise는 생성 시 꼭 알려지지 않아도 되는 proxy로써, 결과 값이나 실패 이유를 처리할 수 있게 핸들러와 연결시켜 ...</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/js/await_async/" rel="permalink">async/await
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
   </article>
 </div>
 

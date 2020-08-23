@@ -1,0 +1,94 @@
+I","<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="개구리-점프">개구리 점프</h1>
+
+<p>SCPC 예선 1차</p>
+
+<h2 id="입출력">입출력</h2>
+
+<p>input
+입력 파일에는 여러 개의 테스트 케이스가 포함될 수 있다.
+파일의 첫째 줄에는 테스트 케이스 개수를 나타내는 자연수 T가 주어지고,
+이후 차례로 T개의 테스트 케이스가 주어진다. ( 1≤T≤5 )
+각각의 테스트 케이스 첫 번째 줄에는 ‘좌표 0’에 놓인 돌을 제외한 나머지 돌들의 개수 N 이 주어진다. ( 1≤N≤1,000,000 )
+두 번째 줄에는 돌들이 놓인 좌표를 나타내는 N 개의 정수 ai들이 빈칸(공백)을 사이에 두고 주어진다. (1≤ai≤10^9 )
+여기서, 주어진 좌표들은 증가하는 순서로 주어지고 모두 다르다.
+세 번째 줄에는 개구리가 한 번의 점프로 이동 가능한 최대 거리 K 가 주어진다. ( 1≤K≤10^9 )</p>
+
+<p>output
+각 테스트 케이스의 답을 순서대로 표준출력으로 출력하여야 하며, 각 테스트 케이스마다 첫 줄에 “Case #T”를 출력하여야 한다.
+이때 T는 테스트 케이스의 번호이다.
+그 다음 줄에는 개구리가 마지막 돌로 이동할 수 있는 최소 점프 횟수를 출력한다.
+만약, 개구리가 마지막 돌로 이동하는 것이 불가능한 경우에는 “-1”을 출력한다.</p>
+
+<h2 id="풀이">풀이</h2>
+
+<p>위 문제는 탐욕법을 통해 쉽게 구현할 수 있으며 직관적이다.</p>
+
+<p>처음에는 <code class="language-plaintext highlighter-rouge">DP</code> 알고리즘의 전개방식과 매우 흡사하여 <code class="language-plaintext highlighter-rouge">DP</code>로 구현하였지만 항상 정답에 포함되는 선택이 존재하여 코드를 변경하였다.</p>
+
+<p>\(Claim\): \(K\)이하 길이에서 최대로 점프할 수 있다면 이는 항상 정답에 포함된다.</p>
+
+<p>최대로 점프했을 때 좌표 \(a\)이고 이는 정답이 아니라고 가정하자. 그러면, 최선의 수는 좌표 \(b\)는 반드시 좌표 \(a\)보다 작은 곳에 위치해있다.
+또한, 좌표 \(b\)에서도 갈 수 있는 최선의 수 \(c\)가 존재할 것이다. \((c \le b + K)\)</p>
+
+<p>하지만, \(b &lt; a \to b + K &lt; a + K\) 이므로 \(c &lt; a + K\)이다.
+따라서, 좌표 \(a\)도 최선의 수의 포함되므로 가정은 모순이다.</p>
+
+<p><b align="left">\(\Box\)</b></p>
+
+<h2 id="구현-및-코드">구현 및 코드</h2>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include&lt;algorithm&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX_STONES_COUNT</span> <span class="o">=</span> <span class="mf">1.0e+6</span><span class="p">,</span> <span class="n">MAX_VALUE</span> <span class="o">=</span> <span class="mf">1.0e+9</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">Answer</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">MAX_STONES_COUNT</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="n">K</span><span class="p">,</span> <span class="n">isjumpable</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">ios_base</span><span class="o">::</span><span class="n">sync_with_stdio</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span> <span class="n">cin</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span> <span class="n">cout</span><span class="p">.</span><span class="n">tie</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+
+	<span class="kt">int</span> <span class="n">T</span><span class="p">,</span> <span class="n">test_case</span><span class="p">;</span>
+
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">T</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="n">test_case</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">test_case</span> <span class="o">&lt;</span> <span class="n">T</span><span class="p">;</span> <span class="n">test_case</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="c1">//init Answer value</span>
+		<span class="n">Answer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+		<span class="c1">//input</span>
+		<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">N</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="p">}</span>
+		<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">K</span><span class="p">;</span>
+
+		<span class="c1">//greedy</span>
+		<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;)</span> <span class="p">{</span>
+			<span class="n">isjumpable</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+			<span class="kt">int</span> <span class="n">jump</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+			<span class="k">for</span> <span class="p">(;</span> <span class="n">a</span><span class="p">[</span><span class="n">jump</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">K</span> <span class="o">&amp;&amp;</span> <span class="n">jump</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="n">jump</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+				<span class="c1">//Go forward as much as possible if we can.</span>
+				<span class="n">isjumpable</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isjumpable</span><span class="p">)</span> <span class="p">{</span>
+				<span class="c1">//If we can't move a single step, output -1.</span>
+				<span class="n">Answer</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+				<span class="k">break</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="n">i</span> <span class="o">=</span> <span class="n">jump</span><span class="p">;</span>
+			<span class="n">Answer</span><span class="o">++</span><span class="p">;</span>
+		<span class="p">}</span>
+
+		<span class="c1">//output</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Case #"</span> <span class="o">&lt;&lt;</span> <span class="n">test_case</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+		<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">Answer</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET
