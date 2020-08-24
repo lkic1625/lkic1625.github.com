@@ -1,10 +1,4 @@
 var store = [{
-        "title": "Bipartite Matching",
-        "excerpt":"Bipartite Matching(이분 매칭) 1. Graph Mathcing Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다. 아래 사진은 올바른 매칭이 진행되었을 때 결과이다. 이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다. 하지만 가장 General한 Mathcing 알고리즘은 꽤나 복잡하여 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게...","categories": ["algorithm"],
-        "tags": ["network flow","algorithm"],
-        "url": "http://localhost:4000/algorithm/bipartite_matching/",
-        "teaser": null
-      },{
         "title": "Hibernate 01",
         "excerpt":"Hibernate JPA, Hibernate JPA(Java persistence API) JPA는 Java에서 적용하는 ORM(object-relational mapping) 기술에 대한 표준 명세이다. JPA는 특정 기능을 하는 라이브러리가 아닌 인터페이스라는 의미이다. ORM이란 객체와 DB의 Table이 mapping을 이루는 것을 말한다. ORM을 이용하면 SQL Query가 아닌 직관적인 코드(메서드)로서 데이터를 조작할 수 있다. JPA는 자바 어플리케이션에서 관계형 데이터베이스를 어떻게 사용해야 하는지를...","categories": ["spring"],
         "tags": ["spring","hibernate"],
@@ -85,7 +79,13 @@ var store = [{
       },{
         "title": "개구리 점프",
         "excerpt":"개구리 점프 SCPC 예선 1차 입출력 input 입력 파일에는 여러 개의 테스트 케이스가 포함될 수 있다. 파일의 첫째 줄에는 테스트 케이스 개수를 나타내는 자연수 \\(T\\)가 주어지고, 이후 차례로 T개의 테스트 케이스가 주어진다. \\(( 1≤T≤5 )\\) 각각의 테스트 케이스 첫 번째 줄에는 ‘좌표 \\(0\\)‘에 놓인 돌을 제외한 나머지 돌들의 개수 \\(N\\)...","categories": ["algorithm"],
-        "tags": ["scpc","algorithm","greedy"],
+        "tags": ["scpc","greedy"],
         "url": "http://localhost:4000/algorithm/scpc_01_01/",
+        "teaser": null
+      },{
+        "title": "bipartite matching",
+        "excerpt":"Bipartite Matching(이분 매칭) 1. Graph Mathcing Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다. 아래 사진은 올바른 매칭이 진행되었을 때 결과이다. 이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다. 하지만 가장 General한 Mathcing 알고리즘은 꽤나 복잡하여 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게...","categories": ["algorithm"],
+        "tags": ["network flow","algorithm"],
+        "url": "http://localhost:4000/algorithm/bipartite_matching/",
         "teaser": null
       }]
