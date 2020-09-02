@@ -88,4 +88,16 @@ var store = [{
         "tags": ["network flow","algorithm"],
         "url": "http://localhost:4000/algorithm/bipartite_matching/",
         "teaser": null
+      },{
+        "title": "관계형 데이터베이스 모델링 개요",
+        "excerpt":"모델 모델은 목적에 부합하는 모방이라 할 수 있다. 사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다. ## Refernce 생활코딩, 관계형 데이터 모델링, https://opentutorials.org/course/3883...","categories": ["nodejs"],
+        "tags": ["nodejs","sequelize"],
+        "url": "http://localhost:4000/nodejs/relational_database_01/",
+        "teaser": null
+      },{
+        "title": "sequelize(작성 중)",
+        "excerpt":"시퀄라이즈 ORM(object-relational Mapping)인 시퀄라이즈를 사용해보자. ORM의 편한 부분은 자바스크립트 구문을 SQL 쿼리문으로 바꿔주기 때문이다. 설치 express 프로젝트를 생성 후 sequelize를 설치한다. 시퀄라이즈 커맨드 사용을 위한 sequelize-cli 도 설치해준다. npm i sequelize mysql2 npm i -g sequelize-cli sequelize init Sequelize CLI [Node: 12.18.2, CLI: 6.2.0, ORM: 6.3.5] Created \"config\\config.json\" Successfully created...","categories": ["nodejs"],
+        "tags": ["nodejs","sequelize"],
+        "url": "http://localhost:4000/nodejs/sequelize/",
+        "teaser": null
       }]

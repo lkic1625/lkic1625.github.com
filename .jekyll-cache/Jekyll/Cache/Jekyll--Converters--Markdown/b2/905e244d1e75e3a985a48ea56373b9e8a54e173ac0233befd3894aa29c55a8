@@ -1,0 +1,213 @@
+I"�P<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="시퀄라이즈">시퀄라이즈</h1>
+
+<p><code class="language-plaintext highlighter-rouge">ORM(object-relational Mapping)</code>인 시퀄라이즈를 사용해보자.
+<code class="language-plaintext highlighter-rouge">ORM</code>의 편한 부분은 자바스크립트 구문을 SQL 쿼리문으로 바꿔주기 때문이다.</p>
+
+<h2 id="설치">설치</h2>
+
+<p><code class="language-plaintext highlighter-rouge">express</code> 프로젝트를 생성 후 <code class="language-plaintext highlighter-rouge">sequelize</code>를 설치한다.</p>
+
+<p>시퀄라이즈 커맨드 사용을 위한 <code class="language-plaintext highlighter-rouge">sequelize-cli</code> 도 설치해준다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i sequelize mysql2
+npm i -g sequelize-cli
+sequelize init
+
+Sequelize CLI [Node: 12.18.2, CLI: 6.2.0, ORM: 6.3.5]
+
+Created "config\config.json"
+Successfully created models folder at "C:\Users\lkic1\NodejsProjects\learn-sequelize\models".
+Successfully created migrations folder at "C:\Users\lkic1\NodejsProjects\learn-sequelize\migrations".
+Successfully created seeders folder at "C:\Users\lkic1\NodejsProjects\learn-sequelize\seeders".
+</code></pre></div></div>
+
+<p>이때 기본 생성되는 <code class="language-plaintext highlighter-rouge">models/index.js</code>를 아래와 같이 수정해주고 사용하자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">Sequelize</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">sequelize</span><span class="dl">'</span><span class="p">);</span>
+<span class="c1">// const User = require('./user');</span>
+<span class="c1">// const Comment = require('./comment');</span>
+
+<span class="kd">const</span> <span class="nx">env</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">||</span> <span class="dl">'</span><span class="s1">development</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">../config/config</span><span class="dl">'</span><span class="p">)[</span><span class="nx">env</span><span class="p">];</span>
+<span class="kd">const</span> <span class="nx">db</span> <span class="o">=</span> <span class="p">{};</span>
+
+<span class="kd">const</span> <span class="nx">sequelize</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sequelize</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">database</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">username</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">password</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">sequelize</span> <span class="o">=</span> <span class="nx">sequelize</span><span class="p">;</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">Sequelize</span> <span class="o">=</span> <span class="nx">Sequelize</span><span class="p">;</span>
+
+<span class="c1">// db.User = User;</span>
+<span class="c1">// db.Comment = Comment;</span>
+
+<span class="nx">User</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">sequelize</span><span class="p">);</span>
+<span class="nx">Comment</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">sequelize</span><span class="p">);</span>
+
+<span class="nx">User</span><span class="p">.</span><span class="nx">associate</span><span class="p">(</span><span class="nx">db</span><span class="p">);</span>
+<span class="nx">Comment</span><span class="p">.</span><span class="nx">associate</span><span class="p">(</span><span class="nx">db</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">db</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="mysql-연결">mysql 연결</h2>
+
+<p><code class="language-plaintext highlighter-rouge">app.js</code></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">var</span> <span class="nx">indexRouter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./routes/index</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">usersRouter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./routes/users</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">sequelize</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./models/index.js</span><span class="dl">'</span><span class="p">).</span><span class="nx">sequelize</span><span class="p">;</span>
+<span class="p">...</span>
+
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+<span class="nx">sequelize</span><span class="p">.</span><span class="nx">sync</span><span class="p">();</span>
+<span class="p">...</span>
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">sync()</code>를 사용하면 서버 실행 시 <code class="language-plaintext highlighter-rouge">MySQL</code>과 연동된다.</p>
+
+<h2 id="모델-정의하기">모델 정의하기</h2>
+
+<p>SQL서 미리 정의된 테이블을 시퀄라이즈에도 정의해야 한다.</p>
+
+<p>시퀄라이즈는 기본적으로 모델 이름을 단수형으로, 테이블 이름을 복수형으로 사용한다.</p>
+
+<p>데이터 테이블은 아래 형식과 같다</p>
+
+<p>users</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------+--------------+------+-----+-------------------+-------------------+
+| Field     | Type         | Null | Key | Default           | Extra             |
++-----------+--------------+------+-----+-------------------+-------------------+
+| id        | int          | NO   | PRI | NULL              | auto_increment    |
+| name      | varchar(20)  | NO   | UNI | NULL              |                   |
+| age       | int unsigned | NO   |     | NULL              |                   |
+| married   | tinyint      | NO   |     | NULL              |                   |
+| comment   | text         | YES  |     | NULL              |                   |
+| create_at | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++-----------+--------------+------+-----+-------------------+-------------------+
+</code></pre></div></div>
+<p>comments</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------+--------------+------+-----+-------------------+-------------------+
+| Field      | Type         | Null | Key | Default           | Extra             |
++------------+--------------+------+-----+-------------------+-------------------+
+| id         | int          | NO   | PRI | NULL              | auto_increment    |
+| commenter  | int          | NO   | MUL | NULL              |                   |
+| comment    | varchar(100) | NO   |     | NULL              |                   |
+| created_at | datetime     | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
++------------+--------------+------+-----+-------------------+-------------------+
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">models/users.js</code></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">sequelize</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">.</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">DataTypes</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">sequelize/types</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sequelize</span><span class="p">,</span> <span class="nx">DataTypes</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+  <span class="k">return</span> <span class="nx">sequelize</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">user</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">unique</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">age</span><span class="p">:{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">INTEGER</span><span class="p">.</span><span class="nx">UNSIGNED</span><span class="p">,</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">married</span><span class="p">:{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">BOOLEAN</span><span class="p">,</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">comment</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">TEXT</span><span class="p">,</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">create_at</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">DATE</span><span class="p">,</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">defaultValue</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">NOW</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},{</span>
+    <span class="na">timestamps</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">}</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">models/comment.js</code></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">sequelize</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">.</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">DataTypes</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">sequelize/types</span><span class="dl">"</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">sequelize</span><span class="p">,</span> <span class="nx">DataTypes</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+  <span class="k">return</span> <span class="nx">sequelize</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">comment</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">comment</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">STRING</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="na">create_at</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">DATE</span><span class="p">,</span>
+        <span class="na">allowNull</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">defaultValue</span><span class="p">:</span> <span class="nx">DataTypes</span><span class="p">.</span><span class="nx">NOW</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},{</span>
+    <span class="na">timestamps</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">}</span>
+  <span class="p">);</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">config/config.json</code>을 커넥션과 일치하게 수정하면 된다.</p>
+
+<h2 id="관계-정의하기">관계 정의하기</h2>
+<p>유저 테이블과 코멘트 테이블의 관계를 정의해보자.
+사용자는 한명이지만, 사용할 수 있는 댓글의 개수 제한은 없기 떄문에 일대다 관계이다.</p>
+
+<p>다른 관계로는 일대일 다대다 관계가 있다.
+다대다는 해시태그(#)가 될 수 있다. 게시글은 해시태그를 여러개 포함할 수 있으며 해시태그가 포함된 게시글 또한 여러개이다.</p>
+
+<h3 id="1n">1:N</h3>
+<p><code class="language-plaintext highlighter-rouge">hasMany</code>메서드를 통해 유저 테이블의 로우 하나를 불러올 때 연결된 코멘트 테이블의 로우들도 같이 불러올 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">belongsTo</code>메서드를 통해 코멘트 테이블의 로우를 불러올 때 연결된 유저 테이블의 로우도 같이 불러올 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">models/index.js</code></p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">sequelize</span> <span class="o">=</span> <span class="nx">sequelize</span><span class="p">;</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">Sequelize</span> <span class="o">=</span> <span class="nx">Sequelize</span><span class="p">;</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">User</span> <span class="o">=</span> <span class="nx">User</span><span class="p">(</span><span class="nx">sequelize</span><span class="p">,</span> <span class="nx">Sequelize</span><span class="p">);</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">Comment</span> <span class="o">=</span> <span class="nx">Comment</span><span class="p">(</span><span class="nx">sequelize</span><span class="p">,</span> <span class="nx">Sequelize</span><span class="p">);</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">hasMany</span><span class="p">(</span><span class="nx">db</span><span class="p">.</span><span class="nx">Comment</span><span class="p">,</span> <span class="p">{</span><span class="na">foreignKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">commenter</span><span class="dl">'</span><span class="p">,</span> <span class="na">sourceKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">});</span>
+<span class="nx">db</span><span class="p">.</span><span class="nx">Comment</span><span class="p">.</span><span class="nx">belongsTo</span><span class="p">(</span><span class="nx">db</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="p">{</span><span class="na">foreignKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">commenter</span><span class="dl">'</span><span class="p">,</span> <span class="na">targetKey</span><span class="p">:</span> <span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">});</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<h3 id="11">1:1</h3>
+
+<p><code class="language-plaintext highlighter-rouge">hasOne</code>메서드를 통해 직접 연결된 테이블을 불러올 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">belongsTo</code> <code class="language-plaintext highlighter-rouge">hasOne</code>과 순서가 반대가 되어도 상관없다 일대일 대응이기 때문이다.</p>
+
+<h3 id="nm">N:M</h3>
+<p><code class="language-plaintext highlighter-rouge">belongsToMany</code>메서드를 통해 코멘트 테이블의 로우를 불러올 때 연결된 유저 테이블의 로우도 같이 불러올 수 있다.
+둘 다 위 메서드를 사용하여 불러온다.</p>
+
+<p>자세한 사용법은 이후 9장에서 포스팅 하겠다.</p>
+
+<h2 id="쿼리-사용법">쿼리 사용법.</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">`INSERT INTO users (name, age, married, comment) VALUES ('zero', 24, 0, '자기소개')`</span>
+<span class="nx">User</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">zero</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">age</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span>
+  <span class="na">married</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">comment</span><span class="p">:</span> <span class="dl">'</span><span class="s1">자기소개</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div></div>
+<p>여기서 주의할 점은 <code class="language-plaintext highlighter-rouge">married</code> 콜럼값이 시퀄라이즈에서 정의된 자료형으로 넣는다는 것이다 false가 아닌 0을 넣는다면 오류를 발생시키며,
+시퀄라이즈는 알아서 MySQL 자료형으로 바꿔주기 때문에 옵션에 부합하는 자료형을 넣는 것이 중요하다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>조헌영, Node.js 교과서, 길벗, 7장 MySQL<br /></li>
+  </ul>
+</blockquote>
+:ET
