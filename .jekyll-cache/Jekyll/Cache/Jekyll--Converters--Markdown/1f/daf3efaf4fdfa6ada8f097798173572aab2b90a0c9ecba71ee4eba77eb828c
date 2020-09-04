@@ -1,0 +1,29 @@
+I"!<ul class="toc__menu">
+  <li><a href="#모델">모델</a>
+    <ul>
+      <li><a href="#전체-흐름">전체 흐름</a></li>
+      <li><a href="#업무-파악">업무 파악</a></li>
+      <li><a href="#개념적-데이터-모델링">개념적 데이터 모델링</a>
+        <ul>
+          <li><a href="#identifier">Identifier</a></li>
+          <li><a href="#cardinality">Cardinality</a></li>
+          <li><a href="#optionality">Optionality</a></li>
+        </ul>
+      </li>
+      <li><a href="#논리적-데이터-모델링">논리적 데이터 모델링</a>
+        <ul>
+          <li><a href="#mapping-rule">Mapping rule</a></li>
+          <li><a href="#관계형-데이터-모델-만들기">관계형 데이터 모델 만들기</a></li>
+          <li><a href="#mapping-table">Mapping Table</a></li>
+          <li><a href="#normalization">Normalization</a>
+            <ul>
+              <li><a href="#1nf">1NF</a></li>
+              <li><a href="#2nf">2NF</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET

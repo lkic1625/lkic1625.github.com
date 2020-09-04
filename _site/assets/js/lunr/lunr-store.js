@@ -90,7 +90,7 @@ var store = [{
         "teaser": null
       },{
         "title": "관계형 데이터베이스 모델링 개요",
-        "excerpt":"모델 모델은 목적에 부합하는 모방이라 할 수 있다. 사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다. ## Refernce 생활코딩, 관계형 데이터 모델링, https://opentutorials.org/course/3883...","categories": ["nodejs"],
+        "excerpt":"모델 모델은 목적에 부합하는 모방이라 할 수 있다. 사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다. 전체 흐름 업무파악 -&gt; 개념적 데이터 모델링...","categories": ["nodejs"],
         "tags": ["nodejs","sequelize"],
         "url": "http://localhost:4000/nodejs/relational_database_01/",
         "teaser": null

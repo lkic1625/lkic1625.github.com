@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-03T05:22:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">관계형 데이터베이스 모델링 개요</title><link href="http://localhost:4000/nodejs/relational_database_01/" rel="alternate" type="text/html" title="관계형 데이터베이스 모델링 개요" /><published>2020-09-03T00:00:00+09:00</published><updated>2020-09-03T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/relational_database_01</id><content type="html" xml:base="http://localhost:4000/nodejs/relational_database_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-05T04:50:20+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">관계형 데이터베이스 모델링 개요</title><link href="http://localhost:4000/nodejs/relational_database_01/" rel="alternate" type="text/html" title="관계형 데이터베이스 모델링 개요" /><published>2020-09-03T00:00:00+09:00</published><updated>2020-09-04T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/relational_database_01</id><content type="html" xml:base="http://localhost:4000/nodejs/relational_database_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;모델&quot;&gt;모델&lt;/h1&gt;
@@ -8,12 +8,549 @@
   &lt;p&gt;사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;##&lt;/p&gt;
+&lt;h2 id=&quot;전체-흐름&quot;&gt;전체 흐름&lt;/h2&gt;
+
+&lt;p&gt;업무파악 -&amp;gt; 개념적 데이터 모델링 -&amp;gt; 논리적 데이터 모델링 -&amp;gt; 물리적 데이터 모델링&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;개념적 데이터 모델링
+    &lt;ul&gt;
+      &lt;li&gt;각각의 개념들이 어떻게 상호작용 하는지 확인하는 과정&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;논리적 데이터 모델링
+    &lt;ul&gt;
+      &lt;li&gt;개념적 데이터 모델링을 우리가 아는 패러다임으로 변경하는 과정&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;물리적 데이터 모델링은
+    &lt;ul&gt;
+      &lt;li&gt;데이터베이스를 선택 후 실제 테이블을 생성하는 과정&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;업무-파악&quot;&gt;업무 파악&lt;/h2&gt;
+
+&lt;p&gt;필요한 것이 무엇인지 파악하기 위해 진행해야하는 단계로써
+강의에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ovenapp&lt;/code&gt;을 사용하여 시각화 하는 것을 예시로 알려주었다.&lt;/p&gt;
+
+&lt;p&gt;https://ovenapp.io/&lt;/p&gt;
+
+&lt;h2 id=&quot;개념적-데이터-모델링&quot;&gt;개념적 데이터 모델링&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD(Entity Relationshop Diagram)&lt;/code&gt;를 통해 나타낼 수 있음.&lt;/p&gt;
+
+&lt;p&gt;현실을 간단하게 나타낼 수 있는 방법이 무엇이 있을까?
+ERD는 우리에게 현실을 3개의 관점에서 볼 수 있게 도와준다.
+정보, 정보 그룹, 정보 그룹 사이의 관계. 이를 통해 우리는 추상화된 개념을 볼 수 있을 것이다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;는 또한 쉽게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;table&lt;/code&gt;로 나타낼 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/relational.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위와 아래 중 어떤 것이 관계형 데이터베이스를 표현하기에 적합할까?
+정답은 아래이다.
+관계형 데이터베이스에서는 내포관계를 표현할 수 없기 때문에 내포관계가 있는 표를 생성할 경우 매우 큰 데이터를 가진 표에 지나지 않을 것이다.
+이는 데이터의 중복과 광대한 데이터를 불러오는 데 물리적으로 문제가 있을 수 있다.&lt;/p&gt;
+
+&lt;p&gt;아래와 같이 글, 저자, 댓글은 각각 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Entity&lt;/code&gt;라 한다. 이는 이후에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;table&lt;/code&gt;이 된다.
+글의 본문, 제목, 생성일 등은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;attribute&lt;/code&gt;이다. 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;column&lt;/code&gt;이 된다.
+그리고 글에 댓글을 쓰다라는 관계는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Relation&lt;/code&gt;이라 하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Primary key&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Foreign key&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;identifier&quot;&gt;Identifier&lt;/h3&gt;
+&lt;p&gt;가지고있는 데이터를 식별하기 위해 고유한 식별자를 사용해야 한다.&lt;/p&gt;
+
+&lt;p&gt;데이터가 가지고 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;column&lt;/code&gt;값에서 식별자 후보군이 될 수 있는 키를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;candidate key&lt;/code&gt;라 하며 여기서 선택된 식별자를  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Primary key&lt;/code&gt; 그 외는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alternate key&lt;/code&gt;라 한다.
+또한, 두 가지 이상의 값을 이용하여 식별할 수 있는 키들은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;composite key&lt;/code&gt;라 한다.&lt;/p&gt;
+
+&lt;h3 id=&quot;cardinality&quot;&gt;Cardinality&lt;/h3&gt;
+&lt;p&gt;1:1
+담임 선생님은 반이 하나다. 반은 담임선생님이 하나다.
+1:N
+저자는 댓글을 여러개 작성할 수 있다. 댓글에게 저자는 하나다.
+N:M
+저자는 글을 여러개 작성할 수 있다. 글은 여러명의 저자를 가질 수 있다.
+N:M 관계는 실제 관계형 구조에서는 쉽게 만들 수 없는 구조이기 때문에 연결테이블을 거쳐 만든다.&lt;/p&gt;
+&lt;h3 id=&quot;optionality&quot;&gt;Optionality&lt;/h3&gt;
+&lt;p&gt;저자는 반드시 댓글을 작성하지(가지지) 않아도 된다. 댓글은 반드시 저자를 가져야 한다. Mandatory:Optional&lt;/p&gt;
+
+&lt;h2 id=&quot;논리적-데이터-모델링&quot;&gt;논리적 데이터 모델링&lt;/h2&gt;
+&lt;p&gt;개념적 데이터 모델링을 관계형 데이터베이스 패러다임에 어울리는 형태로 변형하는 과정.&lt;/p&gt;
+
+&lt;h3 id=&quot;mapping-rule&quot;&gt;Mapping rule&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;를 관계형 데이터베이스에 맞게 변형하기 위한 방법론이다. 설명보다는 간단하게 아래의 표로 생각하는 것이 이해하기 쉬울 것이다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;ERD&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;RDB&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Entity&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Table&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Attribute&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Column&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Relation&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;PK, FK&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;관계형-데이터-모델-만들기&quot;&gt;관계형 데이터 모델 만들기&lt;/h3&gt;
+
+&lt;p&gt;아래 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;와 &lt;a href=&quot;https://aquerytool.com/&quot;&gt;aquerytool&lt;/a&gt; 툴을 사용하여 만들었다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/ERD.png&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/data-modeling.png&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;mapping-table&quot;&gt;Mapping Table&lt;/h3&gt;
+&lt;p&gt;N:M관계에서는 특정 테이블이 외래키를 가지는 방식으로 할 경우 필드에 다수의 값이 들어가게 될 것이다.
+예를 들어 작성자는 글을 여러개 쓸 수 있으므로 필드에 복수의 키를 가져야 한다.
+하지만 이는 관계형 데이터베이스에서 지양하므로 다른 방식을 선택해야 할 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mapping Table&lt;/code&gt;
+작성은 간단하다 단순히 작성자와 글의 키를 가지고 있는 테이블을 생성 후
+그 둘 사이를 매핑하는 역할을 하는 것이다.&lt;/p&gt;
+
+&lt;h3 id=&quot;normalization&quot;&gt;Normalization&lt;/h3&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;관계형 데이터베이스의 설계에서 중복을 최소화하게 데이터를 구조화하는 프로세스를 정규화라고 한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;정규화 된 단계를 정규형으로 표현하는데 보통은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3NF&lt;/code&gt;까지를 만족할 경우 정규화를 거쳤다 표현한다.
+그 이후 단계는 학술적으로 사용되는 단계이기 때문에 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3NF&lt;/code&gt;단계 까지 정규화를 해보도록 하겠다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/normalization.png&quot; alt=&quot;이미지4&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;1nf&quot;&gt;1NF&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;각 콜럼들이 서로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Atomic&lt;/code&gt; 해야한다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;쉽게 말해 각각의 필드에 값이 하나만을 가져야 한다는 의미이다.
+아래 표는 정규화 되지 않은 폼이다. 이를 변형하여 정규화 과정을 거쳐보자.&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;Unormalized form&lt;/b&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tag&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;rdb, free&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;rdb, free&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;15000&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;rdb, commercial&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;아래 표는 정규형을 만족시키지만 정보의 중복을 피하지 못한다. 그렇다면 어떻게 해야할까?
+정보의 중복을 피하기위해서 가장 쉽게 생각할 수 있는 방식은 테이블을 나누는 것이다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tag&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;rdb&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;free&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;여기서 중요한건 현재 테이블과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tag&lt;/code&gt;가 N:M 관계라는 것이다. 앞에서 말했단 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mapping table&lt;/code&gt;을 이용하여 테이블을 나누어야 한다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;15000&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;rdb&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;free&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;3&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;commercial&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;topic_title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;tag_id&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;2nf&quot;&gt;2NF&lt;/h4&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;모든 비기본 속성(non-prime attribute; 후보 키에 속하지 않은 속성)들이 후보 키에 속한 속성들 전체에 함수 종속인 경우에 한해서 1NF 테이블은 2NF이다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;말만 들어선 뭔 소린지 감이 하나도 안잡힌다. 예시와 함께 봐보자&lt;/p&gt;
+
+&lt;p&gt;&lt;b&gt;1NF&lt;/b&gt;&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;15000&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;표를 보면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt; 콜럼 대해서 중복이 발생하고 있다.
+중복이 발생하는 이유는 무엇일까? 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;partial dependencies&lt;/code&gt; 때문이다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;description&lt;/code&gt;부터  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_profile&lt;/code&gt; 콜럼까지의 속성은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 부분 족송되고 있다.&lt;/p&gt;
+
+&lt;p&gt;다른 말로 위 테이블은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;price&lt;/code&gt; 콜럼을 위해 존재한다는 말이다.
+테이블을 나누어 중복되는 값을 없애보자.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;3nf&quot;&gt;3NF&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;테이블이 제2 정규형을 만족하고,
+테이블 내의 모든 속성이 기본 키에만 의존하며, 다른 후보 키에 의존하지 않는다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;뭔지 알 것 같기도 한데 여전히 모른다면 다시 표와 함께 봐보자.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_id&lt;/code&gt; 값은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 종속되고 있다.
+하지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_name&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_profile&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_id&lt;/code&gt;에 종속되고 있다.
+쉽게 이야기 하자면 중복된다. 그렇다면 앞에서 했듯이 테이블을 나누어 보자.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;id&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;profile&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;위와같이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3NF&lt;/code&gt;을 만족하는 모델링이 완성되었다. 강의를 보고 무작정 따라 쓰다보니 상당히 난잡하고 보기 어려운 감이 있다.
+개인적으로는 &lt;a href=&quot;https://yaboong.github.io/database/2018/03/09/database-normalization-1/&quot;&gt;이 블로그&lt;/a&gt;가 상당히 쉽게 설명하여
+이해를 돕기에 편할 것 같아 링크를 남긴다.&lt;/p&gt;
+
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;
     &lt;li&gt;생활코딩, 관계형 데이터 모델링, https://opentutorials.org/course/3883&lt;/li&gt;
     &lt;li&gt;SQLD 개발자 가이드, http://www.dbguide.net/index.db&lt;/li&gt;
+    &lt;li&gt;https://yaboong.github.io/database/2018/03/09/database-normalization-1/&lt;/li&gt;
+    &lt;li&gt;https://ko.wikipedia.org/wiki/데이터베이스_정규화&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="sequelize" /><summary type="html"></summary></entry><entry><title type="html">sequelize(작성 중)</title><link href="http://localhost:4000/nodejs/sequelize/" rel="alternate" type="text/html" title="sequelize(작성 중)" /><published>2020-09-03T00:00:00+09:00</published><updated>2020-09-03T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/sequelize</id><content type="html" xml:base="http://localhost:4000/nodejs/sequelize/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
