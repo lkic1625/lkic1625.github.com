@@ -1,0 +1,128 @@
+I"UG<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="sns-서비스">SNS 서비스</h1>
+
+<h2 id="프로젝트-구조-갖추기">프로젝트 구조 갖추기</h2>
+
+<p><code class="language-plaintext highlighter-rouge">nodebird/package.json</code>을 생성 후 아래와 같이 작성한다.
+<code class="language-plaintext highlighter-rouge">author</code>, <code class="language-plaintext highlighter-rouge">license</code>, <code class="language-plaintext highlighter-rouge">description</code> 등은 바꾸어도 상관없다.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodebird"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"익스프레스로 만드는 sns서비스"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app.js"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon app"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"author"</span><span class="p">:</span><span class="w"> </span><span class="s2">"b1n"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"license"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MIT"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm i -g sequelize-cli
+$ npm i sequelize mysql2
+$ sequelize init
+$ npm i express cookie-parser express-session morgan connect-flash pug dotenv
+$ npm i -g nodemon
+$ npm i -D nodemon
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">nodemon</code>은 코드 수정사항이 있을 때마다 매번 서버를 재시작해주는 모듈이다.
+배포시에는 사용할 일이 거의 없으니 <code class="language-plaintext highlighter-rouge">--save-dev</code> 옵션을 사용해 설치해준다.</p>
+
+<p>nodebird/app.js</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">cookieParser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">cookie-parser</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">morgan</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">morgan</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">session</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">flash</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">flash</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">pageRouter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./routes/page</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">).</span><span class="nx">config</span><span class="p">();</span>
+
+<span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">,</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">views</span><span class="dl">'</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">view engine</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pug</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="dl">'</span><span class="s1">port</span><span class="dl">'</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">8001</span><span class="p">);</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="dl">'</span><span class="s1">dev</span><span class="dl">'</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kd">static</span><span class="p">(</span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">__dirname</span><span class="p">,</span> <span class="dl">'</span><span class="s1">public</span><span class="dl">'</span><span class="p">)));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">join</span><span class="p">());</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">urlencoded</span><span class="p">(</span> <span class="p">{</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}</span> <span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">cookieParser</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">COOKIE_SECRET</span><span class="p">));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">session</span><span class="p">({</span>
+    <span class="na">resave</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">saveUninitialized</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">secret</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">COOKIE_SECRET</span><span class="p">,</span>
+    <span class="na">cookie</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">httpOnly</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">secure</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">}));</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">flash</span><span class="p">());</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="nx">pageRouter</span><span class="p">);</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">((</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span> <span class="p">,</span><span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">err</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">'</span><span class="s1">Not Fount</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">=</span> <span class="mi">404</span><span class="p">;</span>
+    <span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">message</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">locals</span><span class="p">.</span><span class="nx">error</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">env</span><span class="dl">'</span><span class="p">)</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">development</span><span class="dl">'</span> <span class="p">?</span> <span class="nx">err</span> <span class="p">:</span> <span class="p">{};</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="mi">500</span><span class="p">);</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="dl">'</span><span class="s1">error</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">port</span><span class="dl">'</span><span class="p">),</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">port</span><span class="dl">'</span><span class="p">),</span> <span class="dl">'</span><span class="s1">번 포트에서 대기 중</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">dotenv</code>를 사용하기 위해 <code class="language-plaintext highlighter-rouge">nodebird/.env</code> 파일을 만들어 아래 내용을 추가하도록 하자.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>COOKIE_SECRET=nodebirdsecret
+</code></pre></div></div>
+
+<p>또한, 현재 <code class="language-plaintext highlighter-rouge">config.json</code> 파일이 하드코딩 되어 있기 때문에 <code class="language-plaintext highlighter-rouge">config.js</code>로 수정하여 사용한다.
+<code class="language-plaintext highlighter-rouge">nodebird/.env</code>에 <code class="language-plaintext highlighter-rouge">SEQUELIZE_PASSWORD</code>를 추가하자.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">).</span><span class="nx">config</span><span class="p">();</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">development</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">username</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">root</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">password</span><span class="dl">"</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SEQUELIZE_PASSWORD</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">database</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">database_development</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">host</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">127.0.0.1</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">dialect</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">mysql</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">test</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">username</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">root</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">password</span><span class="dl">"</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SEQUELIZE_PASSWORD</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">database</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">database_test</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">host</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">127.0.0.1</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">dialect</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">mysql</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="dl">"</span><span class="s2">production</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+      <span class="dl">"</span><span class="s2">username</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">root</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">password</span><span class="dl">"</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SEQUELIZE_PASSWORD</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">database</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">database_production</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">host</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">127.0.0.1</span><span class="dl">"</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">dialect</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">mysql</span><span class="dl">"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>조헌영, Node.js 교과서, 길벗, 7장 MySQL<br /></li>
+  </ul>
+</blockquote>
+:ET

@@ -100,4 +100,10 @@ var store = [{
         "tags": ["nodejs","sequelize"],
         "url": "http://localhost:4000/nodejs/sequelize/",
         "teaser": null
+      },{
+        "title": "sns 프로젝트 demo",
+        "excerpt":"SNS 서비스 프로젝트 구조 갖추기 nodebird/package.json을 생성 후 아래와 같이 작성한다. author, license, description 등은 바꾸어도 상관없다. { \"name\": \"nodebird\", \"version\": \"0.0.1\", \"description\": \"익스프레스로 만드는 sns서비스\", \"main\": \"app.js\", \"scripts\": { \"start\": \"nodemon app\" }, \"author\": \"b1n\", \"license\": \"MIT\", } $ npm i -g sequelize-cli $ npm i sequelize mysql2 $...","categories": ["nodejs"],
+        "tags": ["nodejs"],
+        "url": "http://localhost:4000/nodejs/sns_project/",
+        "teaser": null
       }]
