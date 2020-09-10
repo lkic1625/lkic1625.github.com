@@ -106,4 +106,10 @@ var store = [{
         "tags": ["nodejs"],
         "url": "http://localhost:4000/nodejs/sns_project/",
         "teaser": null
+      },{
+        "title": "PUT VS POST",
+        "excerpt":"서비스 개발 도중 문득 put 과 post의 차이가 분명하지 않아 직접 찾아본 자료들을 정리해둔 글이다. HTTP API 개발 단계에서 서버 자원을 수정, 추가, 배포하기 위해서는 어떤 메서드를 사용해야 하나? 네트워크 지식이 매우 미흡한 작성자에게는 상당히 어려운 부분이다. 간단한게 말해서 하나도 모른다. 그렇다고 HTTP의 정의부터 전부 쓰기도 그러니 공식 문서(rfc7231)를 참고하여...","categories": ["backend"],
+        "tags": ["backend","HTTP","protocol"],
+        "url": "http://localhost:4000/backend/put_post/",
+        "teaser": null
       }]
