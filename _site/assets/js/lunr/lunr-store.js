@@ -90,9 +90,9 @@ var store = [{
         "teaser": null
       },{
         "title": "관계형 데이터베이스 모델링 개요",
-        "excerpt":"모델 모델은 목적에 부합하는 모방이라 할 수 있다. 사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다. 전체 흐름 업무파악 -&gt; 개념적 데이터 모델링...","categories": ["nodejs"],
-        "tags": ["nodejs","sequelize"],
-        "url": "http://localhost:4000/nodejs/relational_database_01/",
+        "excerpt":"모델 모델은 목적에 부합하는 모방이라 할 수 있다. 사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다. 전체 흐름 업무파악 -&gt; 개념적 데이터 모델링...","categories": ["database"],
+        "tags": ["RDBMS","database"],
+        "url": "http://localhost:4000/database/relational_database_01/",
         "teaser": null
       },{
         "title": "sequelize(작성 중)",
@@ -111,5 +111,11 @@ var store = [{
         "excerpt":"서비스 개발 도중 문득 put 과 post의 차이가 분명하지 않아 직접 찾아본 자료들을 정리해둔 글이다. HTTP API 개발 단계에서 서버 자원을 수정, 추가, 배포하기 위해서는 어떤 메서드를 사용해야 하나? 네트워크 지식이 매우 미흡한 작성자에게는 상당히 어려운 부분이다. 간단한게 말해서 하나도 모른다. 그렇다고 HTTP의 정의부터 전부 쓰기도 그러니 공식 문서(rfc7231)를 참고하여...","categories": ["backend"],
         "tags": ["backend","HTTP","protocol"],
         "url": "http://localhost:4000/backend/put_post/",
+        "teaser": null
+      },{
+        "title": "B-tree, index",
+        "excerpt":"인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다. 자료구조를 어느정도 알고 있다면, 위와 같이 미리 정렬된 저장구조는 읽기 성능을 끌어올리는 방법으로써 수정, 삭제, 삽입의 시간이 매우...","categories": ["database"],
+        "tags": ["b_tree","database","datastructure"],
+        "url": "http://localhost:4000/database/b_tree_index/",
         "teaser": null
       }]

@@ -1,10 +1,10 @@
 ---
 title: "관계형 데이터베이스 모델링 개요"
 tags:
-  - nodejs
-  - sequelize
+  - RDBMS
+  - database
 categories:
-  - nodejs
+  - database
 last_modified_at: 2020-09-04T13:00:00+18:00
 toc: true
 ---

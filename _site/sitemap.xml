@@ -61,7 +61,7 @@
 <lastmod>2020-08-25T05:00:00+09:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/nodejs/relational_database_01/</loc>
+<loc>http://localhost:4000/database/relational_database_01/</loc>
 <lastmod>2020-09-04T04:00:00+09:00</lastmod>
 </url>
 <url>
@@ -75,6 +75,10 @@
 <url>
 <loc>http://localhost:4000/backend/put_post/</loc>
 <lastmod>2020-09-11T04:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/database/b_tree_index/</loc>
+<lastmod>2020-09-04T04:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/about/</loc>
