@@ -1,0 +1,19 @@
+I"�<ul class="toc__menu">
+  <li><a href="#인덱스란">인덱스란?</a></li>
+  <li><a href="#b-tree">B-tree</a>
+    <ul>
+      <li><a href="#구조-및-특성">구조 및 특성</a></li>
+      <li><a href="#b-tree-properties">B-tree Properties</a></li>
+      <li><a href="#탐색">탐색</a></li>
+      <li><a href="#삽입">삽입</a></li>
+      <li><a href="#삭제">삭제</a>
+        <ul>
+          <li><a href="#리프-노드-삭제">리프 노드 삭제</a></li>
+          <li><a href="#브랜치-노드-삭제">브랜치 노드 삭제</a></li>
+          <li><a href="#rebalancing-after-deletion">Rebalancing after deletion</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+:ET
