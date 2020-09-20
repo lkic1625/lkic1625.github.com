@@ -118,4 +118,10 @@ var store = [{
         "tags": ["b_tree","database","datastructure"],
         "url": "http://localhost:4000/database/b_tree_index/",
         "teaser": null
+      },{
+        "title": "서비스 배포하기",
+        "excerpt":"배포 전 배포환경 설정 개발 환경과는 달리 설정해야 할 코드들을 아래와 같이 변경해야 한다. app.js if (process.env.NODE_ENV === 'production'){ app.use(morgan('combined')); } else{ app.use(morgan('dev')); } ... const sessionOptions = { resave: false, saveUninitialized: false, secret: process.env.COOKIE_SECRET, cookie: { httpOnly: true, secure: false, }, } if (process.env.NODE_ENV === 'production'){ sessionOptions.proxy = true;...","categories": ["nodejs"],
+        "tags": ["nodejs"],
+        "url": "http://localhost:4000/nodejs/starting_web_service/",
+        "teaser": null
       }]

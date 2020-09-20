@@ -81,6 +81,10 @@
 <lastmod>2020-09-20T04:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/nodejs/starting_web_service/</loc>
+<lastmod>2020-09-20T04:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -103,5 +107,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page4/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page5/</loc>
 </url>
 </urlset>

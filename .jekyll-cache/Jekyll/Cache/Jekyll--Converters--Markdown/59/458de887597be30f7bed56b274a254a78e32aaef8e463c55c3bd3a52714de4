@@ -1,0 +1,214 @@
+I"4[<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="배포-전-배포환경-설정">배포 전 배포환경 설정</h1>
+
+<p>개발 환경과는 달리 설정해야 할 코드들을 아래와 같이 변경해야 한다.</p>
+
+<h2 id="appjs">app.js</h2>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span><span class="p">){</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="dl">'</span><span class="s1">combined</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="dl">'</span><span class="s1">dev</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="kd">const</span> <span class="nx">sessionOptions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">resave</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">saveUninitialized</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">secret</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">COOKIE_SECRET</span><span class="p">,</span>
+  <span class="na">cookie</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">httpOnly</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">secure</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span><span class="p">){</span>
+  <span class="nx">sessionOptions</span><span class="p">.</span><span class="nx">proxy</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="nx">sessionOptions</span><span class="p">.</span><span class="nx">cookie</span><span class="p">.</span><span class="nx">secure</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">session</span><span class="p">(</span><span class="nx">sessionOptions</span><span class="p">));</span>
+<span class="p">...</span>
+
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">morgan</code>의 <code class="language-plaintext highlighter-rouge">combined</code>같은 경우 <code class="language-plaintext highlighter-rouge">dev</code>보다 더 많은 로그를 남긴다.</p>
+
+<p>세션 같은 경우 무조건 변경해야 하는 것은 아니고, <code class="language-plaintext highlighter-rouge">https</code>를 적용할 경우에만 사용하면 된다. <code class="language-plaintext highlighter-rouge">https</code> 적용을 위해 노드 앞에 다른 서버를 두었을 때 사용한다.
+<code class="language-plaintext highlighter-rouge">cookie.secure</code> 또한 로드밸런싱 등을 위해 <code class="language-plaintext highlighter-rouge">true</code> 값으로 변경한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">process.env.NODE_ENV</code>는 <code class="language-plaintext highlighter-rouge">.env</code>에 넣을 수 없다. 개발환경인지 배포 환경인지에 따라 변경해야 하는데 정적파일이기 때문에 <code class="language-plaintext highlighter-rouge">cross-env</code>를 통해 변경해야 한다.</p>
+
+<h2 id="cross-env">cross-env</h2>
+
+<p><code class="language-plaintext highlighter-rouge">package.json</code></p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cross-env NODE_ENV=production PORT=80 node app"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon app"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span><span class="w">
+  </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<p>리눅스나 맥에서는 cross-env NODE_ENV~ 가 아닌 NODE_ENV=production만 주어도 되지만 윈도우 환경에서는 오류가 나기 때문에 <code class="language-plaintext highlighter-rouge">cross-env</code>를 설치해주어야 한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i -g cross-env &amp;&amp; npm i cross-env
+</code></pre></div></div>
+
+<h2 id="pm2">pm2</h2>
+<p>원할한 서버 운영을 위한 패키지이다. 서버가 에러로 꺼졌을 때 서버를 다시 켜주는 역할을 할 수 있다.
+또한, 멀티 스레딩은 아니지만 멀티 프로세싱을 지원하여 프로세스 개수를 1개 이상으로 늘릴 수 있다. 하나의 프로세스가 받는 부하가 적어지므로 서비스를 원할하게 운영 가능하다.</p>
+
+<p>하지만, 단점도 있다. 멀티 스레딩이 아니기 때문에 자원 공유가 불가능하여 프로세스간의 세션 공유가 불가능하다는 점이다.
+이 문제를 극복하기 위햐서는 <code class="language-plaintext highlighter-rouge">Memacached</code>나 레디스를 사용한다. 사용방법은 뒷 절에서 다루도록 하자.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i -g pm2 &amp;&amp; npm i pm2
+</code></pre></div></div>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cross-env NODE_ENV=production PORT=80 pm2 start app.js"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon app"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span><span class="w">
+  </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">pm2</code>로 실행할 경우 백그라운드에서 작업하기에 서버 동작 후에도 동일한 콘솔을 사용가능하다.
+<code class="language-plaintext highlighter-rouge">pm2 list</code>로 현재 실행중인 서버를 확인 가능하다.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">...</span><span class="w">
+</span><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cross-env NODE_ENV=production PORT=80 pm2 start app.js -i -1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"dev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nodemon app"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> &amp;&amp; exit 1"</span><span class="w">
+  </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span><span class="err">...</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">pm2</code>에서는 <code class="language-plaintext highlighter-rouge">cluster</code> 모듈과 같이 클러스터링을 도와주는 기능 또한 존재한다.</p>
+
+<p>위와 같이 실행에 <code class="language-plaintext highlighter-rouge">-i 0</code> 옵션을 준다면 현재 cpu 코어 개수만큼 프로세스를 생성하겠다는 뜻이다. (ex <code class="language-plaintext highlighter-rouge">-i -1</code>은 한개 덜 생성)
+그 외에도 <code class="language-plaintext highlighter-rouge">pm2 kill</code>, <code class="language-plaintext highlighter-rouge">pm2 monit</code> 등 다양한 명령어가 많다.</p>
+
+<h2 id="winston">winston</h2>
+<p>실제 서버 운영시 <code class="language-plaintext highlighter-rouge">console.log</code>나 <code class="language-plaintext highlighter-rouge">console.error</code>는 사용하기 어렵다. 서버 종료 시 로그들도 사라지며, 호출 시간 또한 파악하기 어렵기 때문이다.
+<code class="language-plaintext highlighter-rouge">winston</code>은 이를 대체하기 위한 모듈이다.</p>
+
+<p>에러메세지 발생 후 서버가 셧다운 된다면 로그를 확인조차 불가능 할 것이다.
+이에 따라 데이터베이스에 저장해야 한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i winston
+</code></pre></div></div>
+
+<p>설치 후 <code class="language-plaintext highlighter-rouge">logger.js</code>를 작성한다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">createLogger</span><span class="p">,</span> <span class="nx">format</span><span class="p">,</span> <span class="nx">transports</span><span class="p">,</span> <span class="nx">info</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">winston</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">const</span> <span class="nx">logger</span> <span class="o">=</span> <span class="nx">createLogger</span><span class="p">({</span>
+    <span class="na">level</span><span class="p">:</span> <span class="nx">info</span><span class="p">,</span>
+    <span class="na">format</span><span class="p">:</span> <span class="nx">format</span><span class="p">.</span><span class="nx">json</span><span class="p">(),</span>
+    <span class="na">transports</span><span class="p">:</span> <span class="p">[</span>
+        <span class="k">new</span> <span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span> <span class="na">filename</span><span class="p">:</span> <span class="dl">'</span><span class="s1">combined.log </span><span class="dl">'</span> <span class="p">}),</span>
+        <span class="k">new</span> <span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span> <span class="na">filename</span><span class="p">:</span> <span class="dl">'</span><span class="s1">error.log</span><span class="dl">'</span><span class="p">,</span> <span class="na">level</span><span class="p">:</span> <span class="dl">'</span><span class="s1">error</span><span class="dl">'</span> <span class="p">}),</span>
+    <span class="p">],</span>
+<span class="p">});</span>
+
+
+<span class="k">if</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">!==</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span><span class="p">){</span>
+    <span class="nx">logger</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">({</span> <span class="na">format</span><span class="p">:</span> <span class="nx">format</span><span class="p">.</span><span class="nx">simple</span><span class="p">()</span> <span class="p">}));</span>
+<span class="p">}</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">logger</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">winston</code> 패키지의 <code class="language-plaintext highlighter-rouge">createLogger</code> 메서드를 통해 <code class="language-plaintext highlighter-rouge">logger</code>를 만든다. 인자로 <code class="language-plaintext highlighter-rouge">logger</code>에 대한 설정을 넣어줄 수 있다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">level</code>은 로그의 심각도를 의미하며, <code class="language-plaintext highlighter-rouge">error</code>. <code class="language-plaintext highlighter-rouge">warn</code>, <code class="language-plaintext highlighter-rouge">info</code>, <code class="language-plaintext highlighter-rouge">verbose</code>, <code class="language-plaintext highlighter-rouge">debug</code>, <code class="language-plaintext highlighter-rouge">silly</code>가 있다. 심각도가 낮은 것을 고른다면 윗 단계의 로그도 함께 기록된다.</li>
+  <li><code class="language-plaintext highlighter-rouge">format</code>은 로그의 형식이다. <code class="language-plaintext highlighter-rouge">json</code>, <code class="language-plaintext highlighter-rouge">label</code>, <code class="language-plaintext highlighter-rouge">timestamp</code>, <code class="language-plaintext highlighter-rouge">printf</code>, <code class="language-plaintext highlighter-rouge">simple</code>, <code class="language-plaintext highlighter-rouge">combine</code> 등의 형식이 있으며 기본적으로는 <code class="language-plaintext highlighter-rouge">json</code>형태로 기록하지만 로그 기록 시간을 표시하려면 <code class="language-plaintext highlighter-rouge">timestamp</code>를 쓰는 것이 좋다. 활용법이 다양하기에 <a href="https://www.npmjs.com/package/winston#formats">공식 문서</a>를 찾아보는 걸 추천한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">transports</code>는 로그 저장방식을 의미한다. 위에서는 파일로 저장하고 콘솔로 출력한다는 의미이고, 여러 로깅 방식을 동시에 사용할 수 있다.</li>
+</ul>
+
+<h2 id="helmet-hpp">helmet, hpp</h2>
+
+<p>서버의 각종 취약점을 보완해주는 패키지이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i helmet hpp
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">const</span> <span class="nx">helmet</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">helmet</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">hpp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">hpp</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NODE_ENV</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">production</span><span class="dl">'</span><span class="p">){</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="dl">'</span><span class="s1">combined</span><span class="dl">'</span><span class="p">));</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">helmet</span><span class="p">());</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">hpp</span><span class="p">());</span>
+<span class="p">}</span> <span class="k">else</span><span class="p">{</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="dl">'</span><span class="s1">dev</span><span class="dl">'</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</code></pre></div></div>
+<p>배포시에만 미들웨어로 사용할 수 있도록 설정하자.</p>
+
+<p>이 미들웨어를 통해 방어할 수 있는 취약점 목록은 공식 문서를 통해 확인하자.</p>
+
+<h2 id="connect-redis">connect-redis</h2>
+<p>멀티 프로세스 간 세션 공유를 위해 <code class="language-plaintext highlighter-rouge">Redis</code>를 사용할 것이다.
+세션 아이디와 실제 사용자 정보는 메모리에 저장되기 때문에 서버 종료 시 로그인이 모두 풀리게 된다. 이를 방지하기 위해 세션 아이디와 실제 사용자 정보를 데이터베이스에 저장한다.
+이 때 사용하는 데이터베이스가 레디스이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm i connect-redis
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">const</span> <span class="nx">hpp</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">hpp</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">RedisStore</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">connect-redis</span><span class="dl">'</span><span class="p">)(</span><span class="nx">session</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="kd">const</span> <span class="nx">sessionOptions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">resave</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">saveUninitialized</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="na">secret</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">COOKIE_SECRET</span><span class="p">,</span>
+  <span class="na">cookie</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">httpOnly</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">secure</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">store</span><span class="p">:</span> <span class="k">new</span> <span class="nx">RedisStore</span><span class="p">({</span>
+    <span class="na">host</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_HOST</span><span class="p">,</span>
+    <span class="na">port</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PORT</span><span class="p">,</span>
+    <span class="na">pass</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASSWORD</span>
+  <span class="p">}),</span>
+<span class="p">}</span>
+<span class="p">...</span>
+
+</code></pre></div></div>
+
+<p>레디스를 직접 깔아 서버에 설치할 수도 있지만, <a href="https://redislabs.com/">호스팅해주는 업체</a>가 있기 때문에 이를 사용해보도록 한다.</p>
+
+<p>새로운 데이터베이스를 생성 후 엔드포인트와 비밀번호를 <code class="language-plaintext highlighter-rouge">.env</code>에 저장해주고 위와같이 사용한다.</p>
+
+<h1 id="aws에-배포하기">AWS에 배포하기</h1>
+
+<p><code class="language-plaintext highlighter-rouge">Lightsail</code>을 사용하여 배포할 것이다.</p>
+
+<p>새로운 서버 생성 후 <code class="language-plaintext highlighter-rouge">SSH</code>를 이용한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install -y mysql-server-5.7
+sudo mysql_secure_insatllation
+</code></pre></div></div>
+<p>위를 입력해 mysql을 설치한다.</p>
+
+<p>깃허브에 저장된 서버를 클론 후 서버 실행을 위해 기본적으로 <code class="language-plaintext highlighter-rouge">Lightsail</code>에 켜져있는 <code class="language-plaintext highlighter-rouge">apache</code>서버를 끈다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /opt/bitnami
+sudo ./ctlscript.sh stop apache
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>조헌영, Node.js 교과서, 길벗, 15장 AWS와 GCP로 배포하[]<br /></li>
+  </ul>
+</blockquote>
+:ET
