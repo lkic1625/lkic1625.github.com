@@ -13,6 +13,10 @@ toc: true
 src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
+데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다.
+단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다.
+이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다.
+
 # 인덱스란?
 
 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 `DBMS`의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다.
@@ -38,6 +42,14 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 `InnoDB` 테이블에서는 프라이머리 키에 의해 클러스터링되기 때문에 프라이머리 키값 자체가 주소 역할을 한다. 실제 `MySQL` 테이블의 인덱스는 항상 인덱스 컬럼 값과 주소 값(`MyISAM`의 레코드 아이디 값 또는 `InnoDB`의 프라이머리 키값)의 조합이 인덱스 레코드로 구성됩니다.
 
 ![이미지](/assets/images/B_Tree_Structure.png)
+
+## Advantages of B-tree usage for databases
+
+- 정렬된 키값 저장을 통해 쉽게 엑세스 가능
+- `hierarchical index`(계층적 인덱스?)를 사용한 디스크 엑세스 최소화
+- 삽입 삭제 속도 향상을 위한 `partially full blocks` 사용
+- 재귀적 알고리즘 사용을 통한 균형 트리 유지.
+
 
 ## B-tree Properties
 

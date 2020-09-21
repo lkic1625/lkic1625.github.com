@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-22T04:41:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">서비스 배포하기</title><link href="http://localhost:4000/nodejs/starting_web_service/" rel="alternate" type="text/html" title="서비스 배포하기" /><published>2020-09-20T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/starting_web_service</id><content type="html" xml:base="http://localhost:4000/nodejs/starting_web_service/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-22T04:48:43+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">서비스 배포하기</title><link href="http://localhost:4000/nodejs/starting_web_service/" rel="alternate" type="text/html" title="서비스 배포하기" /><published>2020-09-20T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/starting_web_service</id><content type="html" xml:base="http://localhost:4000/nodejs/starting_web_service/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;배포-전-배포환경-설정&quot;&gt;배포 전 배포환경 설정&lt;/h1&gt;
@@ -219,6 +219,10 @@ sequelize db:create --env [database_name]
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><summary type="html"></summary></entry><entry><title type="html">B-tree, index(작성중)</title><link href="http://localhost:4000/database/b_tree_index/" rel="alternate" type="text/html" title="B-tree, index(작성중)" /><published>2020-09-19T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/b_tree_index</id><content type="html" xml:base="http://localhost:4000/database/b_tree_index/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
+&lt;p&gt;데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다.
+단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다.
+이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다.&lt;/p&gt;
+
 &lt;h1 id=&quot;인덱스란&quot;&gt;인덱스란?&lt;/h1&gt;
 
 &lt;p&gt;인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DBMS&lt;/code&gt;의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다.&lt;/p&gt;
@@ -246,6 +250,15 @@ sequelize db:create --env [database_name]
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InnoDB&lt;/code&gt; 테이블에서는 프라이머리 키에 의해 클러스터링되기 때문에 프라이머리 키값 자체가 주소 역할을 한다. 실제 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt; 테이블의 인덱스는 항상 인덱스 컬럼 값과 주소 값(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MyISAM&lt;/code&gt;의 레코드 아이디 값 또는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InnoDB&lt;/code&gt;의 프라이머리 키값)의 조합이 인덱스 레코드로 구성됩니다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/B_Tree_Structure.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;advantages-of-b-tree-usage-for-databases&quot;&gt;Advantages of B-tree usage for databases&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;정렬된 키값 저장을 통해 쉽게 엑세스 가능&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hierarchical index&lt;/code&gt;(계층적 인덱스?)를 사용한 디스크 엑세스 최소화&lt;/li&gt;
+  &lt;li&gt;삽입 삭제 속도 향상을 위한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;partially full blocks&lt;/code&gt; 사용&lt;/li&gt;
+  &lt;li&gt;재귀적 알고리즘 사용을 통한 균형 트리 유지.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;b-tree-properties&quot;&gt;B-tree Properties&lt;/h2&gt;
 
