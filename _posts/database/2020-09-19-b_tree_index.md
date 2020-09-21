@@ -29,6 +29,7 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 `B-Tree`는 컬럼의 값을 변형시키지 않고 인덱스 구조체 내에서 항상 정렬된 상태로 유지하고 있다.
 
 기본적으로 루트노드, 브랜치노드, 리프노드로 형성된 계층구조로 나뉘어져 있다.
+또한, 자식 노드들은 구분자`seperator`를 가지는데 이는 부모노드가 가진 원소로서 `BST`에서 왼쪽과 오른쪽 범위를 결정해주는 노드의 value와 역할이 같다.
 데이터베이스 내에서는 인덱스와 실제 데이터가 저장된 데이터는 따로 관리하는데, 인덱스의 리프 노드는 실제 데이터 레코드를 찾아가기 위한 주소 값을 가지고 있다.
 
 대부분 `RDBMS`의 데이터 파일에서 레코드는 특정 기준으로 정렬되지 않고 임의의 순서대로 저장된다. 하지만 `InnoDB`에서는 클러스터링돼 디스크에 저장하는 것을 기본으로 하기에 프라이머리 키 순서대로 정렬한 후 저장된다.
@@ -101,24 +102,22 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 
 ### Rebalancing after deletion
 
-Rebalancing starts from a leaf and proceeds toward the root until the tree is balanced. If deleting an element from a node has brought it under the minimum size, then some elements must be redistributed to bring all nodes up to the minimum. Usually, the redistribution involves moving an element from a sibling node that has more than the minimum number of nodes. That redistribution operation is called a rotation. If no sibling can spare an element, then the deficient node must be merged with a sibling. The merge causes the parent to lose a separator element, so the parent may become deficient and need rebalancing. The merging and rebalancing may continue all the way to the root. Since the minimum element count doesn't apply to the root, making the root be the only deficient node is not a problem. The algorithm to rebalance the tree is as follows:[citation needed]
+재구성은 트리의 리프노드부터 시작하며 트리가 balanced 할 때까지 반복한다. 삭제로 인해 최소 원소를 가지지 못하게 노드는 모든 노드를 재분배하여 최소 원소를 맞추어야 한다.
+보통 재분배는 최소 개수를 초과하는 형제로부터 가져오는 과정을 포함한다. 이러한 재분배를 회전`rotation`이라 하자. 만약 초과하는 형제 노드가 없을 경우에는 노드를 합친다.
 
-If the deficient node's right sibling exists and has more than the minimum number of elements, then rotate left
-Copy the separator from the parent to the end of the deficient node (the separator moves down; the deficient node now has the minimum number of elements)
-Replace the separator in the parent with the first element of the right sibling (right sibling loses one node but still has at least the minimum number of elements)
-The tree is now balanced
-Otherwise, if the deficient node's left sibling exists and has more than the minimum number of elements, then rotate right
-Copy the separator from the parent to the start of the deficient node (the separator moves down; deficient node now has the minimum number of elements)
-Replace the separator in the parent with the last element of the left sibling (left sibling loses one node but still has at least the minimum number of elements)
-The tree is now balanced
-Otherwise, if both immediate siblings have only the minimum number of elements, then merge with a sibling sandwiching their separator taken off from their parent
-Copy the separator to the end of the left node (the left node may be the deficient node or it may be the sibling with the minimum number of elements)
-Move all elements from the right node to the left node (the left node now has the maximum number of elements, and the right node – empty)
-Remove the separator from the parent along with its empty right child (the parent loses an element)
-If the parent is the root and now has no elements, then free it and make the merged node the new root (tree becomes shallower)
-Otherwise, if the parent has fewer than the required number of elements, then rebalance the parent
-Note: The rebalancing operations are different for B+ trees (e.g., rotation is different because parent has copy of the key) and B*-tree (e.g., three siblings are merged into two siblings).
+- `deficient node`의 오른쪽에 최소 개수를 초과하는 형제 노드를 가질 경우 왼쪽으로 회전한다.
+  1. 부모 노드에서 구분자를 `deficient node`의 끝으로 복사한다(구분자가 하위 노드에 복사되어 최소 원소 개수를 만족하게 된다.)
+  2. 형제 노드에서 첫번째 원소를 가져와 구분자 자리에 놓는다.
+  3. 트리가 `balanced` 해진다.
 
+오른쪽으로 회전 같은 경우에도 위와 같은 과정을 거친다.
+
+- 양쪽 형제 노드가 모두 최소 원소개수만을 만족한다면 부모 노드에 존재하는 구분자를 통해 합친다.
+  1. 구분자를 왼쪽 노드 끝에 복사한다(이 때 왼쪽 노드는 `deficient node`거나 최소원소만을 만족하는 형제 노드일 수 있다)
+  2. 오른쪽 노드의 모든 원소를 왼쪽으로 옮긴다(왼쪽 노드는 최대 원소개수를 만족하며 동시에 오른쪽 노드는 비어있다)
+  3. 구분자와 오른쪽 노드를 삭제한다.
+    - 부모노드가 루트이며 원소가 사라지면 기존 루트를 없애고 합쳐진 노드를 새로운 루트로 지정한다.
+    - 위의 경우가 아니고, 부모 노드의 개수가 부족할 경우 부모 노드를 재배열한다.
 
 ><font size="6">Refernce</font>
 - https://12bme.tistory.com/138
@@ -127,3 +126,4 @@ Note: The rebalancing operations are different for B+ trees (e.g., rotation is d
 - https://www.cs.usfca.edu/~galles/visualization/BTree.html
 - https://matice.tistory.com/8
 - https://en.wikipedia.org/wiki/B-tree
+- https://arisu1000.tistory.com/27715

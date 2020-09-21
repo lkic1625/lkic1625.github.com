@@ -1,4 +1,4 @@
-I"ZW<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+I"(\<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
 <h1 id="배포-전-배포환경-설정">배포 전 배포환경 설정</h1>
@@ -186,6 +186,30 @@
 <p>레디스를 직접 깔아 서버에 설치할 수도 있지만, <a href="https://redislabs.com/">호스팅해주는 업체</a>가 있기 때문에 이를 사용해보도록 한다.</p>
 
 <p>새로운 데이터베이스를 생성 후 엔드포인트와 비밀번호를 <code class="language-plaintext highlighter-rouge">.env</code>에 저장해주고 위와같이 사용한다.</p>
+
+<h1 id="aws에-배포하기">AWS에 배포하기</h1>
+
+<p><code class="language-plaintext highlighter-rouge">Lightsail</code>을 사용하여 배포할 것이다.</p>
+
+<p>새로운 서버 생성 후 <code class="language-plaintext highlighter-rouge">SSH</code>를 이용한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install -y mysql-server-5.7
+sudo mysql_secure_insatllation
+</code></pre></div></div>
+<p>위를 입력해 mysql을 설치한다.</p>
+
+<p>깃허브에 저장된 서버를 클론 후 서버 실행을 위해 기본적으로 <code class="language-plaintext highlighter-rouge">Lightsail</code>에 켜져있는 <code class="language-plaintext highlighter-rouge">apache</code>서버를 끈다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /opt/bitnami
+sudo ./ctlscript.sh stop apache
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~/[cloned repos name]
+npm i
+sudo npm i -g pm2 cross-env sequelize-cli
+sequelize db:create --env [database_name]
+</code></pre></div></div>
 
 <blockquote>
   <font size="6">Refernce</font>
