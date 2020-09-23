@@ -1,5 +1,9 @@
-I"�#<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+I"�,<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
+
+<p>데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다.
+단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다.
+이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다.</p>
 
 <h1 id="인덱스란">인덱스란?</h1>
 
@@ -19,6 +23,7 @@
 <p><code class="language-plaintext highlighter-rouge">B-Tree</code>는 컬럼의 값을 변형시키지 않고 인덱스 구조체 내에서 항상 정렬된 상태로 유지하고 있다.</p>
 
 <p>기본적으로 루트노드, 브랜치노드, 리프노드로 형성된 계층구조로 나뉘어져 있다.
+또한, 자식 노드들은 구분자<code class="language-plaintext highlighter-rouge">seperator</code>를 가지는데 이는 부모노드가 가진 원소로서 <code class="language-plaintext highlighter-rouge">BST</code>에서 왼쪽과 오른쪽 범위를 결정해주는 노드의 value와 역할이 같다.
 데이터베이스 내에서는 인덱스와 실제 데이터가 저장된 데이터는 따로 관리하는데, 인덱스의 리프 노드는 실제 데이터 레코드를 찾아가기 위한 주소 값을 가지고 있다.</p>
 
 <p>대부분 <code class="language-plaintext highlighter-rouge">RDBMS</code>의 데이터 파일에서 레코드는 특정 기준으로 정렬되지 않고 임의의 순서대로 저장된다. 하지만 <code class="language-plaintext highlighter-rouge">InnoDB</code>에서는 클러스터링돼 디스크에 저장하는 것을 기본으로 하기에 프라이머리 키 순서대로 정렬한 후 저장된다.
@@ -27,6 +32,15 @@
 <p><code class="language-plaintext highlighter-rouge">InnoDB</code> 테이블에서는 프라이머리 키에 의해 클러스터링되기 때문에 프라이머리 키값 자체가 주소 역할을 한다. 실제 <code class="language-plaintext highlighter-rouge">MySQL</code> 테이블의 인덱스는 항상 인덱스 컬럼 값과 주소 값(<code class="language-plaintext highlighter-rouge">MyISAM</code>의 레코드 아이디 값 또는 <code class="language-plaintext highlighter-rouge">InnoDB</code>의 프라이머리 키값)의 조합이 인덱스 레코드로 구성됩니다.</p>
 
 <p><img src="/assets/images/B_Tree_Structure.png" alt="이미지" /></p>
+
+<h2 id="advantages-of-b-tree-usage-for-databases">Advantages of B-tree usage for databases</h2>
+
+<ul>
+  <li>정렬된 키값 저장을 통해 쉽게 엑세스 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">hierarchical index</code>(계층적 인덱스?)를 사용한 디스크 엑세스 최소화</li>
+  <li>삽입 삭제 속도 향상을 위한 <code class="language-plaintext highlighter-rouge">partially full blocks</code> 사용</li>
+  <li>재귀적 알고리즘 사용을 통한 균형 트리 유지.</li>
+</ul>
 
 <h2 id="b-tree-properties">B-tree Properties</h2>
 
@@ -114,11 +128,31 @@
 <ul>
   <li><code class="language-plaintext highlighter-rouge">deficient node</code>의 오른쪽에 최소 개수를 초과하는 형제 노드를 가질 경우 왼쪽으로 회전한다.
     <ol>
-      <li>부모 노드에서 구분자를 <code class="language-plaintext highlighter-rouge">deficient node</code>의 끝으로 복사한다(구분자가 하위 노드에 복사되어 최소 원소 개수를 만족하게 된다.)
-2.</li>
+      <li>부모 노드에서 구분자를 <code class="language-plaintext highlighter-rouge">deficient node</code>의 끝으로 복사한다(구분자가 하위 노드에 복사되어 최소 원소 개수를 만족하게 된다.)</li>
+      <li>형제 노드에서 첫번째 원소를 가져와 구분자 자리에 놓는다.</li>
+      <li>트리가 <code class="language-plaintext highlighter-rouge">balanced</code> 해진다.</li>
     </ol>
   </li>
 </ul>
+
+<p>오른쪽으로 회전 같은 경우에도 위와 같은 과정을 거친다.</p>
+
+<ul>
+  <li>양쪽 형제 노드가 모두 최소 원소개수만을 만족한다면 부모 노드에 존재하는 구분자를 통해 합친다.
+    <ol>
+      <li>구분자를 왼쪽 노드 끝에 복사한다(이 때 왼쪽 노드는 <code class="language-plaintext highlighter-rouge">deficient node</code>거나 최소원소만을 만족하는 형제 노드일 수 있다)</li>
+      <li>오른쪽 노드의 모든 원소를 왼쪽으로 옮긴다(왼쪽 노드는 최대 원소개수를 만족하며 동시에 오른쪽 노드는 비어있다)</li>
+      <li>구분자와 오른쪽 노드를 삭제한다.
+        <ul>
+          <li>부모노드가 루트이며 원소가 사라지면 기존 루트를 없애고 합쳐진 노드를 새로운 루트로 지정한다.</li>
+          <li>위의 경우가 아니고, 부모 노드의 개수가 부족할 경우 부모 노드를 재배열한다.</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h1 id="b-tree-1">B+ tree</h1>
 
 <blockquote>
   <font size="6">Refernce</font>

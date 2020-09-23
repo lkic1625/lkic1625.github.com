@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-22T04:48:43+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">서비스 배포하기</title><link href="http://localhost:4000/nodejs/starting_web_service/" rel="alternate" type="text/html" title="서비스 배포하기" /><published>2020-09-20T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/starting_web_service</id><content type="html" xml:base="http://localhost:4000/nodejs/starting_web_service/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-24T06:40:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/database/SQL_QUERY_01/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_01</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;
+
+&lt;h2 id=&quot;group_by&quot;&gt;GROUP_BY&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(column) FROM table_name GROUP_BY column
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;특정-시간대별-정렬&quot;&gt;특정 시간대별 정렬&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS
+ WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19'
+ GROUP BY date_format(DATETIME, '%H')
+ ORDER BY date_format(DATETIME, '%H') ASC
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt; SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT
+ FROM animal_outs
+ GROUP BY HOUR(datetime)
+ HAVING HOUR &amp;gt;= 9 AND HOUR &amp;lt;= 19
+ ORDER BY HOUR
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;등록되는-시간인-719시를-제외한-시간-또한-표시하여-정렬&quot;&gt;등록되는 시간인 7~19시를 제외한 시간 또한 표시하여 정렬&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;set @hour := -1;
+SELECT (@hour := @hour + 1) as 'HOUR',
+       (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS 'COUNT'
+FROM ANIMAL_OUTS
+WHERE @hour &amp;lt; 23;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;null-check&quot;&gt;NULL CHECK&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME IS NOT NULL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;ifnull&quot;&gt;IFNULL()&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_TYPE, IFNULL(NAME, 'No name'), SEX_UPON_INTAKE FROM ANIMAL_INS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;inner-join&quot;&gt;INNER JOIN&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT
+테이블별칭.조회할칼럼,
+테이블별칭.조회할칼럼
+FROM 기준테이블 별칭
+INNER JOIN 조인테이블 별칭 ON 기준테이블별칭.기준키 = 조인테이블별칭.기준키....
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;한쪽-집합에-값이-없는-것만-출력&quot;&gt;한쪽 집합에 값이 없는 것만 출력&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT O.ANIMAL_ID, O.NAME
+FROM ANIMAL_INS I
+RIGHT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE I.ANIMAL_ID IS NULL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT I.NAME, I.DATETIME
+FROM ANIMAL_INS I
+LEFT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE O.DATETIME IS NULL
+ORDER BY I.DATETIME ASC
+LIMIT 3;
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry><entry><title type="html">서비스 배포하기</title><link href="http://localhost:4000/nodejs/starting_web_service/" rel="alternate" type="text/html" title="서비스 배포하기" /><published>2020-09-20T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/starting_web_service</id><content type="html" xml:base="http://localhost:4000/nodejs/starting_web_service/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;배포-전-배포환경-설정&quot;&gt;배포 전 배포환경 설정&lt;/h1&gt;
@@ -369,6 +435,8 @@ sequelize db:create --env [database_name]
     &lt;/ol&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h1 id=&quot;b-tree-1&quot;&gt;B+ tree&lt;/h1&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
@@ -2169,30 +2237,4 @@ N:M 관계는 실제 관계형 구조에서는 쉽게 만들 수 없는 구조�
   &lt;ul&gt;
     &lt;li&gt;조헌영, Node.js 교과서, 길벗, 6장 express&lt;br /&gt;&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html">라우팅</summary></entry><entry><title type="html">express, view engine(작성 중)</title><link href="http://localhost:4000/nodejs/express_04/" rel="alternate" type="text/html" title="express, view engine(작성 중)" /><published>2020-08-19T00:00:00+09:00</published><updated>2020-08-19T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/express_04</id><content type="html" xml:base="http://localhost:4000/nodejs/express_04/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;템플릿-엔진-사용&quot;&gt;템플릿 엔진 사용&lt;/h1&gt;
-
-&lt;h2 id=&quot;pugjade&quot;&gt;Pug(Jade)&lt;/h2&gt;
-&lt;p&gt;루비 문법과 흡사하여 사용해보았다면 익숙할 것이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;사용법&quot;&gt;사용법&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app.js&lt;/code&gt;에는 아래 코드가 반드시 있어야 한다.&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;__dirname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;view engine&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;pug&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;템플릿 파일들이 위치한 폴더를 지정하고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;res.render&lt;/code&gt; 메서드가 이 폴더를 기준으로 템플릿 엔진을 찾아 렌더링한다.&lt;/p&gt;
-
-&lt;h3 id=&quot;html-표현&quot;&gt;HTML 표현&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;조헌영, Node.js 교과서, 길벗, 6장 express&lt;br /&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html">템플릿 엔진 사용</summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="express" /><summary type="html">라우팅</summary></entry></feed>

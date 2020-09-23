@@ -1,0 +1,34 @@
+I"�<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+
+<h1 id="sql-쿼리-지문-정리">sql 쿼리 지문 정리</h1>
+
+<p>GROUP_BY 콜럼 값이 같은 것들을 그룹지어 출력할 수 있다.</p>
+
+<pre><code class="language-SQL">SELECT COUNT(column) FROM table_name GROUP_BY column
+</code></pre>
+
+<p>특정 시간대별 정렬</p>
+
+<pre><code class="language-SQL">SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS
+ WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19'
+ GROUP BY date_format(DATETIME, '%H')
+ ORDER BY date_format(DATETIME, '%H') ASC
+</code></pre>
+
+<pre><code class="language-SQL"> SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT
+ FROM animal_outs
+ GROUP BY HOUR(datetime)
+ HAVING HOUR &gt;= 9 AND HOUR &lt;= 19
+ ORDER BY HOUR
+</code></pre>
+
+<p>등록되는 시간인 7~19시를 제외한 시간 또한 표시하여 정렬</p>
+
+<pre><code class="language-SQL">set @hour := -1;
+SELECT (@hour := @hour + 1) as 'HOUR',
+       (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS 'COUNT'
+FROM ANIMAL_OUTS
+WHERE @hour &lt; 23;
+</code></pre>
+:ET

@@ -1,4 +1,4 @@
-I" <ul class="toc__menu">
+I"K<ul class="toc__menu">
   <li><a href="#인덱스란">인덱스란?</a></li>
   <li><a href="#b-tree">B-tree</a>
     <ul>
@@ -16,5 +16,6 @@
       </li>
     </ul>
   </li>
+  <li><a href="#b-tree-1">B+ tree</a></li>
 </ul>
 :ET

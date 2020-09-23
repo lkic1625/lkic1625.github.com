@@ -124,4 +124,10 @@ var store = [{
         "tags": ["nodejs"],
         "url": "http://localhost:4000/nodejs/starting_web_service/",
         "teaser": null
+      },{
+        "title": "SQL QUERY 정리",
+        "excerpt":"sql 쿼리 지문 정리 GROUP_BY SELECT COUNT(column) FROM table_name GROUP_BY column 특정 시간대별 정렬 SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19' GROUP BY date_format(DATETIME, '%H') ORDER BY date_format(DATETIME, '%H') ASC SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT FROM animal_outs GROUP BY...","categories": ["database"],
+        "tags": ["b_tree","database","datastructure"],
+        "url": "http://localhost:4000/database/SQL_QUERY_01/",
+        "teaser": null
       }]
