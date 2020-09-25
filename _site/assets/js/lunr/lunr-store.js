@@ -17,6 +17,12 @@ var store = [{
         "url": "http://localhost:4000/spring/hibernate_03_spring/",
         "teaser": null
       },{
+        "title": "Hibernate 03(작성 중)",
+        "excerpt":"Hibernate CURD features SessionFactory, Session SessionFactory SessionFactory 인터페이스는 Session 객체를 얻기 위한 메소드를 제공한다. Hibernate config file을 읽어 Session 객체를 생성한다. App 동작 단계에서 한 번만 생성된다(Heavy-weight object). Session Database의 JDBC connection의 Wrapper이다. Short-lived object로써 Database의 한 번 접근 후 재사용하지 않는다. Primary Key primary key란 Table의 행을 특정할 수...","categories": ["spring"],
+        "tags": ["spring","hibernate"],
+        "url": "http://localhost:4000/spring/hibernate_04_spring/",
+        "teaser": null
+      },{
         "title": "Flutter 시작하기",
         "excerpt":"Flutter 시작하기 설치 Flutter 홈페이지 접속 후 SDK를 특정 경로에 압축 해제한다. 작성자는 C:\\sdk\\flutter에 압축해제하였다. (이 때 C:\\Program Files\\과 같은 권한 상승이 필요한 directory에 저장하지 않는다.) 환경 변수 설정. 시스템 환경 변수 설정을 위해 시작 탭에서 환경 변수를 검색한다. 아래 보이는 환경 변수를 클릭 후 시스템 변수의 Path 변수가 존재...","categories": ["flutter"],
         "tags": ["flutter"],
@@ -129,5 +135,11 @@ var store = [{
         "excerpt":"sql 쿼리 지문 정리 GROUP_BY SELECT COUNT(column) FROM table_name GROUP_BY column 특정 시간대별 정렬 SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19' GROUP BY date_format(DATETIME, '%H') ORDER BY date_format(DATETIME, '%H') ASC SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT FROM animal_outs GROUP BY...","categories": ["database"],
         "tags": ["b_tree","database","datastructure"],
         "url": "http://localhost:4000/database/SQL_QUERY_01/",
+        "teaser": null
+      },{
+        "title": "SQL QUERY 정리",
+        "excerpt":"rails rails guiding principles Don’t Repeat Yourself: DRY is a principle of software development which states that “Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” By not writing the same information over and over again, our code is more maintainable, more extensible, and less...","categories": ["rails"],
+        "tags": ["rails","ruby"],
+        "url": "http://localhost:4000/rails/starting_rails/",
         "teaser": null
       }]
