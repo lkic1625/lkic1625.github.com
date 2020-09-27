@@ -1,0 +1,10 @@
+I"(<ul class="toc__menu">
+  <li><a href="#hibernate-curd-features">Hibernate CURD features</a>
+    <ul>
+      <li><a href="#sessionfactory-session">SessionFactory, Session</a></li>
+      <li><a href="#primary-key">Primary Key</a></li>
+      <li><a href="#code">Code</a></li>
+    </ul>
+  </li>
+</ul>
+:ET
