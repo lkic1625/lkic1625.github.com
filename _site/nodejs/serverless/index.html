@@ -1,0 +1,752 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>serverless node  |  untitled</title>
+<meta name="description" content="serverless">
+
+
+  <meta name="author" content="조원빈">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="untitled">
+<meta property="og:title" content="serverless node">
+<meta property="og:url" content="http://localhost:4000/nodejs/serverless/">
+
+
+  <meta property="og:description" content="serverless">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-09-24T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-09-24T04:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/nodejs/serverless/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "조원빈",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="untitled Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          untitled
+          <span class="site-subtitle">기록용 블로그입니다.</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">연도별 포스트</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar_logo.jpg" alt="조원빈" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">조원빈</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Was mich nicht umbringt, macht mich stärker.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:lkic1625@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="serverless node">
+    <meta itemprop="description" content="serverless">
+    <meta itemprop="datePublished" content="2020-09-24T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-09-24T04:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">serverless node
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#serverless">serverless</a></li>
+  <li><a href="#aws-s3-사용하기">AWS S3 사용하기</a>
+    <ul>
+      <li><a href="#버킷-권한-설정">버킷 권한 설정</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="serverless">serverless</h1>
+
+<p>서버리스라 해서 서버가 없는 것은 아니다.
+클라우드 서비스가 대신 관리하여 서버 관리에 드는 부담을 줄이는 것을 의미한다.</p>
+
+<p>AWS에 EC2나 Google Compute Engine과는 다르게 VM 인스턴스를 미리 구매해야 한다.
+단순히 코드를 업로드한 뒤, 사용량에 따라 요금을 지불하면 된다.</p>
+
+<p>AWS Lambda와 Cloud Functions는 특정한 동작을 수행한 로직을 저장하고, 요청이 들어올 때 로직을 실행하는 서비스다.
+<code class="language-plaintext highlighter-rouge">FaaS(Functtion as a Service)</code>라 불린다. 이미지 리사이징과 같은 노드가 버거운 작업들을 함수로 만들어 클라우드에 올리고,
+리사이징이 필요할 때마다 서비스를 호출하면 된다.</p>
+
+<p>S3는 클라우드 데이터 저장소라고 보면 된다. 노드 서버가 정적 파일 제공에 딱히 이점이 있이 않으므로 클라우드 데이터 저장소가 대신 정정파일을 제공하도록 위임한다.</p>
+
+<h1 id="aws-s3-사용하기">AWS S3 사용하기</h1>
+
+<p>S3를 사용하려면 미리 AWS 웹사이트에서 관련 설정을 해두어야 한다.</p>
+
+<h2 id="버킷-권한-설정">버킷 권한 설정</h2>
+
+<p>버킷을 설정 변경 없이 생성 후 아래 JSON 파일을 권한 - 버킷 정책에서 입력하자.
+버킷 생성 시 퍼블릭 엑세스를 막아둔다면 권한 변경이 불가하니 이를 주의하도록 하자.</p>
+
+<p>버킷 정책 예제에 대한 자세한 설명은 <a href="https://docs.aws.amazon.com/ko_kr/AmazonS3/latest/dev/example-bucket-policies.html">이 사이트</a>에서 볼 수 있다.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+   </span><span class="nl">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2020-09-24"</span><span class="p">,</span><span class="w">
+   </span><span class="nl">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+       </span><span class="p">{</span><span class="w">
+           </span><span class="nl">"Sid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AddPerm"</span><span class="p">,</span><span class="w">
+           </span><span class="nl">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+           </span><span class="nl">"Principal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+           </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+               </span><span class="s2">"s3:GetObject"</span><span class="p">,</span><span class="w">
+               </span><span class="s2">"s3:PutObject"</span><span class="w">
+           </span><span class="p">],</span><span class="w">
+           </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:s3:::bookmark/*"</span><span class="w">
+       </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>이후 내 계정 - 보안 자격 증명 메뉴 선택 후 엑세스 키 탭에서 새 엑세스 키 만들기를 선택 후 키 파일을 다운로드하자.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm i multer-s3 aws-sdk
+</code></pre></div></div>
+
+<p>서비스 사용에 필요한 모듈을 다운로드 후 보안 엑세스 키를 <code class="language-plaintext highlighter-rouge">.env</code>파일에 복사한다.</p>
+
+<p>middlewares.js</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">const</span> <span class="nx">AWS</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">aws-sdk</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">path</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">multer</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">multer</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">multerS3</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">multer-s3</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">fs</span><span class="p">.</span><span class="nx">readdir</span><span class="p">(</span><span class="dl">'</span><span class="s1">uploads</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">error</span><span class="p">){</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdirSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">uploads</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">AWS</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">update</span><span class="p">({</span>
+  <span class="na">accessKeyId</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">S3_ACCESS_KEY_ID</span><span class="p">,</span>
+  <span class="na">secretAccessKey</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">S3_SECRET_ACCESS_KEY</span><span class="p">,</span>
+  <span class="na">region</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ap-northeast-2</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="nx">exports</span><span class="p">.</span><span class="nx">upload</span> <span class="o">=</span> <span class="nx">multer</span><span class="p">({</span>
+  <span class="na">storage</span><span class="p">:</span> <span class="nx">multerS3</span><span class="p">({</span>
+    <span class="na">s3</span><span class="p">:</span> <span class="k">new</span> <span class="nx">AWS</span><span class="p">.</span><span class="nx">S3</span><span class="p">(),</span>
+    <span class="na">bucket</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bookmark</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">key</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cb</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="s2">`original/</span><span class="p">${</span><span class="o">+</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()}${</span><span class="nx">path</span><span class="p">.</span><span class="nx">basename</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">originalname</span><span class="p">)}</span><span class="s2">`</span><span class="p">);</span>
+    <span class="p">},</span>
+  <span class="p">}),</span>
+  <span class="na">limits</span><span class="p">:</span> <span class="p">{</span> <span class="na">fileSize</span><span class="p">:</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="p">},</span>
+<span class="p">});</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">region</code>은 <code class="language-plaintext highlighter-rouge">ap-northeast-2</code> 서울을 입력했다.
+<code class="language-plaintext highlighter-rouge">req.file.loaction</code>의 <code class="language-plaintext highlighter-rouge">S3</code> 버킷 이미지 주소가 담겨있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">accessKeyId</code>와 <code class="language-plaintext highlighter-rouge">secretAccessKey</code>가 현재 <code class="language-plaintext highlighter-rouge">deprecated</code> 상태이므로 다른 방식을 취해서 <code class="language-plaintext highlighter-rouge">S3</code>에 접근해야한다.
+<code class="language-plaintext highlighter-rouge">credential</code> 파일을 이용하는 방법이 존재하는데, <a href="https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html">공식문서</a>에서 사용법을 확인해보자.</p>
+
+<p>#AWS Lambda 사용하기
+<code class="language-plaintext highlighter-rouge">S3</code>에 올린 이미지를 리사이징한 후 줄어든 이미지를 다시 S3에 저장해보겠다.
+리사이징은 cpu를 많이 사용하는 작업이라 <code class="language-plaintext highlighter-rouge">Lambda</code>로 분리하여 사용해보았다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">aws-upload</code> 프로젝트 폴더를 생성후 <code class="language-plaintext highlighter-rouge">aws-sdk</code>와 <code class="language-plaintext highlighter-rouge">gm</code>을 설치한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm i aws-sdk gm
+</code></pre></div></div>
+
+<p>index.js</p>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">AWS</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">aws-sdk</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">gm</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">gm</span><span class="dl">'</span><span class="p">).</span><span class="nx">subClass</span><span class="p">({</span> <span class="na">imageMagick</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="kd">const</span> <span class="nx">s3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AWS</span><span class="p">.</span><span class="nx">S3</span><span class="p">();</span>
+
+<span class="nx">exports</span><span class="p">.</span><span class="nx">handler</span> <span class="o">=</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">context</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">Bucket</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">Records</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">s3</span><span class="p">.</span><span class="nx">bucket</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">Key</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">Records</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">s3</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">key</span><span class="p">;</span>
+    <span class="kd">const</span> <span class="nx">filename</span> <span class="o">=</span> <span class="nx">Key</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">)[</span><span class="nx">Key</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">).</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="kd">const</span> <span class="nx">ext</span> <span class="o">=</span> <span class="nx">Key</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">)[</span><span class="nx">Key</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">).</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span>
+
+    <span class="nx">s3</span><span class="p">.</span><span class="nx">getObject</span><span class="p">({</span> <span class="nx">Bucket</span><span class="p">,</span> <span class="nx">Key</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">){</span>
+            <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+            <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>    
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nx">gm</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">Body</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">resize</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="dl">'</span><span class="s1">^</span><span class="dl">'</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">quality</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">toBuffer</span><span class="p">(</span><span class="nx">ext</span><span class="p">,</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">buffer</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="nx">console</span><span class="p">.</span><span class="nx">err</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+                    <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+                <span class="p">}</span>
+                <span class="k">return</span> <span class="nx">s3</span><span class="p">.</span><span class="nx">putObject</span><span class="p">({</span>
+                    <span class="nx">Bucket</span><span class="p">,</span>
+                    <span class="na">Key</span><span class="p">:</span> <span class="s2">`thumb/</span><span class="p">${</span><span class="nx">filename</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+                    <span class="na">Body</span><span class="p">:</span> <span class="nx">buffer</span><span class="p">,</span>
+                <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+                    <span class="k">if</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+                        <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+                    <span class="p">}</span>
+                    <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span>  <span class="s2">`thumb/</span><span class="p">${</span><span class="nx">filename</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+                <span class="p">});</span>
+            <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">gm</code> 패키지는 이미지 조작을 위한 패키지이다. <code class="language-plaintext highlighter-rouge">imageMagick</code>방식으로 이미지를 리사이징 하기위해 <code class="language-plaintext highlighter-rouge">subClass</code>로 <code class="language-plaintext highlighter-rouge">imageMagick</code>을 설정하였다.</li>
+  <li><code class="language-plaintext highlighter-rouge">handler</code> 함수는 <code class="language-plaintext highlighter-rouge">Lambda</code>호출 시 실행되는 함수이며 매개변수로는 <code class="language-plaintext highlighter-rouge">event</code>와 <code class="language-plaintext highlighter-rouge">context</code>, <code class="language-plaintext highlighter-rouge">callback</code>이 주어진다. <code class="language-plaintext highlighter-rouge">event</code>는 호출 상황에 대한 정보
+<code class="language-plaintext highlighter-rouge">context</code>는 실행되는 함수환경에 대한 정보, <code class="language-plaintext highlighter-rouge">callback</code>은 함수가 완료되었는지를 람다에게 알려준다. <code class="language-plaintext highlighter-rouge">callback</code>의 첫 번째 인자는 에러 여부를, 두 번째 인자는 설명을 의미한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">event</code> 객체로부터 버킷과 파일경로, 파일명, 확장자 등을 확인한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">s3.GetObject</code>를 통해서 버킷에 파일을 불러온다 <code class="language-plaintext highlighter-rouge">data.Body</code>에 파일버퍼가 담겨있다.</li>
+  <li><code class="language-plaintext highlighter-rouge">gm</code>함수에 파일 버퍼를 넣고 리사이즈 한다. 자세한 인자 설명은 <a href="https://www.npmjs.com/package/gm">GM 공식문서</a>를 확인하자.</li>
+  <li><code class="language-plaintext highlighter-rouge">s3.putObject</code>로 이미지를 저장한다.</li>
+</ul>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>조헌영, Node.js 교과서, 길벗, 16장 서버리스 노드 개발</li>
+  </ul>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#aws" class="page__taxonomy-item" rel="tag">AWS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-09-24">September 24, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=serverless+node%20http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fserverless%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fserverless%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fserverless%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/database/SQL_QUERY_01/" class="pagination--pager" title="SQL QUERY 정리
+">이전</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/SQL_QUERY_01/" rel="permalink">SQL QUERY 정리
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/nodejs/starting_web_service/" rel="permalink">서비스 배포하기
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/b_tree_index/" rel="permalink">B-tree, index(작성중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/put_post/" rel="permalink">PUT VS POST
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 조원빈. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

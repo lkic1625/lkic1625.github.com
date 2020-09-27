@@ -121,7 +121,7 @@ var store = [{
       },{
         "title": "서비스 배포하기",
         "excerpt":"배포 전 배포환경 설정 개발 환경과는 달리 설정해야 할 코드들을 아래와 같이 변경해야 한다. app.js if (process.env.NODE_ENV === 'production'){ app.use(morgan('combined')); } else{ app.use(morgan('dev')); } ... const sessionOptions = { resave: false, saveUninitialized: false, secret: process.env.COOKIE_SECRET, cookie: { httpOnly: true, secure: false, }, } if (process.env.NODE_ENV === 'production'){ sessionOptions.proxy = true;...","categories": ["nodejs"],
-        "tags": ["nodejs"],
+        "tags": ["nodejs","AWS"],
         "url": "http://localhost:4000/nodejs/starting_web_service/",
         "teaser": null
       },{
@@ -129,5 +129,11 @@ var store = [{
         "excerpt":"sql 쿼리 지문 정리 GROUP_BY SELECT COUNT(column) FROM table_name GROUP_BY column 특정 시간대별 정렬 SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19' GROUP BY date_format(DATETIME, '%H') ORDER BY date_format(DATETIME, '%H') ASC SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT FROM animal_outs GROUP BY...","categories": ["database"],
         "tags": ["b_tree","database","datastructure"],
         "url": "http://localhost:4000/database/SQL_QUERY_01/",
+        "teaser": null
+      },{
+        "title": "serverless node",
+        "excerpt":"serverless 서버리스라 해서 서버가 없는 것은 아니다. 클라우드 서비스가 대신 관리하여 서버 관리에 드는 부담을 줄이는 것을 의미한다. AWS에 EC2나 Google Compute Engine과는 다르게 VM 인스턴스를 미리 구매해야 한다. 단순히 코드를 업로드한 뒤, 사용량에 따라 요금을 지불하면 된다. AWS Lambda와 Cloud Functions는 특정한 동작을 수행한 로직을 저장하고, 요청이 들어올 때...","categories": ["nodejs"],
+        "tags": ["nodejs","AWS"],
+        "url": "http://localhost:4000/nodejs/serverless/",
         "teaser": null
       }]
