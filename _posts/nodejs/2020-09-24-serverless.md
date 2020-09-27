@@ -98,7 +98,7 @@ exports.upload = multer({
 `accessKeyId`와 `secretAccessKey`가 현재 `deprecated` 상태이므로 다른 방식을 취해서 `S3`에 접근해야한다.
 `credential` 파일을 이용하는 방법이 존재하는데, [공식문서](https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/loading-node-credentials-shared.html)에서 사용법을 확인해보자.
 
-#AWS Lambda 사용하기
+# AWS Lambda 사용하기
 `S3`에 올린 이미지를 리사이징한 후 줄어든 이미지를 다시 S3에 저장해보겠다.
 리사이징은 cpu를 많이 사용하는 작업이라 `Lambda`로 분리하여 사용해보았다.
 
@@ -158,6 +158,12 @@ exports.handler = (event, context, callback) => {
 - `s3.GetObject`를 통해서 버킷에 파일을 불러온다 `data.Body`에 파일버퍼가 담겨있다.
 - `gm`함수에 파일 버퍼를 넣고 리사이즈 한다. 자세한 인자 설명은 [GM 공식문서](https://www.npmjs.com/package/gm)를 확인하자.
 - `s3.putObject`로 이미지를 저장한다.
+
+코드 작성이 완료되었다면 파일을 압축한다.
+
+## Lambda 서비스 설정
+
+![이미지](/assets/images/lambda-create-menu.png)
 
 
 ><font size="6">Refernce</font>
