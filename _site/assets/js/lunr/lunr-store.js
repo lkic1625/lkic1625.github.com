@@ -143,7 +143,7 @@ var store = [{
         "url": "http://localhost:4000/nodejs/serverless/",
         "teaser": null
       },{
-        "title": "SQL QUERY 정리",
+        "title": "starting rails ",
         "excerpt":"rails rails guiding principles Don’t Repeat Yourself: DRY is a principle of software development which states that “Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” By not writing the same information over and over again, our code is more maintainable, more extensible, and less...","categories": ["rails"],
         "tags": ["rails","ruby"],
         "url": "http://localhost:4000/rails/starting_rails/",

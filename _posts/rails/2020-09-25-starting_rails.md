@@ -1,5 +1,5 @@
 ---
-title: "SQL QUERY 정리"
+title: "starting rails "
 tags:
   - rails
   - ruby
