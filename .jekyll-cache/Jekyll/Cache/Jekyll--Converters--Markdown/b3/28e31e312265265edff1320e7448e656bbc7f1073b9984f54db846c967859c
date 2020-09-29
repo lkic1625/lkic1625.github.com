@@ -1,8 +1,0 @@
-I"�<ul class="toc__menu">
-  <li><a href="#hibernate-with-java-annotation">Hibernate with Java Annotation</a>
-      - {:.} <a href="#java-annotation-종류">Java Annotation 종류</a>
-      - {:.} <a href="#sessionfactory-session">SessionFactory, Session</a>
-      - {:.} <a href="#code">Code</a>
-      - {:.} <a href="#faq-why-we-are-using-jpa-annotation-instead-of-hibernate">FAQ: Why we are using JPA Annotation instead of Hibernate?</a></li>
-</ul>
-:ET
