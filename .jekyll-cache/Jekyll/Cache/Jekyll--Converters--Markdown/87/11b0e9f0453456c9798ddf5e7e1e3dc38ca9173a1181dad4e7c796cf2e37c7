@@ -1,9 +1,0 @@
-I"�<ul class="toc__menu">
-  <li><a href="#serverless">serverless</a></li>
-  <li><a href="#aws-s3-사용하기">AWS S3 사용하기</a>
-    <ul>
-      <li><a href="#버킷-권한-설정">버킷 권한 설정</a></li>
-    </ul>
-  </li>
-</ul>
-:ET
