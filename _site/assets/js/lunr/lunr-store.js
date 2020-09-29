@@ -143,9 +143,21 @@ var store = [{
         "url": "http://localhost:4000/nodejs/serverless/",
         "teaser": null
       },{
+        "title": "책깔피",
+        "excerpt":"책깔피   수업에서 간단한 팀프로젝트 겸 개발했던 프로젝트에서 백엔드 개발 자체를 파이어베이스로 넘겼기에 noed js express 기반으로 작성하였다.   책 OPEN API를 통해 책 정보를 저장하고 사용자는 이를 공유하면 된다.   frontend   backend   더 보완할 점   간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.  ","categories": ["nodejs"],
+        "tags": ["nodejs","AWS"],
+        "url": "http://localhost:4000/nodejs/bookmark/",
+        "teaser": null
+      },{
         "title": "starting rails ",
         "excerpt":"rails rails guiding principles Don’t Repeat Yourself: DRY is a principle of software development which states that “Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” By not writing the same information over and over again, our code is more maintainable, more extensible, and less...","categories": ["rails"],
         "tags": ["rails","ruby"],
         "url": "http://localhost:4000/rails/starting_rails/",
+        "teaser": null
+      },{
+        "title": "데이터베이스 캐싱(작성 중)",
+        "excerpt":"개요 RDBMS 서버구조서 가장 쉽게 만들 수 있는 방식이 주로 RDBMS이다. 용도에 따라 달라지겠지만 규모가 매우큰 포탈에 데이터베이스는 쿼리 진행에도 상당히 많은 시간이 소요될 것이다. 실제로 공공데이터 포탈에서 2000만 Cardinality 규모의 데이터를 받아 샘플 DB를 생성하고 조회해보면 Index를 걸어놓았음에도 불구하고 20초가 넘게 걸린다. 해결방법 데이터베이스 튜닝과 효율적인 인덱싱을 통해 해결할...","categories": ["nodejs"],
+        "tags": ["database","cache","nodejs"],
+        "url": "http://localhost:4000/nodejs/database_caching/",
         "teaser": null
       }]

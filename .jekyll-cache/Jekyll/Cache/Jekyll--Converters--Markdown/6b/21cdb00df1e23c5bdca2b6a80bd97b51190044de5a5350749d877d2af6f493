@@ -1,0 +1,121 @@
+I"\%<h1 id="개요">개요</h1>
+
+<h2 id="rdbms">RDBMS</h2>
+
+<p>서버구조서 가장 쉽게 만들 수 있는 방식이 주로 <code class="language-plaintext highlighter-rouge">RDBMS</code>이다.
+용도에 따라 달라지겠지만 규모가 매우큰 포탈에 데이터베이스는 쿼리 진행에도 상당히 많은 시간이 소요될 것이다.
+실제로 공공데이터 포탈에서 2000만 Cardinality 규모의 데이터를 받아 샘플 DB를 생성하고 조회해보면 Index를 걸어놓았음에도 불구하고 20초가 넘게 걸린다.</p>
+
+<h2 id="해결방법">해결방법</h2>
+
+<p>데이터베이스 튜닝과 효율적인 인덱싱을 통해 해결할 수도 있겠으나 근본적인 문제인 데이터베이스의 쿼리를 줄이는 방법도 있다.</p>
+
+<p>나중에 요청된 결과를 미리 저장해두는 것을 캐시라 한다.
+데이터베이스 캐싱 또한 이와 다르지 않은데 물론 내부적으로 데이터베이스에서 제공하는 캐시가 있지만
+지속적으로 사용 시 캐시가 덮어씌어지며 새로운 디스크를 읽는 과정에서 성능저하를 야기할 수 있다.</p>
+
+<p>주로 캐싱으로는 <code class="language-plaintext highlighter-rouge">Redis</code>나 <code class="language-plaintext highlighter-rouge">Memcached</code>를 사용한다.</p>
+
+<p><img src="/assets/images/memory-hierarchy.png" alt="이미지1" /></p>
+
+<h2 id="캐시-구조">캐시 구조</h2>
+
+<ol>
+  <li>Look Aside
+    <ul>
+      <li>캐시에 없으면 디비로가서 디비에서 읽어온다.</li>
+    </ul>
+  </li>
+  <li>Write Back
+    <ul>
+      <li>쓰기가 반복적으로 일어나는 작업일 경우 디비에 먼저 저장하는 것이 아니라 캐시에 저장 후 특정 시점마다 디비에다 저장한다.</li>
+      <li>메모리는 휘발성이므로 저장된 값이 사라질 수 있다.</li>
+      <li>극단적으로 매우 큰 쓰기 작업, 로그와 같은 쓰기 작업의 <code class="language-plaintext highlighter-rouge">INSERT</code>, 재생가능한 데이터 쓰기 등에서 이러한 구조를 사용한다.</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="redis">Redis</h1>
+<p>레디스는 <code class="language-plaintext highlighter-rouge">In-Memory Data structure Strore</code>로서 메모리 상에 프로세스로 올라간다.</p>
+
+<p>레디스가 <code class="language-plaintext highlighter-rouge">Memcached</code>와 달리 유용한 점은 우선 <code class="language-plaintext highlighter-rouge">Collection</code>을 예로 들 수 있다.
+직접 구현하는 것과 구현된 것을 사용하는 방식의 차이는 생산성 측면에서 큰 강점이다.</p>
+
+<h2 id="개발의-편의성">개발의 편의성</h2>
+
+<p>레디스는 자료구조에서 <code class="language-plaintext highlighter-rouge">Atomic</code>함을 보장하기 때문에 삽입과정에서 오류를 방지할 수 있다.
+기존에 구현된 구조를 사용하는 것은 비지니스 로직에 집중할 수 있도록 도와준다.</p>
+
+<h3 id="사용-예시">사용 예시</h3>
+
+<ul>
+  <li>인증 토큰 저장(String 또는 Hash)</li>
+  <li>랭킹 보드로 사용(Sorted Set)</li>
+  <li>유저 API limit</li>
+</ul>
+
+<h3 id="collection">Collection</h3>
+<ul>
+  <li>Strings(key, value)</li>
+  <li>List(중간 삽입구조에 많은 시간 들어감)</li>
+  <li>Set</li>
+  <li>Sorted Set</li>
+  <li>Hash</li>
+</ul>
+
+<h2 id="메모리-관리">메모리 관리</h2>
+
+<p>레디스는 <code class="language-plaintext highlighter-rouge">In-Memory Data structure Strore</code>이므로 <code class="language-plaintext highlighter-rouge">Physiacal Memory</code>이상을 사용하면 문제가 발생.
+디스크를 쓰게 되는 순간 즉, Swap이 일어난다면 해당 메모리 Page 접근 시마다 디스크를 쓰게되고 성능이 저하된다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">maxmemory</code>값을 설정하게 되더라도 메모리 단편화가 생길 수 있다. OS 메모리 할당 자체가 페이지 단위로 일어나기 때문에 최대값을 설정한다고 해서
+메모리 관리를 하지 않아도 된다는 말이 아니다.</p>
+
+<h2 id="간단-구현-예제">간단 구현 예제</h2>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">...</span>
+<span class="kd">const</span> <span class="nx">redisClient</span> <span class="o">=</span> <span class="nx">redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">({</span>
+  <span class="na">no_ready_check</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="na">host</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_HOST</span><span class="p">,</span>
+  <span class="na">port</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PORT</span><span class="p">,</span>
+  <span class="na">pass</span><span class="p">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">REDIS_PASSWORD</span><span class="p">,</span>
+  <span class="na">logErrors</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="p">...</span>
+<span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/account/auth</span><span class="dl">'</span><span class="p">,</span> <span class="k">async</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">user_email</span><span class="p">,</span> <span class="nx">user_pw</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">;</span>
+
+    <span class="c1">//Try fetching the result from Redis first in case we have it cached</span>
+    <span class="k">return</span> <span class="nx">redisClient</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">user_email</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">result</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="nx">error</span><span class="p">;</span>
+      <span class="p">}</span>
+       <span class="c1">// If that key exist in Redis store</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">result</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">){</span>
+        <span class="kd">const</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">({</span>
+          <span class="na">id</span><span class="p">:</span> <span class="nx">result</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+          <span class="na">name</span><span class="p">:</span> <span class="nx">result</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+        <span class="p">},</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">JWT_SECRET</span><span class="p">,</span> <span class="p">{</span>
+          <span class="na">expiresIn</span><span class="p">:</span> <span class="dl">'</span><span class="s1">30m</span><span class="dl">'</span><span class="p">,</span> <span class="c1">// 30분</span>
+          <span class="na">issuer</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bookmark-api</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">});</span>
+
+        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span>
+          <span class="na">code</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+          <span class="na">payload</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">result</span><span class="p">),</span>
+          <span class="na">message</span><span class="p">:</span> <span class="dl">'</span><span class="s1">토큰이 발급되었습니다</span><span class="dl">'</span><span class="p">,</span>
+          <span class="nx">token</span><span class="p">,</span>
+        <span class="p">});</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="p">...</span>
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>https://tmdahr1245.tistory.com/120</li>
+    <li>https://www.youtube.com/watch?v=mPB2CZiAkKM</li>
+    <li>https://dzone.com/articles/a-brief-introduction-to-caching-with-nodejs-and-re</li>
+  </ul>
+</blockquote>
+:ET
