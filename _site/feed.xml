@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-25T16:30:51+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/rails/starting_rails/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-25T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/rails/starting_rails</id><content type="html" xml:base="http://localhost:4000/rails/starting_rails/">&lt;h1 id=&quot;rails&quot;&gt;rails&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-09-25T19:59:58+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">starting rails</title><link href="http://localhost:4000/rails/starting_rails/" rel="alternate" type="text/html" title="starting rails" /><published>2020-09-25T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/rails/starting_rails</id><content type="html" xml:base="http://localhost:4000/rails/starting_rails/">&lt;h1 id=&quot;rails&quot;&gt;rails&lt;/h1&gt;
 
 &lt;p&gt;rails guiding principles&lt;/p&gt;
 &lt;ul&gt;
@@ -6,15 +6,112 @@
   &lt;li&gt;Convention Over Configuration: Rails has opinions about the best way to do many things in a web application, and defaults to this set of conventions, rather than require that you specify minutiae through endless configuration files.&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;h1 id=&quot;rails-프로젝트-만들기&quot;&gt;rails 프로젝트 만들기.&lt;/h1&gt;
+
 &lt;h2 id=&quot;installing-rails&quot;&gt;installing rails&lt;/h2&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt; 설치 전 준비되어야 할 리스트&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Ruby&lt;/li&gt;
   &lt;li&gt;SQLite3&lt;/li&gt;
   &lt;li&gt;Node.js&lt;/li&gt;
   &lt;li&gt;Yarn&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>조원빈</name></author><category term="rails" /><category term="rails" /><category term="ruby" /><summary type="html">rails</summary></entry><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/database/SQL_QUERY_01/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_01</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Yarn&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm&lt;/code&gt;으로도 설치 가능하다.&lt;/p&gt;
+
+&lt;h2 id=&quot;blog-application-만들기&quot;&gt;Blog application 만들기&lt;/h2&gt;
+
+&lt;p&gt;레일즈는 기본 디자인 패턴 프로젝트를 생성할 수 있는 명령어를 가지고 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rails new blog
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blog&lt;/code&gt; 디렉토리를 생성하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gem dependencies&lt;/code&gt;를 가지고 있다.
+자동생성된 디렉토리에는 아래와 같은 디렉토리 구조를 가지고 있다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;File/Folder&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Purpose&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;app/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Contains the controllers, models, views, helpers, mailers, channels, jobs, and assets for your application. You’ll focus on this folder for the remainder of this guide.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;bin/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Contains the rails script that starts your app and can contain other scripts you use to setup, update, deploy, or run your application.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;config/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Configure your application’s routes, database, and more. This is covered in more detail in Configuring Rails Applications.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;config.ru&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Rack configuration for Rack based servers used to start the application. For more information about Rack, see the Rack website.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;db/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Contains your current database schema, as well as the database migrations.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gemfile&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gemfile.lock&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;These files allow you to specify what gem dependencies are needed for your Rails application. These files are used by the Bundler gem. For more information about Bundler, see the Bundler website.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;lib/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Extended modules for your application.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;log/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Application log files.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;package.json&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This file allows you to specify what npm dependencies are needed for your Rails application. This file is used by Yarn. For more information about Yarn, see the Yarn website.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;public/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;The only folder seen by the world as-is. Contains static files and compiled assets.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Rakefile&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This file locates and loads tasks that can be run from the command line. The task definitions are defined throughout the components of Rails. Rather than changing Rakefile, you should add your own tasks by adding files to the lib/tasks directory of your application.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;README.md&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This is a brief instruction manual for your application. You should edit this file to tell others what your application does, how to set it up, and so on.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;storage/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Active Storage files for Disk Service. This is covered in Active Storage Overview.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;test/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Unit tests, fixtures, and other test apparatus. These are covered in Testing Rails Applications.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;tmp/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Temporary files (like cache and pid files).&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;vendor/&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;A place for all third-party code. In a typical Rails application this includes vendored gems.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;.ruby-version&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This file contains the default Ruby version.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>조원빈</name></author><category term="rails" /><category term="rails" /><category term="ruby" /><summary type="html">rails</summary></entry><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/database/SQL_QUERY_01/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_01</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;

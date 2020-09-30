@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>SQL QUERY 정리  |  untitled</title>
+<!-- begin _includes/seo.html --><title>starting rails  |  untitled</title>
 <meta name="description" content="rails">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="SQL QUERY 정리">
+<meta property="og:title" content="starting rails">
 <meta property="og:url" content="http://localhost:4000/rails/starting_rails/">
 
 
@@ -281,7 +281,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="SQL QUERY 정리">
+    <meta itemprop="headline" content="starting rails">
     <meta itemprop="description" content="rails">
     <meta itemprop="datePublished" content="2020-09-25T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-09-20T04:00:00+09:00">
@@ -289,7 +289,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">SQL QUERY 정리
+          <h1 id="page-title" class="page__title" itemprop="headline">starting rails
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  2 분 소요
 
 </p>
           
@@ -310,9 +310,11 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#rails">rails</a>
+  <li><a href="#rails">rails</a></li>
+  <li><a href="#rails-프로젝트-만들기">rails 프로젝트 만들기.</a>
     <ul>
       <li><a href="#installing-rails">installing rails</a></li>
+      <li><a href="#blog-application-만들기">Blog application 만들기</a></li>
     </ul>
   </li>
 </ul>
@@ -328,15 +330,112 @@
   <li>Convention Over Configuration: Rails has opinions about the best way to do many things in a web application, and defaults to this set of conventions, rather than require that you specify minutiae through endless configuration files.</li>
 </ul>
 
+<h1 id="rails-프로젝트-만들기">rails 프로젝트 만들기.</h1>
+
 <h2 id="installing-rails">installing rails</h2>
 
-<p><code class="language-plaintext highlighter-rouge">Rails</code></p>
+<p><code class="language-plaintext highlighter-rouge">Rails</code> 설치 전 준비되어야 할 리스트</p>
 <ul>
   <li>Ruby</li>
   <li>SQLite3</li>
   <li>Node.js</li>
   <li>Yarn</li>
 </ul>
+
+<p><code class="language-plaintext highlighter-rouge">Yarn</code>은 <code class="language-plaintext highlighter-rouge">npm</code>으로도 설치 가능하다.</p>
+
+<h2 id="blog-application-만들기">Blog application 만들기</h2>
+
+<p>레일즈는 기본 디자인 패턴 프로젝트를 생성할 수 있는 명령어를 가지고 있다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ rails new blog
+</code></pre></div></div>
+
+<p>위는 <code class="language-plaintext highlighter-rouge">blog</code> 디렉토리를 생성하며 <code class="language-plaintext highlighter-rouge">gem dependencies</code>를 가지고 있다.
+자동생성된 디렉토리에는 아래와 같은 디렉토리 구조를 가지고 있다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">File/Folder</th>
+      <th style="text-align: left">Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">app/</td>
+      <td style="text-align: left">Contains the controllers, models, views, helpers, mailers, channels, jobs, and assets for your application. You’ll focus on this folder for the remainder of this guide.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">bin/</td>
+      <td style="text-align: left">Contains the rails script that starts your app and can contain other scripts you use to setup, update, deploy, or run your application.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">config/</td>
+      <td style="text-align: left">Configure your application’s routes, database, and more. This is covered in more detail in Configuring Rails Applications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">config.ru</td>
+      <td style="text-align: left">Rack configuration for Rack based servers used to start the application. For more information about Rack, see the Rack website.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">db/</td>
+      <td style="text-align: left">Contains your current database schema, as well as the database migrations.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Gemfile</td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Gemfile.lock</td>
+      <td style="text-align: left">These files allow you to specify what gem dependencies are needed for your Rails application. These files are used by the Bundler gem. For more information about Bundler, see the Bundler website.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">lib/</td>
+      <td style="text-align: left">Extended modules for your application.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">log/</td>
+      <td style="text-align: left">Application log files.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">package.json</td>
+      <td style="text-align: left">This file allows you to specify what npm dependencies are needed for your Rails application. This file is used by Yarn. For more information about Yarn, see the Yarn website.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">public/</td>
+      <td style="text-align: left">The only folder seen by the world as-is. Contains static files and compiled assets.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Rakefile</td>
+      <td style="text-align: left">This file locates and loads tasks that can be run from the command line. The task definitions are defined throughout the components of Rails. Rather than changing Rakefile, you should add your own tasks by adding files to the lib/tasks directory of your application.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">README.md</td>
+      <td style="text-align: left">This is a brief instruction manual for your application. You should edit this file to tell others what your application does, how to set it up, and so on.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">storage/</td>
+      <td style="text-align: left">Active Storage files for Disk Service. This is covered in Active Storage Overview.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">test/</td>
+      <td style="text-align: left">Unit tests, fixtures, and other test apparatus. These are covered in Testing Rails Applications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tmp/</td>
+      <td style="text-align: left">Temporary files (like cache and pid files).</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">vendor/</td>
+      <td style="text-align: left">A place for all third-party code. In a typical Rails application this includes vendored gems.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">.ruby-version</td>
+      <td style="text-align: left">This file contains the default Ruby version.</td>
+    </tr>
+  </tbody>
+</table>
 
         
       </section>
@@ -399,7 +498,7 @@
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=SQL+QUERY+%EC%A0%95%EB%A6%AC%20http%3A%2F%2Flocalhost%3A4000%2Frails%2Fstarting_rails%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=starting+rails%20http%3A%2F%2Flocalhost%3A4000%2Frails%2Fstarting_rails%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Frails%2Fstarting_rails%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
