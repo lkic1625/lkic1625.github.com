@@ -98,5 +98,5 @@ ANSWER:
 The Hibernate team recommends the use of `JPA annotations` as a best practice.
 
 ><font size="6">Refernce</font><br>
-https://joosjuliet.github.io/hibernate_structure/
-https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html
+- https://joosjuliet.github.io/hibernate_structure/
+- https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html

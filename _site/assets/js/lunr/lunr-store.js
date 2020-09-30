@@ -137,9 +137,6 @@ var store = [{
         "url": "http://localhost:4000/database/SQL_QUERY_01/",
         "teaser": null
       },{
-<<<<<<< HEAD
-        "title": "starting rails",
-=======
         "title": "serverless node",
         "excerpt":"serverless 서버리스라 해서 서버가 없는 것은 아니다. 클라우드 서비스가 대신 관리하여 서버 관리에 드는 부담을 줄이는 것을 의미한다. AWS에 EC2나 Google Compute Engine과는 다르게 VM 인스턴스를 미리 구매해야 한다. 단순히 코드를 업로드한 뒤, 사용량에 따라 요금을 지불하면 된다. AWS Lambda와 Cloud Functions는 특정한 동작을 수행한 로직을 저장하고, 요청이 들어올 때...","categories": ["nodejs"],
         "tags": ["nodejs","AWS"],
@@ -152,8 +149,7 @@ var store = [{
         "url": "http://localhost:4000/nodejs/bookmark/",
         "teaser": null
       },{
-        "title": "starting rails ",
->>>>>>> 9e49434868c59261e771d633426cd6ce14275c3c
+        "title": "starting rails(작성 중)",
         "excerpt":"rails rails guiding principles Don’t Repeat Yourself: DRY is a principle of software development which states that “Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” By not writing the same information over and over again, our code is more maintainable, more extensible, and less...","categories": ["rails"],
         "tags": ["rails","ruby"],
         "url": "http://localhost:4000/rails/starting_rails/",
