@@ -2,6 +2,7 @@
 title: "서비스 배포하기"
 tags:
   - nodejs
+  - AWS
 categories:
   - nodejs
 last_modified_at: 2020-09-20T13:00:00+18:00

@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 title: "starting rails"
+=======
+title: "starting rails "
+>>>>>>> 9e49434868c59261e771d633426cd6ce14275c3c
 tags:
   - rails
   - ruby
