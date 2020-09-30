@@ -1,15 +1,11 @@
 ---
-<<<<<<< HEAD
 title: "starting rails"
-=======
-title: "starting rails "
->>>>>>> 9e49434868c59261e771d633426cd6ce14275c3c
 tags:
   - rails
   - ruby
 categories:
   - rails
-last_modified_at: 2020-09-20T13:00:00+18:00
+last_modified_at: 2020-09-30T13:00:00+18:00
 toc: true
 ---
 
