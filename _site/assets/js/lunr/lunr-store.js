@@ -145,7 +145,7 @@ var store = [{
       },{
         "title": "책깔피",
         "excerpt":"책깔피   수업에서 간단한 팀프로젝트 겸 개발했던 프로젝트에서 백엔드 개발 자체를 파이어베이스로 넘겼기에 noed js express 기반으로 작성하였다.   책 OPEN API를 통해 책 정보를 저장하고 사용자는 이를 공유하면 된다.   frontend   backend   더 보완할 점   간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.  ","categories": ["nodejs"],
-        "tags": ["nodejs","AWS"],
+        "tags": ["nodejs","projects"],
         "url": "http://localhost:4000/nodejs/bookmark/",
         "teaser": null
       },{
@@ -159,5 +159,23 @@ var store = [{
         "excerpt":"개요 RDBMS 서버구조서 가장 쉽게 만들 수 있는 방식이 주로 RDBMS이다. 용도에 따라 달라지겠지만 규모가 매우큰 포탈에 데이터베이스는 쿼리 진행에도 상당히 많은 시간이 소요될 것이다. 실제로 공공데이터 포탈에서 2000만 Cardinality 규모의 데이터를 받아 샘플 DB를 생성하고 조회해보면 Index를 걸어놓았음에도 불구하고 20초가 넘게 걸린다. 해결방법 데이터베이스 튜닝과 효율적인 인덱싱을 통해 해결할...","categories": ["nodejs"],
         "tags": ["database","cache","nodejs"],
         "url": "http://localhost:4000/nodejs/database_caching/",
+        "teaser": null
+      },{
+        "title": "Nouvelle Vague",
+        "excerpt":"개요   알게된 것   https security - should password be hashed server-side or client-side?  https://security.stackexchange.com/questions/8596/https-security-should-password-be-hashed-server-side-or-client-side   login css design  https://doctorcodetutorial.blogspot.com/2019/07/make-animated-signup-form-using-html.html   sequelize validation  https://sequelize.org/master/manual/validations-and-constraints.html   JWT 토큰은 어디에 저장하는게 좋을까?  https://lazyhoneyant.tistory.com/   https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#:~:text=JWT%20sessionStorage%20and%20localStorage%20Security,site%20scripting%20(XSS)%20attacks.   Session Storage is Evil  https://liferay.dev/blogs/-/blogs/session-storage-is-evil   How to log out when using JWT  https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6   multer upload multiple files  https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83   HTTP authentication  https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication  ","categories": ["nodejs"],
+        "tags": ["nodejs","projects"],
+        "url": "http://localhost:4000/nodejs/Nouvelle_Vague/",
+        "teaser": null
+      },{
+        "title": "closest pair",
+        "excerpt":"definition input: \\(p_1, p_2, p_3, ... p_n\\) \\((p_i = (x_i, y_i))\\) output: \\(p_i, p_j\\) with smallest \\(p_i - p_j\\) Brute-force algorithm minDist = infinity for i = 1 to length(P) - 1 do for j = i + 1 to length(P) do let p = P[i], q = P[j] if...","categories": ["algorithm"],
+        "tags": ["divide and conquer","algorithm"],
+        "url": "http://localhost:4000/algorithm/closest_pair/",
+        "teaser": null
+      },{
+        "title": "covex hull",
+        "excerpt":"Graham Scan pseudo code sort by y-order; //$$p_1, p_2, ..., p_n$$ stack.push($$p_1, p_2$$); for i = 3 to $$n$$ do while next $$\\angle next, top, $$p_i$$ != CCW stack.pop() stack.push($$p_i$$) return stack Analysis of Graham Scan Invariant \\(&lt;p_1, ... ,stack.top()&gt;\\) is convex 기울기 공식: \\(D = det\\begin{vmatrix} 1 &amp; p_x...","categories": ["algorithm"],
+        "tags": ["divide and conquer","algorithm"],
+        "url": "http://localhost:4000/algorithm/covex_hull/",
         "teaser": null
       }]

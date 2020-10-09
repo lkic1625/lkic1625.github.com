@@ -35,3 +35,6 @@ https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6
 
 ## multer upload multiple files
 https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83
+
+## HTTP authentication
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication

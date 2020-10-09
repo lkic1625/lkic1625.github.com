@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Flutter 시작하기  |  untitled</title>
+<!-- begin _includes/seo.html --><title>closest pair  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="Flutter 시작하기">
-<meta property="og:url" content="http://localhost:4000/flutter/get_started_flutter/">
+<meta property="og:title" content="closest pair">
+<meta property="og:url" content="http://localhost:4000/algorithm/closest_pair/">
 
 
   <meta property="og:description" content="">
@@ -31,11 +31,11 @@
 
 
 
-  <meta property="article:published_time" content="2020-08-12T00:00:00+09:00">
+  <meta property="article:published_time" content="2020-10-09T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2020-08-12T05:00:00+09:00">
+  <meta property="article:modified_time" content="2020-10-09T05:00:00+09:00">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/flutter/get_started_flutter/">
+<link rel="canonical" href="http://localhost:4000/algorithm/closest_pair/">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Flutter 시작하기">
+    <meta itemprop="headline" content="closest pair">
     <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-08-12T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-08-12T05:00:00+09:00">
+    <meta itemprop="datePublished" content="2020-10-09T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-10-09T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Flutter 시작하기
+          <h1 id="page-title" class="page__title" itemprop="headline">closest pair
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  2 분 소요
 
 </p>
           
@@ -310,10 +310,17 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#flutter-시작하기">Flutter 시작하기</a>
-      - {:.} <a href="#설치">설치</a>
-      - {:.} <a href="#환경-변수-설정">환경 변수 설정.</a>
-      - {:.} <a href="#flutter-doctor-실행">flutter doctor 실행.</a></li>
+  <li><a href="#definition">definition</a></li>
+  <li><a href="#brute-force-algorithm">Brute-force algorithm</a></li>
+  <li><a href="#divide-and-conquer-algorithm">Divide and Conquer algorithm</a>
+    <ul>
+      <li><a href="#time-complexity">time complexity</a>
+        <ul>
+          <li><a href="#lemma">Lemma</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -322,54 +329,73 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<h1 id="flutter-시작하기">Flutter 시작하기</h1>
+<h1 id="definition">definition</h1>
 
-<h3 id="설치">설치</h3>
-<hr />
-<p><img src="/assets/images/flutter-sdk-download.png" alt="이미지2" /></p>
+<ul>
+  <li>input: \(p_1, p_2, p_3, ... p_n\)  \((p_i = (x_i, y_i))\)</li>
+  <li>output: \(p_i, p_j\) with smallest \(p_i - p_j\)</li>
+</ul>
 
-<p><a href="https://flutter.dev/docs/get-started/install/windows">Flutter 홈페이지</a> 접속 후
-SDK를 특정 경로에 압축 해제한다. 작성자는 <code class="language-plaintext highlighter-rouge">C:\sdk\flutter</code>에 압축해제하였다.
-<br /> (이 때 <code class="language-plaintext highlighter-rouge">C:\Program Files\</code>과 같은 권한 상승이 필요한 <code class="language-plaintext highlighter-rouge">directory</code>에 저장하지 않는다.)</p>
-<h3 id="환경-변수-설정">환경 변수 설정.</h3>
-<hr />
+<h1 id="brute-force-algorithm">Brute-force algorithm</h1>
 
-<p><img src="/assets/images/system-variable-serach.png" alt="이미지3" /></p>
-
-<p>시스템 환경 변수 설정을 위해 시작 탭에서 환경 변수를 검색한다.</p>
-
-<p><img src="/assets/images/system-variable-01.png" alt="이미지4" /></p>
-
-<p>아래 보이는 환경 변수를 클릭 후</p>
-
-<p><img src="/assets/images/system-variable-02.png" alt="이미지5" /></p>
-
-<p>시스템 변수의 Path 변수가 존재 시 더블 클릭한다.</p>
-
-<p>없을 경우 새로 추가한다.</p>
-
-<p><img src="/assets/images/system-variable-03.png" alt="이미지6" /></p>
-
-<p>Flutter를 압축해제 했던 <code class="language-plaintext highlighter-rouge">directory</code>의 위치의 맞게 <code class="language-plaintext highlighter-rouge">/flutter/bin</code>를 추가해준다.</p>
-
-<h3 id="flutter-doctor-실행">flutter doctor 실행.</h3>
-<hr />
-<p>환경 변수가 제대로 설정 되어 있는지를 확인하기 위해 <code class="language-plaintext highlighter-rouge">console</code>에서 flutter가 설치된 경로에 이동 후
-<code class="language-plaintext highlighter-rouge">fluuter doctor</code>를 입력한다. 아래와 같은 형식의 창이 뜬다면 성공이다.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[-] Android toolchain - develop for Android devices
-    • Android SDK at D:\Android\sdk
-    ✗ Android SDK is missing command line tools; download from https://goo.gl/XxQghQ
-    • Try re-installing or updating your Android SDK,
-      visit https://flutter.dev/setup/#android-setup for detailed instructions.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minDist = infinity
+for i = 1 to length(P) - 1 do
+    for j = i + 1 to length(P) do
+        let p = P[i], q = P[j]
+        if dist(p, q) &lt; minDist  then
+            minDist = dist(p, q)
+            closestPair = (p, q)
+return closestPair
 </code></pre></div></div>
 
-<p>이후 추가로 설치할 Tool들을 설치 후 마무리한다.</p>
+<p>time complexity: \(O(n^2)\)</p>
+
+<h1 id="divide-and-conquer-algorithm">Divide and Conquer algorithm</h1>
+
+<ol>
+  <li>점들을 x좌표에 따라 정렬한다.</li>
+  <li>점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 \(x = x_mid\)를 기준으로 양옆으로 분할한다.</li>
+  <li>왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 \(d_{Lmin}\)과 \(d_{Rmin}\)을 찾을 수 있다.</li>
+  <li>분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 \(d_{LRmin}\)을 구한다.</li>
+  <li>최종적으로 찾고자 하는 최근접 거리는 \(d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})\)이다.</li>
+</ol>
+
+<h2 id="time-complexity">time complexity</h2>
+
+<p>시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.</p>
+
+<p><img src="/assets/images/closestpair.png" alt="이미지1" /></p>
+
+<p>우선 먼저 생각해야하는 것은 최악의 경우에도 \(d = min(d_{Lmin}, d_{Rmin})\) band 내에서는 \(n^2\) 미만의 점을 가진다.
+또한 각점에 대해 반대편에 확인해야 할 점의 개수는 최대 6개이다. 따라서, \(6n\)의 계산시간이 필요하다. 이에 대한 자세한 설명은 아래 <a href="#lemma">Lemma 항목</a>을 참고</p>
+
+<p>이 알고리즘의 연산의 수행 횟수를 재귀식으로 표현한다면 \(T(n) = 2T(n/2) + O(n)\)으로 표현할 수 있으며 마스터 정리에 따라 \(O(nlogn)\)이다.</p>
+
+<h3 id="lemma">Lemma</h3>
+
+<p>\(Claim\):
+A rectangle of width \(d\) and height \(2d\) can contain at most six points such that any two points are at distance at least \(d\)</p>
+
+<p>\(Proof\):
+This will be an intuitive proof by construction. We shall begin to place points into the box until it is impossible to add any more. First imagine a circle of radius d around each point representing the area that we are not allowed to insert another point into. We can minimize the overlapping area of such a circle with the rectangle by placing the point on the corner of the rectangle as in the following figure:</p>
+
+<p><img src="/assets/images/figbox1.gif" alt="이미지2" /></p>
+
+<p>Hence we can place points somewhere inside the light blue area or on the edges of the circles. Hence we put one more in the middle of the left side leaving the entire box covered except for the remaining two corners and the middle of the right side (all three of these points being right on the boundaries of the circles). Once we do this we have the following structure:</p>
+
+<p><img src="/assets/images/figbox2.gif" alt="이미지3" /></p>
+
+<p>Note that there are now six points in the square. If you try to move any one of these points in any direction within the boundaries of the rectangle, then you would be moving two points too close toghether.</p>
+
+<p>Hence we can’t possibly add any more points to this rectangle without putting violating the distance property between the points. Therefore six is the maximum number of points we can have.</p>
 
 <blockquote>
   <font size="6">Refernce</font>
-  <p><br />
-https://flutter.dev/docs/get-started/install/windows</p>
+  <ul>
+    <li>https://en.wikipedia.org/wiki/Closest_pair_of_points_problem</li>
+    <li>https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf</li>
+    <li>https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html</li>
+  </ul>
 </blockquote>
 
         
@@ -391,7 +417,11 @@ https://flutter.dev/docs/get-started/install/windows</p>
     
       
       
-      <a href="/tags/#flutter" class="page__taxonomy-item" rel="tag">flutter</a>
+      <a href="/tags/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#divide-and-conquer" class="page__taxonomy-item" rel="tag">divide and conquer</a>
     
     </span>
   </p>
@@ -412,14 +442,14 @@ https://flutter.dev/docs/get-started/install/windows</p>
     
       
       
-      <a href="/categories/#flutter" class="page__taxonomy-item" rel="tag">flutter</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-08-12">August 12, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-09">October 9, 2020</time></p>
 
 
       </footer>
@@ -429,22 +459,22 @@ https://flutter.dev/docs/get-started/install/windows</p>
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Flutter+%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fflutter%2Fget_started_flutter%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=closest+pair%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fclosest_pair%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fflutter%2Fget_started_flutter%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fclosest_pair%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fflutter%2Fget_started_flutter%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fclosest_pair%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/spring/hibernate_04_spring/" class="pagination--pager" title="Hibernate 03(작성 중)
+      <a href="/nodejs/Nouvelle_Vague/" class="pagination--pager" title="Nouvelle Vague
 ">이전</a>
     
     
-      <a href="/nodejs/express_01/" class="pagination--pager" title="Chapter6 express
+      <a href="/algorithm/covex_hull/" class="pagination--pager" title="covex hull
 ">다음</a>
     
   </nav>
@@ -470,36 +500,6 @@ https://flutter.dev/docs/get-started/install/windows</p>
     <h2 class="archive__item-title" itemprop="headline">
       
         <a href="/algorithm/covex_hull/" rel="permalink">covex hull
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/algorithm/closest_pair/" rel="permalink">closest pair
 </a>
       
     </h2>
@@ -568,11 +568,40 @@ https://flutter.dev/docs/get-started/install/windows</p>
 
 
 
-  2 분 소요
+  1 분 소요
 
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">개요
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/rails/starting_rails/" rel="permalink">starting rails(작성 중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  9 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">rails
 </p>
   </article>
 </div>

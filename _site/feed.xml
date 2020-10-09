@@ -1,4 +1,143 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-01T03:53:32+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">데이터베이스 캐싱(작성 중)</title><link href="http://localhost:4000/nodejs/database_caching/" rel="alternate" type="text/html" title="데이터베이스 캐싱(작성 중)" /><published>2020-09-29T00:00:00+09:00</published><updated>2020-09-29T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/database_caching</id><content type="html" xml:base="http://localhost:4000/nodejs/database_caching/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-10T03:31:09+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">closest pair</title><link href="http://localhost:4000/algorithm/closest_pair/" rel="alternate" type="text/html" title="closest pair" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-09T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/closest_pair</id><content type="html" xml:base="http://localhost:4000/algorithm/closest_pair/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;input: \(p_1, p_2, p_3, ... p_n\)  \((p_i = (x_i, y_i))\)&lt;/li&gt;
+  &lt;li&gt;output: \(p_i, p_j\) with smallest \(p_i - p_j\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;brute-force-algorithm&quot;&gt;Brute-force algorithm&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minDist = infinity
+for i = 1 to length(P) - 1 do
+    for j = i + 1 to length(P) do
+        let p = P[i], q = P[j]
+        if dist(p, q) &amp;lt; minDist  then
+            minDist = dist(p, q)
+            closestPair = (p, q)
+return closestPair
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;time complexity: \(O(n^2)\)&lt;/p&gt;
+
+&lt;h1 id=&quot;divide-and-conquer-algorithm&quot;&gt;Divide and Conquer algorithm&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;점들을 x좌표에 따라 정렬한다.&lt;/li&gt;
+  &lt;li&gt;점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 \(x = x_mid\)를 기준으로 양옆으로 분할한다.&lt;/li&gt;
+  &lt;li&gt;왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 \(d_{Lmin}\)과 \(d_{Rmin}\)을 찾을 수 있다.&lt;/li&gt;
+  &lt;li&gt;분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 \(d_{LRmin}\)을 구한다.&lt;/li&gt;
+  &lt;li&gt;최종적으로 찾고자 하는 최근접 거리는 \(d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})\)이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;time-complexity&quot;&gt;time complexity&lt;/h2&gt;
+
+&lt;p&gt;시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/closestpair.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;우선 먼저 생각해야하는 것은 최악의 경우에도 \(d = min(d_{Lmin}, d_{Rmin})\) band 내에서는 \(n^2\) 미만의 점을 가진다.
+또한 각점에 대해 반대편에 확인해야 할 점의 개수는 최대 6개이다. 따라서, \(6n\)의 계산시간이 필요하다. 이에 대한 자세한 설명은 아래 &lt;a href=&quot;#lemma&quot;&gt;Lemma 항목&lt;/a&gt;을 참고&lt;/p&gt;
+
+&lt;p&gt;이 알고리즘의 연산의 수행 횟수를 재귀식으로 표현한다면 \(T(n) = 2T(n/2) + O(n)\)으로 표현할 수 있으며 마스터 정리에 따라 \(O(nlogn)\)이다.&lt;/p&gt;
+
+&lt;h3 id=&quot;lemma&quot;&gt;Lemma&lt;/h3&gt;
+
+&lt;p&gt;\(Claim\):
+A rectangle of width \(d\) and height \(2d\) can contain at most six points such that any two points are at distance at least \(d\)&lt;/p&gt;
+
+&lt;p&gt;\(Proof\):
+This will be an intuitive proof by construction. We shall begin to place points into the box until it is impossible to add any more. First imagine a circle of radius d around each point representing the area that we are not allowed to insert another point into. We can minimize the overlapping area of such a circle with the rectangle by placing the point on the corner of the rectangle as in the following figure:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/figbox1.gif&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hence we can place points somewhere inside the light blue area or on the edges of the circles. Hence we put one more in the middle of the left side leaving the entire box covered except for the remaining two corners and the middle of the right side (all three of these points being right on the boundaries of the circles). Once we do this we have the following structure:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/figbox2.gif&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that there are now six points in the square. If you try to move any one of these points in any direction within the boundaries of the rectangle, then you would be moving two points too close toghether.&lt;/p&gt;
+
+&lt;p&gt;Hence we can’t possibly add any more points to this rectangle without putting violating the distance property between the points. Therefore six is the maximum number of points we can have.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://en.wikipedia.org/wiki/Closest_pair_of_points_problem&lt;/li&gt;
+    &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf&lt;/li&gt;
+    &lt;li&gt;https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">covex hull</title><link href="http://localhost:4000/algorithm/covex_hull/" rel="alternate" type="text/html" title="covex hull" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-09T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/covex_hull</id><content type="html" xml:base="http://localhost:4000/algorithm/covex_hull/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;graham-scan&quot;&gt;Graham Scan&lt;/h1&gt;
+
+&lt;h2 id=&quot;pseudo-code&quot;&gt;pseudo code&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sort by y-order; //$$p_1, p_2, ..., p_n$$
+stack.push($$p_1, p_2$$);
+for i = 3 to $$n$$ do
+  while next $$\angle next, top, $$p_i$$ != CCW
+    stack.pop()
+  stack.push($$p_i$$)
+return stack
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;analysis-of-graham-scan&quot;&gt;Analysis of Graham Scan&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;Invariant \(&amp;lt;p_1, ... ,stack.top()&amp;gt;\) is convex&lt;/li&gt;
+  &lt;li&gt;기울기 공식:
+\(D = det\begin{vmatrix} 1 &amp;amp; p_x &amp;amp; p_y \\ 1 &amp;amp; q_x &amp;amp; q_y \\ 1 &amp;amp; r_x &amp;amp; r_y \end{vmatrix}\)
+    &lt;ul&gt;
+      &lt;li&gt;if \(D &amp;gt; 0\) then \(\angle p, q, r\) is CCW&lt;/li&gt;
+      &lt;li&gt;else if \(D &amp;lt; 0\) \(\angle p, q, r\) is CW&lt;/li&gt;
+      &lt;li&gt;else then \(\angle p, q, r\) is straight&lt;/li&gt;
+      &lt;li&gt;\(D = p \cdot (q \times r)\) 이다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;정렬 이후 \(O(n)\)번의 스캔이 일어나며 반복 수행마다 \(logn\)의 시간 소요
+    &lt;ul&gt;
+      &lt;li&gt;time complexity: \(O(nlogn)\)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;#Divide and Conquer&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ConvexHull.pdf&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">Nouvelle Vague</title><link href="http://localhost:4000/nodejs/Nouvelle_Vague/" rel="alternate" type="text/html" title="Nouvelle Vague" /><published>2020-10-08T00:00:00+09:00</published><updated>2020-09-24T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/Nouvelle_Vague</id><content type="html" xml:base="http://localhost:4000/nodejs/Nouvelle_Vague/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+
+&lt;h1 id=&quot;알게된-것&quot;&gt;알게된 것&lt;/h1&gt;
+
+&lt;h2 id=&quot;https-security---should-password-be-hashed-server-side-or-client-side&quot;&gt;https security - should password be hashed server-side or client-side?&lt;/h2&gt;
+&lt;p&gt;https://security.stackexchange.com/questions/8596/https-security-should-password-be-hashed-server-side-or-client-side&lt;/p&gt;
+
+&lt;h2 id=&quot;login-css-design&quot;&gt;login css design&lt;/h2&gt;
+&lt;p&gt;https://doctorcodetutorial.blogspot.com/2019/07/make-animated-signup-form-using-html.html&lt;/p&gt;
+
+&lt;h2 id=&quot;sequelize-validation&quot;&gt;sequelize validation&lt;/h2&gt;
+&lt;p&gt;https://sequelize.org/master/manual/validations-and-constraints.html&lt;/p&gt;
+
+&lt;h2 id=&quot;jwt-토큰은-어디에-저장하는게-좋을까&quot;&gt;JWT 토큰은 어디에 저장하는게 좋을까?&lt;/h2&gt;
+&lt;p&gt;https://lazyhoneyant.tistory.com/&lt;/p&gt;
+
+&lt;p&gt;https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#:~:text=JWT%20sessionStorage%20and%20localStorage%20Security,site%20scripting%20(XSS)%20attacks.&lt;/p&gt;
+
+&lt;h2 id=&quot;session-storage-is-evil&quot;&gt;Session Storage is Evil&lt;/h2&gt;
+&lt;p&gt;https://liferay.dev/blogs/-/blogs/session-storage-is-evil&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-log-out-when-using-jwt&quot;&gt;How to log out when using JWT&lt;/h2&gt;
+&lt;p&gt;https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6&lt;/p&gt;
+
+&lt;h2 id=&quot;multer-upload-multiple-files&quot;&gt;multer upload multiple files&lt;/h2&gt;
+&lt;p&gt;https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83&lt;/p&gt;
+
+&lt;h2 id=&quot;http-authentication&quot;&gt;HTTP authentication&lt;/h2&gt;
+&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="projects" /><summary type="html">개요</summary></entry><entry><title type="html">데이터베이스 캐싱(작성 중)</title><link href="http://localhost:4000/nodejs/database_caching/" rel="alternate" type="text/html" title="데이터베이스 캐싱(작성 중)" /><published>2020-09-29T00:00:00+09:00</published><updated>2020-09-29T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/database_caching</id><content type="html" xml:base="http://localhost:4000/nodejs/database_caching/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
 
 &lt;h2 id=&quot;rdbms&quot;&gt;RDBMS&lt;/h2&gt;
 
@@ -663,73 +802,7 @@ NOTE! Unless told otherwise, Rails expects an action to render a template with t
     &lt;li&gt;https://guides.rubyonrails.org
 -https://kbs4674.tistory.com/158?category=876767&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="rails" /><category term="rails" /><category term="ruby" /><summary type="html">rails</summary></entry><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/database/SQL_QUERY_01/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_01</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;
-
-&lt;h2 id=&quot;group_by&quot;&gt;GROUP_BY&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(column) FROM table_name GROUP_BY column
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;특정-시간대별-정렬&quot;&gt;특정 시간대별 정렬&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS
- WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19'
- GROUP BY date_format(DATETIME, '%H')
- ORDER BY date_format(DATETIME, '%H') ASC
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt; SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT
- FROM animal_outs
- GROUP BY HOUR(datetime)
- HAVING HOUR &amp;gt;= 9 AND HOUR &amp;lt;= 19
- ORDER BY HOUR
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;등록되는-시간인-719시를-제외한-시간-또한-표시하여-정렬&quot;&gt;등록되는 시간인 7~19시를 제외한 시간 또한 표시하여 정렬&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;set @hour := -1;
-SELECT (@hour := @hour + 1) as 'HOUR',
-       (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS 'COUNT'
-FROM ANIMAL_OUTS
-WHERE @hour &amp;lt; 23;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;null-check&quot;&gt;NULL CHECK&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME IS NOT NULL
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;ifnull&quot;&gt;IFNULL()&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_TYPE, IFNULL(NAME, 'No name'), SEX_UPON_INTAKE FROM ANIMAL_INS
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;inner-join&quot;&gt;INNER JOIN&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT
-테이블별칭.조회할칼럼,
-테이블별칭.조회할칼럼
-FROM 기준테이블 별칭
-INNER JOIN 조인테이블 별칭 ON 기준테이블별칭.기준키 = 조인테이블별칭.기준키....
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;한쪽-집합에-값이-없는-것만-출력&quot;&gt;한쪽 집합에 값이 없는 것만 출력&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT O.ANIMAL_ID, O.NAME
-FROM ANIMAL_INS I
-RIGHT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
-WHERE I.ANIMAL_ID IS NULL
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT I.NAME, I.DATETIME
-FROM ANIMAL_INS I
-LEFT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
-WHERE O.DATETIME IS NULL
-ORDER BY I.DATETIME ASC
-LIMIT 3;
-&lt;/code&gt;&lt;/pre&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry><entry><title type="html">책깔피</title><link href="http://localhost:4000/nodejs/bookmark/" rel="alternate" type="text/html" title="책깔피" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-24T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/bookmark</id><content type="html" xml:base="http://localhost:4000/nodejs/bookmark/">&lt;h1 id=&quot;책깔피&quot;&gt;책깔피&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="rails" /><category term="rails" /><category term="ruby" /><summary type="html">rails</summary></entry><entry><title type="html">책깔피</title><link href="http://localhost:4000/nodejs/bookmark/" rel="alternate" type="text/html" title="책깔피" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-24T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/bookmark</id><content type="html" xml:base="http://localhost:4000/nodejs/bookmark/">&lt;h1 id=&quot;책깔피&quot;&gt;책깔피&lt;/h1&gt;
 
 &lt;p&gt;수업에서 간단한 팀프로젝트 겸 개발했던 프로젝트에서 백엔드 개발 자체를 파이어베이스로 넘겼기에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;noed js express&lt;/code&gt; 기반으로 작성하였다.&lt;/p&gt;
 
@@ -741,7 +814,7 @@ LIMIT 3;
 
 &lt;h2 id=&quot;더-보완할-점&quot;&gt;더 보완할 점&lt;/h2&gt;
 
-&lt;p&gt;간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="AWS" /><summary type="html">책깔피</summary></entry><entry><title type="html">serverless node</title><link href="http://localhost:4000/nodejs/serverless/" rel="alternate" type="text/html" title="serverless node" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-24T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/serverless</id><content type="html" xml:base="http://localhost:4000/nodejs/serverless/">&lt;h1 id=&quot;serverless&quot;&gt;serverless&lt;/h1&gt;
+&lt;p&gt;간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="projects" /><summary type="html">책깔피</summary></entry><entry><title type="html">serverless node</title><link href="http://localhost:4000/nodejs/serverless/" rel="alternate" type="text/html" title="serverless node" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-24T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/serverless</id><content type="html" xml:base="http://localhost:4000/nodejs/serverless/">&lt;h1 id=&quot;serverless&quot;&gt;serverless&lt;/h1&gt;
 
 &lt;p&gt;서버리스라 해서 서버가 없는 것은 아니다.
 클라우드 서비스가 대신 관리하여 서버 관리에 드는 부담을 줄이는 것을 의미한다.&lt;/p&gt;
@@ -899,7 +972,73 @@ LIMIT 3;
   &lt;ul&gt;
     &lt;li&gt;조헌영, Node.js 교과서, 길벗, 16장 서버리스 노드 개발&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="AWS" /><summary type="html">serverless</summary></entry><entry><title type="html">서비스 배포하기</title><link href="http://localhost:4000/nodejs/starting_web_service/" rel="alternate" type="text/html" title="서비스 배포하기" /><published>2020-09-20T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/starting_web_service</id><content type="html" xml:base="http://localhost:4000/nodejs/starting_web_service/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="AWS" /><summary type="html">serverless</summary></entry><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/database/SQL_QUERY_01/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_01</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;
+
+&lt;h2 id=&quot;group_by&quot;&gt;GROUP_BY&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(column) FROM table_name GROUP_BY column
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;특정-시간대별-정렬&quot;&gt;특정 시간대별 정렬&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS
+ WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19'
+ GROUP BY date_format(DATETIME, '%H')
+ ORDER BY date_format(DATETIME, '%H') ASC
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt; SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT
+ FROM animal_outs
+ GROUP BY HOUR(datetime)
+ HAVING HOUR &amp;gt;= 9 AND HOUR &amp;lt;= 19
+ ORDER BY HOUR
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;등록되는-시간인-719시를-제외한-시간-또한-표시하여-정렬&quot;&gt;등록되는 시간인 7~19시를 제외한 시간 또한 표시하여 정렬&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;set @hour := -1;
+SELECT (@hour := @hour + 1) as 'HOUR',
+       (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS 'COUNT'
+FROM ANIMAL_OUTS
+WHERE @hour &amp;lt; 23;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;null-check&quot;&gt;NULL CHECK&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME IS NOT NULL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;ifnull&quot;&gt;IFNULL()&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_TYPE, IFNULL(NAME, 'No name'), SEX_UPON_INTAKE FROM ANIMAL_INS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;inner-join&quot;&gt;INNER JOIN&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT
+테이블별칭.조회할칼럼,
+테이블별칭.조회할칼럼
+FROM 기준테이블 별칭
+INNER JOIN 조인테이블 별칭 ON 기준테이블별칭.기준키 = 조인테이블별칭.기준키....
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;한쪽-집합에-값이-없는-것만-출력&quot;&gt;한쪽 집합에 값이 없는 것만 출력&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT O.ANIMAL_ID, O.NAME
+FROM ANIMAL_INS I
+RIGHT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE I.ANIMAL_ID IS NULL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT I.NAME, I.DATETIME
+FROM ANIMAL_INS I
+LEFT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
+WHERE O.DATETIME IS NULL
+ORDER BY I.DATETIME ASC
+LIMIT 3;
+&lt;/code&gt;&lt;/pre&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry><entry><title type="html">서비스 배포하기</title><link href="http://localhost:4000/nodejs/starting_web_service/" rel="alternate" type="text/html" title="서비스 배포하기" /><published>2020-09-20T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/starting_web_service</id><content type="html" xml:base="http://localhost:4000/nodejs/starting_web_service/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;배포-전-배포환경-설정&quot;&gt;배포 전 배포환경 설정&lt;/h1&gt;
@@ -1284,1056 +1423,4 @@ sequelize db:create --env [database_name]
     &lt;li&gt;https://en.wikipedia.org/wiki/B-tree&lt;/li&gt;
     &lt;li&gt;https://arisu1000.tistory.com/27715&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry><entry><title type="html">PUT VS POST</title><link href="http://localhost:4000/backend/put_post/" rel="alternate" type="text/html" title="PUT VS POST" /><published>2020-09-10T00:00:00+09:00</published><updated>2020-09-11T04:00:00+09:00</updated><id>http://localhost:4000/backend/put_post</id><content type="html" xml:base="http://localhost:4000/backend/put_post/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;p&gt;서비스 개발 도중 문득 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;put&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post&lt;/code&gt;의 차이가 분명하지 않아 직접 찾아본 자료들을 정리해둔 글이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP API&lt;/code&gt; 개발 단계에서 서버 자원을 수정, 추가, 배포하기 위해서는 어떤 메서드를 사용해야 하나? 네트워크 지식이 매우 미흡한 작성자에게는 상당히
-어려운 부분이다. 간단한게 말해서 하나도 모른다.&lt;/p&gt;
-
-&lt;p&gt;그렇다고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;의 정의부터 전부 쓰기도 그러니 &lt;a href=&quot;https://tools.ietf.org/html/rfc7231#section-4.1&quot;&gt;공식 문서(rfc7231)&lt;/a&gt;를 참고하여 중요한 토픽 위주로 먼저 정리하려 한다.&lt;/p&gt;
-
-&lt;h1 id=&quot;common-method-properties&quot;&gt;Common Method Properties&lt;/h1&gt;
-&lt;h2 id=&quot;safe-methods&quot;&gt;Safe Methods&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;사용자의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 같은 요청으로 인한 side-effects는 사용자에게 책임을 물을 수 없다.&lt;/li&gt;
-  &lt;li&gt;이를 통해 다른 메서드의 경우에 위험 가능성을 명시한다.&lt;/li&gt;
-  &lt;li&gt;읽기 전용인 경우 안전한 메서드로 간주한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;idempotent-methods&quot;&gt;Idempotent Methods&lt;/h2&gt;
-&lt;p&gt;우리말로는 멱등성(?)이라는 단어를 사용하던데 상당히 생소하다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;서버 통신 장애로 인해 요청이 반복될 수 있어 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Idempotent Methods&lt;/code&gt;는 구분된다,&lt;/li&gt;
-  &lt;li&gt;여러 번의 요청과 한 번의 요청의 결과가 동일하다면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Idempotent&lt;/code&gt; 하다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PUT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DELETE&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Safe Method&lt;/code&gt;가 여기에 속한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;cacheable-methods&quot;&gt;Cacheable Methods&lt;/h2&gt;
-
-&lt;p&gt;요청 메서드는 이후 재사용 가능성에 의해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cacheable&lt;/code&gt; 할 수 있다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;일반적으로 권한 요청이 없거나, 현재에 의존성이 없는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;safe method&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cacheable&lt;/code&gt;하다&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HEAD&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;POST&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cacheable&lt;/code&gt;하다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;method-definitions&quot;&gt;Method Definitions&lt;/h1&gt;
-&lt;h2 id=&quot;post&quot;&gt;POST&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;HTML 폼에 입력된 필드를 받아 데이터 핸들링을 할 경우&lt;/li&gt;
-  &lt;li&gt;게시판, 블로그 등의 포스팅&lt;/li&gt;
-  &lt;li&gt;서버의 새로운 데이터 쓰기&lt;/li&gt;
-  &lt;li&gt;데이터 추가&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;POST 요청에 대한 응답 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;status code&lt;/code&gt;는 대부분  being 206 (Partial Content), 304 (Not Modified), and 416 (Range Not Satisfiable)로 정의된다.
-새로운 리소스가 서버에 생성되었다면, 201 (Created)를 생성된 리소스에 대한 설명과 식별자를 함께 보낸다.&lt;/p&gt;
-
-&lt;p&gt;POST는 &lt;a href=&quot;https://tools.ietf.org/html/rfc7234#section-4.2.1&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;freshness&lt;/code&gt;&lt;/a&gt; 정보가 정확히 명시되었을 때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cacheable&lt;/code&gt;하다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;요청에 바디 존재&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;O&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;성공 응답에 바디 존재&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;O&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;안전성&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;X&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;멱등성&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;X&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;캐시 가능&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;put&quot;&gt;PUT&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;기존 리소스를 대체하거나 새로 생성하는 요청을 주로한다.&lt;/li&gt;
-  &lt;li&gt;서버는 변환없는 저장, 새로운 데이터를 반영하지 않을 경우 절대로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ETag&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Last-Modified&lt;/code&gt; 같은 &lt;a href=&quot;https://tools.ietf.org/html/rfc7231#section-7.2&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alidator header field&lt;/code&gt;&lt;/a&gt;를 보내선 안된다. 이 요건은 사용자 에이전트가 PUT의 결과로 메모리에 있는 바디가 최신 상태를 유지할 때 알 수 있도록 하므로 서버에서 다시 검색할 필요가 없으며, 응답에서 받은 새로운 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;validator&lt;/code&gt;에 우발적인 덮어쓰기를 방지하기 위해 미래의 조건부 요청에 사용할 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;타켓 리소스와 다를 경우 PUT 메서드는 요청을 적절한 형태의 에러코드를 발생할 수 있다. 이 때 409 (Conflict), 415 (Unsupported Media Type) 상태코드를 보낸다.
-생성할 경우 201 (Created)를, 수정할 경우는 요청이 완료되었다는 의미로 200 (OK)이나 204 (No cotent) 상태 코드를 보낸다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;요청에 바디 존재&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;O&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;성공 응답에 바디 존재&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;X&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;안전성&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;X&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;멱등성&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;O&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;캐시 가능&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;X&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h1 id=&quot;put-or-post&quot;&gt;PUT or POST?&lt;/h1&gt;
-&lt;p&gt;그렇다면 둘의 차이점은 도대체 무엇일까? 공식문서에서는 아래와 같이 설명하고 있다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The fundamental difference between the POST and PUT methods is highlighted by the different intent for the enclosed representation. The target resource in a POST request is intended to handle the enclosed representation according to the resource’s own semantics, whereas the enclosed representation in a PUT request is defined as replacing the state of the target resource.  Hence, the intent of PUT is idempotent and visible to intermediaries, even though the exact  effect is only known by the origin server.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;간단히 말하자면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;idempotent&lt;/code&gt;에서 차이가 있다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;POST 같은 경우 여러번의 요청이 있을 경우, 연속적인 시퀀스라 인지하여 추가적인 영향이 있을 수 있다.&lt;/li&gt;
-  &lt;li&gt;PUT 같은 경우 리소스를 대체하거나 새로 생성하지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;idempotent&lt;/code&gt;에 의해 요청수에 상관없이 결과는 같다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://tools.ietf.org/html/rfc7231#section-4.1&lt;/li&gt;
-    &lt;li&gt;https://feel5ny.github.io/2019/08/16/HTTP_003_02/&lt;/li&gt;
-    &lt;li&gt;https://ko.wikipedia.org/wiki/HTTP&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="protocol" /><summary type="html"></summary></entry><entry><title type="html">sns 프로젝트 demo</title><link href="http://localhost:4000/nodejs/sns_project/" rel="alternate" type="text/html" title="sns 프로젝트 demo" /><published>2020-09-05T00:00:00+09:00</published><updated>2020-09-05T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/sns_project</id><content type="html" xml:base="http://localhost:4000/nodejs/sns_project/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;sns-서비스&quot;&gt;SNS 서비스&lt;/h1&gt;
-
-&lt;h2 id=&quot;프로젝트-구조-갖추기&quot;&gt;프로젝트 구조 갖추기&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nodebird/package.json&lt;/code&gt;을 생성 후 아래와 같이 작성한다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;license&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;description&lt;/code&gt; 등은 바꾸어도 상관없다.&lt;/p&gt;
-
-&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;nodebird&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;version&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;0.0.1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;description&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;익스프레스로 만드는 sns서비스&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;main&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;app.js&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;scripts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;start&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;nodemon app&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;author&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;b1n&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;license&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MIT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ npm i -g sequelize-cli
-$ npm i sequelize mysql2
-$ sequelize init
-$ npm i express cookie-parser express-session morgan connect-flash pug dotenv
-$ npm i -g nodemon
-$ npm i -D nodemon
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nodemon&lt;/code&gt;은 코드 수정사항이 있을 때마다 매번 서버를 재시작해주는 모듈이다.
-배포시에는 사용할 일이 거의 없으니 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--save-dev&lt;/code&gt; 옵션을 사용해 설치해준다.&lt;/p&gt;
-
-&lt;p&gt;nodebird/app.js&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cookieParser&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;cookie-parser&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;morgan&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;morgan&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pageRouter&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./routes/page&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;dotenv&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;__dirname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;view engine&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;pug&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;PORT&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;morgan&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;dev&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;__dirname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;urlencoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;extended&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;cookieParser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;COOKIE_SECRET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;resave&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;saveUninitialized&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;COOKIE_SECRET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;cookie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;httpOnly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;secure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;pageRouter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Not Fount&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;404&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;locals&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;locals&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;development&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;listen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;번 포트에서 대기 중&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dotenv&lt;/code&gt;를 사용하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nodebird/.env&lt;/code&gt; 파일을 만들어 아래 내용을 추가하도록 하자.&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;COOKIE_SECRET=nodebirdsecret
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;또한, 현재 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config.json&lt;/code&gt; 파일이 하드코딩 되어 있기 때문에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config.js&lt;/code&gt;로 수정하여 사용한다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nodebird/.env&lt;/code&gt;에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SEQUELIZE_PASSWORD&lt;/code&gt;를 추가하자.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;dotenv&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;development&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SEQUELIZE_PASSWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;database_development&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;dialect&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SEQUELIZE_PASSWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;database_test&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;dialect&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;production&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;root&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SEQUELIZE_PASSWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;database&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;database_production&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;127.0.0.1&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;dialect&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;mysql&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;데이터베이스&quot;&gt;데이터베이스&lt;/h2&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./config/config.js&lt;/code&gt;를 이용해 시퀄라이저가 직접 테이블을 생성할 수 있도록 하며, 우선 콘솔에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sequelize db:create&lt;/code&gt;를 통해 데이터베이스를 생성한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app.js&lt;/code&gt;에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sequelize.sync()&lt;/code&gt;를 통해 디비 세팅을 해준다.
-중요한 부분만 집고 넘어가자면, 팔로잉한 유저와 팔로우한 유저는 서로 N:M 관계이므로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;mapping table&lt;/code&gt;을 생성해줄 필요가 있다. 아래는 그에 대한 sql쿼리다.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-MySQL&quot;&gt;CREATE TABLE IF NOT EXISTS `Follow` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `followingId` INTEGER , `followerId` INTEGER , PRIMARY KEY (`followingId`, `followerId`), FOREIGN KEY (`followingId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`followerId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
-
-CREATE TABLE IF NOT EXISTS `PostHashtag` (`createdAt` DATETIME NOT NULL, `updatedAt` DATETIME NOT NULL, `PostId` INTEGER , `HashtagId` INTEGER , PRIMARY KEY (`PostId`, `HashtagId`), FOREIGN KEY (`PostId`) REFERENCES `posts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (`HashtagId`) REFERENCES `hashtags` (`id`) ON DELETE CASCADE ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;보기만 해도 정신이 나갈 것 같지만, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./config/user.js&lt;/code&gt;에서는 시퀄라이즈가 지원하는 방법을 통해 간단한 코드로 작성한다.
-참고로 여기서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;as&lt;/code&gt; 옵션은  시퀄라이즈가 join 작업 시 사용하는 이름이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getFollowings&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;addFollowing&lt;/code&gt; 등의 메서드를 자동 추가해준다.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;associate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hasMany&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;belongsToMany&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;foreignKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;followingId&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Followers&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;through&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Follow&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;belongsToMany&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;foreignKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;followerId&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Followings&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;na&quot;&gt;through&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Follow&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;passport&quot;&gt;passport&lt;/h2&gt;
-&lt;p&gt;로그인 구현에는 세션과 쿠키 처리 등 복잡한 작업이 많아 검증된 모듈을 사용하여 하는 것이 좋다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app.js&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;resave&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;saveUninitialized&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;COOKIE_SECRET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;cookie&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;httpOnly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;secure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}));&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// req 객체에 passport 설정을 심고&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;use&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// req.session 객체에 passport 정보를 저장한다.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// req.session 은 express-session 에서 생성하므로 항상 그보다 뒤에 연결해야 한다.&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./passpot/index.js&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;local&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./localStrategy&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;kakao&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./kakaoStrategy&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;../models&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;serializeUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//req.session에 저장할 정보를 선택한다.&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-    &lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;deserializeUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//매 요청 시 실행된다.&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//passport.session() 미들웨어가 이 메서드를 호출한다. 데이터베이스에서 받은 아이디를 조회하고 로그인한 사용자의 정보를 가져올 수 있다.&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//조회한 정보를 req.user에 저장할 것이므로 언제든 사용자 정보를 가져올 수 있다.&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}})&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;done&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;     
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-    &lt;span class=&quot;nx&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;kakao&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;serializeUser&lt;/code&gt;는 사용자 정보 객체를 세션에 아이디로 저장하는 것이고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deserializeUser&lt;/code&gt;는 세션에 저장한 아이디를 통해 사용자 정보 객체를 불러오는 것이다.\&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt; 로그인 &lt;/b&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;로그인 요청&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passport.authenticate&lt;/code&gt; 메서드 호출&lt;/li&gt;
-  &lt;li&gt;로그인 전략 수행&lt;/li&gt;
-  &lt;li&gt;로그인 성공 시 사용자 정보객체와 함께 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req.login&lt;/code&gt;호출&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req.login&lt;/code&gt; 메서드가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passport.serializeUser&lt;/code&gt;호출&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req.session&lt;/code&gt;에 사용자 아이디만 저장&lt;/li&gt;
-  &lt;li&gt;로그인 완료&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;b&gt; 로그인 이후 &lt;/b&gt;&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;모든 요청에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passprot.session()&lt;/code&gt; 미들웨어가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;passport.deserializeUser&lt;/code&gt; 호출&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req.session&lt;/code&gt;에 저장된 아이디로 db조회&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req.user&lt;/code&gt;에 저장&lt;/li&gt;
-  &lt;li&gt;라우터에서 위 객체 사용가능&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;로컬-로그인-구현&quot;&gt;로컬 로그인 구현&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;routes/middlewares&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isLoggedIn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isAuthenticated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;status&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;403&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;로그인 필요&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isNotLoggedIn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;isAuthenticated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()){&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;라우팅 중에도 미들웨어를 사용하여 로그인 유저에 대한 구현을 쉽게 만들 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./routes/page.js&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isNotLoggedIn&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./middlewares&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/profile&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;profile&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;내정보 - Nodebird&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/join&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isNotLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;Nodebird&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;twits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;joinError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;joinError&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-       &lt;span class=&quot;na&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;NodeBird&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-       &lt;span class=&quot;na&quot;&gt;twits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt;
-       &lt;span class=&quot;na&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-       &lt;span class=&quot;na&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req.user&lt;/code&gt;을 html에서도 사용할 수 있게 전달하는 과정과 미들웨어를 만들어 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;next()&lt;/code&gt;가 안될 경우에 주목하자.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./routes/auth.js&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;bcrpyt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;bcrypt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isNotLoggedIn&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;./middlewares&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;../models&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;express&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/join&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isNotLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;nick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;password&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;exUser&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exUser&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;joinError&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;이미 가입된 이메일입니다.&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/join&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hash&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;bcrpyt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//salt round&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;nick&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/login&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isNotLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;passport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;authenticate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;authError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;authError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;authError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;authError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;flash&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-                &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loginError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;})(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//미들웨어 내 미들웨어네는 (req, res, next)를 붙인다&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/logout&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;isLoggedIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;logout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;destroy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;redirect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Passport&lt;/code&gt;객체는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;req&lt;/code&gt;객체에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;login&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;logout&lt;/code&gt;을 추가시킨다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;조헌영, Node.js 교과서, 길벗, 7장 MySQL&lt;br /&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><summary type="html"></summary></entry><entry><title type="html">관계형 데이터베이스 모델링 개요</title><link href="http://localhost:4000/database/relational_database_01/" rel="alternate" type="text/html" title="관계형 데이터베이스 모델링 개요" /><published>2020-09-03T00:00:00+09:00</published><updated>2020-09-04T04:00:00+09:00</updated><id>http://localhost:4000/database/relational_database_01</id><content type="html" xml:base="http://localhost:4000/database/relational_database_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;모델&quot;&gt;모델&lt;/h1&gt;
-&lt;p&gt;모델은 목적에 부합하는 모방이라 할 수 있다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;사람이 살아가면서 나타날 수 있는 다양한 현상은 사람 사물 개념 등에 의해 발생된다고 할 수 있으며 모델링은 이것을 표기법에 의해 규칙을 가지고 표기하는 것 자체를 의미한다. 즉 모델을 만들어가는 일 자체를 모델링으로 정의할 수 있다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;전체-흐름&quot;&gt;전체 흐름&lt;/h2&gt;
-
-&lt;p&gt;업무파악 -&amp;gt; 개념적 데이터 모델링 -&amp;gt; 논리적 데이터 모델링 -&amp;gt; 물리적 데이터 모델링&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;개념적 데이터 모델링
-    &lt;ul&gt;
-      &lt;li&gt;각각의 개념들이 어떻게 상호작용 하는지 확인하는 과정&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;논리적 데이터 모델링
-    &lt;ul&gt;
-      &lt;li&gt;개념적 데이터 모델링을 우리가 아는 패러다임으로 변경하는 과정&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;물리적 데이터 모델링은
-    &lt;ul&gt;
-      &lt;li&gt;데이터베이스를 선택 후 실제 테이블을 생성하는 과정&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;업무-파악&quot;&gt;업무 파악&lt;/h2&gt;
-
-&lt;p&gt;필요한 것이 무엇인지 파악하기 위해 진행해야하는 단계로써
-강의에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ovenapp&lt;/code&gt;을 사용하여 시각화 하는 것을 예시로 알려주었다.&lt;/p&gt;
-
-&lt;p&gt;https://ovenapp.io/&lt;/p&gt;
-
-&lt;h2 id=&quot;개념적-데이터-모델링&quot;&gt;개념적 데이터 모델링&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD(Entity Relationshop Diagram)&lt;/code&gt;를 통해 나타낼 수 있음.&lt;/p&gt;
-
-&lt;p&gt;현실을 간단하게 나타낼 수 있는 방법이 무엇이 있을까?
-ERD는 우리에게 현실을 3개의 관점에서 볼 수 있게 도와준다.
-정보, 정보 그룹, 정보 그룹 사이의 관계. 이를 통해 우리는 추상화된 개념을 볼 수 있을 것이다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;는 또한 쉽게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;table&lt;/code&gt;로 나타낼 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/relational.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;위와 아래 중 어떤 것이 관계형 데이터베이스를 표현하기에 적합할까?
-정답은 아래이다.
-관계형 데이터베이스에서는 내포관계를 표현할 수 없기 때문에 내포관계가 있는 표를 생성할 경우 매우 큰 데이터를 가진 표에 지나지 않을 것이다.
-이는 데이터의 중복과 광대한 데이터를 불러오는 데 물리적으로 문제가 있을 수 있다.&lt;/p&gt;
-
-&lt;p&gt;아래와 같이 글, 저자, 댓글은 각각 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Entity&lt;/code&gt;라 한다. 이는 이후에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;table&lt;/code&gt;이 된다.
-글의 본문, 제목, 생성일 등은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;attribute&lt;/code&gt;이다. 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;column&lt;/code&gt;이 된다.
-그리고 글에 댓글을 쓰다라는 관계는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Relation&lt;/code&gt;이라 하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Primary key&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Foreign key&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;identifier&quot;&gt;Identifier&lt;/h3&gt;
-&lt;p&gt;가지고있는 데이터를 식별하기 위해 고유한 식별자를 사용해야 한다.&lt;/p&gt;
-
-&lt;p&gt;데이터가 가지고 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;column&lt;/code&gt;값에서 식별자 후보군이 될 수 있는 키를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;candidate key&lt;/code&gt;라 하며 여기서 선택된 식별자를  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Primary key&lt;/code&gt; 그 외는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;alternate key&lt;/code&gt;라 한다.
-또한, 두 가지 이상의 값을 이용하여 식별할 수 있는 키들은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;composite key&lt;/code&gt;라 한다.&lt;/p&gt;
-
-&lt;h3 id=&quot;cardinality&quot;&gt;Cardinality&lt;/h3&gt;
-&lt;p&gt;1:1
-담임 선생님은 반이 하나다. 반은 담임선생님이 하나다.
-1:N
-저자는 댓글을 여러개 작성할 수 있다. 댓글에게 저자는 하나다.
-N:M
-저자는 글을 여러개 작성할 수 있다. 글은 여러명의 저자를 가질 수 있다.
-N:M 관계는 실제 관계형 구조에서는 쉽게 만들 수 없는 구조이기 때문에 연결테이블을 거쳐 만든다.&lt;/p&gt;
-&lt;h3 id=&quot;optionality&quot;&gt;Optionality&lt;/h3&gt;
-&lt;p&gt;저자는 반드시 댓글을 작성하지(가지지) 않아도 된다. 댓글은 반드시 저자를 가져야 한다. Mandatory:Optional&lt;/p&gt;
-
-&lt;h2 id=&quot;논리적-데이터-모델링&quot;&gt;논리적 데이터 모델링&lt;/h2&gt;
-&lt;p&gt;개념적 데이터 모델링을 관계형 데이터베이스 패러다임에 어울리는 형태로 변형하는 과정.&lt;/p&gt;
-
-&lt;h3 id=&quot;mapping-rule&quot;&gt;Mapping rule&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;를 관계형 데이터베이스에 맞게 변형하기 위한 방법론이다. 설명보다는 간단하게 아래의 표로 생각하는 것이 이해하기 쉬울 것이다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;ERD&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;RDB&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Entity&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Table&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Attribute&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Column&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Relation&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;PK, FK&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h3 id=&quot;관계형-데이터-모델-만들기&quot;&gt;관계형 데이터 모델 만들기&lt;/h3&gt;
-
-&lt;p&gt;아래 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ERD&lt;/code&gt;와 &lt;a href=&quot;https://aquerytool.com/&quot;&gt;aquerytool&lt;/a&gt; 툴을 사용하여 만들었다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/ERD.png&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/data-modeling.png&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;mapping-table&quot;&gt;Mapping Table&lt;/h3&gt;
-&lt;p&gt;N:M관계에서는 특정 테이블이 외래키를 가지는 방식으로 할 경우 필드에 다수의 값이 들어가게 될 것이다.
-예를 들어 작성자는 글을 여러개 쓸 수 있으므로 필드에 복수의 키를 가져야 한다.
-하지만 이는 관계형 데이터베이스에서 지양하므로 다른 방식을 선택해야 할 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mapping Table&lt;/code&gt;
-작성은 간단하다 단순히 작성자와 글의 키를 가지고 있는 테이블을 생성 후
-그 둘 사이를 매핑하는 역할을 하는 것이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;normalization&quot;&gt;Normalization&lt;/h3&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;관계형 데이터베이스의 설계에서 중복을 최소화하게 데이터를 구조화하는 프로세스를 정규화라고 한다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;정규화 된 단계를 정규형으로 표현하는데 보통은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3NF&lt;/code&gt;까지를 만족할 경우 정규화를 거쳤다 표현한다.
-그 이후 단계는 학술적으로 사용되는 단계이기 때문에 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3NF&lt;/code&gt;단계 까지 정규화를 해보도록 하겠다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/normalization.png&quot; alt=&quot;이미지4&quot; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;1nf&quot;&gt;1NF&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;각 콜럼들이 서로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Atomic&lt;/code&gt; 해야한다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;쉽게 말해 각각의 필드에 값이 하나만을 가져야 한다는 의미이다.
-아래 표는 정규화 되지 않은 폼이다. 이를 변형하여 정규화 과정을 거쳐보자.&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;Unormalized form&lt;/b&gt;&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;tag&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;rdb, free&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;rdb, free&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;15000&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;rdb, commercial&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;아래 표는 정규형을 만족시키지만 정보의 중복을 피하지 못한다. 그렇다면 어떻게 해야할까?
-정보의 중복을 피하기위해서 가장 쉽게 생각할 수 있는 방식은 테이블을 나누는 것이다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;tag&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;rdb&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;free&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;여기서 중요한건 현재 테이블과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tag&lt;/code&gt;가 N:M 관계라는 것이다. 앞에서 말했단 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Mapping table&lt;/code&gt;을 이용하여 테이블을 나누어야 한다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;15000&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;rdb&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;free&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;3&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;commercial&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;topic_title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;tag_id&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;3&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h4 id=&quot;2nf&quot;&gt;2NF&lt;/h4&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;모든 비기본 속성(non-prime attribute; 후보 키에 속하지 않은 속성)들이 후보 키에 속한 속성들 전체에 함수 종속인 경우에 한해서 1NF 테이블은 2NF이다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;말만 들어선 뭔 소린지 감이 하나도 안잡힌다. 예시와 함께 봐보자&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;1NF&lt;/b&gt;&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;15000&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;표를 보면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt; 콜럼 대해서 중복이 발생하고 있다.
-중복이 발생하는 이유는 무엇일까? 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;partial dependencies&lt;/code&gt; 때문이다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;description&lt;/code&gt;부터  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_profile&lt;/code&gt; 콜럼까지의 속성은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 부분 족송되고 있다.&lt;/p&gt;
-
-&lt;p&gt;다른 말로 위 테이블은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;price&lt;/code&gt; 콜럼을 위해 존재한다는 말이다.
-테이블을 나누어 중복되는 값을 없애보자.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;price&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;paper&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;10000&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;online&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h4 id=&quot;3nf&quot;&gt;3NF&lt;/h4&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;테이블이 제2 정규형을 만족하고,
-테이블 내의 모든 속성이 기본 키에만 의존하며, 다른 후보 키에 의존하지 않는다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;뭔지 알 것 같기도 한데 여전히 모른다면 다시 표와 함께 봐보자.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_profile&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_id&lt;/code&gt; 값은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 종속되고 있다.
-하지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_name&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_profile&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;author_id&lt;/code&gt;에 종속되고 있다.
-쉽게 이야기 하자면 중복된다. 그렇다면 앞에서 했듯이 테이블을 나누어 보자.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;title&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;created&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;author_id&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;MySQL is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2011&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;ORACLE is …&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2012&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;id&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;name&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;profile&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;kim&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;developer&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;위와같이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3NF&lt;/code&gt;을 만족하는 모델링이 완성되었다. 강의를 보고 무작정 따라 쓰다보니 상당히 난잡하고 보기 어려운 감이 있다.
-개인적으로는 &lt;a href=&quot;https://yaboong.github.io/database/2018/03/09/database-normalization-1/&quot;&gt;이 블로그&lt;/a&gt;가 상당히 쉽게 설명하여
-이해를 돕기에 편할 것 같아 링크를 남긴다.&lt;/p&gt;
-
-&lt;h2 id=&quot;물리적-데이터-모델링&quot;&gt;물리적 데이터 모델링&lt;/h2&gt;
-&lt;p&gt;이상적인 표를 구체적인 제품에 맞는 표로 변화시키는 작업이다.
-이 작업에서는 성능이 가장 중요한 부분이다. 구체적으로 성능 향상을 위해 할 수 있는 방법은
-속도가 느린 쿼리를 찾는 방식이다. 이는 각각의 DB마다 사용법이 다르다.&lt;/p&gt;
-
-&lt;h3 id=&quot;속도-개선-방법&quot;&gt;속도 개선 방법&lt;/h3&gt;
-&lt;p&gt;속도 개선을 위한 방법으로는 무엇이 있을까? 우선 가장 쉽게 생각할 수 있는 것은 인덱싱이다.
-인덱싱은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;write&lt;/code&gt;에서 정렬에 필요한 시간이 비약적으로 커지지만 읽기 속도에서 성능개선을 가져올 수 있다.&lt;/p&gt;
-
-&lt;p&gt;어플리케이션 단에서 캐싱을 한다면 데이터베이스에 부하를 줄일 수 있는데, 이러한 방법도 속도를 줄일 수 있는 방법일 것이다.&lt;/p&gt;
-
-&lt;p&gt;하지만, 만약 이러한 방법에도 불구하고 성능개선이 미미하다면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;denormalizaion&lt;/code&gt; 즉, 역정규화를 생각해볼 수 있을 것이다.
-역정규화는 기존에 있던 테이블을 고치는 작업이기에 최후의 보루로 남겨두는 것이 좋다.&lt;/p&gt;
-
-&lt;h3 id=&quot;정규화-vs-역정규화&quot;&gt;정규화 vs 역정규화&lt;/h3&gt;
-&lt;p&gt;정규화는 쓰기를 위해 읽기를 희생시키는 작업이다. 물론 반드시 그렇다는 것은 아니니 성급한 일반화는 지양하도록 하자.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;join&lt;/code&gt;이라는 작업은 간단한 자료구조를 알고 있다면 성능 개선이 아무리 좋더라 해도 쉽게 할 수 있는 작업이 아니라는 것을 예상할 수 있다.
-그렇기에 쓰기 작업은 편할지 모르지만 읽기 작업에서 부하가 일어날 수 있다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;생활코딩, 관계형 데이터 모델링, https://opentutorials.org/course/3883&lt;/li&gt;
-    &lt;li&gt;SQLD 개발자 가이드, http://www.dbguide.net/index.db&lt;/li&gt;
-    &lt;li&gt;https://yaboong.github.io/database/2018/03/09/database-normalization-1/&lt;/li&gt;
-    &lt;li&gt;https://ko.wikipedia.org/wiki/데이터베이스_정규화&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="RDBMS" /><category term="database" /><summary type="html"></summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry></feed>
