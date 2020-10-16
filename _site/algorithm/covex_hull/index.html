@@ -35,7 +35,7 @@
 
 
 
-  <meta property="article:modified_time" content="2020-10-09T05:00:00+09:00">
+  <meta property="article:modified_time" content="2020-10-17T05:00:00+09:00">
 
 
 
@@ -284,7 +284,7 @@
     <meta itemprop="headline" content="covex hull">
     <meta itemprop="description" content="">
     <meta itemprop="datePublished" content="2020-10-09T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-10-09T05:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-10-17T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  1 분 소요
 
 </p>
           
@@ -314,6 +314,12 @@
     <ul>
       <li><a href="#pseudo-code">pseudo code</a></li>
       <li><a href="#analysis-of-graham-scan">Analysis of Graham Scan</a></li>
+    </ul>
+  </li>
+  <li><a href="#divide-and-conquer">Divide and Conquer</a>
+    <ul>
+      <li><a href="#pseudo-code-1">pseudo code</a></li>
+      <li><a href="#analysis-of-divide-and-conquer">Analysis of Divide and conquer</a></li>
     </ul>
   </li>
 </ul>
@@ -355,7 +361,47 @@ return stack
   </li>
 </ol>
 
-<p>#Divide and Conquer</p>
+<h1 id="divide-and-conquer">Divide and Conquer</h1>
+
+<h2 id="pseudo-code-1">pseudo code</h2>
+
+<p><img src="/assets/images/merging.PNG" alt="이미지1" /></p>
+
+<ul>
+  <li>sort by x-order</li>
+  <li>Let \(A\) be the set of \(n/2\) leftmost points and \(B\) the set of \(n/2\) rightmost points</li>
+  <li>Reculsively compute \(CovexHull(A)\) and \(ConvexHull(B)\)</li>
+  <li>Merge to obtain CovexHull(S)
+    <ul>
+      <li>a = rightmost point of \(CovexHull(A)\)</li>
+      <li>b = leftmost point of \(ConvexHull(B)\)</li>
+      <li>while \(\overline{ab}\) not lower tangent of \(CovexHull(A)\) and \(ConvexHull(B)\)
+        <ol>
+          <li>while \(\overline{ab}\) not lower tangent to :\(ConvexHull(A)\)
+            <ul>
+              <li>set \(a = a-1\)(move \(a\) \(CW\))</li>
+            </ul>
+          </li>
+          <li>while \(\overline{ab}\) not lower tangent to :\(ConvexHull(B)\)
+            <ul>
+              <li>set \(b = b+1\)(move \(b\) \(CCW\))</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>return \(\overline{ab}\)</li>
+</ul>
+
+<h2 id="analysis-of-divide-and-conquer">Analysis of Divide and conquer</h2>
+
+<ul>
+  <li>처음 정렬에 걸리는 시간 \(O(nlong)\)</li>
+  <li>. \(T(N) = 2T(N/2) + O(N)\)</li>
+  <li>Merge 즉, 합치는 데 걸리는 시간은 선형이다.</li>
+  <li>마스터 정리에 의하여 \(T(N) = O(nlogn)\)</li>
+</ul>
 
 <blockquote>
   <font size="6">Refernce</font>
@@ -415,7 +461,7 @@ return stack
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-09">October 9, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-17">October 17, 2020</time></p>
 
 
       </footer>
@@ -440,7 +486,8 @@ return stack
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/algorithm/tree_diameter/" class="pagination--pager" title="tree diameter
+">다음</a>
     
   </nav>
 
@@ -464,7 +511,67 @@ return stack
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/closest_pair/" rel="permalink">closest pair
+        <a href="/algorithm/scheduling/" rel="permalink">scheduling
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/dynamic_programming/" rel="permalink">dynamic programming
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/dijkstra_algorithm/" rel="permalink">shortest path
 </a>
       
     </h2>
@@ -494,36 +601,7 @@ return stack
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/nodejs/Nouvelle_Vague/" rel="permalink">Nouvelle Vague
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">개요
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/nodejs/database_caching/" rel="permalink">데이터베이스 캐싱(작성 중)
+        <a href="/algorithm/tree_diameter/" rel="permalink">tree diameter
 </a>
       
     </h2>
@@ -537,36 +615,8 @@ return stack
 
 </p>
     
-    <p class="archive__item-excerpt" itemprop="description">개요
-</p>
-  </article>
-</div>
+    <p class="archive__item-excerpt" itemprop="description">
 
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/rails/starting_rails/" rel="permalink">starting rails(작성 중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  9 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">rails
 </p>
   </article>
 </div>

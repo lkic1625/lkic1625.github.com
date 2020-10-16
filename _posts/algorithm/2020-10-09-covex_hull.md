@@ -5,7 +5,7 @@ tags:
   - algorithm
 categories:
   - algorithm
-last_modified_at: 2020-10-09T13:00:00+17:00
+last_modified_at: 2020-10-17T13:00:00+17:00
 toc: true
 ---
 <script type="text/javascript"
@@ -36,7 +36,33 @@ $$D = det\begin{vmatrix} 1 & p_x & p_y \\ 1 & q_x & q_y \\ 1 & r_x & r_y \end{vm
 3. 정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요
 - time complexity: $$O(nlogn)$$
 
-#Divide and Conquer
+# Divide and Conquer
+
+## pseudo code
+
+![이미지1](/assets/images/merging.PNG)
+
+- sort by x-order
+- Let $$A$$ be the set of $$n/2$$ leftmost points and $$B$$ the set of $$n/2$$ rightmost points
+- Reculsively compute $$CovexHull(A)$$ and $$ConvexHull(B)$$
+- Merge to obtain CovexHull(S)
+  - a = rightmost point of $$CovexHull(A)$$
+  - b = leftmost point of $$ConvexHull(B)$$
+  - while $$\overline{ab}$$ not lower tangent of $$CovexHull(A)$$ and $$ConvexHull(B)$$
+    1. while $$\overline{ab}$$ not lower tangent to :$$ConvexHull(A)$$
+    - set $$a = a-1$$(move $$a$$ $$CW$$)
+    2. while $$\overline{ab}$$ not lower tangent to :$$ConvexHull(B)$$
+    - set $$b = b+1$$(move $$b$$ $$CCW$$)
+- return $$\overline{ab}$$
+
+## Analysis of Divide and conquer
+
+- 처음 정렬에 걸리는 시간 $$O(nlong)$$
+- . $$T(N) = 2T(N/2) + O(N)$$
+- Merge 즉, 합치는 데 걸리는 시간은 선형이다.
+- 마스터 정리에 의하여 $$T(N) = O(nlogn)$$
+
+
 
 
 ><font size="6">Refernce</font>

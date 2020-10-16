@@ -162,7 +162,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Nouvelle Vague",
-        "excerpt":"개요   알게된 것   https security - should password be hashed server-side or client-side?  https://security.stackexchange.com/questions/8596/https-security-should-password-be-hashed-server-side-or-client-side   login css design  https://doctorcodetutorial.blogspot.com/2019/07/make-animated-signup-form-using-html.html   sequelize validation  https://sequelize.org/master/manual/validations-and-constraints.html   JWT 토큰은 어디에 저장하는게 좋을까?  https://lazyhoneyant.tistory.com/   https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#:~:text=JWT%20sessionStorage%20and%20localStorage%20Security,site%20scripting%20(XSS)%20attacks.   Session Storage is Evil  https://liferay.dev/blogs/-/blogs/session-storage-is-evil   How to log out when using JWT  https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6   multer upload multiple files  https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83   HTTP authentication  https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication  ","categories": ["nodejs"],
+        "excerpt":"개요 알게된 것 https security - should password be hashed server-side or client-side? https://security.stackexchange.com/questions/8596/https-security-should-password-be-hashed-server-side-or-client-side login css design https://doctorcodetutorial.blogspot.com/2019/07/make-animated-signup-form-using-html.html sequelize validation https://sequelize.org/master/manual/validations-and-constraints.html JWT 토큰은 어디에 저장하는게 좋을까? https://lazyhoneyant.tistory.com/ https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#:~:text=JWT%20sessionStorage%20and%20localStorage%20Security,site%20scripting%20(XSS)%20attacks. Session Storage is Evil https://liferay.dev/blogs/-/blogs/session-storage-is-evil How to log out when using JWT https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6 multer upload multiple files https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83 HTTP authentication https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication 비동기...","categories": ["nodejs"],
         "tags": ["nodejs","projects"],
         "url": "http://localhost:4000/nodejs/Nouvelle_Vague/",
         "teaser": null
@@ -177,5 +177,29 @@ var store = [{
         "excerpt":"Graham Scan pseudo code sort by y-order; //$$p_1, p_2, ..., p_n$$ stack.push($$p_1, p_2$$); for i = 3 to $$n$$ do while next $$\\angle next, top, $$p_i$$ != CCW stack.pop() stack.push($$p_i$$) return stack Analysis of Graham Scan Invariant \\(&lt;p_1, ... ,stack.top()&gt;\\) is convex 기울기 공식: \\(D = det\\begin{vmatrix} 1 &amp; p_x...","categories": ["algorithm"],
         "tags": ["divide and conquer","algorithm"],
         "url": "http://localhost:4000/algorithm/covex_hull/",
+        "teaser": null
+      },{
+        "title": "tree diameter",
+        "excerpt":"트리의 지름 문제 트리(tree)는 사이클이 없는 무방향 그래프이다. 트리에서는 어떤 두 노드를 선택해도 둘 사이에 경로가 항상 하나만 존재하게 된다. 트리에서 어떤 두 노드를 선택해서 양쪽으로 쫙 당길 때, 가장 길게 늘어나는 경우가 있을 것이다. 이럴 때 트리의 모든 노드들은 이 두 노드를 지름의 끝 점으로 하는 원 안에 들어가게...","categories": ["algorithm"],
+        "tags": ["greedy","algorithm"],
+        "url": "http://localhost:4000/algorithm/tree_diameter/",
+        "teaser": null
+      },{
+        "title": "shortest path",
+        "excerpt":"definition \\(input\\): \\(G=(V,E,g), v_0 \\in V\\) \\(output\\): shortest path \\(v_0\\) to \\(v_i\\) \\((v_i \\in V)\\) 다익스트라 알고리즘 다익스트라 알고리즘은 Invariant를 중심으로 진행된다. 이는 아래와 같다 : \\(\\forall{u} \\in T, d_{min}(u) = \\text{shortest path}\\) \\[\\forall{u} \\notin T, \\text{shortest path} v_0 \\to T_0 \\to u is \\text{shortest path then insert u to...","categories": ["algorithm"],
+        "tags": ["greedy","algorithm"],
+        "url": "http://localhost:4000/algorithm/dijkstra_algorithm/",
+        "teaser": null
+      },{
+        "title": "dynamic programming",
+        "excerpt":"knapsack problem 문제 정의 도둑이 보석가게에 배낭을 메고 침입했다. 배낭의 최대 용량은 W이며, 이를 초과해서 보석을 담으면 배낭이 찢어질 것이다. 각 보석들의 무게와 가격은 알고 있다. 배낭이 찢어지지 않는 선에서 가격 합이 최대가 되도록 보석을 담는 방법은? \\(input\\): \\(W\\), \\((w_1,v_1), (w_2,v_2) ... ,(w_n,v_n)\\) \\(output\\): the maximum value V less than...","categories": ["algorithm"],
+        "tags": ["dp","algorithm"],
+        "url": "http://localhost:4000/algorithm/dynamic_programming/",
+        "teaser": null
+      },{
+        "title": "scheduling",
+        "excerpt":"activity selection problem \\(n\\)개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는? \\(input\\): \\(j_1, j_2, j_3, ... j_n\\) (\\(j_i = (s_i, f_i)\\)) \\(output\\): maximum number of scheduled interval. 알고리즘 목록 \\(S\\)에 남는 회의 중 가장 일찍 끝나는 회의 \\(S_{min}\\)을 선택한다. \\(S_{min}\\)과 겹치는...","categories": ["algorithm"],
+        "tags": ["greedy","algorithm"],
+        "url": "http://localhost:4000/algorithm/scheduling/",
         "teaser": null
       }]

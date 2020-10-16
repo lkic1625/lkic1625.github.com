@@ -38,3 +38,6 @@ https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83
 
 ## HTTP authentication
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
+
+## 비동기 반복문을 동기식으로 진행하는 방법
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
