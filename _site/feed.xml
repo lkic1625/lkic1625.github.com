@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-17T07:12:32+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-17T08:07:51+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
@@ -61,6 +61,20 @@
 &lt;p&gt;주어진 그래프 \(G\)의 한 노드인 \(v_0\)에서 어떤 노드 \(v_i\)로 가는 \(\text{Shortest Path}\)를 구하였다고 가정하자.
 이 \(Path\)의 일부분인 \(p\)가 \(v_j\)에서 시작하여 \(v_k\)에서 끝난다면, \(p\)는 \(v_j\)와 \(v_k\)를 잇는 \(\text{Shortest Path}\)임을 증명하라.
 또한 \(p\)의 시작과 끝이 아닌 중간 노드들 중에는 \(v_0\)나 \(v_k\)가 없음을 증명하라.&lt;/p&gt;
+
+&lt;h3 id=&quot;정답&quot;&gt;정답?&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;경로 \(v_j \to v_k\)가  \(\text{Shortest Path}\)라고 가정하자 그럼 두 정점을 잇는 더 짧은 경로 \(\hat {p}\)가 존재할 것이다.
+\(\hat {p}\)가 존재할 경우 미리구한 경로 \(v_0 \to v_i\) 또한 중간 경로 \(p\)를 \(\hat {p}\)로 바꾼다면 더 짧은 경로가 존재하게 포함되므로
+\(\text{Shortest Path}\)아니게 된다 이는 기정에 모순이므로 경로 \(\hat {p}\)는 존재하지 않는다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;\(v_k\)가 중간에 존재한다면 경로 \(p\)는 경로 \(p\)를 포함하는 경로가 된다. 이는 불가능. 시작 노드또 \(v_0\)한 이와 같은 방법으로 증명 가능하다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;

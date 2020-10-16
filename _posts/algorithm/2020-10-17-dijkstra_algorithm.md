@@ -69,5 +69,17 @@ function Dijkstra(Graph, source):
 주어진 그래프 $$G$$의 한 노드인 $$v_0$$에서 어떤 노드 $$v_i$$로 가는 $$\text{Shortest Path}$$를 구하였다고 가정하자.
 이 $$Path$$의 일부분인 $$p$$가 $$v_j$$에서 시작하여 $$v_k$$에서 끝난다면, $$p$$는 $$v_j$$와 $$v_k$$를 잇는 $$\text{Shortest Path}$$임을 증명하라.
 또한 $$p$$의 시작과 끝이 아닌 중간 노드들 중에는 $$v_0$$나 $$v_k$$가 없음을 증명하라.
+
+### 정답?
+
+1. 경로 $$v_j \to v_k$$가  $$\text{Shortest Path}$$라고 가정하자 그럼 두 정점을 잇는 더 짧은 경로 $$\hat {p}$$가 존재할 것이다.
+$$\hat {p}$$가 존재할 경우 미리구한 경로 $$v_0 \to v_i$$ 또한 중간 경로 $$p$$를 $$\hat {p}$$로 바꾼다면 더 짧은 경로가 존재하게 포함되므로
+$$\text{Shortest Path}$$아니게 된다 이는 기정에 모순이므로 경로 $$\hat {p}$$는 존재하지 않는다.
+
+2. $$v_k$$가 중간에 존재한다면 경로 $$p$$는 경로 $$p$$를 포함하는 경로가 된다. 이는 불가능. 시작 노드또 $$v_0$$한 이와 같은 방법으로 증명 가능하다.
+
+
+
+
 ><font size="6">Refernce</font>
 - https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Proof_of_correctness
