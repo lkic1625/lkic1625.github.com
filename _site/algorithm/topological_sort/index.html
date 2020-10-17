@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>covex hull  |  untitled</title>
+<!-- begin _includes/seo.html --><title>topological sort  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="covex hull">
-<meta property="og:url" content="http://localhost:4000/algorithm/covex_hull/">
+<meta property="og:title" content="topological sort">
+<meta property="og:url" content="http://localhost:4000/algorithm/topological_sort/">
 
 
   <meta property="og:description" content="">
@@ -31,7 +31,7 @@
 
 
 
-  <meta property="article:published_time" content="2020-10-09T00:00:00+09:00">
+  <meta property="article:published_time" content="2020-10-17T00:00:00+09:00">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/algorithm/covex_hull/">
+<link rel="canonical" href="http://localhost:4000/algorithm/topological_sort/">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="covex hull">
+    <meta itemprop="headline" content="topological sort">
     <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-10-09T00:00:00+09:00">
+    <meta itemprop="datePublished" content="2020-10-17T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-10-17T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">covex hull
+          <h1 id="page-title" class="page__title" itemprop="headline">topological sort
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  1 분 소요
+  최대 1 분 소요
 
 </p>
           
@@ -310,18 +310,7 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#graham-scan">Graham Scan</a>
-    <ul>
-      <li><a href="#pseudo-code">pseudo code</a></li>
-      <li><a href="#analysis-of-graham-scan">Analysis of Graham Scan</a></li>
-    </ul>
-  </li>
-  <li><a href="#divide-and-conquer">Divide and Conquer</a>
-    <ul>
-      <li><a href="#pseudo-code-1">pseudo code</a></li>
-      <li><a href="#analysis-of-divide-and-conquer">Analysis of Divide and conquer</a></li>
-    </ul>
-  </li>
+  <li><a href="#definition">Definition</a></li>
 </ul>
 
             </nav>
@@ -330,85 +319,9 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<h1 id="graham-scan">Graham Scan</h1>
-
-<h2 id="pseudo-code">pseudo code</h2>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sort by y-order; //$$p_1, p_2, ..., p_n$$
-stack.push($$p_1, p_2$$);
-for i = 3 to $$n$$ do
-  while next $$\angle next, top, $$p_i$$ != CCW
-    stack.pop()
-  stack.push($$p_i$$)
-return stack
-</code></pre></div></div>
-
-<h2 id="analysis-of-graham-scan">Analysis of Graham Scan</h2>
-<ol>
-  <li>Invariant \(&lt;p_1, ... ,stack.top()&gt;\) is convex</li>
-  <li>기울기 공식:
-\(D = det\begin{vmatrix} 1 &amp; p_x &amp; p_y \\ 1 &amp; q_x &amp; q_y \\ 1 &amp; r_x &amp; r_y \end{vmatrix}\)
-    <ul>
-      <li>if \(D &gt; 0\) then \(\angle p, q, r\) is CCW</li>
-      <li>else if \(D &lt; 0\) \(\angle p, q, r\) is CW</li>
-      <li>else then \(\angle p, q, r\) is straight</li>
-      <li>\(D = p \cdot (q \times r)\) 이다.</li>
-    </ul>
-  </li>
-  <li>정렬 이후 \(O(n)\)번의 스캔이 일어나며 반복 수행마다 \(logn\)의 시간 소요
-    <ul>
-      <li>time complexity: \(O(nlogn)\)</li>
-    </ul>
-  </li>
-</ol>
-
-<h1 id="divide-and-conquer">Divide and Conquer</h1>
-
-<h2 id="pseudo-code-1">pseudo code</h2>
-
-<p><img src="/assets/images/merging.PNG" alt="이미지1" /></p>
-
-<ul>
-  <li>sort by x-order</li>
-  <li>Let \(A\) be the set of \(n/2\) leftmost points and \(B\) the set of \(n/2\) rightmost points</li>
-  <li>Reculsively compute \(CovexHull(A)\) and \(ConvexHull(B)\)</li>
-  <li>Merge to obtain CovexHull(S)
-    <ul>
-      <li>a = rightmost point of \(CovexHull(A)\)</li>
-      <li>b = leftmost point of \(ConvexHull(B)\)</li>
-      <li>while \(\overline{ab}\) not lower tangent of \(CovexHull(A)\) and \(ConvexHull(B)\)
-        <ol>
-          <li>while \(\overline{ab}\) not lower tangent to :\(ConvexHull(A)\)
-            <ul>
-              <li>set \(a = a-1\)(move \(a\) \(CW\))</li>
-            </ul>
-          </li>
-          <li>while \(\overline{ab}\) not lower tangent to :\(ConvexHull(B)\)
-            <ul>
-              <li>set \(b = b+1\)(move \(b\) \(CCW\))</li>
-            </ul>
-          </li>
-        </ol>
-      </li>
-    </ul>
-  </li>
-  <li>return \(\overline{ab}\)</li>
-</ul>
-
-<h2 id="analysis-of-divide-and-conquer">Analysis of Divide and conquer</h2>
-
-<ul>
-  <li>처음 정렬에 걸리는 시간 \(O(nlong)\)</li>
-  <li>. \(T(N) = 2T(N/2) + O(N)\)</li>
-  <li>Merge 즉, 합치는 데 걸리는 시간은 선형이다.</li>
-  <li>마스터 정리에 의하여 \(T(N) = O(nlogn)\)</li>
-</ul>
-
-<blockquote>
-  <font size="6">Refernce</font>
-  <ul>
-    <li>https://sites.cs.ucsb.edu/~suri/cs235/ConvexHull.pdf</li>
-  </ul>
-</blockquote>
+<h1 id="definition">Definition</h1>
+<p>\(input\): \(DAG\text{Directed Acyclic Graph}\)
+$$</p>
 
         
       </section>
@@ -433,7 +346,15 @@ return stack
     
       
       
-      <a href="/tags/#divide-and-conquer" class="page__taxonomy-item" rel="tag">divide and conquer</a>
+      <a href="/tags/#dag" class="page__taxonomy-item" rel="tag">DAG</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#search" class="page__taxonomy-item" rel="tag">search</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#traveling" class="page__taxonomy-item" rel="tag">traveling</a>
     
     </span>
   </p>
@@ -471,22 +392,22 @@ return stack
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=covex+hull%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fcovex_hull%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=topological+sort%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Ftopological_sort%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fcovex_hull%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Ftopological_sort%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fcovex_hull%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Ftopological_sort%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/algorithm/closest_pair/" class="pagination--pager" title="closest pair
+      <a href="/algorithm/scheduling/" class="pagination--pager" title="scheduling
 ">이전</a>
     
     
-      <a href="/algorithm/tree_diameter/" class="pagination--pager" title="tree diameter
+      <a href="/backend/OAuth_2.0/" class="pagination--pager" title="OAuth 2.0(작성 중)
 ">다음</a>
     
   </nav>
@@ -526,36 +447,6 @@ return stack
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">개요
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/algorithm/topological_sort/" rel="permalink">topological sort
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
 </p>
   </article>
 </div>
@@ -611,6 +502,36 @@ return stack
 
 
   1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/dijkstra_algorithm/" rel="permalink">shortest path
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
 
 </p>
     

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-17T08:07:51+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-18T00:58:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
@@ -80,7 +80,106 @@
   &lt;ul&gt;
     &lt;li&gt;https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Proof_of_correctness&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">scheduling</title><link href="http://localhost:4000/algorithm/scheduling/" rel="alternate" type="text/html" title="scheduling" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/scheduling</id><content type="html" xml:base="http://localhost:4000/algorithm/scheduling/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">OAuth 2.0(작성 중)</title><link href="http://localhost:4000/backend/OAuth_2.0/" rel="alternate" type="text/html" title="OAuth 2.0(작성 중)" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T04:00:00+09:00</updated><id>http://localhost:4000/backend/OAuth_2.0</id><content type="html" xml:base="http://localhost:4000/backend/OAuth_2.0/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+
+&lt;p&gt;Token based Authentication 관련 구현에 관심이 있어 공식문서와 여러 인터넷 예제를 참고하여 정리한 글입니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;h2 id=&quot;roles&quot;&gt;Roles&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/oauth-role.PNG&quot; alt=&quot;이미지1&quot; /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OAuth&lt;/code&gt;에는 3가지 역할이 있다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Client&lt;/code&gt;는 우리가 현재 제공하고 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Third party service&lt;/code&gt;이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Resource Owner&lt;/code&gt;는 우리의 서비스를 제공받는 사용자이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Resource Server&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Client&lt;/code&gt;에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Resource&lt;/code&gt;를 제공해줄 대상이며 구글, 페이스북 등이 될 수 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization Server&lt;/code&gt;는  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 인증 시도와 클라이언트에게 토큰을 발급해주는 서버이다. 보통 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;와 같이 사용되기 때문에 이번 포스트에서는 구분을 두지 않으려 한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;protocol-flow&quot;&gt;Protocol Flow&lt;/h2&gt;
+
+&lt;p&gt;대략적인 프로토콜 개요는 아래와 같다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/OAuth-protocol-flow.PNG&quot; alt=&quot;이미지4&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(A) 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;에게 인증을 요청한다 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;를 통해서 요청할 수도 있고 직접 요청할 수도 있다.&lt;/li&gt;
+  &lt;li&gt;(B) 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;를 전달 받는다. 이는 클라이언트가 인증되었음을 나타낸다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;의 타입은 클라이언트의 요청과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;가 지원하는 타입에 의존한다.&lt;/li&gt;
+  &lt;li&gt;(C) 클라이언트는 인증과 함께 엑세스 토큰을 요청하고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;되었음을 알린다.&lt;/li&gt;
+  &lt;li&gt;(D) 서버는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;을 확인하고 클라이언트를 인증한다. 인증이 완료되면 엑세스 토큰을 발급한다.&lt;/li&gt;
+  &lt;li&gt;(E) 클라이언트는 엑세스 토큰을 통해 민감정보를 요청할 수 있다.&lt;/li&gt;
+  &lt;li&gt;(F) 서버는 토큰의 유효성 검사를 진행 후 응답을 보낸다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;access-token&quot;&gt;Access Token&lt;/h2&gt;
+
+&lt;p&gt;액세스 토큰은 사용자 민감 정보의 접근할 수 있는 일종의 자격이다. 클라이언트가 발급하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization&lt;/code&gt; 즉, 인증되었음을 나타내는 문자열이다.
+대개는 클라이언트는 이 토큰을 인식할 수 없도록 한다. 토큰은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 제공한 특정 스코프를 가지고 생성되며, 만료시간을 가진다. 만료시간은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AS&lt;/code&gt;에 의해 강제된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JWT&lt;/code&gt;를 이전에 사용해 보았기에 특정 문자를 인식할 수 있음은 쉽게 이해할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;엑세스 토큰은 다양한 응용방식이 있는데 &lt;a href=&quot;https://tools.ietf.org/html/rfc6750&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rfc6750&lt;/code&gt;&lt;/a&gt;에서 직접 살펴볼 수 있다. 이는 추후 포스팅에서 다시 다루도록 하겠다.&lt;/p&gt;
+
+&lt;h2 id=&quot;refresh-token&quot;&gt;Refresh token&lt;/h2&gt;
+&lt;p&gt;리프레쉬 토큰은 엑세스 토큰을 얻기 위한 일족의 자격이라고 볼 수 있다.
+이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;에 의해 클라이언트가 발급하며 엑세스 토큰이 파기되거나 유효하지 않을 경우 새로운 엑세스 토큰을 얻기 위해 사용된다.
+리프레쉬 토큰은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;에서 엑세스 토큰을 발급할 때 함께 동봉되며 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;의 재량에 따른 선택적 사항이다.&lt;/p&gt;
+
+&lt;p&gt;엑세스토큰과 달리 리프레쉬 토큰은 리소스 서버에 전송되지 않는다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/token-based-communication.PNG&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(A) 클라이언트는 권한 부여 서버에 인증하고 권한 부여를 제시하여 엑세스 토큰을 요청한다&lt;/li&gt;
+  &lt;li&gt;(B) 인증 서버가 권한 부여와 클라이언트의 유효성을 검사한다. 유효할 경우 리프레쉬 토큰과 엑세스 토큰을 보낸다.&lt;/li&gt;
+  &lt;li&gt;(C) 클라이언트가 엑세스 토큰을 이용하여 서버에게 데이터를 요청한다.&lt;/li&gt;
+  &lt;li&gt;(D) 토큰이 유효할 경우 데이터를 보낸다.&lt;/li&gt;
+  &lt;li&gt;(E) 엑세스 토큰이 파기되기 전까지 (C)와 (D)를 반복한다. 만약 토큰이 파기된 것을 안다면 앞에 과정을 생략하고 (G)로간다.&lt;/li&gt;
+  &lt;li&gt;(F) 토큰이 유효하지 않을 경우 서버는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;invalid token error&lt;/code&gt;를 보낸다.&lt;/li&gt;
+  &lt;li&gt;(G) 클라이언트가 새로운 액세스 토큰을 발급 받기 위해 서버에 인증 후 리프레쉬 토큰을 제시한다.&lt;/li&gt;
+  &lt;li&gt;(H) 인증 서버가 클라이언트를 인증하고 리프레쉬 토큰의 유효성을 검사한다. 만약 유효할 경우 새로운 엑세스 토큰을 발급한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;protocol-endpoints&quot;&gt;Protocol Endpoints&lt;/h2&gt;
+
+&lt;p&gt;인증 프로세스는 두 개의 인증 서버 엔드포인트로 운용된다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization endpoint&lt;/code&gt;: 클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt; 리다이렉션을 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;로부터 권한을 얻기 위해 사용한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Token Endpoint&lt;/code&gt;: 클라이언트가 엑세스 토큰에 대한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt; 교환을 위해 사용하며, 일반적으로 클라이언트 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authentication&lt;/code&gt; 사용한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;클라이언트 또한 한 개의 엔드포인트를 갖는다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Redirection endpoint&lt;/code&gt; - 인증 서버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resource owner user-agent&lt;/code&gt;를 통해 클라이언트에게 인증자격(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization credentials&lt;/code&gt;)을 포함한 응답을 보내기 위해 사용한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;###&lt;/p&gt;
+
+&lt;h2 id=&quot;authorization-code-grant&quot;&gt;Authorization Code Grant&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 승인했다 해서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;access token&lt;/code&gt;을 바로 발급하지 않고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RS&lt;/code&gt;와 상호협의를 위해 거쳐야하는 단계이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/autho-grant.PNG&quot; alt=&quot;이미지2&quot; /&gt;;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;(A): 클라이언트는&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://opentutorials.org/course/3405&lt;/li&gt;
+    &lt;li&gt;https://tools.ietf.org/html/rfc6749#section-4.1&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="protocol" /><summary type="html">개요</summary></entry><entry><title type="html">topological sort</title><link href="http://localhost:4000/algorithm/topological_sort/" rel="alternate" type="text/html" title="topological sort" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/topological_sort</id><content type="html" xml:base="http://localhost:4000/algorithm/topological_sort/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;definition&quot;&gt;Definition&lt;/h1&gt;
+&lt;p&gt;\(input\): \(DAG\text{Directed Acyclic Graph}\)
+$$&lt;/p&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="DAG" /><category term="traveling" /><category term="search" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">scheduling</title><link href="http://localhost:4000/algorithm/scheduling/" rel="alternate" type="text/html" title="scheduling" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/scheduling</id><content type="html" xml:base="http://localhost:4000/algorithm/scheduling/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;activity-selection-problem&quot;&gt;activity selection problem&lt;/h1&gt;
@@ -446,7 +545,13 @@ return stack
 &lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication&lt;/p&gt;
 
 &lt;h2 id=&quot;비동기-반복문을-동기식으로-진행하는-방법&quot;&gt;비동기 반복문을 동기식으로 진행하는 방법&lt;/h2&gt;
-&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await…of&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="projects" /><summary type="html">개요</summary></entry><entry><title type="html">데이터베이스 캐싱(작성 중)</title><link href="http://localhost:4000/nodejs/database_caching/" rel="alternate" type="text/html" title="데이터베이스 캐싱(작성 중)" /><published>2020-09-29T00:00:00+09:00</published><updated>2020-09-29T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/database_caching</id><content type="html" xml:base="http://localhost:4000/nodejs/database_caching/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+&lt;p&gt;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await…of&lt;/p&gt;
+
+&lt;h2 id=&quot;upload-design&quot;&gt;upload design&lt;/h2&gt;
+&lt;p&gt;https://speckyboy.com/custom-file-upload-fields/&lt;/p&gt;
+
+&lt;h2 id=&quot;sass&quot;&gt;Sass&lt;/h2&gt;
+&lt;p&gt;https://eunsukim.me/posts/understanding-basic-sass&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="projects" /><summary type="html">개요</summary></entry><entry><title type="html">데이터베이스 캐싱(작성 중)</title><link href="http://localhost:4000/nodejs/database_caching/" rel="alternate" type="text/html" title="데이터베이스 캐싱(작성 중)" /><published>2020-09-29T00:00:00+09:00</published><updated>2020-09-29T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/database_caching</id><content type="html" xml:base="http://localhost:4000/nodejs/database_caching/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
 
 &lt;h2 id=&quot;rdbms&quot;&gt;RDBMS&lt;/h2&gt;
 
@@ -565,616 +670,4 @@ return stack
     &lt;li&gt;https://www.youtube.com/watch?v=mPB2CZiAkKM&lt;/li&gt;
     &lt;li&gt;https://dzone.com/articles/a-brief-introduction-to-caching-with-nodejs-and-re&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="database" /><category term="cache" /><category term="nodejs" /><summary type="html">개요</summary></entry><entry><title type="html">starting rails(작성 중)</title><link href="http://localhost:4000/rails/starting_rails/" rel="alternate" type="text/html" title="starting rails(작성 중)" /><published>2020-09-25T00:00:00+09:00</published><updated>2020-09-30T04:00:00+09:00</updated><id>http://localhost:4000/rails/starting_rails</id><content type="html" xml:base="http://localhost:4000/rails/starting_rails/">&lt;h1 id=&quot;rails&quot;&gt;rails&lt;/h1&gt;
-
-&lt;p&gt;rails guiding principles&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Don’t Repeat Yourself: DRY is a principle of software development which states that “Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.” By not writing the same information over and over again, our code is more maintainable, more extensible, and less buggy.&lt;/li&gt;
-  &lt;li&gt;Convention Over Configuration: Rails has opinions about the best way to do many things in a web application, and defaults to this set of conventions, rather than require that you specify minutiae through endless configuration files.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;rails-프로젝트-만들기&quot;&gt;rails 프로젝트 만들기.&lt;/h1&gt;
-
-&lt;h2 id=&quot;installing-rails&quot;&gt;installing rails&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt; 설치 전 준비되어야 할 리스트&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Ruby&lt;/li&gt;
-  &lt;li&gt;SQLite3&lt;/li&gt;
-  &lt;li&gt;Node.js&lt;/li&gt;
-  &lt;li&gt;Yarn&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Yarn&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;npm&lt;/code&gt;으로도 설치 가능하다.&lt;/p&gt;
-
-&lt;h2 id=&quot;blog-application-만들기&quot;&gt;Blog application 만들기&lt;/h2&gt;
-
-&lt;p&gt;레일즈는 기본 디자인 패턴 프로젝트를 생성할 수 있는 명령어를 가지고 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rails new blog
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blog&lt;/code&gt; 디렉토리를 생성하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gem dependencies&lt;/code&gt;를 가지고 있다.
-자동생성된 디렉토리에는 아래와 같은 디렉토리 구조를 가지고 있다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;File/Folder&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Purpose&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;app/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Contains the controllers, models, views, helpers, mailers, channels, jobs, and assets for your application. You’ll focus on this folder for the remainder of this guide.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;bin/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Contains the rails script that starts your app and can contain other scripts you use to setup, update, deploy, or run your application.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;config/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Configure your application’s routes, database, and more. This is covered in more detail in Configuring Rails Applications.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;config.ru&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Rack configuration for Rack based servers used to start the application. For more information about Rack, see the Rack website.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;db/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Contains your current database schema, as well as the database migrations.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Gemfile&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Gemfile.lock&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;These files allow you to specify what gem dependencies are needed for your Rails application. These files are used by the Bundler gem. For more information about Bundler, see the Bundler website.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;lib/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Extended modules for your application.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;log/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Application log files.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;package.json&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;This file allows you to specify what npm dependencies are needed for your Rails application. This file is used by Yarn. For more information about Yarn, see the Yarn website.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;public/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;The only folder seen by the world as-is. Contains static files and compiled assets.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Rakefile&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;This file locates and loads tasks that can be run from the command line. The task definitions are defined throughout the components of Rails. Rather than changing Rakefile, you should add your own tasks by adding files to the lib/tasks directory of your application.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;README.md&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;This is a brief instruction manual for your application. You should edit this file to tell others what your application does, how to set it up, and so on.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;storage/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Active Storage files for Disk Service. This is covered in Active Storage Overview.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;test/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Unit tests, fixtures, and other test apparatus. These are covered in Testing Rails Applications.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;tmp/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Temporary files (like cache and pid files).&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;vendor/&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;A place for all third-party code. In a typical Rails application this includes vendored gems.&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;.ruby-version&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;This file contains the default Ruby version.&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;controllers-만들기&quot;&gt;controllers 만들기&lt;/h2&gt;
-
-&lt;p&gt;컨트롤러의 목적은 특정 리퀘스트를 처리하기 위함이고 라우팅은 받은 리퀘스트에 대해 어떤 컨트롤러가 처리할지를 결정한다.
-보통 하나의 라우터에 여러 컨트롤러가 존재하며 서로 다른 라우팅은 서로 다른 처리를 제공할 수 있다.
-각각의 처리는 수집된 데이터를 뷰에게 주는 역할을 한다.&lt;/p&gt;
-
-&lt;p&gt;뷰는 사람이 읽을 수 있는 포맷으로 데이터를 제공한다. 여기서 알아둬야할 점은 정보가 모이는 것은 뷰가 아니라 컨트롤러라는 사실이다.
-뷰는 단순히 정보를 보여주는 역할만을 한다.&lt;/p&gt;
-
-&lt;p&gt;아래는 새로운 컨트롤러를 생성하는 방법이다.&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rails generate controller Welcome index
-...
-create  app/controllers/welcome_controller.rb
- route  get 'welcome/Index'
-invoke  erb
-create    app/views/welcome
-create    app/views/welcome/Index.html.erb
-invoke  test_unit
-create    test/controllers/welcome_controller_test.rb
-invoke  helper
-create    app/helpers/welcome_helper.rb
-invoke    test_unit
-invoke  assets
-invoke    scss
-create      app/assets/stylesheets/welcome.scss
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위 명령어를 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails&lt;/code&gt;는 index 역할을 하는 Welcome이라는 컨트롤러를 생성했다.&lt;/p&gt;
-
-&lt;p&gt;뷰를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/views/welcome/Index.html.erb&lt;/code&gt;에 생성한 것과
-컨트롤러를 ` app/controllers/welcome_controller.rb`에 생성한 것을 확인하자&lt;/p&gt;
-
-&lt;h2 id=&quot;welcome-index-설정하기&quot;&gt;Welcome index 설정하기&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config/routes.rb&lt;/code&gt;에서는 라우팅을 처리할 수 있다.
-이때 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DSL(domain-specific language)&lt;/code&gt;를 이용하여 라우팅 처리를 진행하는데,
-&lt;a href=&quot;https://guides.rubyonrails.org/routing.html&quot;&gt;공식문서에서&lt;/a&gt; 정확한 사용법을 확인할 수 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;routes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'welcome/index'&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;root&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'welcome#index'&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;root 'welcome#index'&lt;/code&gt;는 레일즈가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://localhost:3000&lt;/code&gt;요청을 Welcom conroller의 인덱스 작업에 매핑하고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;get 'welcome/index'&lt;/code&gt;는 레일즈가 요청을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http:///localhost:3000/welcome/index&lt;/code&gt;에 매핑하도록 한다.&lt;/p&gt;
-
-&lt;h2 id=&quot;resources&quot;&gt;resources&lt;/h2&gt;
-
-&lt;p&gt;리소스는 articles, people, animals 등 유사한 오브젝트의 집합에 사용되는 용어이다
-리소스를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails&lt;/code&gt;는 기본적인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RESTful&lt;/code&gt; 메서드를 제공하며 HTTP Verb와 URL을 매핑해준다.
-이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;database&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRUD&lt;/code&gt; 오퍼레이션과 같은 기능을 한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails routes&lt;/code&gt;를 실핸한다면 기본적인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RESTful action&lt;/code&gt; 이 정의된 것을 볼 수 있을 것이다.
-아래 표는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DSL&lt;/code&gt; 공식문서에 나와있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resources: photos&lt;/code&gt;에 대한 라우팅 테이블이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/rails_resources_rest_table.png&quot; alt=&quot;이미지2&quot; /&gt;;&lt;/p&gt;
-
-&lt;h2 id=&quot;crud-어플리케이션-예제&quot;&gt;CRUD 어플리케이션 예제&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resources :articles&lt;/code&gt;를 통해 메서드는 선언되었지만 컨트롤러를 설정하지 않았다.
-새로 만들어주자.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rails generate controller Articles
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;생성된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/controllers/articles_controller.rb&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;new&lt;/code&gt; 기능을 정의하자.
-참고로 컨트롤러는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ApplicationController&lt;/code&gt;를 상속받는다.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Ruby&quot;&gt;class ArticlesController &amp;lt; ApplicationController
-  def new
-  end
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;코드 작성 후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;localhost:3000/articles/new&lt;/code&gt;에 접속 시 아래와 같은 창이 뜰 것이다.
-아래 창은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;가 접근 가능한 템플릿 뷰가 존재하지 않을 경우 나타난다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/template_is_missing_articles_new.png&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;ArticlesController#new is missing a template for request formats: text/html&lt;br /&gt;
-NOTE! Unless told otherwise, Rails expects an action to render a template with the same name, contained in a folder named after its controller. If this controller is an API responding with 204 (No Content), which does not require a template, then this error will occur when trying to access it via browser, since we expect an HTML template to be rendered for such requests. If that’s the case, carry on.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;에러 멧지를 자세히 살펴보면 템플릿이 없는 것을 확인할 수 있다.
-이 대 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;는 우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;articles/new&lt;/code&gt; 템플릿을 찾고 존재하지 않는다면 상속받은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ApplicationController&lt;/code&gt;을 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;application/new&lt;/code&gt;를 로드하려 한다.&lt;/p&gt;
-
-&lt;p&gt;웹브라우저를 통해 요청했으므로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;text/html&lt;/code&gt; 포맷의 응답을 기대한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/views/articles/new.html.erb&lt;/code&gt;를 생성하자.
-첫번재 확장자인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;html&lt;/code&gt;은  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;format&lt;/code&gt;의 탬플릿이고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;erb&lt;/code&gt;는 렌더링 핸들러의 템플릿이다.
-기본적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ruby&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;erb&lt;/code&gt;를 내장하고 있으며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;coffee&lt;/code&gt;를 사용할 수 있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;form-작성&quot;&gt;form 작성&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form_with&lt;/code&gt;라는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;helper method&lt;/code&gt;를 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form builder&lt;/code&gt;를 제공한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form_with&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;scope: :article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;local: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text_field&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text_area&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;submit&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form_with&lt;/code&gt;를 사용할 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;scope&lt;/code&gt;를 지정하는데 이는 이 폼이 무엇을 작성하기 위한 것인지 알려주는 역할을 한다.
-또한, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form.label&lt;/code&gt; 등 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FormBulider object&lt;/code&gt;를 통해 필요한 입력 폼을 생성할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;보통 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;에서는 new 폼의 submttion을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;create action&lt;/code&gt;으로 가리킨다.&lt;/p&gt;
-
-&lt;p&gt;여기서 주의할 점은 현재 정의된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URL&lt;/code&gt;을 요청 시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRUD&lt;/code&gt; 동작이 이루어지는 게 아니라 그저 폼을 출력하기만 할 뿐이라는 것이다&lt;/p&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form_with&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;scope: :article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;url: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;article_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;local: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;form_with&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:url&lt;/code&gt; 옵션을 통해 간단히 해결 가능하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;article_path&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;가 기존에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resources&lt;/code&gt;를 통해 정의된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;article prefix&lt;/code&gt;와 연관된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt; 패턴을 폼에 가리키도록 만든다.
-기본적으로는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;POST&lt;/code&gt;로 요청한다.&lt;/p&gt;
-
-&lt;h3 id=&quot;articles-생성&quot;&gt;articles 생성&lt;/h3&gt;
-
-&lt;p&gt;현재 폼을 작성 후 제출 버튼을 클릭한다면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;create action&lt;/code&gt;을 컨트롤러에서 찾을 것이다.
-얼른 컨트롤러에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;create action&lt;/code&gt;에 대한 코드를 작성해보자.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArticlesController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;plain: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;inspect&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;render&lt;/code&gt; 메서드는 간단히 설명하자면 키&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:plain&lt;/code&gt;,밸류&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:params[:article].inspect&lt;/code&gt;를 가지는 해쉬다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;params&lt;/code&gt; 메서드는 폼에서 필드 혹은 파라미터를 나타내는 오브젝트이며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ActionController::Parameters&lt;/code&gt;를 리턴한다.&lt;/p&gt;
-
-&lt;h3 id=&quot;articles-모델-생성&quot;&gt;articles 모델 생성&lt;/h3&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rails generate model Article title:string text:text
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위 커맨드를 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;articles&lt;/code&gt; 테이블에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;text&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt; 속성이 추가되며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Article&lt;/code&gt; 모델에도 자동 매핑된다.&lt;/p&gt;
-
-&lt;p&gt;추후 데이터베이스 생성과 관련된 것을 좀 더 깊게 알아보도록 하자.&lt;/p&gt;
-
-&lt;h3 id=&quot;마이그레이션-실행&quot;&gt;마이그레이션 실행&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Migrations&lt;/code&gt;은 데이터베이스를 쉽게 생성하고 수정할 수 있도록 하는 루비 클래스이다.
-데이터베이스 생성 후 이를 실행취소 시킬 수도 있으며, 마이그레이션 파일 이름에는 생성된 순서대로 처리할 수 있게 타임스탬프가 포함되어 있다.&lt;/p&gt;
-
-&lt;p&gt;모델 생성 후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;db/migrate/20200930155244_create_articles.rb&lt;/code&gt;이 자동생성되었으며, 내용은 아래와 같다.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;CreateArticles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;6.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;create_table&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:articles&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt;
-
-      &lt;span class=&quot;n&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;timestamps&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;change&lt;/code&gt;메서드가 마이그레이션을 실행 시 동작하게 된다.
-메서드에의해서 정의된 위 동작은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;reversible&lt;/code&gt; 가역적이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;가 이번 마이그레이션에 대해 되될릴 방법을 알고 있으며 실행되고난 후에 시점에서도 되돌릴 수 있다는 의미다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;timestamps&lt;/code&gt;는 생성과 수정 시기를 확인할 수 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;column&lt;/code&gt;을 생성한다.&lt;/p&gt;
-
-&lt;p&gt;더 많은 정보는 &lt;a href=&quot;https://guides.rubyonrails.org/active_record_migrations.html&quot;&gt;Active Record Migration&lt;/a&gt;공식 문서에서 확인하자.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ rails db:migrate
-== 20200930155244 CreateArticles: migrating ===================================
--- create_table(:articles)
-   -&amp;gt; 0.0025s
-== 20200930155244 CreateArticles: migrated (0.0041s) ==========================
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;현재 데이터베이스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;config/database.yml&lt;/code&gt;에서 수정 가능하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default&lt;/code&gt;모드가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dev&lt;/code&gt;이므로 이 부분을 수정해주어야 한다.&lt;/p&gt;
-
-&lt;h3 id=&quot;컨트롤러를-통한-데이터-저장&quot;&gt;컨트롤러를 통한 데이터 저장&lt;/h3&gt;
-
-&lt;p&gt;데이터베이스를 생성했기 때문에 아래와 같이 코드를 변경 후 http://localhost:3000/articles/new 로 접속해보자.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArticlesController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;#@article is an instance variable - and is available to all methods within the class.&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;#returns a boolean indicating whether the article was saved or not&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/forbidden_attributes_for_new_article.png&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Rails&lt;/code&gt;는 보안을 위해 여러기능을 내장하고 있는데 이로 인해 발생한 에러이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;strong-parameters&quot;&gt;Strong Parameters&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Strong Parameters&lt;/code&gt;를 가진 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Action controller&lt;/code&gt;는 사용이 허가될 때 까지 모델에 대한 접근 권한을 막는
-속성이다. 이는 대량 업데이트를 허용할 속성을 직접 결정해야하는 것을 의미한다. 이는 유저에게 실수 혹은 고의로 모델의 민감한 접근 권한을 가질 수 없도록 하는 속성이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://guides.rubyonrails.org/action_controller_overview.html#strong-parameters&quot;&gt;공식 문서&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;모든 컨트롤러 파라미터를 모델로 한방에 할당할 수 있는 것은 작성자에게 편의성을 가져다줄지는 모르지만 이러한 편의성이 악의적인 사용을 가능하게 한다.
-악의적으로 조작된 form이 application의 무결성을 위반할 경우 모델에 치명적인 영향을 끼칠 수 있는 것이다.&lt;/p&gt;
-
-&lt;p&gt;컨트롤러 파라미터의 권한 설정을 통해 코드를 수정하자.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;permit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;파라미터 접근을 여러번 하는 경우 메서드 정의를 통해 아래와 같이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;private&lt;/code&gt; 엑세스 컨트롤 설정을 통해 사용할 수 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
-  &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;article_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-  &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;article_params&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;permit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;showing-articles&quot;&gt;Showing Articles&lt;/h3&gt;
-
-&lt;p&gt;폼을 제출 시 아래와 같은 화면이 뜰 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/unknown_action_show.png&quot; alt=&quot;이미지4&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$ rails routes&lt;/code&gt;에서 봤듯이,&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;article GET    /articles/:id(.:format)      articles#show
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;위에 대한 액션이 현재 필요로한 상황이다.&lt;/p&gt;
-
-&lt;p&gt;참고로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:id&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;article&lt;/code&gt;의 아이디이다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A frequent practice is to place the standard CRUD actions in each controller in the following order: index, show, new, edit, create, update and destroy. You may use any order you choose, but keep in mind that these are public methods; as mentioned earlier in this guide, they must be placed before declaring private visibility in the controller.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArticlesController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;show&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;c1&quot;&gt;# snippet for brevity&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;strong&amp;gt;&lt;/span&gt;Title:&lt;span class=&quot;nt&quot;&gt;&amp;lt;/strong&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;strong&amp;gt;&lt;/span&gt;Text:&lt;span class=&quot;nt&quot;&gt;&amp;lt;/strong&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;다시 폼을 제출하고 show가 렌더링 되는 것을 확인하자.&lt;/p&gt;
-
-&lt;h3 id=&quot;article-전부-출력&quot;&gt;article 전부 출력&lt;/h3&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ArticlesController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;index&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@articles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;all&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;index.html.erb&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Listing Articles&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;table&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;th&amp;gt;&lt;/span&gt;Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/th&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;th&amp;gt;&lt;/span&gt;Text&lt;span class=&quot;nt&quot;&gt;&amp;lt;/th&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;th&amp;gt;&amp;lt;/th&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
-
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@articles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;article&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;tr&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;&amp;lt;!--      hyperlink to `Show` with article.id     --&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;td&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Show'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;article_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/td&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/tr&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/table&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;article_path&lt;/code&gt; 메서드에 인자로 넘겨주는 값을 주목하자.
-이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;값을 보내어 준다. 이에 대한 예제는 다음 섹션에서 자세하게 다뤄보도록 하자.&lt;/p&gt;
-
-&lt;h3 id=&quot;링크-삽입하기&quot;&gt;링크 삽입하기&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/views/welcome/index.html.erb&lt;/code&gt;을 열어
-아래와 같이 수정해보도록 하자.&lt;/p&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;h1&amp;gt;&lt;/span&gt;Hello, Rails!&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h1&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'My Blog'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;controller: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'articles'&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;link_to&lt;/code&gt; 메서드는 레일즈의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;built-in view helpers&lt;/code&gt; 중 하나이다. 텍스트 기반의 하이퍼 링크를 만들며 위 경우에는 path를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;articles&lt;/code&gt;로 설정했다.&lt;/p&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'New article'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_article_path&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;new article 뷰도 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/views/articles/index.html.erb&lt;/code&gt;에 링크를 넣어보자.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you want to link to an action in the same controller, you don’t need to specify the :controller option, as Rails will use the current controller by default.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In development mode (which is what you’re working in by default), Rails reloads your application with every browser request, so there’s no need to stop and restart the web server when a change is made.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;validation-추가&quot;&gt;validation 추가&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/models/article.rb&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationRecord&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;위 모델은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ApplicationRecord&lt;/code&gt;을 상속받아 생성됐다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ApplicationRecord&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ActiveRecord::Base&lt;/code&gt;를 부모로 가지는데, 이는 레일즈에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CRUD&lt;/code&gt; 작업과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data validation&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sophisticated search&lt;/code&gt; 등을 지원해준다&lt;/p&gt;
-
-&lt;p&gt;data validation을 직접 해보자.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationRecord&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;presence: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-                    &lt;span class=&quot;ss&quot;&gt;length: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;minimum: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;길이 5미만의 제목을 가질 수 없도록 설정하였다.
-자세한 사용법은 &lt;a href=&quot;https://guides.rubyonrails.org/active_record_validations.html&quot;&gt;Active Record Validation&lt;/a&gt;에서 확인하자.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-  &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
-  &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;article_params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'new'&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;article_params&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;permit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;new action&lt;/code&gt;에 새로운 모델 객체를 생성하는 것을 확인하자.&lt;/p&gt;
-
-&lt;p&gt;저장이 되지 않을 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;new&lt;/code&gt;로 렌더링 되는 것을 볼 수 있는데, 이는 기존 @article 객체를 새로운 템플릿으로 다시 보내주는 역할을 하기 때문에 컨트롤러에서 새로 생성해주어야 한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-erb highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form_with&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;scope: :article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;url: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;articles_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;local: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;any?&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;error_explanation&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pluralize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;error&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt; prohibited this article from being saved
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;ul&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@article&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;full_messages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;&amp;lt;li&amp;gt;&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;msg&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/ul&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text_field&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:title&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;label&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;br&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;text_area&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:text&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;form&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;submit&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;%&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;&amp;lt;!--back to /articles--&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Back'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;articles_path&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;%&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;사용자에게 에러를 확인시켜주기 위해 위와 같은 코드로 수정하였다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;pluralize&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rails helper&lt;/code&gt;로써 하나의 문자열이나 숫자를 인자로 받는다. 만약 숫자가 하나 이상일 경우
-자동적으로 복수형으로 출력해주는 역할을 한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@article&lt;/code&gt;이 ` @article.errors.any?&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;에서 에러를 &lt;/code&gt;throw&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;하기 위해 반드시 &lt;/code&gt;nil&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; 이어야 하므로 &lt;/code&gt;new action&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;에 &lt;/code&gt;@article = Article.new`를 추가했다.&lt;/p&gt;
-
-&lt;h3 id=&quot;articles-업데이트&quot;&gt;articles 업데이트&lt;/h3&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://guides.rubyonrails.org
--https://kbs4674.tistory.com/158?category=876767&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="rails" /><category term="rails" /><category term="ruby" /><summary type="html">rails</summary></entry><entry><title type="html">SQL QUERY 정리</title><link href="http://localhost:4000/database/SQL_QUERY_01/" rel="alternate" type="text/html" title="SQL QUERY 정리" /><published>2020-09-24T00:00:00+09:00</published><updated>2020-09-20T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_01</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;
-
-&lt;h2 id=&quot;group_by&quot;&gt;GROUP_BY&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(column) FROM table_name GROUP_BY column
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;특정-시간대별-정렬&quot;&gt;특정 시간대별 정렬&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS
- WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19'
- GROUP BY date_format(DATETIME, '%H')
- ORDER BY date_format(DATETIME, '%H') ASC
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt; SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT
- FROM animal_outs
- GROUP BY HOUR(datetime)
- HAVING HOUR &amp;gt;= 9 AND HOUR &amp;lt;= 19
- ORDER BY HOUR
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;등록되는-시간인-719시를-제외한-시간-또한-표시하여-정렬&quot;&gt;등록되는 시간인 7~19시를 제외한 시간 또한 표시하여 정렬&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;set @hour := -1;
-SELECT (@hour := @hour + 1) as 'HOUR',
-       (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS 'COUNT'
-FROM ANIMAL_OUTS
-WHERE @hour &amp;lt; 23;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;null-check&quot;&gt;NULL CHECK&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME IS NOT NULL
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;ifnull&quot;&gt;IFNULL()&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_TYPE, IFNULL(NAME, 'No name'), SEX_UPON_INTAKE FROM ANIMAL_INS
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;inner-join&quot;&gt;INNER JOIN&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT
-테이블별칭.조회할칼럼,
-테이블별칭.조회할칼럼
-FROM 기준테이블 별칭
-INNER JOIN 조인테이블 별칭 ON 기준테이블별칭.기준키 = 조인테이블별칭.기준키....
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;한쪽-집합에-값이-없는-것만-출력&quot;&gt;한쪽 집합에 값이 없는 것만 출력&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT O.ANIMAL_ID, O.NAME
-FROM ANIMAL_INS I
-RIGHT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
-WHERE I.ANIMAL_ID IS NULL
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT I.NAME, I.DATETIME
-FROM ANIMAL_INS I
-LEFT JOIN ANIMAL_OUTS O ON I.ANIMAL_ID = O.ANIMAL_ID
-WHERE O.DATETIME IS NULL
-ORDER BY I.DATETIME ASC
-LIMIT 3;
-&lt;/code&gt;&lt;/pre&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="database" /><category term="cache" /><category term="nodejs" /><summary type="html">개요</summary></entry></feed>

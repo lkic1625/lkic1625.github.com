@@ -41,3 +41,9 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
 
 ## 비동기 반복문을 동기식으로 진행하는 방법
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
+
+## upload design
+https://speckyboy.com/custom-file-upload-fields/
+
+## Sass
+https://eunsukim.me/posts/understanding-basic-sass

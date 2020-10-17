@@ -202,4 +202,16 @@ var store = [{
         "tags": ["greedy","algorithm"],
         "url": "http://localhost:4000/algorithm/scheduling/",
         "teaser": null
+      },{
+        "title": "topological sort",
+        "excerpt":"  Definition  \\(input\\): \\(DAG\\text{Directed Acyclic Graph}\\) $$  ","categories": ["algorithm"],
+        "tags": ["DAG","traveling","search","algorithm"],
+        "url": "http://localhost:4000/algorithm/topological_sort/",
+        "teaser": null
+      },{
+        "title": "OAuth 2.0(작성 중)",
+        "excerpt":"개요 Token based Authentication 관련 구현에 관심이 있어 공식문서와 여러 인터넷 예제를 참고하여 정리한 글입니다. Introduction Roles OAuth에는 3가지 역할이 있다. Client는 우리가 현재 제공하고 있는 Third party service이다. Resource Owner는 우리의 서비스를 제공받는 사용자이다. Resource Server는 Client에게 Resource를 제공해줄 대상이며 구글, 페이스북 등이 될 수 있다. Authorization Server는 RO가...","categories": ["backend"],
+        "tags": ["backend","HTTP","protocol"],
+        "url": "http://localhost:4000/backend/OAuth_2.0/",
+        "teaser": null
       }]
