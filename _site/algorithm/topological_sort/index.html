@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  1 분 소요
 
 </p>
           
@@ -311,6 +311,18 @@
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
   <li><a href="#definition">Definition</a></li>
+  <li><a href="#invariant">Invariant</a></li>
+  <li><a href="#algorithm">algorithm</a>
+    <ul>
+      <li><a href="#문제-줄세우기">문제: 줄세우기</a>
+        <ul>
+          <li><a href="#입력">입력</a></li>
+          <li><a href="#출력">출력</a></li>
+          <li><a href="#정답-코드">정답 코드</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -320,8 +332,88 @@
 </script>
 
 <h1 id="definition">Definition</h1>
-<p>\(input\): \(DAG\text{Directed Acyclic Graph}\)
-$$</p>
+<p>\(input\): \(DAG(\text{Directed Acyclic Graph})\)<br />
+\(output\): Node sequence \((v_1, v_2, ... , v_n)\) such that no edge \(v_j \to v_i\) (j &gt; i)</p>
+
+<h1 id="invariant">Invariant</h1>
+<p>\(DAG\)에서 \(indegree\)가 0인 노드는 반드시 존재한다.</p>
+
+<p>\(Proof\):
+\(indegree\)가 0인 노드가 하나도 없는 \(DAG\)를 가정하자. 모든 노드는 그러면 \(indegree\)가 1보다 크거나 같다.</p>
+
+<p>어떤 노드 하나를 골라 \(indegree\)가 가리키는 부모 노드를 탐색할 때,
+모든 노드들은 \(indegree\)가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.</p>
+
+<p>노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다.</p>
+
+<p>\(\Box\) \(DAG\)에서 \(indegree\)가 0인 노드는 반드시 존재한다.</p>
+
+<h1 id="algorithm">algorithm</h1>
+<ul>
+  <li>find nodes indegree == 0</li>
+  <li>insert q</li>
+  <li>Iterate until all nodes are checked.</li>
+</ul>
+
+<h2 id="문제-줄세우기">문제: 줄세우기</h2>
+<p>N명의 학생들을 키 순서대로 줄을 세우려고 한다. 각 학생의 키를 직접 재서 정렬하면 간단하겠지만, 마땅한 방법이 없어서 두 학생의 키를 비교하는 방법을 사용하기로 하였다. 그나마도 모든 학생들을 다 비교해 본 것이 아니고, 일부 학생들의 키만을 비교해 보았다.</p>
+
+<p>일부 학생들의 키를 비교한 결과가 주어졌을 때, 줄을 세우는 프로그램을 작성하시오.</p>
+
+<h3 id="입력">입력</h3>
+<p>첫째 줄에 N(1≤N≤32,000), M(1≤M≤100,000)이 주어진다. M은 키를 비교한 회수이다. 다음 M개의 줄에는 키를 비교한 두 학생의 번호 A, B가 주어진다. 이는 학생 A가 학생 B의 앞에 서야 한다는 의미이다.</p>
+
+<p>학생들의 번호는 1번부터 N번이다.</p>
+
+<h3 id="출력">출력</h3>
+<p>첫째 줄부터 앞에서부터 줄을 세운 결과를 출력한다. 답이 여러 가지인 경우에는 아무거나 출력한다.</p>
+
+<h3 id="정답-코드">정답 코드</h3>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+#include&lt;queue&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">const</span> <span class="kt">int</span> <span class="n">MAX</span> <span class="o">=</span> <span class="mi">32001</span><span class="p">;</span>
+<span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">node</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>
+<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">[</span><span class="n">MAX</span><span class="p">];</span>
+<span class="n">queue</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">q</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+	<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">m</span><span class="p">;</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">scanf</span><span class="p">(</span><span class="s">"%d %d"</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">);</span>
+		<span class="n">node</span><span class="p">[</span><span class="n">b</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+		<span class="n">v</span><span class="p">[</span><span class="n">a</span><span class="p">].</span><span class="n">push</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">node</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">q</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+		<span class="kt">int</span> <span class="n">root</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+		<span class="n">q</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"%d "</span><span class="p">,</span> <span class="n">root</span><span class="p">);</span>
+		<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">v</span><span class="p">[</span><span class="n">root</span><span class="p">].</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+			<span class="kt">int</span> <span class="n">child</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">root</span><span class="p">].</span><span class="n">front</span><span class="p">();</span>
+			<span class="n">v</span><span class="p">[</span><span class="n">root</span><span class="p">].</span><span class="n">pop</span><span class="p">();</span>
+			<span class="n">node</span><span class="p">[</span><span class="n">child</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">node</span><span class="p">[</span><span class="n">child</span><span class="p">])</span> <span class="p">{</span>
+				<span class="n">q</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">child</span><span class="p">);</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>https://math.stackexchange.com/questions/3232341/prove-that-a-directed-graph-with-no-cycles-has-at-least-one-node-of-indegree-zer</li>
+  </ul>
+</blockquote>
 
         
       </section>

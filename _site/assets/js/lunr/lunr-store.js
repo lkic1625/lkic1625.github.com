@@ -204,7 +204,7 @@ var store = [{
         "teaser": null
       },{
         "title": "topological sort",
-        "excerpt":"  Definition  \\(input\\): \\(DAG\\text{Directed Acyclic Graph}\\) $$  ","categories": ["algorithm"],
+        "excerpt":"Definition \\(input\\): \\(DAG(\\text{Directed Acyclic Graph})\\) \\(output\\): Node sequence \\((v_1, v_2, ... , v_n)\\) such that no edge \\(v_j \\to v_i\\) (j &gt; i) Invariant \\(DAG\\)에서 \\(indegree\\)가 0인 노드는 반드시 존재한다. \\(Proof\\): \\(indegree\\)가 0인 노드가 하나도 없는 \\(DAG\\)를 가정하자. 모든 노드는 그러면 \\(indegree\\)가 1보다 크거나 같다. 어떤 노드 하나를 골라 \\(indegree\\)가...","categories": ["algorithm"],
         "tags": ["DAG","traveling","search","algorithm"],
         "url": "http://localhost:4000/algorithm/topological_sort/",
         "teaser": null
