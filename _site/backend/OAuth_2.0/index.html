@@ -35,7 +35,7 @@
 
 
 
-  <meta property="article:modified_time" content="2020-10-17T04:00:00+09:00">
+  <meta property="article:modified_time" content="2020-10-20T04:00:00+09:00">
 
 
 
@@ -168,7 +168,7 @@
   
     <div class="author__avatar">
       
-        <img src="/assets/images/avatar_logo.jpg" alt="조원빈" itemprop="image">
+        <img src="/assets/images/avatar_logo2.jpg" alt="조원빈" itemprop="image">
       
     </div>
   
@@ -284,7 +284,7 @@
     <meta itemprop="headline" content="OAuth 2.0(작성 중)">
     <meta itemprop="description" content="개요">
     <meta itemprop="datePublished" content="2020-10-17T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-10-17T04:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-10-20T04:00:00+09:00">
 
     <div class="page__inner-wrap">
       
@@ -402,8 +402,6 @@
   <li><code class="language-plaintext highlighter-rouge">Redirection endpoint</code> - 인증 서버가 <code class="language-plaintext highlighter-rouge">resource owner user-agent</code>를 통해 클라이언트에게 인증자격(<code class="language-plaintext highlighter-rouge">authorization credentials</code>)을 포함한 응답을 보내기 위해 사용한다.</li>
 </ul>
 
-<p>###</p>
-
 <h2 id="authorization-code-grant">Authorization Code Grant</h2>
 
 <p><code class="language-plaintext highlighter-rouge">RO</code>가 승인했다 해서 <code class="language-plaintext highlighter-rouge">access token</code>을 바로 발급하지 않고 <code class="language-plaintext highlighter-rouge">RS</code>와 상호협의를 위해 거쳐야하는 단계이다.</p>
@@ -411,7 +409,11 @@
 <p><img src="/assets/images/autho-grant.PNG" alt="이미지2" />;</p>
 
 <ul>
-  <li>(A): 클라이언트는</li>
+  <li>(A): 이는 클라이언트가 <code class="language-plaintext highlighter-rouge">RO</code>의 <code class="language-plaintext highlighter-rouge">user-agent</code>를 <code class="language-plaintext highlighter-rouge">Authorization endpoint</code>가리키며 시작한다. 클라이언트는 식별자, 요청 범위 로컬상태 및 <code class="language-plaintext highlighter-rouge">AO</code>가 권한을 부여(또는 거부)한 후 <code class="language-plaintext highlighter-rouge">user-agent</code>를 다시 보낼 리디렉션 URI를 포함한다.</li>
+  <li>(B): <code class="language-plaintext highlighter-rouge">AS</code>는 <code class="language-plaintext highlighter-rouge">RO</code>를 인증하며(<code class="language-plaintext highlighter-rouge">user-agent</code>를 통해서) 클라이언트의 엑세스 요청에 대한 권한 부여 혹은 거부를 결정한다.</li>
+  <li>(C): <code class="language-plaintext highlighter-rouge">RO</code>의 권한 부여가 허용되면, <code class="language-plaintext highlighter-rouge">AO</code>는 이전에 받았던(클라이언트 등록 혹은 권한 요청에서) 리디렉션 URI를 통해 <code class="language-plaintext highlighter-rouge">user-agent</code>를 리다이렉트 한다. 리디렉션 URI에는 이전에 클라이언트가 제공한 인증 코드(<code class="language-plaintext highlighter-rouge">Autorization Code</code>)와 모든 로컬 상태가 포함되어 있다.</li>
+  <li>(D): 클라이언트는 이전 단계에서 받았던 인증 코드를 포함하여 <code class="language-plaintext highlighter-rouge">AO</code>의 <code class="language-plaintext highlighter-rouge">Token Endpoint</code>에 엑세스 토큰을 요청한다. 요청이 진행될 때 클라이언트는 <code class="language-plaintext highlighter-rouge">AO</code>로부터 인증한다. 클라이언트는 <code class="language-plaintext highlighter-rouge">verification</code>을 위한 인증코드를 얻기 위해 리디렉션 URI를 포함한다.</li>
+  <li>(E): <code class="language-plaintext highlighter-rouge">AO</code>가 클라이언트를 인증하고 인증코드를 검증한다. 그리고 받은 URI가 단계(C)에서 클라이언트를 리다이렉트하는 데 사용된 URI와 일치하는지 확인한다.</li>
 </ul>
 
 <blockquote>
@@ -477,7 +479,7 @@
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-17">October 17, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-20">October 20, 2020</time></p>
 
 
       </footer>
@@ -502,7 +504,8 @@
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/ml/deep_learning_with_keras_recommender_systems/" class="pagination--pager" title="Nouvelle Vague
+">다음</a>
     
   </nav>
 
@@ -516,6 +519,38 @@
     <div class="page__related">
       <h4 class="page__related-title">참고</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/ml/deep_learning_with_keras_recommender_systems/" rel="permalink">Nouvelle Vague
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">개요
+추천시스템 개발을 위해 예제를 참고하여 정리하였다.
+파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다.
+아직 미흡한 점이 많은 시슽
+</p>
+  </article>
+</div>
+
         
           
 
@@ -597,36 +632,6 @@
 
 
   1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/algorithm/dijkstra_algorithm/" rel="permalink">shortest path
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
 
 </p>
     

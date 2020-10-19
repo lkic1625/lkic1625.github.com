@@ -142,7 +142,11 @@
 </url>
 <url>
 <loc>http://localhost:4000/backend/OAuth_2.0/</loc>
-<lastmod>2020-10-17T04:00:00+09:00</lastmod>
+<lastmod>2020-10-20T04:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/</loc>
+<lastmod>2020-10-20T04:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/about/</loc>

@@ -1,4 +1,80 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-18T01:16:48+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-20T04:20:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Nouvelle Vague</title><link href="http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/" rel="alternate" type="text/html" title="Nouvelle Vague" /><published>2020-10-19T00:00:00+09:00</published><updated>2020-10-20T04:00:00+09:00</updated><id>http://localhost:4000/ml/deep_learning_with_keras_recommender_systems</id><content type="html" xml:base="http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+&lt;p&gt;추천시스템 개발을 위해 예제를 참고하여 정리하였다.
+파이썬 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;keras&lt;/code&gt;로 개발 후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flaks&lt;/code&gt;를 이용해 간단한 API 설계로 서버와 통신하려한다.
+아직 미흡한 점이 많은 시슽&lt;/p&gt;
+
+&lt;h1 id=&quot;코드&quot;&gt;코드&lt;/h1&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;zipfile&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ZipFile&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.keras&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;layers&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pathlib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Path&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;DNN.RecommenderNet&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RecommenderNet&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# get file for server or
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ratings_file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ratings.csv&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ratings_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;user_ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;userId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;user2user_encoded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;userencoded2user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;book_ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bookId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;book2book_encoded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;book_encoded2book&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;userId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user2user_encoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;book&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;movieId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book2book_encoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;num_users&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user2user_encoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;num_books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book_encoded2book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;astype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# min and max ratings will be used to normalize the ratings later
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;max_rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;&quot;Number of users: {}, Number of Movies: {}, Min rating: {}, Max rating: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;num_users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_rating&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frac&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;book&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Normalize the targets between 0 and 1. Makes it easy to train.
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Assuming training on 90% of the data and validating on 10%.
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;x_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:],&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;EMBEDDING_SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'recommender_model.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RecommenderNet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EMBEDDING_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;loss&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;losses&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BinaryCrossentropy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Adam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;batch_size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;epochs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;validation_data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'recommender_model.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="ML" /><category term="ML" /><category term="Collaborative Filtering" /><category term="projects" /><summary type="html">개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽</summary></entry><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
@@ -80,7 +156,7 @@
   &lt;ul&gt;
     &lt;li&gt;https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Proof_of_correctness&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">OAuth 2.0(작성 중)</title><link href="http://localhost:4000/backend/OAuth_2.0/" rel="alternate" type="text/html" title="OAuth 2.0(작성 중)" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T04:00:00+09:00</updated><id>http://localhost:4000/backend/OAuth_2.0</id><content type="html" xml:base="http://localhost:4000/backend/OAuth_2.0/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">OAuth 2.0(작성 중)</title><link href="http://localhost:4000/backend/OAuth_2.0/" rel="alternate" type="text/html" title="OAuth 2.0(작성 중)" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-20T04:00:00+09:00</updated><id>http://localhost:4000/backend/OAuth_2.0</id><content type="html" xml:base="http://localhost:4000/backend/OAuth_2.0/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
 
 &lt;p&gt;Token based Authentication 관련 구현에 관심이 있어 공식문서와 여러 인터넷 예제를 참고하여 정리한 글입니다.&lt;/p&gt;
 
@@ -156,8 +232,6 @@
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Redirection endpoint&lt;/code&gt; - 인증 서버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resource owner user-agent&lt;/code&gt;를 통해 클라이언트에게 인증자격(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization credentials&lt;/code&gt;)을 포함한 응답을 보내기 위해 사용한다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;###&lt;/p&gt;
-
 &lt;h2 id=&quot;authorization-code-grant&quot;&gt;Authorization Code Grant&lt;/h2&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 승인했다 해서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;access token&lt;/code&gt;을 바로 발급하지 않고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RS&lt;/code&gt;와 상호협의를 위해 거쳐야하는 단계이다.&lt;/p&gt;
@@ -165,7 +239,11 @@
 &lt;p&gt;&lt;img src=&quot;/assets/images/autho-grant.PNG&quot; alt=&quot;이미지2&quot; /&gt;;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;(A): 클라이언트는&lt;/li&gt;
+  &lt;li&gt;(A): 이는 클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization endpoint&lt;/code&gt;가리키며 시작한다. 클라이언트는 식별자, 요청 범위 로컬상태 및 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;가 권한을 부여(또는 거부)한 후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 다시 보낼 리디렉션 URI를 포함한다.&lt;/li&gt;
+  &lt;li&gt;(B): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AS&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;를 인증하며(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 통해서) 클라이언트의 엑세스 요청에 대한 권한 부여 혹은 거부를 결정한다.&lt;/li&gt;
+  &lt;li&gt;(C): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;의 권한 부여가 허용되면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;는 이전에 받았던(클라이언트 등록 혹은 권한 요청에서) 리디렉션 URI를 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 리다이렉트 한다. 리디렉션 URI에는 이전에 클라이언트가 제공한 인증 코드(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Autorization Code&lt;/code&gt;)와 모든 로컬 상태가 포함되어 있다.&lt;/li&gt;
+  &lt;li&gt;(D): 클라이언트는 이전 단계에서 받았던 인증 코드를 포함하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Token Endpoint&lt;/code&gt;에 엑세스 토큰을 요청한다. 요청이 진행될 때 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;로부터 인증한다. 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;verification&lt;/code&gt;을 위한 인증코드를 얻기 위해 리디렉션 URI를 포함한다.&lt;/li&gt;
+  &lt;li&gt;(E): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;가 클라이언트를 인증하고 인증코드를 검증한다. 그리고 받은 URI가 단계(C)에서 클라이언트를 리다이렉트하는 데 사용된 URI와 일치하는지 확인한다.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;blockquote&gt;
@@ -443,77 +521,7 @@
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Lowest Common Ancestor(최소공통조상)&lt;/code&gt;란 공통 조상 중 루트에서 가장 멀리 떨어진 노드를 의미한다.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;위 그림에서는 노드 ‘2’가 최소공통조상이다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">closest pair</title><link href="http://localhost:4000/algorithm/closest_pair/" rel="alternate" type="text/html" title="closest pair" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-09T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/closest_pair</id><content type="html" xml:base="http://localhost:4000/algorithm/closest_pair/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;input: \(p_1, p_2, p_3, ... p_n\)  \((p_i = (x_i, y_i))\)&lt;/li&gt;
-  &lt;li&gt;output: \(p_i, p_j\) with smallest \(p_i - p_j\)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;brute-force-algorithm&quot;&gt;Brute-force algorithm&lt;/h1&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minDist = infinity
-for i = 1 to length(P) - 1 do
-    for j = i + 1 to length(P) do
-        let p = P[i], q = P[j]
-        if dist(p, q) &amp;lt; minDist  then
-            minDist = dist(p, q)
-            closestPair = (p, q)
-return closestPair
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;time complexity: \(O(n^2)\)&lt;/p&gt;
-
-&lt;h1 id=&quot;divide-and-conquer-algorithm&quot;&gt;Divide and Conquer algorithm&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;점들을 x좌표에 따라 정렬한다.&lt;/li&gt;
-  &lt;li&gt;점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 \(x = x_mid\)를 기준으로 양옆으로 분할한다.&lt;/li&gt;
-  &lt;li&gt;왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 \(d_{Lmin}\)과 \(d_{Rmin}\)을 찾을 수 있다.&lt;/li&gt;
-  &lt;li&gt;분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 \(d_{LRmin}\)을 구한다.&lt;/li&gt;
-  &lt;li&gt;최종적으로 찾고자 하는 최근접 거리는 \(d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})\)이다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;time-complexity&quot;&gt;time complexity&lt;/h2&gt;
-
-&lt;p&gt;시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/closestpair.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;우선 먼저 생각해야하는 것은 최악의 경우에도 \(d = min(d_{Lmin}, d_{Rmin})\) band 내에서는 \(n^2\) 미만의 점을 가진다.
-또한 각점에 대해 반대편에 확인해야 할 점의 개수는 최대 6개이다. 따라서, \(6n\)의 계산시간이 필요하다. 이에 대한 자세한 설명은 아래 &lt;a href=&quot;#lemma&quot;&gt;Lemma 항목&lt;/a&gt;을 참고&lt;/p&gt;
-
-&lt;p&gt;이 알고리즘의 연산의 수행 횟수를 재귀식으로 표현한다면 \(T(n) = 2T(n/2) + O(n)\)으로 표현할 수 있으며 마스터 정리에 따라 \(O(nlogn)\)이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;lemma&quot;&gt;Lemma&lt;/h3&gt;
-
-&lt;p&gt;\(Claim\):
-A rectangle of width \(d\) and height \(2d\) can contain at most six points such that any two points are at distance at least \(d\)&lt;/p&gt;
-
-&lt;p&gt;\(Proof\):
-This will be an intuitive proof by construction. We shall begin to place points into the box until it is impossible to add any more. First imagine a circle of radius d around each point representing the area that we are not allowed to insert another point into. We can minimize the overlapping area of such a circle with the rectangle by placing the point on the corner of the rectangle as in the following figure:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/figbox1.gif&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Hence we can place points somewhere inside the light blue area or on the edges of the circles. Hence we put one more in the middle of the left side leaving the entire box covered except for the remaining two corners and the middle of the right side (all three of these points being right on the boundaries of the circles). Once we do this we have the following structure:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/figbox2.gif&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Note that there are now six points in the square. If you try to move any one of these points in any direction within the boundaries of the rectangle, then you would be moving two points too close toghether.&lt;/p&gt;
-
-&lt;p&gt;Hence we can’t possibly add any more points to this rectangle without putting violating the distance property between the points. Therefore six is the maximum number of points we can have.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://en.wikipedia.org/wiki/Closest_pair_of_points_problem&lt;/li&gt;
-    &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf&lt;/li&gt;
-    &lt;li&gt;https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">covex hull</title><link href="http://localhost:4000/algorithm/covex_hull/" rel="alternate" type="text/html" title="covex hull" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/covex_hull</id><content type="html" xml:base="http://localhost:4000/algorithm/covex_hull/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;p&gt;위 그림에서는 노드 ‘2’가 최소공통조상이다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">covex hull</title><link href="http://localhost:4000/algorithm/covex_hull/" rel="alternate" type="text/html" title="covex hull" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/covex_hull</id><content type="html" xml:base="http://localhost:4000/algorithm/covex_hull/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;graham-scan&quot;&gt;Graham Scan&lt;/h1&gt;
@@ -594,6 +602,76 @@ return stack
   &lt;ul&gt;
     &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ConvexHull.pdf&lt;/li&gt;
   &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">closest pair</title><link href="http://localhost:4000/algorithm/closest_pair/" rel="alternate" type="text/html" title="closest pair" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-09T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/closest_pair</id><content type="html" xml:base="http://localhost:4000/algorithm/closest_pair/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;input: \(p_1, p_2, p_3, ... p_n\)  \((p_i = (x_i, y_i))\)&lt;/li&gt;
+  &lt;li&gt;output: \(p_i, p_j\) with smallest \(p_i - p_j\)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;brute-force-algorithm&quot;&gt;Brute-force algorithm&lt;/h1&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minDist = infinity
+for i = 1 to length(P) - 1 do
+    for j = i + 1 to length(P) do
+        let p = P[i], q = P[j]
+        if dist(p, q) &amp;lt; minDist  then
+            minDist = dist(p, q)
+            closestPair = (p, q)
+return closestPair
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;time complexity: \(O(n^2)\)&lt;/p&gt;
+
+&lt;h1 id=&quot;divide-and-conquer-algorithm&quot;&gt;Divide and Conquer algorithm&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;점들을 x좌표에 따라 정렬한다.&lt;/li&gt;
+  &lt;li&gt;점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 \(x = x_mid\)를 기준으로 양옆으로 분할한다.&lt;/li&gt;
+  &lt;li&gt;왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 \(d_{Lmin}\)과 \(d_{Rmin}\)을 찾을 수 있다.&lt;/li&gt;
+  &lt;li&gt;분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 \(d_{LRmin}\)을 구한다.&lt;/li&gt;
+  &lt;li&gt;최종적으로 찾고자 하는 최근접 거리는 \(d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})\)이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;time-complexity&quot;&gt;time complexity&lt;/h2&gt;
+
+&lt;p&gt;시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/closestpair.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;우선 먼저 생각해야하는 것은 최악의 경우에도 \(d = min(d_{Lmin}, d_{Rmin})\) band 내에서는 \(n^2\) 미만의 점을 가진다.
+또한 각점에 대해 반대편에 확인해야 할 점의 개수는 최대 6개이다. 따라서, \(6n\)의 계산시간이 필요하다. 이에 대한 자세한 설명은 아래 &lt;a href=&quot;#lemma&quot;&gt;Lemma 항목&lt;/a&gt;을 참고&lt;/p&gt;
+
+&lt;p&gt;이 알고리즘의 연산의 수행 횟수를 재귀식으로 표현한다면 \(T(n) = 2T(n/2) + O(n)\)으로 표현할 수 있으며 마스터 정리에 따라 \(O(nlogn)\)이다.&lt;/p&gt;
+
+&lt;h3 id=&quot;lemma&quot;&gt;Lemma&lt;/h3&gt;
+
+&lt;p&gt;\(Claim\):
+A rectangle of width \(d\) and height \(2d\) can contain at most six points such that any two points are at distance at least \(d\)&lt;/p&gt;
+
+&lt;p&gt;\(Proof\):
+This will be an intuitive proof by construction. We shall begin to place points into the box until it is impossible to add any more. First imagine a circle of radius d around each point representing the area that we are not allowed to insert another point into. We can minimize the overlapping area of such a circle with the rectangle by placing the point on the corner of the rectangle as in the following figure:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/figbox1.gif&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hence we can place points somewhere inside the light blue area or on the edges of the circles. Hence we put one more in the middle of the left side leaving the entire box covered except for the remaining two corners and the middle of the right side (all three of these points being right on the boundaries of the circles). Once we do this we have the following structure:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/figbox2.gif&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that there are now six points in the square. If you try to move any one of these points in any direction within the boundaries of the rectangle, then you would be moving two points too close toghether.&lt;/p&gt;
+
+&lt;p&gt;Hence we can’t possibly add any more points to this rectangle without putting violating the distance property between the points. Therefore six is the maximum number of points we can have.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://en.wikipedia.org/wiki/Closest_pair_of_points_problem&lt;/li&gt;
+    &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf&lt;/li&gt;
+    &lt;li&gt;https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html&lt;/li&gt;
+  &lt;/ul&gt;
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">Nouvelle Vague</title><link href="http://localhost:4000/nodejs/Nouvelle_Vague/" rel="alternate" type="text/html" title="Nouvelle Vague" /><published>2020-10-08T00:00:00+09:00</published><updated>2020-09-24T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/Nouvelle_Vague</id><content type="html" xml:base="http://localhost:4000/nodejs/Nouvelle_Vague/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
 
 &lt;h1 id=&quot;알게된-것&quot;&gt;알게된 것&lt;/h1&gt;
@@ -631,123 +709,4 @@ return stack
 &lt;p&gt;https://speckyboy.com/custom-file-upload-fields/&lt;/p&gt;
 
 &lt;h2 id=&quot;sass&quot;&gt;Sass&lt;/h2&gt;
-&lt;p&gt;https://eunsukim.me/posts/understanding-basic-sass&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="projects" /><summary type="html">개요</summary></entry><entry><title type="html">데이터베이스 캐싱(작성 중)</title><link href="http://localhost:4000/nodejs/database_caching/" rel="alternate" type="text/html" title="데이터베이스 캐싱(작성 중)" /><published>2020-09-29T00:00:00+09:00</published><updated>2020-09-29T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/database_caching</id><content type="html" xml:base="http://localhost:4000/nodejs/database_caching/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
-
-&lt;h2 id=&quot;rdbms&quot;&gt;RDBMS&lt;/h2&gt;
-
-&lt;p&gt;서버구조서 가장 쉽게 만들 수 있는 방식이 주로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RDBMS&lt;/code&gt;이다.
-용도에 따라 달라지겠지만 규모가 매우큰 포탈에 데이터베이스는 쿼리 진행에도 상당히 많은 시간이 소요될 것이다.
-실제로 공공데이터 포탈에서 2000만 Cardinality 규모의 데이터를 받아 샘플 DB를 생성하고 조회해보면 Index를 걸어놓았음에도 불구하고 20초가 넘게 걸린다.&lt;/p&gt;
-
-&lt;h2 id=&quot;해결방법&quot;&gt;해결방법&lt;/h2&gt;
-
-&lt;p&gt;데이터베이스 튜닝과 효율적인 인덱싱을 통해 해결할 수도 있겠으나 근본적인 문제인 데이터베이스의 쿼리를 줄이는 방법도 있다.&lt;/p&gt;
-
-&lt;p&gt;나중에 요청된 결과를 미리 저장해두는 것을 캐시라 한다.
-데이터베이스 캐싱 또한 이와 다르지 않은데 물론 내부적으로 데이터베이스에서 제공하는 캐시가 있지만
-지속적으로 사용 시 캐시가 덮어씌어지며 새로운 디스크를 읽는 과정에서 성능저하를 야기할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;주로 캐싱으로는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Redis&lt;/code&gt;나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Memcached&lt;/code&gt;를 사용한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/memory-hierarchy.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;캐시-구조&quot;&gt;캐시 구조&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Look Aside
-    &lt;ul&gt;
-      &lt;li&gt;캐시에 없으면 디비로가서 디비에서 읽어온다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Write Back
-    &lt;ul&gt;
-      &lt;li&gt;쓰기가 반복적으로 일어나는 작업일 경우 디비에 먼저 저장하는 것이 아니라 캐시에 저장 후 특정 시점마다 디비에다 저장한다.&lt;/li&gt;
-      &lt;li&gt;메모리는 휘발성이므로 저장된 값이 사라질 수 있다.&lt;/li&gt;
-      &lt;li&gt;극단적으로 매우 큰 쓰기 작업, 로그와 같은 쓰기 작업의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INSERT&lt;/code&gt;, 재생가능한 데이터 쓰기 등에서 이러한 구조를 사용한다.&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;redis&quot;&gt;Redis&lt;/h1&gt;
-&lt;p&gt;레디스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;In-Memory Data structure Strore&lt;/code&gt;로서 메모리 상에 프로세스로 올라간다.&lt;/p&gt;
-
-&lt;p&gt;레디스가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Memcached&lt;/code&gt;와 달리 유용한 점은 우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Collection&lt;/code&gt;을 예로 들 수 있다.
-직접 구현하는 것과 구현된 것을 사용하는 방식의 차이는 생산성 측면에서 큰 강점이다.&lt;/p&gt;
-
-&lt;h2 id=&quot;개발의-편의성&quot;&gt;개발의 편의성&lt;/h2&gt;
-
-&lt;p&gt;레디스는 자료구조에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Atomic&lt;/code&gt;함을 보장하기 때문에 삽입과정에서 오류를 방지할 수 있다.
-기존에 구현된 구조를 사용하는 것은 비지니스 로직에 집중할 수 있도록 도와준다.&lt;/p&gt;
-
-&lt;h3 id=&quot;사용-예시&quot;&gt;사용 예시&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;인증 토큰 저장(String 또는 Hash)&lt;/li&gt;
-  &lt;li&gt;랭킹 보드로 사용(Sorted Set)&lt;/li&gt;
-  &lt;li&gt;유저 API limit&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;collection&quot;&gt;Collection&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Strings(key, value)&lt;/li&gt;
-  &lt;li&gt;List(중간 삽입구조에 많은 시간 들어감)&lt;/li&gt;
-  &lt;li&gt;Set&lt;/li&gt;
-  &lt;li&gt;Sorted Set&lt;/li&gt;
-  &lt;li&gt;Hash&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;메모리-관리&quot;&gt;메모리 관리&lt;/h2&gt;
-
-&lt;p&gt;레디스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;In-Memory Data structure Strore&lt;/code&gt;이므로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Physiacal Memory&lt;/code&gt;이상을 사용하면 문제가 발생.
-디스크를 쓰게 되는 순간 즉, Swap이 일어난다면 해당 메모리 Page 접근 시마다 디스크를 쓰게되고 성능이 저하된다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;maxmemory&lt;/code&gt;값을 설정하게 되더라도 메모리 단편화가 생길 수 있다. OS 메모리 할당 자체가 페이지 단위로 일어나기 때문에 최대값을 설정한다고 해서
-메모리 관리를 하지 않아도 된다는 말이 아니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;간단-구현-예제&quot;&gt;간단 구현 예제&lt;/h2&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redisClient&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;no_ready_check&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;REDIS_HOST&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;REDIS_PORT&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;pass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;REDIS_PASSWORD&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;logErrors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;router&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;/account/auth&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;user_email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;user_pw&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;//Try fetching the result from Redis first in case we have it cached&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redisClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;user_email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-       &lt;span class=&quot;c1&quot;&gt;// If that key exist in Redis store&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-        &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;jwt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sign&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;JWT_SECRET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;expiresIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;30m&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 30분&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;issuer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;bookmark-api&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;JSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;stringify&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;토큰이 발급되었습니다&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-          &lt;span class=&quot;nx&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://tmdahr1245.tistory.com/120&lt;/li&gt;
-    &lt;li&gt;https://www.youtube.com/watch?v=mPB2CZiAkKM&lt;/li&gt;
-    &lt;li&gt;https://dzone.com/articles/a-brief-introduction-to-caching-with-nodejs-and-re&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="database" /><category term="cache" /><category term="nodejs" /><summary type="html">개요</summary></entry></feed>
+&lt;p&gt;https://eunsukim.me/posts/understanding-basic-sass&lt;/p&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="nodejs" /><category term="projects" /><summary type="html">개요</summary></entry></feed>

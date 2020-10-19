@@ -143,7 +143,7 @@ var store = [{
         "url": "http://localhost:4000/nodejs/serverless/",
         "teaser": null
       },{
-        "title": "책깔피",
+        "title": "책깔:피",
         "excerpt":"책깔피   수업에서 간단한 팀프로젝트 겸 개발했던 프로젝트에서 백엔드 개발 자체를 파이어베이스로 넘겼기에 noed js express 기반으로 작성하였다.   책 OPEN API를 통해 책 정보를 저장하고 사용자는 이를 공유하면 된다.   frontend   backend   더 보완할 점   간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.  ","categories": ["nodejs"],
         "tags": ["nodejs","projects"],
         "url": "http://localhost:4000/nodejs/bookmark/",
@@ -213,5 +213,11 @@ var store = [{
         "excerpt":"개요 Token based Authentication 관련 구현에 관심이 있어 공식문서와 여러 인터넷 예제를 참고하여 정리한 글입니다. Introduction Roles OAuth에는 3가지 역할이 있다. Client는 우리가 현재 제공하고 있는 Third party service이다. Resource Owner는 우리의 서비스를 제공받는 사용자이다. Resource Server는 Client에게 Resource를 제공해줄 대상이며 구글, 페이스북 등이 될 수 있다. Authorization Server는 RO가...","categories": ["backend"],
         "tags": ["backend","HTTP","protocol"],
         "url": "http://localhost:4000/backend/OAuth_2.0/",
+        "teaser": null
+      },{
+        "title": "Nouvelle Vague",
+        "excerpt":"개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽 코드 import pandas as pd import numpy as np from zipfile import ZipFile import tensorflow as tf from tensorflow import keras from tensorflow.keras import layers from pathlib...","categories": ["ML"],
+        "tags": ["ML","Collaborative Filtering","projects"],
+        "url": "http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/",
         "teaser": null
       }]
