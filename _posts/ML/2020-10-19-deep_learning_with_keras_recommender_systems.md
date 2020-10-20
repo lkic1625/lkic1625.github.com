@@ -1,5 +1,5 @@
 ---
-title: "Nouvelle Vague"
+title: "recommender system 개발"
 tags:
   - ML
   - Collaborative Filtering
