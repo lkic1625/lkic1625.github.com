@@ -48,7 +48,7 @@ https://www.acmicpc.net/problem/10942
 
 ## 점화식
 
-![이미지1](/assets/images/pdrom.PNG)
+![이미지1](/assets/images/pdrom.png)
 
 ## 코드
 
