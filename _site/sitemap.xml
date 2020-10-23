@@ -57,7 +57,7 @@
 <lastmod>2020-08-19T04:00:00+09:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/algorithm/scpc_01_01/</loc>
+<loc>http://localhost:4000/ps/scpc_01_01/</loc>
 <lastmod>2020-08-23T05:00:00+09:00</lastmod>
 </url>
 <url>
@@ -113,6 +113,10 @@
 <lastmod>2020-09-24T04:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/projects/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8/</loc>
+<lastmod>2020-09-24T04:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/algorithm/closest_pair/</loc>
 <lastmod>2020-10-09T05:00:00+09:00</lastmod>
 </url>
@@ -147,6 +151,10 @@
 <url>
 <loc>http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/</loc>
 <lastmod>2020-10-20T04:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/ps/BOJ_2256/</loc>
+<lastmod>2020-10-23T05:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/about/</loc>

@@ -84,9 +84,9 @@ var store = [{
         "teaser": null
       },{
         "title": "개구리 점프",
-        "excerpt":"개구리 점프 SCPC 예선 1차 입출력 input 입력 파일에는 여러 개의 테스트 케이스가 포함될 수 있다. 파일의 첫째 줄에는 테스트 케이스 개수를 나타내는 자연수 \\(T\\)가 주어지고, 이후 차례로 T개의 테스트 케이스가 주어진다. \\(( 1≤T≤5 )\\) 각각의 테스트 케이스 첫 번째 줄에는 ‘좌표 \\(0\\)‘에 놓인 돌을 제외한 나머지 돌들의 개수 \\(N\\)...","categories": ["algorithm"],
+        "excerpt":"개구리 점프 SCPC 예선 1차 입출력 input 입력 파일에는 여러 개의 테스트 케이스가 포함될 수 있다. 파일의 첫째 줄에는 테스트 케이스 개수를 나타내는 자연수 \\(T\\)가 주어지고, 이후 차례로 T개의 테스트 케이스가 주어진다. \\(( 1≤T≤5 )\\) 각각의 테스트 케이스 첫 번째 줄에는 ‘좌표 \\(0\\)‘에 놓인 돌을 제외한 나머지 돌들의 개수 \\(N\\)...","categories": ["PS"],
         "tags": ["scpc","greedy"],
-        "url": "http://localhost:4000/algorithm/scpc_01_01/",
+        "url": "http://localhost:4000/ps/scpc_01_01/",
         "teaser": null
       },{
         "title": "bipartite matching",
@@ -167,6 +167,12 @@ var store = [{
         "url": "http://localhost:4000/nodejs/Nouvelle_Vague/",
         "teaser": null
       },{
+        "title": "개인정보처리방침",
+        "excerpt":"개인 정보의 처리 목적. 본 개발자가 작성한 앱은(는) 다음의 목적을 위하여 개인정보를 처리하고 있으며, 다음의 목적 이외의 용도로는 이용하지 않습니다. 1) 안드로이드 STT 기능을 위한 소리 녹음 개인 정보 처리 위탁 여부 본 개발자의 앱은 타 업체에 개인 정보 처리를 위탁하지 않습니다. 정보 주체의 권리, 의무 및 그 행사 방법...","categories": ["projects"],
+        "tags": ["nodejs","projects"],
+        "url": "http://localhost:4000/projects/%EA%B0%9C%EC%9D%B8%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EB%B0%A9%EC%B9%A8/",
+        "teaser": null
+      },{
         "title": "closest pair",
         "excerpt":"definition input: \\(p_1, p_2, p_3, ... p_n\\) \\((p_i = (x_i, y_i))\\) output: \\(p_i, p_j\\) with smallest \\(p_i - p_j\\) Brute-force algorithm minDist = infinity for i = 1 to length(P) - 1 do for j = i + 1 to length(P) do let p = P[i], q = P[j] if...","categories": ["algorithm"],
         "tags": ["divide and conquer","algorithm"],
@@ -215,9 +221,15 @@ var store = [{
         "url": "http://localhost:4000/backend/OAuth_2.0/",
         "teaser": null
       },{
-        "title": "Nouvelle Vague",
+        "title": "recommender system 개발",
         "excerpt":"개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽 코드 import pandas as pd import numpy as np from zipfile import ZipFile import tensorflow as tf from tensorflow import keras from tensorflow.keras import layers from pathlib...","categories": ["ML"],
         "tags": ["ML","Collaborative Filtering","projects"],
         "url": "http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/",
+        "teaser": null
+      },{
+        "title": "젓가락",
+        "excerpt":"아이디어 처음으로 든 생각은 젓가락 길이를 sorting 해서 서로 붙어있는 짝을 \\(A,B\\)로 두어야 할 것 같았다. 그 이후에는 이 쌍을 선택하거나 선택하지 않는 0-1 knapsack 문제와 다를 것이 없다. 증명 \\(Claim\\): 정답을 구성하는 쌍들 중 하나를 \\(p\\)라 하자 \\(p = \\{a, b, c\\}(a \\le b \\le c)\\) 크기 순서로 \\(a\\)...","categories": ["PS"],
+        "tags": ["greedy","sort","dp"],
+        "url": "http://localhost:4000/ps/BOJ_2256/",
         "teaser": null
       }]
