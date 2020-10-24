@@ -1,4 +1,148 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-23T21:05:07+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">젓가락</title><link href="http://localhost:4000/ps/BOJ_2256/" rel="alternate" type="text/html" title="젓가락" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T05:00:00+09:00</updated><id>http://localhost:4000/ps/BOJ_2256</id><content type="html" xml:base="http://localhost:4000/ps/BOJ_2256/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-10-24T02:11:09+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">SQL QUERY 정리 2</title><link href="http://localhost:4000/database/SQL_QUERY_02/" rel="alternate" type="text/html" title="SQL QUERY 정리 2" /><published>2020-10-24T00:00:00+09:00</published><updated>2020-10-24T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_02</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_02/">&lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;
+
+&lt;h2 id=&quot;중복값-제거-count&quot;&gt;중복값 제거 COUNT&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(DISTINCT NAME) FROM ANIMAL_INS ;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNT(*)&lt;/code&gt;은 NULL 을 허용한다&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;avg-sum-min-max&quot;&gt;AVG, SUM, MIN, MAX&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;--테이블 (MY_TABLE)의 평균나이(AGE) 조회--
+SELECT AVG(AGE) AS 평균나이 FROM MY_TABLE
+
+--테이블(MY_TABLE)의 수량(QT)의 전체 평균(AS 평균수량)조회--
+SELECT AVG(QT) AS 평균수량 FROM MY_TABLE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;이름이-두-번-이상-쓰인-경우를-이름순으로-조회&quot;&gt;이름이 두 번 이상 쓰인 경우를 이름순으로 조회&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT NAME, COUNT(NAME) AS `count` FROM ANIMAL_INS GROUP BY NAME HAVING `count` &amp;gt;= 2 ORDER BY NAME ASC
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;0900부터-1959까지-각-시간대별로-입양이-몇-건이나-발생했는지-조회하는-sql문&quot;&gt;09:00부터 19:59까지, 각 시간대별로 입양이 몇 건이나 발생했는지 조회하는 SQL문&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT HOUR(DATETIME) AS `HOUR`, COUNT(HOUR(DATETIME)) AS `COUNT`
+FROM ANIMAL_OUTS
+GROUP BY HOUR(DATETIME)
+HAVING `HOUR` &amp;gt;= 9 AND `HOUR` &amp;lt;= 19
+ORDER BY `HOUR` ASC;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;0시부터-23시까지-시간대별로-입양-건-변수를-활용하여-존재하지-않는-datetime까지-표시&quot;&gt;0시부터 23시까지 시간대별로 입양 건 (변수를 활용하여 존재하지 않는 datetime까지 표시)&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SET @hour = -1;
+SELECT (@hour := @hour + 1) as `HOUR`, (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS `COUNT`
+FROM ANIMAL_OUTS
+WHERE @hour &amp;lt; 23
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;is-null&quot;&gt;IS NULL&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME IS NULL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;왼쪽에만-있는-콜럼-값이-있는-데이터-출력&quot;&gt;왼쪽에만 있는 콜럼 값이 있는 데이터 출력&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT L.ANIMAL_ID, L.NAME
+FROM ANIMAL_OUTS L
+LEFT JOIN ANIMAL_INS R ON L.ANIMAL_ID = R.ANIMAL_ID
+WHERE R.ANIMAL_ID IS NULL
+ORDER BY R.ANIMAL_ID ASC;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;like-예제&quot;&gt;LIKE 예제&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;--A로 시작하는 문자를 찾기--
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE 'A%'
+
+--A로 끝나는 문자 찾기--
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '%A'
+
+--A를 포함하는 문자 찾기--
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '%A%'
+
+--A로 시작하는 두글자 문자 찾기--
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE 'A_'
+
+--첫번째 문자가 'A''가 아닌 모든 문자열 찾기--
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE'[^A]'
+
+--첫번째 문자가 'A'또는'B'또는'C'인 문자열 찾기--
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '[ABC]'
+SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '[A-C]'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;instirng1-&quot;&gt;IN(‘STIRNG1’, …)&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME, SEX_UPON_INTAKE
+FROM ANIMAL_INS
+WHERE NAME IN('Lucy', 'Ella', 'Pickle', 'Rogan', 'Sabrina', 'Mitty')
+ORDER BY ANIMAL_ID
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;inselect-statement&quot;&gt;IN(SELECT STATEMENT)&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT * FROM Customers
+WHERE Country IN (SELECT Country FROM Suppliers);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;대소문자-구분없이-like&quot;&gt;대소문자 구분없이 LIKE&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME
+FROM ANIMAL_INS
+WHERE LOWER(NAME) LIKE '%el%' AND ANIMAL_TYPE = 'DOG'
+ORDER BY NAME ASC
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;if&quot;&gt;IF()&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME,
+IF(SEX_UPON_INTAKE REGEXP 'Neutered|Spayed', 'O', 'X') AS '중성화'
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;when&quot;&gt;WHEN&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME,
+  CASE
+    WHEN SEX_UPON_INTAKE REGEXP 'Neutered|Spayed' THEN 'O'
+    ELSE 'X'
+  END AS '중성화'
+FROM ANIMAL_INS
+ORDER BY ANIMAL_ID
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;datediff&quot;&gt;DATEDIFF()&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT L.ANIMAL_ID, L.NAME
+FROM ANIMAL_INS L
+JOIN ANIMAL_OUTS R
+ON L.ANIMAL_ID = R.ANIMAL_ID
+ORDER BY DATEDIFF(L.DATETIME, R.DATETIME) ASC
+LIMIT 2
+
+-- DATEDIFF(L.DATETIME, R.DATETIME) 대신 L.DATETIME - R.DATETIME 사용가능.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;date_format&quot;&gt;DATE_FORMAT()&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT DATE_FORMAT(&quot;2017-06-15&quot;, &quot;%W %M %e %Y&quot;);
+-- Thursday June 15 2017
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%Y&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%y&lt;/code&gt;는 다름 직접 써보기 위에는 영어로 나오지만 아래는 숫자로 나온다.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;-- 코드를 입력하세요
+SELECT ANIMAL_ID, NAME, DATE_FORMAT(`DATETIME`, '%Y-%m-%d') AS '날짜'
+FROM ANIMAL_INS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://www.w3schools.com/sql/&lt;/li&gt;
+    &lt;li&gt;https://programmers.co.kr/learn/challenges?tab=sql_practice_kit&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="database" /><summary type="html">sql 쿼리 지문 정리</summary></entry><entry><title type="html">젓가락</title><link href="http://localhost:4000/ps/BOJ_2256/" rel="alternate" type="text/html" title="젓가락" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T05:00:00+09:00</updated><id>http://localhost:4000/ps/BOJ_2256</id><content type="html" xml:base="http://localhost:4000/ps/BOJ_2256/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h2 id=&quot;아이디어&quot;&gt;아이디어&lt;/h2&gt;
@@ -188,89 +332,7 @@
 &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'recommender_model.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="ML" /><category term="ML" /><category term="Collaborative Filtering" /><category term="projects" /><summary type="html">개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽</summary></entry><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
-
-&lt;p&gt;\(input\): \(G=(V,E,g), v_0 \in V\)&lt;br /&gt;
-\(output\): shortest path \(v_0\) to \(v_i\) \((v_i \in V)\)&lt;/p&gt;
-
-&lt;h1 id=&quot;다익스트라-알고리즘&quot;&gt;다익스트라 알고리즘&lt;/h1&gt;
-&lt;p&gt;다익스트라 알고리즘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Invariant&lt;/code&gt;를 중심으로 진행된다. 이는 아래와 같다&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;: \(\forall{u} \in T, d_{min}(u) = \text{shortest path}\)&lt;/li&gt;
-  &lt;li&gt;
-\[\forall{u} \notin T, \text{shortest path} v_0 \to T_0 \to u is \text{shortest path then insert u to T} (T_0 \in T)\]
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;정확성-증명&quot;&gt;정확성 증명&lt;/h2&gt;
-
-&lt;p&gt;Proof of Dijkstra’s algorithm is constructed by induction on the number of visited nodes.&lt;/p&gt;
-
-&lt;p&gt;Invariant hypothesis: For each node v, dist[v] is the shortest distance from source to v when traveling via visited nodes only, or infinity if no such path exists. (Note: we do not assume dist[v] is the actual shortest distance for unvisited nodes.)&lt;/p&gt;
-
-&lt;p&gt;The base case is when there is just one visited node, namely the initial node source, in which case the hypothesis is trivial.&lt;/p&gt;
-
-&lt;p&gt;Otherwise, assume the hypothesis for n-1 visited nodes. In which case, we choose an edge vu where u has the least dist[u] of any unvisited nodes and the edge vu is such that dist[u] = dist[v] + length[v,u]. dist[u] is considered to be the shortest distance from source to u because if there were a shorter path, and if w was the first unvisited node on that path then by the original hypothesis dist[w] &amp;gt; dist[u] which creates a contradiction. Similarly if there were a shorter path to u without using unvisited nodes, and if the last but one node on that path were w, then we would have had dist[u] = dist[w] + length[w,u], also a contradiction.&lt;/p&gt;
-
-&lt;p&gt;After processing u it will still be true that for each unvisited node w, dist[w] will be the shortest distance from source to w using visited nodes only, because if there were a shorter path that doesn’t go by u we would have found it previously, and if there were a shorter path using u we would have updated it when processing u.&lt;/p&gt;
-
-&lt;p&gt;After all nodes are visited, the shortest path from source to any node v consists only of visited nodes, therefore dist[v] is the shortest distance.&lt;/p&gt;
-
-&lt;h2 id=&quot;pseudo-code&quot;&gt;pseudo code&lt;/h2&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function Dijkstra(Graph, source):
-      dist[source] ← 0                           // Initialization
-
-      create vertex priority queue Q
-
-      for each vertex v in Graph:          
-          if v ≠ source
-              dist[v] ← INFINITY                 // Unknown distance from source to v
-              prev[v] ← UNDEFINED                // Predecessor of v
-
-         Q.add_with_priority(v, dist[v])
-
-
-     while Q is not empty:                      // The main loop
-         u ← Q.extract_min()                    // Remove and return best vertex
-         for each neighbor v of u:              // only v that are still in Q
-             alt ← dist[u] + length(u, v)
-             if alt &amp;lt; dist[v]
-                 dist[v] ← alt
-                 prev[v] ← u
-                 Q.decrease_priority(v, alt)
-
-     return dist, prev
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;생각해볼-문제&quot;&gt;생각해볼 문제.&lt;/h2&gt;
-
-&lt;p&gt;주어진 그래프 \(G\)의 한 노드인 \(v_0\)에서 어떤 노드 \(v_i\)로 가는 \(\text{Shortest Path}\)를 구하였다고 가정하자.
-이 \(Path\)의 일부분인 \(p\)가 \(v_j\)에서 시작하여 \(v_k\)에서 끝난다면, \(p\)는 \(v_j\)와 \(v_k\)를 잇는 \(\text{Shortest Path}\)임을 증명하라.
-또한 \(p\)의 시작과 끝이 아닌 중간 노드들 중에는 \(v_0\)나 \(v_k\)가 없음을 증명하라.&lt;/p&gt;
-
-&lt;h3 id=&quot;정답&quot;&gt;정답?&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;경로 \(v_j \to v_k\)가  \(\text{Shortest Path}\)라고 가정하자 그럼 두 정점을 잇는 더 짧은 경로 \(\hat {p}\)가 존재할 것이다.
-\(\hat {p}\)가 존재할 경우 미리구한 경로 \(v_0 \to v_i\) 또한 중간 경로 \(p\)를 \(\hat {p}\)로 바꾼다면 더 짧은 경로가 존재하게 포함되므로
-\(\text{Shortest Path}\)아니게 된다 이는 기정에 모순이므로 경로 \(\hat {p}\)는 존재하지 않는다.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;\(v_k\)가 중간에 존재한다면 경로 \(p\)는 경로 \(p\)를 포함하는 경로가 된다. 이는 불가능. 시작 노드또 \(v_0\)한 이와 같은 방법으로 증명 가능하다.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Proof_of_correctness&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">OAuth 2.0(작성 중)</title><link href="http://localhost:4000/backend/OAuth_2.0/" rel="alternate" type="text/html" title="OAuth 2.0(작성 중)" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-20T04:00:00+09:00</updated><id>http://localhost:4000/backend/OAuth_2.0</id><content type="html" xml:base="http://localhost:4000/backend/OAuth_2.0/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="ML" /><category term="ML" /><category term="Collaborative Filtering" /><category term="projects" /><summary type="html">개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽</summary></entry><entry><title type="html">OAuth 2.0(작성 중)</title><link href="http://localhost:4000/backend/OAuth_2.0/" rel="alternate" type="text/html" title="OAuth 2.0(작성 중)" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-20T04:00:00+09:00</updated><id>http://localhost:4000/backend/OAuth_2.0</id><content type="html" xml:base="http://localhost:4000/backend/OAuth_2.0/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
 
 &lt;p&gt;Token based Authentication 관련 구현에 관심이 있어 공식문서와 여러 인터넷 예제를 참고하여 정리한 글입니다.&lt;/p&gt;
 
@@ -588,7 +650,89 @@
 		&lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;S&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;E&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;'\n'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="dp" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">tree diameter</title><link href="http://localhost:4000/algorithm/tree_diameter/" rel="alternate" type="text/html" title="tree diameter" /><published>2020-10-11T00:00:00+09:00</published><updated>2020-10-11T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/tree_diameter</id><content type="html" xml:base="http://localhost:4000/algorithm/tree_diameter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="dp" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">shortest path</title><link href="http://localhost:4000/algorithm/dijkstra_algorithm/" rel="alternate" type="text/html" title="shortest path" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-17T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra_algorithm</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra_algorithm/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
+
+&lt;p&gt;\(input\): \(G=(V,E,g), v_0 \in V\)&lt;br /&gt;
+\(output\): shortest path \(v_0\) to \(v_i\) \((v_i \in V)\)&lt;/p&gt;
+
+&lt;h1 id=&quot;다익스트라-알고리즘&quot;&gt;다익스트라 알고리즘&lt;/h1&gt;
+&lt;p&gt;다익스트라 알고리즘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Invariant&lt;/code&gt;를 중심으로 진행된다. 이는 아래와 같다&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;: \(\forall{u} \in T, d_{min}(u) = \text{shortest path}\)&lt;/li&gt;
+  &lt;li&gt;
+\[\forall{u} \notin T, \text{shortest path} v_0 \to T_0 \to u is \text{shortest path then insert u to T} (T_0 \in T)\]
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;정확성-증명&quot;&gt;정확성 증명&lt;/h2&gt;
+
+&lt;p&gt;Proof of Dijkstra’s algorithm is constructed by induction on the number of visited nodes.&lt;/p&gt;
+
+&lt;p&gt;Invariant hypothesis: For each node v, dist[v] is the shortest distance from source to v when traveling via visited nodes only, or infinity if no such path exists. (Note: we do not assume dist[v] is the actual shortest distance for unvisited nodes.)&lt;/p&gt;
+
+&lt;p&gt;The base case is when there is just one visited node, namely the initial node source, in which case the hypothesis is trivial.&lt;/p&gt;
+
+&lt;p&gt;Otherwise, assume the hypothesis for n-1 visited nodes. In which case, we choose an edge vu where u has the least dist[u] of any unvisited nodes and the edge vu is such that dist[u] = dist[v] + length[v,u]. dist[u] is considered to be the shortest distance from source to u because if there were a shorter path, and if w was the first unvisited node on that path then by the original hypothesis dist[w] &amp;gt; dist[u] which creates a contradiction. Similarly if there were a shorter path to u without using unvisited nodes, and if the last but one node on that path were w, then we would have had dist[u] = dist[w] + length[w,u], also a contradiction.&lt;/p&gt;
+
+&lt;p&gt;After processing u it will still be true that for each unvisited node w, dist[w] will be the shortest distance from source to w using visited nodes only, because if there were a shorter path that doesn’t go by u we would have found it previously, and if there were a shorter path using u we would have updated it when processing u.&lt;/p&gt;
+
+&lt;p&gt;After all nodes are visited, the shortest path from source to any node v consists only of visited nodes, therefore dist[v] is the shortest distance.&lt;/p&gt;
+
+&lt;h2 id=&quot;pseudo-code&quot;&gt;pseudo code&lt;/h2&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;function Dijkstra(Graph, source):
+      dist[source] ← 0                           // Initialization
+
+      create vertex priority queue Q
+
+      for each vertex v in Graph:          
+          if v ≠ source
+              dist[v] ← INFINITY                 // Unknown distance from source to v
+              prev[v] ← UNDEFINED                // Predecessor of v
+
+         Q.add_with_priority(v, dist[v])
+
+
+     while Q is not empty:                      // The main loop
+         u ← Q.extract_min()                    // Remove and return best vertex
+         for each neighbor v of u:              // only v that are still in Q
+             alt ← dist[u] + length(u, v)
+             if alt &amp;lt; dist[v]
+                 dist[v] ← alt
+                 prev[v] ← u
+                 Q.decrease_priority(v, alt)
+
+     return dist, prev
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;생각해볼-문제&quot;&gt;생각해볼 문제.&lt;/h2&gt;
+
+&lt;p&gt;주어진 그래프 \(G\)의 한 노드인 \(v_0\)에서 어떤 노드 \(v_i\)로 가는 \(\text{Shortest Path}\)를 구하였다고 가정하자.
+이 \(Path\)의 일부분인 \(p\)가 \(v_j\)에서 시작하여 \(v_k\)에서 끝난다면, \(p\)는 \(v_j\)와 \(v_k\)를 잇는 \(\text{Shortest Path}\)임을 증명하라.
+또한 \(p\)의 시작과 끝이 아닌 중간 노드들 중에는 \(v_0\)나 \(v_k\)가 없음을 증명하라.&lt;/p&gt;
+
+&lt;h3 id=&quot;정답&quot;&gt;정답?&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;경로 \(v_j \to v_k\)가  \(\text{Shortest Path}\)라고 가정하자 그럼 두 정점을 잇는 더 짧은 경로 \(\hat {p}\)가 존재할 것이다.
+\(\hat {p}\)가 존재할 경우 미리구한 경로 \(v_0 \to v_i\) 또한 중간 경로 \(p\)를 \(\hat {p}\)로 바꾼다면 더 짧은 경로가 존재하게 포함되므로
+\(\text{Shortest Path}\)아니게 된다 이는 기정에 모순이므로 경로 \(\hat {p}\)는 존재하지 않는다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;\(v_k\)가 중간에 존재한다면 경로 \(p\)는 경로 \(p\)를 포함하는 경로가 된다. 이는 불가능. 시작 노드또 \(v_0\)한 이와 같은 방법으로 증명 가능하다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm#Proof_of_correctness&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="greedy" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">tree diameter</title><link href="http://localhost:4000/algorithm/tree_diameter/" rel="alternate" type="text/html" title="tree diameter" /><published>2020-10-11T00:00:00+09:00</published><updated>2020-10-11T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/tree_diameter</id><content type="html" xml:base="http://localhost:4000/algorithm/tree_diameter/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;트리의-지름&quot;&gt;트리의 지름&lt;/h1&gt;
@@ -715,75 +859,5 @@ return stack
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;
     &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ConvexHull.pdf&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">closest pair</title><link href="http://localhost:4000/algorithm/closest_pair/" rel="alternate" type="text/html" title="closest pair" /><published>2020-10-09T00:00:00+09:00</published><updated>2020-10-09T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/closest_pair</id><content type="html" xml:base="http://localhost:4000/algorithm/closest_pair/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;definition&quot;&gt;definition&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;input: \(p_1, p_2, p_3, ... p_n\)  \((p_i = (x_i, y_i))\)&lt;/li&gt;
-  &lt;li&gt;output: \(p_i, p_j\) with smallest \(p_i - p_j\)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;brute-force-algorithm&quot;&gt;Brute-force algorithm&lt;/h1&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minDist = infinity
-for i = 1 to length(P) - 1 do
-    for j = i + 1 to length(P) do
-        let p = P[i], q = P[j]
-        if dist(p, q) &amp;lt; minDist  then
-            minDist = dist(p, q)
-            closestPair = (p, q)
-return closestPair
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;time complexity: \(O(n^2)\)&lt;/p&gt;
-
-&lt;h1 id=&quot;divide-and-conquer-algorithm&quot;&gt;Divide and Conquer algorithm&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;점들을 x좌표에 따라 정렬한다.&lt;/li&gt;
-  &lt;li&gt;점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 \(x = x_mid\)를 기준으로 양옆으로 분할한다.&lt;/li&gt;
-  &lt;li&gt;왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 \(d_{Lmin}\)과 \(d_{Rmin}\)을 찾을 수 있다.&lt;/li&gt;
-  &lt;li&gt;분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 \(d_{LRmin}\)을 구한다.&lt;/li&gt;
-  &lt;li&gt;최종적으로 찾고자 하는 최근접 거리는 \(d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})\)이다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;time-complexity&quot;&gt;time complexity&lt;/h2&gt;
-
-&lt;p&gt;시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/closestpair.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;우선 먼저 생각해야하는 것은 최악의 경우에도 \(d = min(d_{Lmin}, d_{Rmin})\) band 내에서는 \(n^2\) 미만의 점을 가진다.
-또한 각점에 대해 반대편에 확인해야 할 점의 개수는 최대 6개이다. 따라서, \(6n\)의 계산시간이 필요하다. 이에 대한 자세한 설명은 아래 &lt;a href=&quot;#lemma&quot;&gt;Lemma 항목&lt;/a&gt;을 참고&lt;/p&gt;
-
-&lt;p&gt;이 알고리즘의 연산의 수행 횟수를 재귀식으로 표현한다면 \(T(n) = 2T(n/2) + O(n)\)으로 표현할 수 있으며 마스터 정리에 따라 \(O(nlogn)\)이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;lemma&quot;&gt;Lemma&lt;/h3&gt;
-
-&lt;p&gt;\(Claim\):
-A rectangle of width \(d\) and height \(2d\) can contain at most six points such that any two points are at distance at least \(d\)&lt;/p&gt;
-
-&lt;p&gt;\(Proof\):
-This will be an intuitive proof by construction. We shall begin to place points into the box until it is impossible to add any more. First imagine a circle of radius d around each point representing the area that we are not allowed to insert another point into. We can minimize the overlapping area of such a circle with the rectangle by placing the point on the corner of the rectangle as in the following figure:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/figbox1.gif&quot; alt=&quot;이미지2&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Hence we can place points somewhere inside the light blue area or on the edges of the circles. Hence we put one more in the middle of the left side leaving the entire box covered except for the remaining two corners and the middle of the right side (all three of these points being right on the boundaries of the circles). Once we do this we have the following structure:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/figbox2.gif&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Note that there are now six points in the square. If you try to move any one of these points in any direction within the boundaries of the rectangle, then you would be moving two points too close toghether.&lt;/p&gt;
-
-&lt;p&gt;Hence we can’t possibly add any more points to this rectangle without putting violating the distance property between the points. Therefore six is the maximum number of points we can have.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://en.wikipedia.org/wiki/Closest_pair_of_points_problem&lt;/li&gt;
-    &lt;li&gt;https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf&lt;/li&gt;
-    &lt;li&gt;https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="divide and conquer" /><category term="algorithm" /><summary type="html"></summary></entry></feed>

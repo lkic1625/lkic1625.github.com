@@ -133,7 +133,7 @@ var store = [{
       },{
         "title": "SQL QUERY 정리",
         "excerpt":"sql 쿼리 지문 정리 GROUP_BY SELECT COUNT(column) FROM table_name GROUP_BY column 특정 시간대별 정렬 SELECT date_format(DATETIME, '%H') AS `DATE`, COUNT(date_format(DATETIME, '%H')) FROM ANIMAL_OUTS WHERE date_format(DATETIME, '%H') BETWEEN '09' AND '19' GROUP BY date_format(DATETIME, '%H') ORDER BY date_format(DATETIME, '%H') ASC SELECT HOUR(datetime) AS HOUR, COUNT(HOUR(datetime)) AS COUNT FROM animal_outs GROUP BY...","categories": ["database"],
-        "tags": ["b_tree","database","datastructure"],
+        "tags": ["database"],
         "url": "http://localhost:4000/database/SQL_QUERY_01/",
         "teaser": null
       },{
@@ -231,5 +231,11 @@ var store = [{
         "excerpt":"아이디어 처음으로 든 생각은 젓가락 길이를 sorting 해서 서로 붙어있는 짝을 \\(A,B\\)로 두어야 할 것 같았다. 그 이후에는 이 쌍을 선택하거나 선택하지 않는 0-1 knapsack 문제와 다를 것이 없다. 증명 \\(Claim\\): 정답을 구성하는 쌍들 중 하나를 \\(p\\)라 하자 \\(p = \\{a, b, c\\}(a \\le b \\le c)\\) 크기 순서로 \\(a\\)...","categories": ["PS"],
         "tags": ["greedy","sort","dp"],
         "url": "http://localhost:4000/ps/BOJ_2256/",
+        "teaser": null
+      },{
+        "title": "SQL QUERY 정리 2",
+        "excerpt":"sql 쿼리 지문 정리 중복값 제거 COUNT SELECT COUNT(DISTINCT NAME) FROM ANIMAL_INS ; COUNT(*)은 NULL 을 허용한다 AVG, SUM, MIN, MAX --테이블 (MY_TABLE)의 평균나이(AGE) 조회-- SELECT AVG(AGE) AS 평균나이 FROM MY_TABLE --테이블(MY_TABLE)의 수량(QT)의 전체 평균(AS 평균수량)조회-- SELECT AVG(QT) AS 평균수량 FROM MY_TABLE 이름이 두 번 이상 쓰인 경우를 이름순으로 조회...","categories": ["database"],
+        "tags": ["database"],
+        "url": "http://localhost:4000/database/SQL_QUERY_02/",
         "teaser": null
       }]
