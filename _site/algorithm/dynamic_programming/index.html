@@ -35,7 +35,7 @@
 
 
 
-  <meta property="article:modified_time" content="2020-10-17T05:00:00+09:00">
+  <meta property="article:modified_time" content="2020-10-31T05:00:00+09:00">
 
 
 
@@ -284,7 +284,7 @@
     <meta itemprop="headline" content="dynamic programming">
     <meta itemprop="description" content="">
     <meta itemprop="datePublished" content="2020-10-17T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-10-17T05:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-10-31T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
@@ -297,7 +297,7 @@
 
 
 
-  1 분 소요
+  2 분 소요
 
 </p>
           
@@ -310,21 +310,38 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
+  <li><a href="#chained-matrix-multiplication">chained matrix multiplication</a>
+    <ul>
+      <li><a href="#점화식">점화식</a></li>
+      <li><a href="#알고리즘">알고리즘</a></li>
+    </ul>
+  </li>
+  <li><a href="#edit-distance">edit distance</a>
+    <ul>
+      <li><a href="#점화식-1">점화식</a></li>
+    </ul>
+  </li>
+  <li><a href="#floyd-warshall">floyd warshall</a>
+    <ul>
+      <li><a href="#점화식-2">점화식</a></li>
+      <li><a href="#알고리즘-1">알고리즘</a></li>
+    </ul>
+  </li>
   <li><a href="#knapsack-problem">knapsack problem</a>
     <ul>
       <li><a href="#문제-정의">문제 정의</a></li>
-      <li><a href="#점화식">점화식</a></li>
+      <li><a href="#점화식-3">점화식</a></li>
     </ul>
   </li>
   <li><a href="#fibonacci">Fibonacci</a>
     <ul>
-      <li><a href="#점화식-1">점화식</a></li>
+      <li><a href="#점화식-4">점화식</a></li>
     </ul>
   </li>
   <li><a href="#팰린드롬">팰린드롬?</a>
     <ul>
       <li><a href="#문제-정의-1">문제 정의</a></li>
-      <li><a href="#점화식-2">점화식</a></li>
+      <li><a href="#점화식-5">점화식</a></li>
       <li><a href="#코드">코드</a></li>
     </ul>
   </li>
@@ -335,6 +352,57 @@
         
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
+
+<h1 id="chained-matrix-multiplication">chained matrix multiplication</h1>
+
+<p>\(input\): \(d_0, d_1 ... d_n\) \((\text{size of }M_i = d_{i-1} \times d_i)\)<br />
+\(output\): \(D(i, j) = M_i \times M_{i+1} \times ... \times M_j\) 의 최소비용</p>
+
+<h2 id="점화식">점화식</h2>
+
+<p>\(\text{for all i}\in S,  D(i,i) = 0\)
+\(D(i, j) = min_{i \le k \le j}(D(i, k) + D(k + 1,j) + d_{i-1} \times d_k \times d_j\)</p>
+
+<h2 id="알고리즘">알고리즘</h2>
+
+<p><img src="/assets/images/matchainmul.png" alt="행렬이미지" /></p>
+
+<h1 id="edit-distance">edit distance</h1>
+<p>편집거리 알고리즘은 두 문자열의 유사도를 판단하는 알고리즘이다.</p>
+
+<p>유사도를 판단하는 기준은 삽입, 삭제, 변경을 몇 번 진행해야 바꿀 수 있는지 최소값을 구하여 판단한다.</p>
+
+<h2 id="점화식-1">점화식</h2>
+
+\[DP[m][n] =  \begin{cases} DP[m - 1][n - 1]  &amp; \text{if }A[m] == B[n] \\ min(DP[m - 1][n], DP[m][n - 1], DP[m - 1][n - 1]) + 1   &amp; else \end{cases}\]
+
+<p>\(A\) 문자열의 \(m\)번째와 \(B\) 문자열의 \(n\)번째 까지 문자열의 유사도를 나타내며 \(A[m] == B[n]\)일 경 \(DP[m - 1][n - 1]\)를 그대로 이어 받는다.</p>
+
+<h1 id="floyd-warshall">floyd warshall</h1>
+
+<p>변의 가중치가 음이거나 양인 가중그래프에서(음수 사이클이 없어야 한다.) 최단경로를 찾는 알고리즘이다.</p>
+
+<h2 id="점화식-2">점화식</h2>
+
+<p>알고리즘은 아래 점화식에 기반하여 동작한다.
+\(D(k, i, j) = min(D(k - 1, i, k) + D(k - 1, k, j), D(k - 1, i, j))\)</p>
+
+<p>\(D(k, i, j)\)는 \(1 .. k\) 까지의 정점을 사용하여 \(i\)에서 \(j\)로 갈 수 있는 최단거리를 뜻한다.
+점화식에서는 \(k - 1\)까지의 정점을 사용한 후 중간에 \(k\)를 거쳐 최단거리를 구하는 방법과 기존 방법 중 더 최단경로를 선택한다.</p>
+
+<h2 id="알고리즘-1">알고리즘</h2>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="n">k</span><span class="o">++</span><span class="p">){</span>
+  <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">){</span>
+      <span class="n">DP</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">DP</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">+</span> <span class="n">DP</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">DP</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>공간 복잡도를 \(O(N^2)\)으로 줄일 수 있는 이유는 \(1 .. k - 1\)의 정점을 사용하여 \(k\)로 가거나 도착하는 방법은 \(1 .. k\)일때도 같기 때문이다.</p>
 
 <h1 id="knapsack-problem">knapsack problem</h1>
 
@@ -348,13 +416,13 @@
 <p>\(input\): \(W\), \((w_1,v_1), (w_2,v_2) ... ,(w_n,v_n)\) <br />
 \(output\): the maximum value V less than or equal to W</p>
 
-<h2 id="점화식">점화식</h2>
+<h2 id="점화식-3">점화식</h2>
 
 \[DP[i][w] =  \begin{cases} DP[i - 1][w]  &amp; \text{if }w_i &gt; w \\ max(v_i + DP[i-1][w-w_i], DP[i-1][w])   &amp; else \end{cases}\]
 
 <h1 id="fibonacci">Fibonacci</h1>
 
-<h2 id="점화식-1">점화식</h2>
+<h2 id="점화식-4">점화식</h2>
 <p>\(F_n =  \begin{cases} 0  &amp; \text{if }n = 0 \\ 1   &amp; \text{if }n = 1 \\ F_{n-1} + F_{n-2}   &amp; \text{if }n &gt; 1 \end{cases}\)</p>
 
 <h1 id="팰린드롬">팰린드롬?</h1>
@@ -368,7 +436,7 @@
 
 <p>https://www.acmicpc.net/problem/10942</p>
 
-<h2 id="점화식-2">점화식</h2>
+<h2 id="점화식-5">점화식</h2>
 
 <p><img src="/assets/images/pdrom.png" alt="이미지1" /></p>
 
@@ -414,6 +482,14 @@
 	<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>https://ko.wikipedia.org/wiki/플로이드-워셜_알고리즘</li>
+    <li>https://doorbw.tistory.com/50</li>
+  </ul>
+</blockquote>
 
         
       </section>
@@ -466,7 +542,7 @@
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-17">October 17, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-31">October 31, 2020</time></p>
 
 
       </footer>
@@ -516,6 +592,67 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/algorithm/floyd_warshall/" rel="permalink">floyd warshall(moved)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/edit_distance/" rel="permalink">edit distance(moved)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+edit distance
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/database/SQL_QUERY_02/" rel="permalink">SQL QUERY 정리 2
 </a>
       
@@ -545,7 +682,7 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/ps/BOJ_2256/" rel="permalink">젓가락
+        <a href="/algorithm/segment_tree/" rel="permalink">segment tree
 </a>
       
     </h2>
@@ -555,73 +692,12 @@
 
 
 
-  2 분 소요
+  최대 1 분 소요
 
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">
 
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/ml/deep_learning_with_keras_recommender_systems/" rel="permalink">recommender system 개발
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">개요
-추천시스템 개발을 위해 예제를 참고하여 정리하였다.
-파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다.
-아직 미흡한 점이 많은 시슽
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/backend/OAuth_2.0/" rel="permalink">OAuth 2.0(작성 중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  3 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">개요
 </p>
   </article>
 </div>

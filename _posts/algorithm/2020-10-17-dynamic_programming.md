@@ -5,12 +5,64 @@ tags:
   - algorithm
 categories:
   - algorithm
-last_modified_at: 2020-10-17T13:00:00+17:00
+last_modified_at: 2020-10-31T13:00:00+17:00
 toc: true
 ---
 <script type="text/javascript"
 src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
+
+# chained matrix multiplication
+
+$$input$$: $$d_0, d_1 ... d_n$$ $$(\text{size of }M_i = d_{i-1} \times d_i)$$<br>
+$$output$$: $$D(i, j) = M_i \times M_{i+1} \times ... \times M_j$$ 의 최소비용
+
+## 점화식
+
+$$\text{for all i}\in S,  D(i,i) = 0$$
+$$D(i, j) = min_{i \le k \le j}(D(i, k) + D(k + 1,j) + d_{i-1} \times d_k \times d_j$$
+
+## 알고리즘
+
+![행렬이미지](/assets/images/matchainmul.png)
+
+# edit distance
+편집거리 알고리즘은 두 문자열의 유사도를 판단하는 알고리즘이다.
+
+유사도를 판단하는 기준은 삽입, 삭제, 변경을 몇 번 진행해야 바꿀 수 있는지 최소값을 구하여 판단한다.
+
+## 점화식
+
+$$ DP[m][n] =  \begin{cases} DP[m - 1][n - 1]  & \text{if }A[m] == B[n] \\ min(DP[m - 1][n], DP[m][n - 1], DP[m - 1][n - 1]) + 1   & else \end{cases} $$
+
+$$A$$ 문자열의 $$m$$번째와 $$B$$ 문자열의 $$n$$번째 까지 문자열의 유사도를 나타내며 $$A[m] == B[n]$$일 경 $$DP[m - 1][n - 1]$$를 그대로 이어 받는다.
+
+# floyd warshall
+
+변의 가중치가 음이거나 양인 가중그래프에서(음수 사이클이 없어야 한다.) 최단경로를 찾는 알고리즘이다.
+
+## 점화식
+
+알고리즘은 아래 점화식에 기반하여 동작한다.
+$$D(k, i, j) = min(D(k - 1, i, k) + D(k - 1, k, j), D(k - 1, i, j))$$
+
+$$D(k, i, j)$$는 $$1 .. k$$ 까지의 정점을 사용하여 $$i$$에서 $$j$$로 갈 수 있는 최단거리를 뜻한다.
+점화식에서는 $$k - 1$$까지의 정점을 사용한 후 중간에 $$k$$를 거쳐 최단거리를 구하는 방법과 기존 방법 중 더 최단경로를 선택한다.
+
+## 알고리즘
+
+```cpp
+for(int k = 1; k <= N; k++){
+  for(int i = 1; 1 <= N; i++){
+    for(int j = 1; j <= N; j++){
+      DP[i][j] = min(DP[i][k] + DP[k][j], DP[i][j]);
+    }
+  }
+}
+
+```
+
+공간 복잡도를 $$O(N^2)$$으로 줄일 수 있는 이유는 $$1 .. k - 1$$의 정점을 사용하여 $$k$$로 가거나 도착하는 방법은 $$1 .. k$$일때도 같기 때문이다.
 
 # knapsack problem
 
@@ -93,3 +145,7 @@ int main() {
 	}
 }
 ```
+
+><font size="6">Refernce</font>
+- https://ko.wikipedia.org/wiki/플로이드-워셜_알고리즘
+- https://doorbw.tistory.com/50

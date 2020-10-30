@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Flutter 시작하기  |  untitled</title>
+<!-- begin _includes/seo.html --><title>segment tree  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="Flutter 시작하기">
-<meta property="og:url" content="http://localhost:4000/flutter/get_started_flutter/">
+<meta property="og:title" content="segment tree">
+<meta property="og:url" content="http://localhost:4000/algorithm/segment_tree/">
 
 
   <meta property="og:description" content="">
@@ -31,11 +31,11 @@
 
 
 
-  <meta property="article:published_time" content="2020-08-12T00:00:00+09:00">
+  <meta property="article:published_time" content="2020-10-24T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2020-08-12T05:00:00+09:00">
+  <meta property="article:modified_time" content="2020-10-24T05:00:00+09:00">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/flutter/get_started_flutter/">
+<link rel="canonical" href="http://localhost:4000/algorithm/segment_tree/">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Flutter 시작하기">
+    <meta itemprop="headline" content="segment tree">
     <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-08-12T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-08-12T05:00:00+09:00">
+    <meta itemprop="datePublished" content="2020-10-24T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-10-24T05:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Flutter 시작하기
+          <h1 id="page-title" class="page__title" itemprop="headline">segment tree
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -310,10 +310,12 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#flutter-시작하기">Flutter 시작하기</a>
-      - {:.} <a href="#설치">설치</a>
-      - {:.} <a href="#환경-변수-설정">환경 변수 설정.</a>
-      - {:.} <a href="#flutter-doctor-실행">flutter doctor 실행.</a></li>
+  <li><a href="#개요">개요</a>
+    <ul>
+      <li><a href="#구조-설명">구조 설명</a></li>
+      <li><a href="#construction">Construction</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -322,54 +324,41 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<h1 id="flutter-시작하기">Flutter 시작하기</h1>
+<h1 id="개요">개요</h1>
 
-<h3 id="설치">설치</h3>
-<hr />
-<p><img src="/assets/images/flutter-sdk-download.png" alt="이미지2" /></p>
+<p>구간별로 합을 저장해두는 자료구조이다. 특정 쿼리에 대해 \(O(logn + k)\)로 처리 가능하며 공간 복잡도와 생성 과정에서 \(O(nlogn)\)이 사용된다.</p>
 
-<p><a href="https://flutter.dev/docs/get-started/install/windows">Flutter 홈페이지</a> 접속 후
-SDK를 특정 경로에 압축 해제한다. 작성자는 <code class="language-plaintext highlighter-rouge">C:\sdk\flutter</code>에 압축해제하였다.
-<br /> (이 때 <code class="language-plaintext highlighter-rouge">C:\Program Files\</code>과 같은 권한 상승이 필요한 <code class="language-plaintext highlighter-rouge">directory</code>에 저장하지 않는다.)</p>
-<h3 id="환경-변수-설정">환경 변수 설정.</h3>
-<hr />
+<h2 id="구조-설명">구조 설명</h2>
 
-<p><img src="/assets/images/system-variable-serach.png" alt="이미지3" /></p>
+<p>\(S\)를 구간 혹은 세그먼트의 집합이라고 하고, \(p_1, p_2, ..., p_m\)을 오름차순으로 정렬한 구간의 끝점 (혹은 <code class="language-plaintext highlighter-rouge">endpoint</code>)라 하자.
+각각의 점에 따라 분할되는 구간을 생각했을 때 이를 <code class="language-plaintext highlighter-rouge">elementary intervals</code>라 한다.</p>
 
-<p>시스템 환경 변수 설정을 위해 시작 탭에서 환경 변수를 검색한다.</p>
+<p><img src="/assets/images/seg_tree_intervals.png" alt="이미지1" /></p>
 
-<p><img src="/assets/images/system-variable-01.png" alt="이미지4" /></p>
+<p><code class="language-plaintext highlighter-rouge">elementary intervals</code>들은 연속적인 두 개의 끝점에선 개구간을, 한 점으로 이루어진 경우에는 폐구간을 갖는다.
+한 점을 구간으로 취급하는 이유는 쿼리에 대한 응답에서 내부의 끝점과 <code class="language-plaintext highlighter-rouge">elementary intervals</code>를 구분할 필요가 없기 때문이다(?)</p>
 
-<p>아래 보이는 환경 변수를 클릭 후</p>
+<p>구간 혹은 세그먼트 집합 \(I\)가 주어졌을 때, 트리 \(T\)는 아래와 같이 구성된다.</p>
 
-<p><img src="/assets/images/system-variable-02.png" alt="이미지5" /></p>
+<ul>
+  <li>\(T\)는 이진트리다.</li>
+  <li>종단 노드는 끝점으로 구성된 <code class="language-plaintext highlighter-rouge">elementary intervals</code>를 순서대로 나타내며, 왼쪽 종단 노드는 가장 왼쪽에 있는 구간(intervals)이다.
+종단노드 \(v\)를 나타내는 <code class="language-plaintext highlighter-rouge">elementary intervals</code>는 Int(\(v\))라 표기한다.</li>
+  <li>중간 노드는 <code class="language-plaintext highlighter-rouge">elementary intervals</code>의 합이다. 노드 \(N\)에 대해 구간 합 Int(\(N\))은 \(N\)을 조상으로 가지는 두 자식 노드의 합이다.</li>
+  <li>노드는</li>
+</ul>
 
-<p>시스템 변수의 Path 변수가 존재 시 더블 클릭한다.</p>
+<h2 id="construction">Construction</h2>
 
-<p>없을 경우 새로 추가한다.</p>
-
-<p><img src="/assets/images/system-variable-03.png" alt="이미지6" /></p>
-
-<p>Flutter를 압축해제 했던 <code class="language-plaintext highlighter-rouge">directory</code>의 위치의 맞게 <code class="language-plaintext highlighter-rouge">/flutter/bin</code>를 추가해준다.</p>
-
-<h3 id="flutter-doctor-실행">flutter doctor 실행.</h3>
-<hr />
-<p>환경 변수가 제대로 설정 되어 있는지를 확인하기 위해 <code class="language-plaintext highlighter-rouge">console</code>에서 flutter가 설치된 경로에 이동 후
-<code class="language-plaintext highlighter-rouge">fluuter doctor</code>를 입력한다. 아래와 같은 형식의 창이 뜬다면 성공이다.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[-] Android toolchain - develop for Android devices
-    • Android SDK at D:\Android\sdk
-    ✗ Android SDK is missing command line tools; download from https://goo.gl/XxQghQ
-    • Try re-installing or updating your Android SDK,
-      visit https://flutter.dev/setup/#android-setup for detailed instructions.
-</code></pre></div></div>
-
-<p>이후 추가로 설치할 Tool들을 설치 후 마무리한다.</p>
+<p>구간 집합 \(I\)로 이루어지는 세그먼트 트리를 구성하는 방법에 대해 알아보자.
+우선, 구간의 <code class="language-plaintext highlighter-rouge">endpoint</code>는 정렬되어 있다.</p>
 
 <blockquote>
   <font size="6">Refernce</font>
-  <p><br />
-https://flutter.dev/docs/get-started/install/windows</p>
+  <ul>
+    <li>https://www.acmicpc.net/blog/view/9</li>
+    <li>https://en.wikipedia.org/wiki/Segment_tree</li>
+  </ul>
 </blockquote>
 
         
@@ -391,7 +380,23 @@ https://flutter.dev/docs/get-started/install/windows</p>
     
       
       
-      <a href="/tags/#flutter" class="page__taxonomy-item" rel="tag">flutter</a>
+      <a href="/tags/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#datestructure" class="page__taxonomy-item" rel="tag">datestructure</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#graph" class="page__taxonomy-item" rel="tag">graph</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#search" class="page__taxonomy-item" rel="tag">search</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#tree" class="page__taxonomy-item" rel="tag">tree</a>
     
     </span>
   </p>
@@ -412,14 +417,14 @@ https://flutter.dev/docs/get-started/install/windows</p>
     
       
       
-      <a href="/categories/#flutter" class="page__taxonomy-item" rel="tag">flutter</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-08-12">August 12, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-10-24">October 24, 2020</time></p>
 
 
       </footer>
@@ -429,22 +434,22 @@ https://flutter.dev/docs/get-started/install/windows</p>
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Flutter+%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fflutter%2Fget_started_flutter%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=segment+tree%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fsegment_tree%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fflutter%2Fget_started_flutter%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fsegment_tree%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fflutter%2Fget_started_flutter%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fsegment_tree%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/spring/hibernate_04_spring/" class="pagination--pager" title="Hibernate 03(작성 중)
+      <a href="/ps/BOJ_2256/" class="pagination--pager" title="젓가락
 ">이전</a>
     
     
-      <a href="/nodejs/express_01/" class="pagination--pager" title="Chapter6 express
+      <a href="/database/SQL_QUERY_02/" class="pagination--pager" title="SQL QUERY 정리 2
 ">다음</a>
     
   </nav>
@@ -559,7 +564,7 @@ edit distance
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/segment_tree/" rel="permalink">segment tree
+        <a href="/ps/BOJ_2256/" rel="permalink">젓가락
 </a>
       
     </h2>
@@ -569,7 +574,7 @@ edit distance
 
 
 
-  최대 1 분 소요
+  3 분 소요
 
 </p>
     

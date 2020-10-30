@@ -198,7 +198,7 @@ var store = [{
         "teaser": null
       },{
         "title": "dynamic programming",
-        "excerpt":"knapsack problem 문제 정의 도둑이 보석가게에 배낭을 메고 침입했다. 배낭의 최대 용량은 W이며, 이를 초과해서 보석을 담으면 배낭이 찢어질 것이다. 각 보석들의 무게와 가격은 알고 있다. 배낭이 찢어지지 않는 선에서 가격 합이 최대가 되도록 보석을 담는 방법은? \\(input\\): \\(W\\), \\((w_1,v_1), (w_2,v_2) ... ,(w_n,v_n)\\) \\(output\\): the maximum value V less than...","categories": ["algorithm"],
+        "excerpt":"chained matrix multiplication \\(input\\): \\(d_0, d_1 ... d_n\\) \\((\\text{size of }M_i = d_{i-1} \\times d_i)\\) \\(output\\): \\(D(i, j) = M_i \\times M_{i+1} \\times ... \\times M_j\\) 의 최소비용 점화식 \\(\\text{for all i}\\in S, D(i,i) = 0\\) \\(D(i, j) = min_{i \\le k \\le j}(D(i, k) + D(k + 1,j) +...","categories": ["algorithm"],
         "tags": ["dp","algorithm"],
         "url": "http://localhost:4000/algorithm/dynamic_programming/",
         "teaser": null
@@ -233,9 +233,27 @@ var store = [{
         "url": "http://localhost:4000/ps/BOJ_2256/",
         "teaser": null
       },{
+        "title": "segment tree",
+        "excerpt":"개요 구간별로 합을 저장해두는 자료구조이다. 특정 쿼리에 대해 \\(O(logn + k)\\)로 처리 가능하며 공간 복잡도와 생성 과정에서 \\(O(nlogn)\\)이 사용된다. 구조 설명 \\(S\\)를 구간 혹은 세그먼트의 집합이라고 하고, \\(p_1, p_2, ..., p_m\\)을 오름차순으로 정렬한 구간의 끝점 (혹은 endpoint)라 하자. 각각의 점에 따라 분할되는 구간을 생각했을 때 이를 elementary intervals라 한다. elementary...","categories": ["algorithm"],
+        "tags": ["search","tree","graph","datestructure","algorithm"],
+        "url": "http://localhost:4000/algorithm/segment_tree/",
+        "teaser": null
+      },{
         "title": "SQL QUERY 정리 2",
         "excerpt":"sql 쿼리 지문 정리 중복값 제거 COUNT SELECT COUNT(DISTINCT NAME) FROM ANIMAL_INS ; COUNT(*)은 NULL 을 허용한다 AVG, SUM, MIN, MAX --테이블 (MY_TABLE)의 평균나이(AGE) 조회-- SELECT AVG(AGE) AS 평균나이 FROM MY_TABLE --테이블(MY_TABLE)의 수량(QT)의 전체 평균(AS 평균수량)조회-- SELECT AVG(QT) AS 평균수량 FROM MY_TABLE 이름이 두 번 이상 쓰인 경우를 이름순으로 조회...","categories": ["database"],
         "tags": ["database"],
         "url": "http://localhost:4000/database/SQL_QUERY_02/",
+        "teaser": null
+      },{
+        "title": "edit distance(moved)",
+        "excerpt":"  edit distance   이 포스트는 여기로 옮겨졌습니다.  ","categories": ["algorithm"],
+        "tags": ["algorithm","dp"],
+        "url": "http://localhost:4000/algorithm/edit_distance/",
+        "teaser": null
+      },{
+        "title": "floyd warshall(moved)",
+        "excerpt":"  floyd warshall   이 포스트는 여기로 옮겨졌습니다.  ","categories": ["algorithm"],
+        "tags": ["algorithm","dp"],
+        "url": "http://localhost:4000/algorithm/floyd_warshall/",
         "teaser": null
       }]
