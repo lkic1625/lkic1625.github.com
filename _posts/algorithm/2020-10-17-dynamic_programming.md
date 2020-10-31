@@ -24,7 +24,7 @@ $$D(i, j) = min_{i \le k \le j}(D(i, k) + D(k + 1,j) + d_{i-1} \times d_k \times
 
 ## 알고리즘
 
-![행렬이미지](/assets/images/matchainmul.png)
+![행렬이미지](/assets/images/matchainmul.PNG)
 
 # edit distance
 편집거리 알고리즘은 두 문자열의 유사도를 판단하는 알고리즘이다.
