@@ -4,7 +4,7 @@ tags:
   - search
   - tree
   - graph
-  - datestructure
+  - datatructure
   - algorithm
 categories:
   - algorithm

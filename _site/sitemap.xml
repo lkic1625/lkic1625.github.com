@@ -82,7 +82,7 @@
 </url>
 <url>
 <loc>http://localhost:4000/database/b_tree_index/</loc>
-<lastmod>2020-09-20T04:00:00+09:00</lastmod>
+<lastmod>2020-11-12T04:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/nodejs/starting_web_service/</loc>
@@ -123,6 +123,10 @@
 <url>
 <loc>http://localhost:4000/algorithm/covex_hull/</loc>
 <lastmod>2020-10-17T05:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/nodejs/interview/</loc>
+<lastmod>2020-09-24T04:00:00+09:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/algorithm/tree_diameter/</loc>
@@ -173,6 +177,18 @@
 <lastmod>2020-10-31T05:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/algorithm/parallel_binary_search/</loc>
+<lastmod>2020-11-02T05:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/database/Inno_DB_B+_tree/</loc>
+<lastmod>2020-11-12T04:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/database/database_MVCC/</loc>
+<lastmod>2020-11-12T04:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -210,5 +226,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page9/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page10/</loc>
 </url>
 </urlset>

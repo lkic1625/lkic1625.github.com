@@ -119,7 +119,7 @@ var store = [{
         "url": "http://localhost:4000/backend/put_post/",
         "teaser": null
       },{
-        "title": "B-tree, index(작성중)",
+        "title": "B-tree, index",
         "excerpt":"데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다. 단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다. 이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다. 인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도...","categories": ["database"],
         "tags": ["b_tree","database","datastructure"],
         "url": "http://localhost:4000/database/b_tree_index/",
@@ -185,6 +185,12 @@ var store = [{
         "url": "http://localhost:4000/algorithm/covex_hull/",
         "teaser": null
       },{
+        "title": "Nouvelle Vague",
+        "excerpt":"MEAN stack mongodb express angular nodejs 모두 자바스크립트로 동작 가능하며, 오픈 소스이다. SPA single page application이라 하며 모든 페이지가 단 하나로 되어 있는 사이트. 보통 웹사이트는 글쓰기, 회원가입 등 복잡한 기능을 여러 페이지에서 지원하지만, 이 페이지는 html 상에서 추가로 필요한 데이터만 서버로부터 받아 화면을 구성해주는 것으로 실제로 추가 HTML 호출이...","categories": ["nodejs"],
+        "tags": ["nodejs","projects"],
+        "url": "http://localhost:4000/nodejs/interview/",
+        "teaser": null
+      },{
         "title": "tree diameter",
         "excerpt":"트리의 지름 문제 트리(tree)는 사이클이 없는 무방향 그래프이다. 트리에서는 어떤 두 노드를 선택해도 둘 사이에 경로가 항상 하나만 존재하게 된다. 트리에서 어떤 두 노드를 선택해서 양쪽으로 쫙 당길 때, 가장 길게 늘어나는 경우가 있을 것이다. 이럴 때 트리의 모든 노드들은 이 두 노드를 지름의 끝 점으로 하는 원 안에 들어가게...","categories": ["algorithm"],
         "tags": ["greedy","algorithm"],
@@ -235,7 +241,7 @@ var store = [{
       },{
         "title": "segment tree",
         "excerpt":"개요 구간별로 합을 저장해두는 자료구조이다. 특정 쿼리에 대해 \\(O(logn + k)\\)로 처리 가능하며 공간 복잡도와 생성 과정에서 \\(O(nlogn)\\)이 사용된다. 구조 설명 \\(S\\)를 구간 혹은 세그먼트의 집합이라고 하고, \\(p_1, p_2, ..., p_m\\)을 오름차순으로 정렬한 구간의 끝점 (혹은 endpoint)라 하자. 각각의 점에 따라 분할되는 구간을 생각했을 때 이를 elementary intervals라 한다. elementary...","categories": ["algorithm"],
-        "tags": ["search","tree","graph","datestructure","algorithm"],
+        "tags": ["search","tree","graph","datatructure","algorithm"],
         "url": "http://localhost:4000/algorithm/segment_tree/",
         "teaser": null
       },{
@@ -255,5 +261,23 @@ var store = [{
         "excerpt":"  floyd warshall   이 포스트는 여기로 옮겨졌습니다.  ","categories": ["algorithm"],
         "tags": ["algorithm","dp"],
         "url": "http://localhost:4000/algorithm/floyd_warshall/",
+        "teaser": null
+      },{
+        "title": "parallel binary search",
+        "excerpt":"parallel binary search 어떤 문제가 요구하는 정답이 단조 증가 모양을 가질 때 이를 이용하여 답을 빠르게 구할 수 있다. 단조 증가하며, 순서대로 진행하는 쿼리 \\(Q = {q_1, q_2, ... q_n}\\)이 있다 하자. 위 그림과 같이 쿼리에 대하여 binary search를 진행할 수 있는 경우, 문제공간에 대해 병렬 이분 탐색을 진행할 수...","categories": ["algorithm"],
+        "tags": ["algorithm","traversal"],
+        "url": "http://localhost:4000/algorithm/parallel_binary_search/",
+        "teaser": null
+      },{
+        "title": "B+-tree, InnoDB Structure(작성중)",
+        "excerpt":"데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다. 단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다. 이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다. 인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도...","categories": ["database"],
+        "tags": ["b+_tree","database","datastructure"],
+        "url": "http://localhost:4000/database/Inno_DB_B+_tree/",
+        "teaser": null
+      },{
+        "title": "MVVC",
+        "excerpt":"MVCC MVCC(Multi Version Concurrency Control)의 약자이다. Multi Version는 하나의 레코드에 대해 여러 버전이 관리된다는 의미이다. 일반적으로 레코드 레벨의 트랜잭션을 지원하는 DBMS가 제공하는 기능이며, 가장 큰 목적은 잠금을 사용하지 않는 일관된 읽기를 제공하는데 있다. Concurrency Control Concurrency Control 즉, 동시성 제어란 DBMS가 다수의 사용자 사이에서 동시에 작용하는 트랜잭션의 상호간섭 작용에서 데이터베이스를...","categories": ["database"],
+        "tags": ["database","MVVC"],
+        "url": "http://localhost:4000/database/database_MVCC/",
         "teaser": null
       }]

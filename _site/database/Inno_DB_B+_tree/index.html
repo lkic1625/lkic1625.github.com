@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Hibernate 03(작성 중)  |  untitled</title>
+<!-- begin _includes/seo.html --><title>B+-tree, InnoDB Structure(작성중)  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="Hibernate 03(작성 중)">
-<meta property="og:url" content="http://localhost:4000/spring/hibernate_04_spring/">
+<meta property="og:title" content="B+-tree, InnoDB Structure(작성중)">
+<meta property="og:url" content="http://localhost:4000/database/Inno_DB_B+_tree/">
 
 
   <meta property="og:description" content="">
@@ -31,11 +31,11 @@
 
 
 
-  <meta property="article:published_time" content="2020-08-07T00:00:00+09:00">
+  <meta property="article:published_time" content="2020-11-12T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2020-09-12T05:00:00+09:00">
+  <meta property="article:modified_time" content="2020-11-12T04:00:00+09:00">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/spring/hibernate_04_spring/">
+<link rel="canonical" href="http://localhost:4000/database/Inno_DB_B+_tree/">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Hibernate 03(작성 중)">
+    <meta itemprop="headline" content="B+-tree, InnoDB Structure(작성중)">
     <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-08-07T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-09-12T05:00:00+09:00">
+    <meta itemprop="datePublished" content="2020-11-12T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-11-12T04:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Hibernate 03(작성 중)
+          <h1 id="page-title" class="page__title" itemprop="headline">B+-tree, InnoDB Structure(작성중)
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  1 분 소요
 
 </p>
           
@@ -310,11 +310,10 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#hibernate-curd-features">Hibernate CURD features</a>
+  <li><a href="#인덱스란">인덱스란?</a></li>
+  <li><a href="#innodb-인덱스-페이지-구조">InnoDB 인덱스 페이지 구조</a>
     <ul>
-      <li><a href="#sessionfactory-session">SessionFactory, Session</a></li>
-      <li><a href="#primary-key">Primary Key</a></li>
-      <li><a href="#code">Code</a></li>
+      <li><a href="#innodb는-모든-것이-인덱스로-이루어져있다">InnoDB는 모든 것이 인덱스로 이루어져있다.</a></li>
     </ul>
   </li>
 </ul>
@@ -325,81 +324,35 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<h1 id="hibernate-curd-features">Hibernate CURD features</h1>
+<p>데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다.
+단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다.
+이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다.</p>
 
-<h2 id="sessionfactory-session">SessionFactory, Session</h2>
+<h1 id="인덱스란">인덱스란?</h1>
 
-<p><img src="/assets/images/JPA_Hibernate.svg" alt="이미지2" /></p>
+<p>인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 <code class="language-plaintext highlighter-rouge">DBMS</code>의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다.</p>
+
+<p>자료구조를 어느정도 이해하고 있다면, 알 수 있듯이 위와 같이 미리 정렬된 저장구조는 읽기 성능을 끌어올리는 방법으로써 수정, 삭제, 삽입의 시간이 매우 크게 희생될 수 있다.</p>
+
+<blockquote>
+  <p>여기서도 알 수 있듯이 테이블의 인덱스를 하나 더 추가할지 말지는 데이터의 저장 속도를 어디까지 희생할 수 있는지, 읽기 속도를 얼마나 더 빠르게 만들어야 하는지의 여부에 따라 결정돼야 합니다. SELECT 쿼리 문장의 WHERE 조건절에 사용되는 컬럼이라고 전부 인덱스로 생성하면 데이터 저장 성능이 떨어지고 인덱스의 크기가 비대해져서 오히려 역효과만 불러올 수 있습니다.</p>
+</blockquote>
+
+<h1 id="innodb-인덱스-페이지-구조">InnoDB 인덱스 페이지 구조</h1>
+
+<h2 id="innodb는-모든-것이-인덱스로-이루어져있다">InnoDB는 모든 것이 인덱스로 이루어져있다.</h2>
+
+<p>무슨 뜻인지 알아보자.</p>
 
 <ol>
-  <li><code class="language-plaintext highlighter-rouge">SessionFactory</code>
-    <ul>
-      <li><code class="language-plaintext highlighter-rouge">SessionFactory</code> 인터페이스는 <code class="language-plaintext highlighter-rouge">Session</code> 객체를 얻기 위한 메소드를 제공한다.</li>
-      <li>Hibernate config file을 읽어 <code class="language-plaintext highlighter-rouge">Session</code> 객체를 생성한다.</li>
-      <li>App 동작 단계에서 한 번만 생성된다(<code class="language-plaintext highlighter-rouge">Heavy-weight object</code>).</li>
-    </ul>
-  </li>
-  <li><code class="language-plaintext highlighter-rouge">Session</code>
-    <ul>
-      <li>Database의 JDBC connection의 <code class="language-plaintext highlighter-rouge">Wrapper</code>이다.</li>
-      <li><code class="language-plaintext highlighter-rouge">Short-lived object</code>로써 Database의 한 번 접근 후 재사용하지 않는다.</li>
-    </ul>
-  </li>
+  <li>모든 테이블인 <code class="language-plaintext highlighter-rouge">primary key</code>를 가지고 있다. 만약 테이블이 생성된다면 자동으로 첫번째 필드값을 <code class="language-plaintext highlighter-rouge">NOT NULL</code>인 <code class="language-plaintext highlighter-rouge">unique key</code>로 지정하며 지정에 실패했을 경우에는 숨겨진 필드를 추가하여 프라이머리 키로 사용한다. 이는 사용자 입장에서 필요없지만, 행마다 6바이트를 추가로 할당하게 된다.</li>
+  <li>행 데이터(프라이머리키를 가지지 않는 필드)가 프라이머리 키 인덱스 구조에 저장될 경우 <code class="language-plaintext highlighter-rouge">clusterd key</code>라고 부른다. 이 인덱스 구조에서 프라이머리 키를 키로, 행 데이터를 키에 붙는 값으로 여긴다.</li>
 </ol>
-
-<h2 id="primary-key">Primary Key</h2>
-
-<p><code class="language-plaintext highlighter-rouge">primary key</code>란 Table의 행을 특정할 수 있는 key이다.
-중복과 null이 불가능한 value라고 생각하면 된다.</p>
-<h2 id="code">Code</h2>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.b1n.hibernate.demo</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">com.b1n.hibernate.demo.entity.Student</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.hibernate.Session</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.hibernate.SessionFactory</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">org.hibernate.cfg.Configuration</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CreateStudentDemo</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-
-        <span class="c1">// create session factory</span>
-        <span class="nc">SessionFactory</span> <span class="n">factory</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Configuration</span><span class="o">()</span>
-                <span class="o">.</span><span class="na">configure</span><span class="o">(</span><span class="s">"hibernate.cfg.xml"</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">addAnnotatedClass</span><span class="o">(</span><span class="nc">Student</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-                <span class="o">.</span><span class="na">buildSessionFactory</span><span class="o">();</span>
-        <span class="c1">//create session</span>
-        <span class="nc">Session</span> <span class="n">session</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="na">getCurrentSession</span><span class="o">();</span>
-
-        <span class="k">try</span><span class="o">{</span>
-            <span class="c1">// use the session object to save Java object</span>
-            <span class="c1">// create a student object</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Creating new Student object.."</span><span class="o">);</span>
-            <span class="nc">Student</span> <span class="n">student</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Student</span><span class="o">(</span><span class="s">"Jo"</span><span class="o">,</span> <span class="s">"Wonbin"</span><span class="o">,</span> <span class="s">"lkic1625@gmail.com"</span><span class="o">);</span>
-            <span class="c1">// start a transaction</span>
-            <span class="n">session</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
-            <span class="c1">// save the student object</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Saving the Student.. "</span><span class="o">);</span>
-            <span class="n">session</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">student</span><span class="o">);</span>
-            <span class="c1">// commit transaction</span>
-            <span class="n">session</span><span class="o">.</span><span class="na">getTransaction</span><span class="o">().</span><span class="na">commit</span><span class="o">();</span>
-            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Done."</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-            <span class="n">factory</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-        <span class="o">}</span>
-
-    <span class="o">}</span>
-<span class="o">}</span>
-
-
-</code></pre></div></div>
 
 <blockquote>
   <font size="6">Refernce</font>
-  <p><br /></p>
   <ul>
-    <li>https://www.udemy.com/course/spring-hibernate-tutorial/</li>
+    <li>https://blog.jcole.us/2013/01/07/the-physical-structure-of-innodb-index-pages/</li>
   </ul>
 </blockquote>
 
@@ -422,11 +375,15 @@
     
       
       
-      <a href="/tags/#hibernate" class="page__taxonomy-item" rel="tag">hibernate</a><span class="sep">, </span>
+      <a href="/tags/#b-tree" class="page__taxonomy-item" rel="tag">b+_tree</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#spring" class="page__taxonomy-item" rel="tag">spring</a>
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#datastructure" class="page__taxonomy-item" rel="tag">datastructure</a>
     
     </span>
   </p>
@@ -447,14 +404,14 @@
     
       
       
-      <a href="/categories/#spring" class="page__taxonomy-item" rel="tag">spring</a>
+      <a href="/categories/#database" class="page__taxonomy-item" rel="tag">database</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-09-12">September 12, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-12">November 12, 2020</time></p>
 
 
       </footer>
@@ -464,22 +421,22 @@
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Hibernate+03%28%EC%9E%91%EC%84%B1+%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fspring%2Fhibernate_04_spring%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=B%2B-tree%2C+InnoDB+Structure%28%EC%9E%91%EC%84%B1%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2FInno_DB_B%2B_tree%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fspring%2Fhibernate_04_spring%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2FInno_DB_B%2B_tree%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fspring%2Fhibernate_04_spring%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2FInno_DB_B%2B_tree%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/spring/hibernate_03_spring/" class="pagination--pager" title="Hibernate 03(작성 중)
+      <a href="/algorithm/parallel_binary_search/" class="pagination--pager" title="parallel binary search
 ">이전</a>
     
     
-      <a href="/flutter/get_started_flutter/" class="pagination--pager" title="Flutter 시작하기
+      <a href="/database/database_MVCC/" class="pagination--pager" title="MVVC
 ">다음</a>
     
   </nav>
@@ -534,36 +491,6 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/Inno_DB_B+_tree/" rel="permalink">B+-tree, InnoDB Structure(작성중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
         <a href="/algorithm/parallel_binary_search/" rel="permalink">parallel binary search
 </a>
       
@@ -574,7 +501,7 @@
 
 
 
-  2 분 소요
+  4 분 소요
 
 </p>
     
@@ -610,6 +537,37 @@
     
     <p class="archive__item-excerpt" itemprop="description">
 
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/edit_distance/" rel="permalink">edit distance(moved)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+edit distance
 </p>
   </article>
 </div>

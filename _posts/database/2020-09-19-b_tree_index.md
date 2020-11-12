@@ -1,12 +1,12 @@
 ---
-title: "B-tree, index(작성중)"
+title: "B-tree, index"
 tags:
   - b_tree
   - database
   - datastructure
 categories:
   - database
-last_modified_at: 2020-09-20T13:00:00+18:00
+last_modified_at: 2020-11-12T13:00:00+18:00
 toc: true
 ---
 <script type="text/javascript"
@@ -131,7 +131,6 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
     - 부모노드가 루트이며 원소가 사라지면 기존 루트를 없애고 합쳐진 노드를 새로운 루트로 지정한다.
     - 위의 경우가 아니고, 부모 노드의 개수가 부족할 경우 부모 노드를 재배열한다.
 
-# B+ tree
 
 ><font size="6">Refernce</font>
 - https://12bme.tistory.com/138

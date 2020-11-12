@@ -1,0 +1,906 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Nouvelle Vague  |  untitled</title>
+<meta name="description" content="MEAN stack">
+
+
+  <meta name="author" content="조원빈">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="untitled">
+<meta property="og:title" content="Nouvelle Vague">
+<meta property="og:url" content="http://localhost:4000/nodejs/interview/">
+
+
+  <meta property="og:description" content="MEAN stack">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-10-10T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-09-24T04:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/nodejs/interview/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "조원빈",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="untitled Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          untitled
+          <span class="site-subtitle">기록용 블로그입니다.</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">연도별 포스트</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar_logo2.jpg" alt="조원빈" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">조원빈</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Was mich nicht umbringt, macht mich stärker.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:lkic1625@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Nouvelle Vague">
+    <meta itemprop="description" content="MEAN stack">
+    <meta itemprop="datePublished" content="2020-10-10T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-09-24T04:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Nouvelle Vague
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 분 소요
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#mean-stack">MEAN stack</a></li>
+  <li><a href="#spa">SPA</a></li>
+  <li><a href="#스크립트-언어">스크립트 언어</a></li>
+  <li><a href="#docker-란">Docker 란</a></li>
+  <li><a href="#온-디맨드-이미지-리사이징">온 디맨드 이미지 리사이징</a>
+    <ul>
+      <li><a href="#content-delivery-network">content delivery network</a></li>
+    </ul>
+  </li>
+  <li><a href="#httponlycookie">httponlycookie</a></li>
+  <li><a href="#federated-learning">federated learning</a>
+    <ul>
+      <li><a href="#secure-aggregation-protocol">secure aggregation Protocol</a></li>
+      <li><a href="#kgc">KGC?</a></li>
+      <li><a href="#middle-server">middle server</a></li>
+    </ul>
+  </li>
+  <li><a href="#데이터베이스-캐싱">데이터베이스 캐싱</a></li>
+  <li><a href="#데이터베이스-모델">데이터베이스 모델</a></li>
+  <li><a href="#rest-http-api">REST, HTTP API</a>
+    <ul>
+      <li><a href="#rest-구성">REST 구성</a></li>
+      <li><a href="#rest-특징">REST 특징</a>
+        <ul>
+          <li><a href="#1-uniform-interface">1. uniform interface</a></li>
+          <li><a href="#2-stateless">2. stateless</a></li>
+          <li><a href="#3-cacheable">3. cacheable</a></li>
+          <li><a href="#4-self-decriptiveness자체-표현-구조">4. self-decriptiveness(자체 표현 구조)</a></li>
+          <li><a href="#5-client---server-구조">5. client - server 구조</a></li>
+          <li><a href="#6-계층형-구조">6. 계층형 구조</a></li>
+        </ul>
+      </li>
+      <li><a href="#rest-api-중심-규칙">REST API 중심 규칙</a></li>
+      <li><a href="#설계시-주의점">설계시 주의점</a>
+        <ul>
+          <li><a href="#슬래시-구분자는-계층관계를-나타내는-데-사용한다">슬래시 구분자는 계층관계를 나타내는 데 사용한다.</a></li>
+          <li><a href="#uri-마지막-문자로-슬래시를-포함하지-않는다">URI 마지막 문자로 슬래시를 포함하지 않는다.</a></li>
+          <li><a href="#가독성을-위해-하이픈--사용">가독성을 위해 하이픈(-) 사용</a></li>
+          <li><a href="#밑줄_은-사용하지-않는다">밑줄(_)은 사용하지 않는다.</a></li>
+          <li><a href="#uri는-소문자가-적합하다">URI는 소문자가 적합하다.</a></li>
+          <li><a href="#확장자는-포함하지-않는다">확장자는 포함하지 않는다.</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#js">js</a>
+    <ul>
+      <li><a href="#es6">es6?</a>
+        <ul>
+          <li><a href="#const-let">const, let</a></li>
+        </ul>
+      </li>
+      <li><a href="#arrow-function">arrow function</a>
+        <ul>
+          <li><a href="#람다식-익명함">람다식, 익명함</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#https">https?</a></li>
+  <li><a href="#index">index</a></li>
+  <li><a href="#mvc">MVC</a>
+    <ul>
+      <li><a href="#model">model</a></li>
+      <li><a href="#controller">controller</a></li>
+      <li><a href="#view">view</a></li>
+    </ul>
+  </li>
+  <li><a href="#tcp-udp">TCP, UDP</a>
+    <ul>
+      <li><a href="#tcp">TCP</a></li>
+      <li><a href="#udp">UDP</a></li>
+    </ul>
+  </li>
+  <li><a href="#스레드">스레드</a></li>
+  <li><a href="#sql-엔진-차이점">sql 엔진 차이점</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="mean-stack">MEAN stack</h1>
+
+<ul>
+  <li>mongodb</li>
+  <li>express</li>
+  <li>angular</li>
+  <li>nodejs</li>
+</ul>
+
+<p>모두 자바스크립트로 동작 가능하며, 오픈 소스이다.</p>
+
+<h1 id="spa">SPA</h1>
+<p><code class="language-plaintext highlighter-rouge">single page application</code>이라 하며 모든 페이지가 단 하나로 되어 있는 사이트.</p>
+
+<p>보통 웹사이트는 글쓰기, 회원가입 등 복잡한 기능을 여러 페이지에서 지원하지만, 이 페이지는 html 상에서 추가로 필요한 데이터만 서버로부터 받아 화면을 구성해주는 것으로 실제로 추가 HTML 호출이 일어나지 않는다.</p>
+
+<p>일반적으로 웹사이트에서 메뉴바, 푸터 등은 페이지마다 정적임에도 불구하고 서버에 새로 읽어오게 되는데, 이에 따라 불필요한 데이터 소모가 일어난다. 불필한 코드를 계속해서 요청하지 않아도 된다는 장점이있다.</p>
+
+<h1 id="스크립트-언어">스크립트 언어</h1>
+
+<p>https://www.a-mean-blog.com/ko/blog/MEAN-Stack/_/MEAN-Stack-%EC%86%8C%EA%B0%9C</p>
+
+<h1 id="docker-란">Docker 란</h1>
+
+<p>https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html</p>
+
+<h1 id="온-디맨드-이미지-리사이징">온 디맨드 이미지 리사이징</h1>
+
+<p>https://heropy.blog/2019/07/21/resizing-images-cloudfrount-lambda/
+https://helloinyong.tistory.com/246</p>
+
+<h2 id="content-delivery-network">content delivery network</h2>
+
+<p>https://goddaehee.tistory.com/173</p>
+
+<h1 id="httponlycookie">httponlycookie</h1>
+
+<p>https://owasp.org/www-community/HttpOnly</p>
+
+<h1 id="federated-learning">federated learning</h1>
+
+<p>연합학습이란, 민감정보를 이용한 러닝을 효과적으로 진행할 수 있는 방식으로써, 사용자 개개인의 데이터를 이용한 로컬 모델의 러닝이후 weight값을 모아 평균을 구하고, 이를 글로벌 모델에게</p>
+
+<h2 id="secure-aggregation-protocol">secure aggregation Protocol</h2>
+
+<h2 id="kgc">KGC?</h2>
+
+<p>key generation server 약자.</p>
+
+<p>trusted third party</p>
+
+<h2 id="middle-server">middle server</h2>
+
+<h1 id="데이터베이스-캐싱">데이터베이스 캐싱</h1>
+
+<p><a href="/nodejs/database_caching">링크</a></p>
+
+<h1 id="데이터베이스-모델">데이터베이스 모델</h1>
+
+<h1 id="rest-http-api">REST, HTTP API</h1>
+
+<h2 id="rest-구성">REST 구성</h2>
+
+<ul>
+  <li>자원(resource) - URI</li>
+  <li>행위(verb) - HTTP METHOD</li>
+  <li>표현(representation)</li>
+</ul>
+
+<h2 id="rest-특징">REST 특징</h2>
+
+<h3 id="1-uniform-interface">1. uniform interface</h3>
+<p>유니폼 인터페이스는 URI로 지정한 리소스에 대한 조작을 통일되고 한정적인 인터페이스로 수행하는 아키텍쳐 스타일을 의미한다.</p>
+<h3 id="2-stateless">2. stateless</h3>
+<p><code class="language-plaintext highlighter-rouge">REST</code>는 무상태성을 가진다. 다시 말하자면, 작업을 위한 상태정보를 따로 저장하고 관리하지 않는다.</p>
+
+<p>세션 정보나 쿠키 정보를 별도로 저장하고 관리하지 않기 때문에 API 서버는 들어오는 요청만을 단순히 처리하면 된다.
+때문에 서비스의 자유도가 높아지고 서버에서 불필요한 정보를 관리하지 않음으로서 구현이 단순해진다.</p>
+<h3 id="3-cacheable">3. cacheable</h3>
+<p><code class="language-plaintext highlighter-rouge">REST</code>의 가장 큰 특징 중 하나는 <code class="language-plaintext highlighter-rouge">HTTP</code>라는 기존 웹표준을 그대로 사용하기 때문에, 웹에서 사용하던 기존 인프라를 그대로 활용한다.
+따라서, <code class="language-plaintext highlighter-rouge">HTTP</code>가 가진 캐싱 기능을 적용 가능하다. 기존 프로토콜에서 사용하는 <code class="language-plaintext highlighter-rouge">last-modified</code>, <code class="language-plaintext highlighter-rouge">e-tag</code>를 이용하면 캐싱 구현이 가능하다.</p>
+<h3 id="4-self-decriptiveness자체-표현-구조">4. self-decriptiveness(자체 표현 구조)</h3>
+<p><code class="language-plaintext highlighter-rouge">REST API</code>를 보고도 기능을 추론, 이해할 수 있다.</p>
+<h3 id="5-client---server-구조">5. client - server 구조</h3>
+<p><code class="language-plaintext highlighter-rouge">REST</code>서버는 <code class="language-plaintext highlighter-rouge">API</code>를 제공 클라이언트는 사용자 인증과 컨텍스트를 직접 관리하는 구조로 각각의 역할을 확실히 분할하기 때문에 서로간 의존성이 줄어든다.</p>
+<h3 id="6-계층형-구조">6. 계층형 구조</h3>
+<p><code class="language-plaintext highlighter-rouge">REST</code> 서버는 다중 계층으로 구성할 수 있다. 보안, 로드밸런싱, 암호화 계층을 추가해 구조상의 유연성을 확보하며 <code class="language-plaintext highlighter-rouge">PROXY</code>, <code class="language-plaintext highlighter-rouge">GATEWAY</code>등 네트워크 기반 중간매체를 둘 수 있음.</p>
+
+<h2 id="rest-api-중심-규칙">REST API 중심 규칙</h2>
+
+<ul>
+  <li>URI는 정보 자원을 표현해야 한다.</li>
+  <li>HTTP METHOD는 자원에 대한 행위를 표현해야 한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /members/delete/1  (X)
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DELETE /members/1  (O)
+</code></pre></div></div>
+
+<h2 id="설계시-주의점">설계시 주의점</h2>
+
+<h3 id="슬래시-구분자는-계층관계를-나타내는-데-사용한다">슬래시 구분자는 계층관계를 나타내는 데 사용한다.</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://restapi.example.com/houses/apartments
+http://restapi.example.com/animals/mammals/whales
+</code></pre></div></div>
+
+<h3 id="uri-마지막-문자로-슬래시를-포함하지-않는다">URI 마지막 문자로 슬래시를 포함하지 않는다.</h3>
+<p>URI에 포함되는 모든 글자는 유일한 식별자로 사용되어야 하며 URI가 다르다는 것은 리소스가 다르다는 것이다.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://restapi.example.com/houses/apartments/ (X)
+http://restapi.example.com/houses/apartments  (0)
+</code></pre></div></div>
+
+<h3 id="가독성을-위해-하이픈--사용">가독성을 위해 하이픈(-) 사용</h3>
+
+<h3 id="밑줄_은-사용하지-않는다">밑줄(_)은 사용하지 않는다.</h3>
+<p>가독성 관련 문제이다.</p>
+
+<h3 id="uri는-소문자가-적합하다">URI는 소문자가 적합하다.</h3>
+<p>RFC 3986(URI 문법 형식)은 URI 스키마와 호스트를 제외하고는 대소문자를 구별하도록 규정하기 때문이다.</p>
+
+<h3 id="확장자는-포함하지-않는다">확장자는 포함하지 않는다.</h3>
+
+<h1 id="js">js</h1>
+
+<h2 id="es6">es6?</h2>
+
+<h3 id="const-let">const, let</h3>
+<p><code class="language-plaintext highlighter-rouge">const</code>를 기본으로 사용한다. 이는 불변성을 말하는 것이 아니라 값을 재할당할 수 없다는 것이다.
+<code class="language-plaintext highlighter-rouge">const</code>를 사용하더라도 배열과 오브젝트의 값을 변경하는 것은 가능하다.</p>
+
+<blockquote>
+  <p>const declaration tells readers, “this variable is never reassigned,” reducing cognitive load and improving maintainability.</p>
+</blockquote>
+
+<blockquote>
+  <p>Block scope is common in many other programming languages and helps programmers avoid mistakes such as:</p>
+</blockquote>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">people</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">enoughFood</span> <span class="o">=</span> <span class="nx">count</span> <span class="o">&gt;</span> <span class="nx">sandwiches</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nx">enoughFood</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="nx">sandwiches</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="c1">// accidentally overriding the count variable</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">We have </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">count</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> sandwiches for everyone. Plenty for all!</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// our count variable is no longer accurate</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">We have </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">count</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> people and </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">sandwiches</span><span class="p">.</span><span class="nx">length</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> sandwiches!</span><span class="dl">"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h2 id="arrow-function">arrow function</h2>
+
+<h3 id="람다식-익명함">람다식, 익명함</h3>
+<p>람다식은 함수형 프로그래밍의 적합한 문법적 표현방식이다.</p>
+
+<blockquote>
+  <p>람다식은 결국 로컬 구현객체를 생성하게 되지만, 이의 사용 목적은 인터페이스가 가지고 있는 메소드를 간편하게 즉흥적으로 구현해서 사용하는 것이 목적이다.</p>
+</blockquote>
+
+<p>반복문의 블럭 크기를 줄이고 프로그래머의 의도를 좀 더 간결히 나타낸다.(가독성)
+지역적 사용으로 인한 함수에 대해 외부 노출을 피할 수 있다.</p>
+
+<p>또한 <code class="language-plaintext highlighter-rouge">high order function</code> 함수형 프로그래밍으로 람다식을 사용하기도 한다.</p>
+
+<h1 id="https">https?</h1>
+
+<p><code class="language-plaintext highlighter-rouge">Transport Layer Security</code>와 <code class="language-plaintext highlighter-rouge">Secure Socket Layer</code> 등의 프로토콜을 사용한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">TLS</code>는 핸드쉐이킹을 통해 서로 통신이 열리면 인증서와 키공유등을 통해 암호화 파라미터를 공유한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SSL</code>의 경우 OSI 7계층중 특정 계층에 속해있는 것이 아닌 전송계층 과 응용계층 사이에 독립적인 계층을 만들어 동작한다.</p>
+
+<h1 id="index">index</h1>
+
+<h1 id="mvc">MVC</h1>
+
+<p>디자인 패턴 중 하나로써 규약을 통해 쓉게 쓸 수 있는 형태로 만든 것이다.</p>
+
+<p>비지니스 처리 로직과 사용자 인터페이스 요소를 분리시켜 서로 영향없이 개발할 수 있다.</p>
+
+<p><img src="/assets/images/mvc_role_diagram.png" alt="이미지" /></p>
+
+<h2 id="model">model</h2>
+
+<p>모델은 어플리케이션의 정보, 데이터를 나타낸다. 정보의 접근, 가공을 책임지는 컴포넌트이다.</p>
+
+<ol>
+  <li>사용자가 편집하길 원하는 모든 데이터를 가지고 있어야한다.</li>
+  <li>뷰나 컨트롤러와 독립적이며 이에 대한 어떤 정보도 가지고 있지 않는다.</li>
+  <li>변경에 대한 통지방법을 구현해야 한다.</li>
+</ol>
+
+<h2 id="controller">controller</h2>
+<p>데이터와 사용자 인터페이스 요소를 잇는 다리역할을 한다. 이벤트를 처리하며, 이는 모델이 “어떻게” 처리할지를 알려주는 컴포넌트이다.</p>
+
+<h2 id="view">view</h2>
+<p>화면에 보여주기 위한 역할을 하며, 최종 사용자에게 맞춤 UI를 제공한다,</p>
+
+<h1 id="tcp-udp">TCP, UDP</h1>
+
+<h2 id="tcp">TCP</h2>
+
+<ul>
+  <li>연결 지향형 프로토콜</li>
+  <li>데이터 dropout을 방지하는 데이터 흐름제어를 한다.</li>
+  <li>에러 메세지가 발생할 경우 자동으로 전송하는 에러제어</li>
+  <li>TCP 는 멀티캐스팅이나 브로드캐스팅을 지원하지 않는다.</li>
+</ul>
+
+<h2 id="udp">UDP</h2>
+
+<ul>
+  <li>신뢰성있는 전송을 보장하지 않음.</li>
+  <li>효율적이다.</li>
+</ul>
+
+<h1 id="스레드">스레드</h1>
+
+<p>스레드는 프로세스의 실행 단위라고 할 수 있다. 한 프로세스 내에서 동작되는 여러 실행 흐름으로 프로세스 내의 주소 공간이나 자원을 공유할 수 있다. 스레드는 스레드 ID, 프로그램 카운터, 레지스터 집합, 그리고 스택으로 구성된다. 같은 프로세스에 속한 다른 스레드와 코드, 데이터 섹션, 그리고 열린 파일이나 신호와 같은 운영체제 자원들을 공유한다. 하나의 프로세스를 다수의 실행 단위로 구분하여 자원을 공유하고 자원의 생성과 관리의 중복성을 최소화하여 수행 능력을 향상시키는 것을 멀티스레딩이라고 한다. 이 경우 각각의 스레드는 독립적인 작업을 수행해야 하기 때문에 각자의 스택과 PC 레지스터 값을 갖고 있다.</p>
+
+<h1 id="sql-엔진-차이점">sql 엔진 차이점</h1>
+
+<p>https://rebeccajo.tistory.com/14</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>https://www.a-mean-blog.com/ko/blog/MEAN-Stack/_/MEAN-Stack-%EC%86%8C%EA%B0%9C</li>
+    <li>https://meetup.toast.com/posts/92</li>
+    <li>https://github.com/Mrchanghao/Interview_Question_for_Beginner</li>
+    <li>https://velog.io/@godori/ES6-%EC%A0%95%EB%A6%AC-vpjmrh6hhe</li>
+    <li>https://eslint.org/docs/rules/no-var.html</li>
+  </ul>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#projects" class="page__taxonomy-item" rel="tag">projects</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-09-24">September 24, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Nouvelle+Vague%20http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Finterview%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Finterview%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Finterview%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/algorithm/covex_hull/" class="pagination--pager" title="covex hull
+">이전</a>
+    
+    
+      <a href="/algorithm/tree_diameter/" class="pagination--pager" title="tree diameter
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/database_MVCC/" rel="permalink">MVVC
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/Inno_DB_B+_tree/" rel="permalink">B+-tree, InnoDB Structure(작성중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/parallel_binary_search/" rel="permalink">parallel binary search
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/floyd_warshall/" rel="permalink">floyd warshall(moved)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 조원빈. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
