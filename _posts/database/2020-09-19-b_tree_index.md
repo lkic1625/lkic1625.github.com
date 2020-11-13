@@ -1,12 +1,12 @@
 ---
-title: "B-tree, index"
+title: "B-tree, index(작성중)"
 tags:
   - b_tree
   - database
   - datastructure
 categories:
   - database
-last_modified_at: 2020-11-12T13:00:00+18:00
+last_modified_at: 2020-11-14T13:00:00+18:00
 toc: true
 ---
 <script type="text/javascript"
@@ -131,6 +131,25 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
     - 부모노드가 루트이며 원소가 사라지면 기존 루트를 없애고 합쳐진 노드를 새로운 루트로 지정한다.
     - 위의 경우가 아니고, 부모 노드의 개수가 부족할 경우 부모 노드를 재배열한다.
 
+# B+ Tree
+
+B-트리는 특성상 순회 작업이 상당히 난감하다. B+ 트리는 색인구조에서 순차접근에 대한 문제의 해결책으로 제시되었다. (Wedekind, 1974) B-트리에서는 특정 key 값이 하나의 노드에서만 존재할 수 있지만 B+ 트리에서는 leaf 노드와 leaf의 부모 노드에서 공존할 수 있다. B+ 트리의 비단말 노드(not leaf)들은 데이터의 빠른 접근을 위한 인덱스 역할만 하기 때문이다. (index set 이라 불린다) 그리고 leaf 노드들은 연결 리스트 형태로 서로 연결되어 있고 이를 순차집합(sequence set)이라고 하며 오름차순으로 정렬이 되어 있다. 고로 B+ 트리는 (기존의 B-트리 + 데이터의 연결 리스트)로 구현된 색인구조라고 할 수 있다.
+
+## Theorem
+
+B-트리의 변형 구조로 index 부분과 leaf 노드로 구성된 순차 data 부분으로 이루어진다. Index 부분의 key 값은 leaf에 있는 key 값을 직접 찾아 가는데 사용하고 모든 key 값은 leaf 노드에 나열된다. 즉, index 부분의 key 값도 leaf 노드에 다시 한 번 나열된다. Leaf 노드는 순차적으로 linked list를 구성하고 있어서 순차적 처리가 가능하다.
+
+## 삽입
+
+1. `B-tree`와 거의 동일하게 이루어진다.
+2. 노드의 분열이 일어나면 중간 key 값이 부모 노드로 올라갈 뿐 아니라 새로 분열된 노드에도 포함되어야 한다.
+3. 새 노드는 leaf 노드끼리의 linked list에도 삽입되어야 한다.
+
+## 삭제
+1. 재배치와 합병이 필요하지 않을 때는 leaf 노드에서만 삭제된다.
+2. Index 부분은 다른 key 값을 찾는데 사용될 수 있기 때문에 leaf node의 값이 삭제되어도 삭제하지 않는다.
+3. 재배치할 경우 index 부분의 node의 key 값은 변하지만 tree 구조는 변하지 않는다.
+4. 합병을 할 경우 index 부분에서도 key 값을 삭제한다.
 
 ><font size="6">Refernce</font>
 - https://12bme.tistory.com/138
@@ -140,3 +159,4 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 - https://matice.tistory.com/8
 - https://en.wikipedia.org/wiki/B-tree
 - https://arisu1000.tistory.com/27715
+- https://wangin9.tistory.com/entry/B-tree-B-tree
