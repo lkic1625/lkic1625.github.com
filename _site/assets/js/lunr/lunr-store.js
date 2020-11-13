@@ -119,7 +119,7 @@ var store = [{
         "url": "http://localhost:4000/backend/put_post/",
         "teaser": null
       },{
-        "title": "B-tree, index",
+        "title": "B-tree, index(작성중)",
         "excerpt":"데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다. 단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다. 이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다. 인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도...","categories": ["database"],
         "tags": ["b_tree","database","datastructure"],
         "url": "http://localhost:4000/database/b_tree_index/",
@@ -269,15 +269,21 @@ var store = [{
         "url": "http://localhost:4000/algorithm/parallel_binary_search/",
         "teaser": null
       },{
-        "title": "B+-tree, InnoDB Structure(작성중)",
-        "excerpt":"데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다. 단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다. 이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다. 인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도...","categories": ["database"],
+        "title": "B+tree, InnoDB Structure(작성중)",
+        "excerpt":"이 포스트는 B Tree 포스트와 이어집니다. 인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다. 자료구조를 어느정도 이해하고 있다면, 알 수 있듯이 위와 같이 미리 정렬된 저장구조는...","categories": ["database"],
         "tags": ["b+_tree","database","datastructure"],
-        "url": "http://localhost:4000/database/Inno_DB_B+_tree/",
+        "url": "http://localhost:4000/database/B+_tree/",
         "teaser": null
       },{
         "title": "MVVC",
         "excerpt":"MVCC MVCC(Multi Version Concurrency Control)의 약자이다. Multi Version는 하나의 레코드에 대해 여러 버전이 관리된다는 의미이다. 일반적으로 레코드 레벨의 트랜잭션을 지원하는 DBMS가 제공하는 기능이며, 가장 큰 목적은 잠금을 사용하지 않는 일관된 읽기를 제공하는데 있다. Concurrency Control Concurrency Control 즉, 동시성 제어란 DBMS가 다수의 사용자 사이에서 동시에 작용하는 트랜잭션의 상호간섭 작용에서 데이터베이스를...","categories": ["database"],
         "tags": ["database","MVVC"],
         "url": "http://localhost:4000/database/database_MVCC/",
+        "teaser": null
+      },{
+        "title": "InnoDB 인덱스 페이지 구조",
+        "excerpt":"이 포스트는 B+ Tree 포스트와 이어집니다. 인덱스란? 인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 DBMS의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다. 자료구조를 어느정도 이해하고 있다면, 알 수 있듯이 위와 같이 미리 정렬된 저장구조는...","categories": ["database"],
+        "tags": ["b+_tree","database","datastructure"],
+        "url": "http://localhost:4000/database/innoDB_index_page/",
         "teaser": null
       }]

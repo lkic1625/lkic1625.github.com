@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Chapter5 npm  |  untitled</title>
+<!-- begin _includes/seo.html --><title>InnoDB 인덱스 페이지 구조  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="Chapter5 npm">
-<meta property="og:url" content="http://localhost:4000/nodejs/npm/">
+<meta property="og:title" content="InnoDB 인덱스 페이지 구조">
+<meta property="og:url" content="http://localhost:4000/database/innoDB_index_page/">
 
 
   <meta property="og:description" content="">
@@ -31,11 +31,11 @@
 
 
 
-  <meta property="article:published_time" content="2020-08-12T00:00:00+09:00">
+  <meta property="article:published_time" content="2020-11-14T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2020-08-12T05:00:00+09:00">
+  <meta property="article:modified_time" content="2020-11-12T04:00:00+09:00">
 
 
 
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/nodejs/npm/">
+<link rel="canonical" href="http://localhost:4000/database/innoDB_index_page/">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Chapter5 npm">
+    <meta itemprop="headline" content="InnoDB 인덱스 페이지 구조">
     <meta itemprop="description" content="">
-    <meta itemprop="datePublished" content="2020-08-12T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-08-12T05:00:00+09:00">
+    <meta itemprop="datePublished" content="2020-11-14T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-11-12T04:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Chapter5 npm
+          <h1 id="page-title" class="page__title" itemprop="headline">InnoDB 인덱스 페이지 구조
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -310,11 +310,12 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#npm-node-package-manager">npm (Node Package Manager)</a>
-      - {:.} <a href="#npm-이란">npm 이란.</a>
-      - {:.} <a href="#packagejson">package.json</a>
-      - {:.} <a href="#npm-install">npm install</a>
-      - {:.} <a href="#package-version">package version</a></li>
+  <li><a href="#인덱스란">인덱스란?</a></li>
+  <li><a href="#innodb-인덱스-페이지-구조">InnoDB 인덱스 페이지 구조</a>
+    <ul>
+      <li><a href="#innodb는-모든-것이-인덱스로-이루어져있다">InnoDB는 모든 것이 인덱스로 이루어져있다.</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -323,74 +324,35 @@
         <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<h1 id="npm-node-package-manager">npm (Node Package Manager)</h1>
+<p>이 포스트는 <a href="/database/b+_tree">B+ Tree 포스트</a>와 이어집니다.</p>
 
-<h3 id="npm-이란">npm 이란.</h3>
-<hr />
-<p>npm 이란 이름 그대로 노드 패키지 매니저이다. 대부분의 패키지가 npm에 등록되어 있으므로 특정 기능의 패키지가 필요하다면 npm에서 찾아 설치하면 된다.
-npm에 업로드된 모듈을 패키지라 부른다. 모듈이 다른 모듈을 사용할 수 있는 것처럼, 패키지가 다른 패키지를 사용할 수 있다.
-이런 관계를 의존 관계라 하며 의존 관계는 조금 있다가 알아보자.
-w21q`</p>
-<h3 id="packagejson">package.json</h3>
-<hr />
+<h1 id="인덱스란">인덱스란?</h1>
 
-<p>서비스에 필요한 패키지 수가 매우 많기 때문에 저마다의 고유 버전을 기록해두어야 한다.
-<br /><br />
-같은 패키지라도 버전별로 기능이 다를 수 있으므로 동일한 버전을 설치해야 하는 것이다.
-그것을 관리하는 파일이 바로 <code class="language-plaintext highlighter-rouge">package.json</code>이다.
-<br />
-콘솔로 프로젝트 시작 폴더로 이동 후 다음 명령어를 입력하자<br />
-<code class="language-plaintext highlighter-rouge">npm init</code></p>
+<p>인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 <code class="language-plaintext highlighter-rouge">DBMS</code>의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다.</p>
 
-<ul>
-  <li>package name: 패키지의 이름이다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">name</code> 속성의 저장된다.</li>
-  <li>version: 패키지의 버전이다. npm에서는 다소 엄격하게 다룬다.</li>
-  <li>entry point: 자바스크립트 실행 파일의 진입점이다. 보통 마지막으로 module.exports를 하는 파일이 저장된다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">main</code> 속성에 저장된다.</li>
-  <li>test command: 코드를 테스트할 때 입력할 명령어를 의미한다. <code class="language-plaintext highlighter-rouge">package.json</code> <code class="language-plaintext highlighter-rouge">scripts</code> 속성안의 <code class="language-plaintext highlighter-rouge">test</code>의 저장된다.</li>
-  <li>git repository: 코드를 저장해둔 Git 저장소 주소를 의미한다. 나중에 소스에 문제가 생겼을 때 사용자들이 이 저장소의 방문해 문제를 제기할 수도 있고 코드 수정본을 올릴 수도 있다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">repository</code> 속성에 저장된다.</li>
-  <li>keywords: 키워드는 npm 공식 홈페이지에서 패키지를 쉽게 찾을 수 있게 해준다. <code class="language-plaintext highlighter-rouge">package.json</code>의 <code class="language-plaintext highlighter-rouge">repository</code> 속성에 저장된다.</li>
-  <li>license: 해당 패키지 라이선스를 넣어주면 된다.</li>
-</ul>
+<p>자료구조를 어느정도 이해하고 있다면, 알 수 있듯이 위와 같이 미리 정렬된 저장구조는 읽기 성능을 끌어올리는 방법으로써 수정, 삭제, 삽입의 시간이 매우 크게 희생될 수 있다.</p>
 
-<h3 id="npm-install">npm install</h3>
-<hr />
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">npm install morgan cookie-parser expresds-session</code>: 동시에 여러 패키지를 설치할 수 있다.</li>
-  <li><code class="language-plaintext highlighter-rouge">npm insatll --save-dev []</code>: 배포 시에 사용되지 않고 개발 중에만 사용되는 패키지들이다.</li>
-  <li><code class="language-plaintext highlighter-rouge">npm insatll --global []</code>: 현재 패키지 폴더에 설치하는 것이 아니라 npm이 설치되어 있는 폴더에 설치한다.</li>
-</ul>
-
-<p><code class="language-plaintext highlighter-rouge">npm i</code>나 <code class="language-plaintext highlighter-rouge">npm -D</code>, <code class="language-plaintext highlighter-rouge">npm -g</code>로 줄여서 쓸 수 있다.\</p>
-
-<h3 id="package-version">package version</h3>
-<hr />
-<p>노드 패키지들의 버전은 항상 세 자리로 이루어져 있다. 이는 <code class="language-plaintext highlighter-rouge">SemVer</code> 방식의 버전 넘버링을 따르기 때문이다.</p>
 <blockquote>
-
-  <ol>
-    <li>기존 버전과 호환되지 않게 API가 바뀌면 “주(主) 버전”을 올리고,</li>
-    <li>기존 버전과 호환되면서 새로운 기능을 추가할 때는 “부(部) 버전”을 올리고,</li>
-    <li>기존 버전과 호환되면서 버그를 수정한 것이라면 “수(修) 버전”을 올린다.</li>
-    <li>주.부.수 형식에 정식배포 전 버전이나 빌드 메타데이터를 위한 라벨을 덧붙이는 방법도 있다.<br /><br />
-<a href="https://semver.org/lang/ko/">출처 : https://semver.org/lang/ko/</a></li>
-  </ol>
+  <p>여기서도 알 수 있듯이 테이블의 인덱스를 하나 더 추가할지 말지는 데이터의 저장 속도를 어디까지 희생할 수 있는지, 읽기 속도를 얼마나 더 빠르게 만들어야 하는지의 여부에 따라 결정돼야 합니다. SELECT 쿼리 문장의 WHERE 조건절에 사용되는 컬럼이라고 전부 인덱스로 생성하면 데이터 저장 성능이 떨어지고 인덱스의 크기가 비대해져서 오히려 역효과만 불러올 수 있습니다.</p>
 </blockquote>
 
-<p><code class="language-plaintext highlighter-rouge">SemVer</code>는 Semantic Versioning의 약어이다. 세 자리 모두 의미를 가지고 있다는 뜻이다.</p>
+<h1 id="innodb-인덱스-페이지-구조">InnoDB 인덱스 페이지 구조</h1>
 
-<p><code class="language-plaintext highlighter-rouge">package.json</code>에는 SemVer식 세 자리 버전 외에도 ^나 ~또는 &gt;, &lt;같은 문자가 붙어있다.
-이 문자는 버전에는 포함되지 않지만 설치 또는 업데이트 시 어떤 버전을 설치해야 하는지 알려준다.<br /><br /></p>
-<ul>
-  <li>^ 는 부(部) 버전까지만 설치 또는 업데이트 한다.</li>
-  <li>~ 는 수(修) 버전까지만 설치 또는 업데이트 한다.</li>
-  <li>&lt;, &gt;, &gt;=, &lt;=, = 는 알기 쉽게 초과, 미만, 이상, 이하, 동일을 뜻하며 npm i express@&gt;1.1.1처럼 반드시 1.1.1 버전보다 높은 버전이 설치된다.</li>
-  <li>@latest 도 사용하는데, 항상 최신 버전의 패키지를 설치한다 @x로도 표현할 수 있다.</li>
-</ul>
+<h2 id="innodb는-모든-것이-인덱스로-이루어져있다">InnoDB는 모든 것이 인덱스로 이루어져있다.</h2>
+
+<p>무슨 뜻인지 알아보자.</p>
+
+<ol>
+  <li>모든 테이블인 <code class="language-plaintext highlighter-rouge">primary key</code>를 가지고 있다. 만약 테이블이 생성된다면 자동으로 첫번째 필드값을 <code class="language-plaintext highlighter-rouge">NOT NULL</code>인 <code class="language-plaintext highlighter-rouge">unique key</code>로 지정하며 지정에 실패했을 경우에는 숨겨진 필드를 추가하여 프라이머리 키로 사용한다. 이는 사용자 입장에서 필요없지만, 행마다 6바이트를 추가로 할당하게 된다.</li>
+  <li>행 데이터(프라이머리키를 가지지 않는 필드)가 프라이머리 키 인덱스 구조에 저장될 경우 <code class="language-plaintext highlighter-rouge">clusterd key</code>라고 부른다. 이 인덱스 구조에서 프라이머리 키를 키로, 행 데이터를 키에 첨부되는 값이다. (물론 <a href="/database/database_MVCC"><code class="language-plaintext highlighter-rouge">MVCC</code></a>를 위한 필드도)</li>
+  <li><code class="language-plaintext highlighter-rouge">Secondary key</code>는 <code class="language-plaintext highlighter-rouge">identical</code>한 인덱스 구조에 저장되지만, <code class="language-plaintext highlighter-rouge">KEY</code> 밸류에 키값이며 프라이머리 키 값은 그 키에 첨부된다.</li>
+</ol>
 
 <blockquote>
   <font size="6">Refernce</font>
   <ul>
-    <li>조헌영, Node.js 교과서, 길벗, 5장 npm</li>
+    <li>https://blog.jcole.us/2013/01/07/the-physical-structure-of-innodb-index-pages/</li>
+    <li>https://blog.jcole.us/2013/01/10/btree-index-structures-in-innodb/#:~:text=InnoDB%20uses%20a%20B%2BTree,the%20tree%2C%20which%20scales%20nicely.</li>
   </ul>
 </blockquote>
 
@@ -413,11 +375,15 @@ w21q`</p>
     
       
       
-      <a href="/tags/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a><span class="sep">, </span>
+      <a href="/tags/#b-tree" class="page__taxonomy-item" rel="tag">b+_tree</a><span class="sep">, </span>
     
       
       
-      <a href="/tags/#npm" class="page__taxonomy-item" rel="tag">npm</a>
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#datastructure" class="page__taxonomy-item" rel="tag">datastructure</a>
     
     </span>
   </p>
@@ -438,14 +404,14 @@ w21q`</p>
     
       
       
-      <a href="/categories/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a>
+      <a href="/categories/#database" class="page__taxonomy-item" rel="tag">database</a>
     
     </span>
   </p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-08-12">August 12, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-12">November 12, 2020</time></p>
 
 
       </footer>
@@ -455,23 +421,22 @@ w21q`</p>
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Chapter5+npm%20http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fnpm%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=InnoDB+%EC%9D%B8%EB%8D%B1%EC%8A%A4+%ED%8E%98%EC%9D%B4%EC%A7%80+%EA%B5%AC%EC%A1%B0%20http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2FinnoDB_index_page%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fnpm%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2FinnoDB_index_page%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Fnpm%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2FinnoDB_index_page%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/nodejs/express_01/" class="pagination--pager" title="Chapter6 express
+      <a href="/database/database_MVCC/" class="pagination--pager" title="MVVC
 ">이전</a>
     
     
-      <a href="/algorithm/ford_fulkerson/" class="pagination--pager" title="ford-fulkerson
-">다음</a>
+      <a href="#" class="pagination--pager disabled">다음</a>
     
   </nav>
 
@@ -485,36 +450,6 @@ w21q`</p>
     <div class="page__related">
       <h4 class="page__related-title">참고</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/database/innoDB_index_page/" rel="permalink">InnoDB 인덱스 페이지 구조
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
         
           
 
@@ -595,7 +530,37 @@ w21q`</p>
 
 
 
-  2 분 소요
+  4 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/floyd_warshall/" rel="permalink">floyd warshall(moved)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
 
 </p>
     

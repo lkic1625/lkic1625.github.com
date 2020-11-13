@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-12T19:12:47+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">B+-tree, InnoDB Structure(작성중)</title><link href="http://localhost:4000/database/Inno_DB_B+_tree/" rel="alternate" type="text/html" title="B+-tree, InnoDB Structure(작성중)" /><published>2020-11-12T00:00:00+09:00</published><updated>2020-11-12T04:00:00+09:00</updated><id>http://localhost:4000/database/Inno_DB_B+_tree</id><content type="html" xml:base="http://localhost:4000/database/Inno_DB_B+_tree/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-14T06:45:09+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">InnoDB 인덱스 페이지 구조</title><link href="http://localhost:4000/database/innoDB_index_page/" rel="alternate" type="text/html" title="InnoDB 인덱스 페이지 구조" /><published>2020-11-14T00:00:00+09:00</published><updated>2020-11-12T04:00:00+09:00</updated><id>http://localhost:4000/database/innoDB_index_page</id><content type="html" xml:base="http://localhost:4000/database/innoDB_index_page/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
-&lt;p&gt;데이터베이스 사용 중 자료구조에 대한 생각은 자연스레 떠오를 주제다.
-단순히 어떤 구조가 효율적이라는 말은 수업에서 닳도록 들었다.
-이번 포스트에서는 그것에 대한 직접적인 응용을 살펴보려 한다.&lt;/p&gt;
+&lt;p&gt;이 포스트는 &lt;a href=&quot;/database/b+_tree&quot;&gt;B+ Tree 포스트&lt;/a&gt;와 이어집니다.&lt;/p&gt;
 
 &lt;h1 id=&quot;인덱스란&quot;&gt;인덱스란?&lt;/h1&gt;
 
@@ -23,13 +21,133 @@
 
 &lt;ol&gt;
   &lt;li&gt;모든 테이블인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;primary key&lt;/code&gt;를 가지고 있다. 만약 테이블이 생성된다면 자동으로 첫번째 필드값을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NOT NULL&lt;/code&gt;인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unique key&lt;/code&gt;로 지정하며 지정에 실패했을 경우에는 숨겨진 필드를 추가하여 프라이머리 키로 사용한다. 이는 사용자 입장에서 필요없지만, 행마다 6바이트를 추가로 할당하게 된다.&lt;/li&gt;
-  &lt;li&gt;행 데이터(프라이머리키를 가지지 않는 필드)가 프라이머리 키 인덱스 구조에 저장될 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clusterd key&lt;/code&gt;라고 부른다. 이 인덱스 구조에서 프라이머리 키를 키로, 행 데이터를 키에 붙는 값으로 여긴다.&lt;/li&gt;
+  &lt;li&gt;행 데이터(프라이머리키를 가지지 않는 필드)가 프라이머리 키 인덱스 구조에 저장될 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clusterd key&lt;/code&gt;라고 부른다. 이 인덱스 구조에서 프라이머리 키를 키로, 행 데이터를 키에 첨부되는 값이다. (물론 &lt;a href=&quot;/database/database_MVCC&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MVCC&lt;/code&gt;&lt;/a&gt;를 위한 필드도)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Secondary key&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;identical&lt;/code&gt;한 인덱스 구조에 저장되지만, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KEY&lt;/code&gt; 밸류에 키값이며 프라이머리 키 값은 그 키에 첨부된다.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;
     &lt;li&gt;https://blog.jcole.us/2013/01/07/the-physical-structure-of-innodb-index-pages/&lt;/li&gt;
+    &lt;li&gt;https://blog.jcole.us/2013/01/10/btree-index-structures-in-innodb/#:~:text=InnoDB%20uses%20a%20B%2BTree,the%20tree%2C%20which%20scales%20nicely.&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b+_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry><entry><title type="html">B+tree, InnoDB Structure(작성중)</title><link href="http://localhost:4000/database/B+_tree/" rel="alternate" type="text/html" title="B+tree, InnoDB Structure(작성중)" /><published>2020-11-12T00:00:00+09:00</published><updated>2020-11-12T04:00:00+09:00</updated><id>http://localhost:4000/database/B+_tree</id><content type="html" xml:base="http://localhost:4000/database/B+_tree/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;p&gt;이 포스트는 &lt;a href=&quot;/database/b_tree_index&quot;&gt;B Tree 포스트&lt;/a&gt;와 이어집니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;인덱스란&quot;&gt;인덱스란?&lt;/h1&gt;
+
+&lt;p&gt;인덱스란 단순히 생각하면 사전 순 정렬이다. 사전 같은 경우 미리 순서대로 정렬되어 있어 쉽게 찾을 수 있도록(데이터를 읽을 수 있도록) 도와준다. 마찬가지로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DBMS&lt;/code&gt;의 인덱스도 컬럼의 값을 주어진 순서로 미리 정렬해 보관한다.&lt;/p&gt;
+
+&lt;p&gt;자료구조를 어느정도 이해하고 있다면, 알 수 있듯이 위와 같이 미리 정렬된 저장구조는 읽기 성능을 끌어올리는 방법으로써 수정, 삭제, 삽입의 시간이 매우 크게 희생될 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;여기서도 알 수 있듯이 테이블의 인덱스를 하나 더 추가할지 말지는 데이터의 저장 속도를 어디까지 희생할 수 있는지, 읽기 속도를 얼마나 더 빠르게 만들어야 하는지의 여부에 따라 결정돼야 합니다. SELECT 쿼리 문장의 WHERE 조건절에 사용되는 컬럼이라고 전부 인덱스로 생성하면 데이터 저장 성능이 떨어지고 인덱스의 크기가 비대해져서 오히려 역효과만 불러올 수 있습니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;terminology&quot;&gt;Terminology&lt;/h1&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InnoDB&lt;/code&gt;는 인덱스에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B+ Tree&lt;/code&gt; 구조를 사용한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B+ Tree&lt;/code&gt;는 어떤 읽기 요청에도 트리 높이의 기반한 속도를 보장하여, 데이터를 디스크에서 읽어야할 경우 효율적이다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;인덱스 트리는 고정된 위치인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;root&lt;/code&gt;(루트) 페이지에서 시작하며, 트리에 접근하기 위한 시작점이다.&lt;/li&gt;
+  &lt;li&gt;페이지는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;leaf&lt;/code&gt;(리프) 페이지나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-leaf&lt;/code&gt;(인터널 혹은 노드) 페이지로 나뉘며, 리프 페이지는 실제 행 데이터를 가지고 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-leaf&lt;/code&gt; 페이지는 다른 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-leaf&lt;/code&gt; 페에지를 가리키는 포인터를 포함한다.&lt;/li&gt;
+  &lt;li&gt;리프 페이지와 루트 페이지를 제외한 모든 페이지는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;internal&lt;/code&gt; 페이지라 한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InnoDB&lt;/code&gt;에서는 각 페이지에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;level&lt;/code&gt;을 할당한다. 리프 페이지를 0으로 시작하여 올라갈수록 커진다. 따라서, 루트 페이지의 레벨은 트리의 깊이의 기반하게 된다.&lt;/p&gt;
+
+&lt;h1 id=&quot;leaf-and-non-leaf-page&quot;&gt;Leaf and Non-Leaf Page&lt;/h1&gt;
+
+&lt;p&gt;각각의 레코드는 다음 레코드의 오프셋을 저장하는 포인터를 기록한다. 형태는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Linked List&lt;/code&gt; 형태로 되어 있으며, 키의 오름차순으로 정렬되어 있다.&lt;/p&gt;
+
+&lt;p&gt;링크드 리스트는 처음에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;infimum&lt;/code&gt;에서 시작하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;supremum&lt;/code&gt;에서 끝난다. 레코드는 물리적으로 정렬된 것이 아니며, 링크드 리스트의 위치만이 그들의 유일한 순서다.&lt;/p&gt;
+
+&lt;h2 id=&quot;leaf-page&quot;&gt;Leaf Page&lt;/h2&gt;
+&lt;p&gt;리프 페이지는 각 레코드에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;라는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-key&lt;/code&gt;값이 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/B_Tree_Simplified_Leaf_Page.png&quot; alt=&quot;리프페이지이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;non-leaf-page&quot;&gt;Non Leaf Page&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-leaf&lt;/code&gt; 페이지는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;data&lt;/code&gt;에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-key&lt;/code&gt; 값 대신 그들의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;child page&lt;/code&gt;에 번호가 저장되어 있으며, 실제 키값 대신 자식 페이지에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;minimum key&lt;/code&gt;값을 저장한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/B_Tree_Simplified_Non_Leaf_Page.png&quot; alt=&quot;논리프페이지이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;같은-레벨의-페이지&quot;&gt;같은 레벨의 페이지&lt;/h2&gt;
+
+&lt;p&gt;모든 인덱스는 하나 이상의 페이지를 포함하기 오름차순 혹은 내림차순으로 함께 연결되어 있다.
+각 페이지는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FIL Header&lt;/code&gt;에 포인터를 포함하며, 다음 페이지와 이전 페이지를 저장하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Double Linked List&lt;/code&gt; 구조를 지닌다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/B_Tree_Simplified_Level.png&quot; alt=&quot;레벨이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;single-page-table&quot;&gt;single-page table&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;single index page&lt;/code&gt;구조는 아래와 같다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/B_Tree_Detailed_Page_Structure.png&quot; alt=&quot;싱글 인덱스 페이지&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;multi-level-index-tree&quot;&gt;multi-level index tree&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/B_Tree_Structure.png&quot; alt=&quot;멀티 인덱스 페이지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;앞에서 설명했듯이, 같은 레벨의 페이지는 더블 링크드 리스트 구조로 되어 있고, 페이지 내에서 레코드는 오름차순으로 링크드 리스트 구조를 지닌다.&lt;/p&gt;
+
+&lt;h1 id=&quot;루트-페이지-특징&quot;&gt;루트 페이지 특징&lt;/h1&gt;
+&lt;p&gt;루트 페이지는 인덱스가 처음 생성될 때 할당하므로, 페이지 번호가 데이터 딕셔너리에 저장된다. 루트 페이지는 재지정하거나 삭제할 수 없다. 루트페이지가 다 채워져 분할해야 할 때, 루트 페이지는 두 리프 노드를 추가한다.&lt;/p&gt;
+
+&lt;p&gt;하지만, 루트페이지는 실제로 위치를 재지정할 수 없기에, 자신을 분할할 수 없다. 대신에, 새로운 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;empty&lt;/code&gt; 페이지를 할당해 루트 페이지에 존재하는 레코드를 옮기고 이를 분할한다. 루트 페이지는 그 바로 아래의 레벨에 페이지 포인터들이 전부 꽉찰 때까지 다시 분할할 필요가 없으며 실제론 수백에서 수천 개 이상을 의미한다.&lt;/p&gt;
+
+&lt;h1 id=&quot;btree-levels-and-increasing-tree-depth&quot;&gt;B+Tree levels and increasing tree depth&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Height&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Non-leaf pages&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Leaf pages&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Rows&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Size in bytes&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;0&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;468&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;16.0 KiB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;2&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1203&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&amp;gt; 563 thousand&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;18.8 MiB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;3&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1204&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1447209&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&amp;gt; 677 million&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;22.1 GiB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;4&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1448413&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;1740992427&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&amp;gt; 814 billion&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;25.9 TiB&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;대부분의 프라이머리 키는 레벨 2~3 혹은 4에 포함될 것이다. 만약 프라이머리 키로 매우 큰 값을 사용하게 될 경우에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-leaf page&lt;/code&gt;의 레코드 사이즈를 매우 크게 만들며, 비효율적이게 만들 것이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://blog.jcole.us/2013/01/10/btree-index-structures-in-innodb/#:~:text=InnoDB%20uses%20a%20B%2BTree,the%20tree%2C%20which%20scales%20nicely.&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="b+_tree" /><category term="database" /><category term="datastructure" /><summary type="html"></summary></entry><entry><title type="html">MVVC</title><link href="http://localhost:4000/database/database_MVCC/" rel="alternate" type="text/html" title="MVVC" /><published>2020-11-12T00:00:00+09:00</published><updated>2020-11-12T04:00:00+09:00</updated><id>http://localhost:4000/database/database_MVCC</id><content type="html" xml:base="http://localhost:4000/database/database_MVCC/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
@@ -680,100 +798,4 @@ FROM ANIMAL_INS
 &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'recommender_model.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="ML" /><category term="ML" /><category term="Collaborative Filtering" /><category term="projects" /><summary type="html">개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽</summary></entry><entry><title type="html">OAuth 2.0(작성 중)</title><link href="http://localhost:4000/backend/OAuth_2.0/" rel="alternate" type="text/html" title="OAuth 2.0(작성 중)" /><published>2020-10-17T00:00:00+09:00</published><updated>2020-10-20T04:00:00+09:00</updated><id>http://localhost:4000/backend/OAuth_2.0</id><content type="html" xml:base="http://localhost:4000/backend/OAuth_2.0/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
-
-&lt;p&gt;Token based Authentication 관련 구현에 관심이 있어 공식문서와 여러 인터넷 예제를 참고하여 정리한 글입니다.&lt;/p&gt;
-
-&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
-
-&lt;h2 id=&quot;roles&quot;&gt;Roles&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/oauth-role.PNG&quot; alt=&quot;이미지1&quot; /&gt;
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OAuth&lt;/code&gt;에는 3가지 역할이 있다.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Client&lt;/code&gt;는 우리가 현재 제공하고 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Third party service&lt;/code&gt;이다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Resource Owner&lt;/code&gt;는 우리의 서비스를 제공받는 사용자이다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Resource Server&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Client&lt;/code&gt;에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Resource&lt;/code&gt;를 제공해줄 대상이며 구글, 페이스북 등이 될 수 있다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization Server&lt;/code&gt;는  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 인증 시도와 클라이언트에게 토큰을 발급해주는 서버이다. 보통 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;와 같이 사용되기 때문에 이번 포스트에서는 구분을 두지 않으려 한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;protocol-flow&quot;&gt;Protocol Flow&lt;/h2&gt;
-
-&lt;p&gt;대략적인 프로토콜 개요는 아래와 같다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/OAuth-protocol-flow.PNG&quot; alt=&quot;이미지4&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;(A) 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;에게 인증을 요청한다 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;를 통해서 요청할 수도 있고 직접 요청할 수도 있다.&lt;/li&gt;
-  &lt;li&gt;(B) 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;를 전달 받는다. 이는 클라이언트가 인증되었음을 나타낸다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;의 타입은 클라이언트의 요청과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;가 지원하는 타입에 의존한다.&lt;/li&gt;
-  &lt;li&gt;(C) 클라이언트는 인증과 함께 엑세스 토큰을 요청하고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;되었음을 알린다.&lt;/li&gt;
-  &lt;li&gt;(D) 서버는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt;을 확인하고 클라이언트를 인증한다. 인증이 완료되면 엑세스 토큰을 발급한다.&lt;/li&gt;
-  &lt;li&gt;(E) 클라이언트는 엑세스 토큰을 통해 민감정보를 요청할 수 있다.&lt;/li&gt;
-  &lt;li&gt;(F) 서버는 토큰의 유효성 검사를 진행 후 응답을 보낸다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;access-token&quot;&gt;Access Token&lt;/h2&gt;
-
-&lt;p&gt;액세스 토큰은 사용자 민감 정보의 접근할 수 있는 일종의 자격이다. 클라이언트가 발급하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization&lt;/code&gt; 즉, 인증되었음을 나타내는 문자열이다.
-대개는 클라이언트는 이 토큰을 인식할 수 없도록 한다. 토큰은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 제공한 특정 스코프를 가지고 생성되며, 만료시간을 가진다. 만료시간은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AS&lt;/code&gt;에 의해 강제된다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JWT&lt;/code&gt;를 이전에 사용해 보았기에 특정 문자를 인식할 수 있음은 쉽게 이해할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;엑세스 토큰은 다양한 응용방식이 있는데 &lt;a href=&quot;https://tools.ietf.org/html/rfc6750&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rfc6750&lt;/code&gt;&lt;/a&gt;에서 직접 살펴볼 수 있다. 이는 추후 포스팅에서 다시 다루도록 하겠다.&lt;/p&gt;
-
-&lt;h2 id=&quot;refresh-token&quot;&gt;Refresh token&lt;/h2&gt;
-&lt;p&gt;리프레쉬 토큰은 엑세스 토큰을 얻기 위한 일족의 자격이라고 볼 수 있다.
-이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;에 의해 클라이언트가 발급하며 엑세스 토큰이 파기되거나 유효하지 않을 경우 새로운 엑세스 토큰을 얻기 위해 사용된다.
-리프레쉬 토큰은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;에서 엑세스 토큰을 발급할 때 함께 동봉되며 이는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;의 재량에 따른 선택적 사항이다.&lt;/p&gt;
-
-&lt;p&gt;엑세스토큰과 달리 리프레쉬 토큰은 리소스 서버에 전송되지 않는다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/token-based-communication.PNG&quot; alt=&quot;이미지3&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;(A) 클라이언트는 권한 부여 서버에 인증하고 권한 부여를 제시하여 엑세스 토큰을 요청한다&lt;/li&gt;
-  &lt;li&gt;(B) 인증 서버가 권한 부여와 클라이언트의 유효성을 검사한다. 유효할 경우 리프레쉬 토큰과 엑세스 토큰을 보낸다.&lt;/li&gt;
-  &lt;li&gt;(C) 클라이언트가 엑세스 토큰을 이용하여 서버에게 데이터를 요청한다.&lt;/li&gt;
-  &lt;li&gt;(D) 토큰이 유효할 경우 데이터를 보낸다.&lt;/li&gt;
-  &lt;li&gt;(E) 엑세스 토큰이 파기되기 전까지 (C)와 (D)를 반복한다. 만약 토큰이 파기된 것을 안다면 앞에 과정을 생략하고 (G)로간다.&lt;/li&gt;
-  &lt;li&gt;(F) 토큰이 유효하지 않을 경우 서버는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;invalid token error&lt;/code&gt;를 보낸다.&lt;/li&gt;
-  &lt;li&gt;(G) 클라이언트가 새로운 액세스 토큰을 발급 받기 위해 서버에 인증 후 리프레쉬 토큰을 제시한다.&lt;/li&gt;
-  &lt;li&gt;(H) 인증 서버가 클라이언트를 인증하고 리프레쉬 토큰의 유효성을 검사한다. 만약 유효할 경우 새로운 엑세스 토큰을 발급한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;protocol-endpoints&quot;&gt;Protocol Endpoints&lt;/h2&gt;
-
-&lt;p&gt;인증 프로세스는 두 개의 인증 서버 엔드포인트로 운용된다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization endpoint&lt;/code&gt;: 클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt; 리다이렉션을 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;로부터 권한을 얻기 위해 사용한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Token Endpoint&lt;/code&gt;: 클라이언트가 엑세스 토큰에 대한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization grant&lt;/code&gt; 교환을 위해 사용하며, 일반적으로 클라이언트 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authentication&lt;/code&gt; 사용한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;클라이언트 또한 한 개의 엔드포인트를 갖는다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Redirection endpoint&lt;/code&gt; - 인증 서버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resource owner user-agent&lt;/code&gt;를 통해 클라이언트에게 인증자격(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;authorization credentials&lt;/code&gt;)을 포함한 응답을 보내기 위해 사용한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;authorization-code-grant&quot;&gt;Authorization Code Grant&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;가 승인했다 해서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;access token&lt;/code&gt;을 바로 발급하지 않고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RS&lt;/code&gt;와 상호협의를 위해 거쳐야하는 단계이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/autho-grant.PNG&quot; alt=&quot;이미지2&quot; /&gt;;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;(A): 이는 클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authorization endpoint&lt;/code&gt;가리키며 시작한다. 클라이언트는 식별자, 요청 범위 로컬상태 및 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;가 권한을 부여(또는 거부)한 후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 다시 보낼 리디렉션 URI를 포함한다.&lt;/li&gt;
-  &lt;li&gt;(B): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AS&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;를 인증하며(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 통해서) 클라이언트의 엑세스 요청에 대한 권한 부여 혹은 거부를 결정한다.&lt;/li&gt;
-  &lt;li&gt;(C): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RO&lt;/code&gt;의 권한 부여가 허용되면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;는 이전에 받았던(클라이언트 등록 혹은 권한 요청에서) 리디렉션 URI를 통해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user-agent&lt;/code&gt;를 리다이렉트 한다. 리디렉션 URI에는 이전에 클라이언트가 제공한 인증 코드(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Autorization Code&lt;/code&gt;)와 모든 로컬 상태가 포함되어 있다.&lt;/li&gt;
-  &lt;li&gt;(D): 클라이언트는 이전 단계에서 받았던 인증 코드를 포함하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Token Endpoint&lt;/code&gt;에 엑세스 토큰을 요청한다. 요청이 진행될 때 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;로부터 인증한다. 클라이언트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;verification&lt;/code&gt;을 위한 인증코드를 얻기 위해 리디렉션 URI를 포함한다.&lt;/li&gt;
-  &lt;li&gt;(E): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AO&lt;/code&gt;가 클라이언트를 인증하고 인증코드를 검증한다. 그리고 받은 URI가 단계(C)에서 클라이언트를 리다이렉트하는 데 사용된 URI와 일치하는지 확인한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://opentutorials.org/course/3405&lt;/li&gt;
-    &lt;li&gt;https://tools.ietf.org/html/rfc6749#section-4.1&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="protocol" /><summary type="html">개요</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="ML" /><category term="ML" /><category term="Collaborative Filtering" /><category term="projects" /><summary type="html">개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽</summary></entry></feed>
