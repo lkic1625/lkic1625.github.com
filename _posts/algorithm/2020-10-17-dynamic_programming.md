@@ -87,6 +87,62 @@ $$
 ## 점화식
 $$F_n =  \begin{cases} 0  & \text{if }n = 0 \\ 1   & \text{if }n = 1 \\ F_{n-1} + F_{n-2}   & \text{if }n > 1 \end{cases}$$
 
+# 알약
+
+## 문제 정의
+
+70세 박종수 할아버지는 매일 매일 약 반알을 먹는다. 손녀 선영이는 종수 할아버지에게 약이 N개 담긴 병을 선물로 주었다.
+
+첫째 날에 종수는 병에서 약 하나를 꺼낸다. 그 다음, 그 약을 반으로 쪼개서 한 조각은 먹고, 다른 조각은 다시 병에 넣는다.
+
+다음 날부터 종수는 병에서 약을 하나 꺼낸다. (약은 한 조각 전체 일 수도 있고, 쪼갠 반 조각 일 수도 있다) 반 조각이라면 그 약을 먹고, 아니라면 반을 쪼개서 한 조각을 먹고, 다른 조각은 다시 병에 넣는다.
+
+종수는 손녀에게 한 조각을 꺼낸 날에는 W를, 반 조각을 꺼낸 날에는 H 보낸다. 손녀는 할아버지에게 받은 문자를 종이에 기록해 놓는다. 총 2N일이 지나면 길이가 2N인 문자열이 만들어지게 된다. 이때, 가능한 서로 다른 문자열의 개수는 총 몇 개일까?
+
+## 점화식
+
+$$
+DP[h][w] =  \begin{cases} 1  & \text{if }h = 0 \\ dp[h - 1][w + 1]   & \text{else if }w = 0 \\ dp[h - 1][w + 1] + dp[h][w - 1]   & \text{else } \end{cases}
+$$
+
+## 코드
+```cpp
+#include<iostream>
+
+using namespace std;
+
+const int MAX = 30 + 1;
+int N, input;
+long long dp[MAX][MAX];
+
+int main() {
+	//FAST IO
+	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+
+	//DP
+	for (int h = 0; h <= 30; h++) {
+		for (int w = 0; w <= 30; w++) {
+			if (h == 0) {
+				dp[h][w] = 1;
+			}
+			else if (w == 0) {
+				dp[h][w] = dp[h - 1][w + 1];
+			}
+			else {
+				dp[h][w] = dp[h - 1][w + 1] + dp[h][w - 1];
+			}
+		}
+	}
+
+	while (true) {
+		cin >> N;
+		if (N == 0) break;
+		cout << dp[N][0] << '\n';
+	}
+
+}
+```
+
 # 팰린드롬?
 
 ## 문제 정의
