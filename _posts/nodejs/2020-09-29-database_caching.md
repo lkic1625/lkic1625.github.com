@@ -41,7 +41,7 @@ toc: true
 
 
 # Redis
-레디스는 `In-Memory Data structure Strore`로서 메모리 상에 프로세스로 올라간다.
+레디스는 `In-Memory Data structure Store`로서 메모리 상에 프로세스로 올라간다.
 
 레디스가 `Memcached`와 달리 유용한 점은 우선 `Collection`을 예로 들 수 있다.
 직접 구현하는 것과 구현된 것을 사용하는 방식의 차이는 생산성 측면에서 큰 강점이다.
