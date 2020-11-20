@@ -286,4 +286,10 @@ var store = [{
         "tags": ["b+_tree","database","datastructure"],
         "url": "http://localhost:4000/database/innoDB_index_page/",
         "teaser": null
+      },{
+        "title": "레디스 기본 데이터 타입(작성중)",
+        "excerpt":"Redis? 길게 소개하자면 한도 끝도 없고, 나 말고도 필력 좋은 블로그들이 더 잘 소개했을 것 같기에 간단하게만 중점만 짚어 소개하자면, 레디스는 In-Memory Database로서 고가용성인 메모리에 저장하고 조회한다. 기존 관계형 데이터베이스 앞에 캐싱 시스템으로 이용하기 적합한 것으로 알려져있다. 오픈소스인만큼 다양한 서비스에서 사용되고 있으며, 앞으로 계속해서 중요한 역할을 할 것같아 책에 예제와...","categories": ["database"],
+        "tags": ["NoSQL","database","nodejs"],
+        "url": "http://localhost:4000/database/redis_00/",
+        "teaser": null
       }]

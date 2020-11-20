@@ -1,4 +1,259 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-14T06:45:09+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">InnoDB 인덱스 페이지 구조</title><link href="http://localhost:4000/database/innoDB_index_page/" rel="alternate" type="text/html" title="InnoDB 인덱스 페이지 구조" /><published>2020-11-14T00:00:00+09:00</published><updated>2020-11-12T04:00:00+09:00</updated><id>http://localhost:4000/database/innoDB_index_page</id><content type="html" xml:base="http://localhost:4000/database/innoDB_index_page/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-19T07:16:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">레디스 기본 데이터 타입(작성중)</title><link href="http://localhost:4000/database/redis_00/" rel="alternate" type="text/html" title="레디스 기본 데이터 타입(작성중)" /><published>2020-11-18T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_00</id><content type="html" xml:base="http://localhost:4000/database/redis_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;redis&quot;&gt;Redis?&lt;/h1&gt;
+
+&lt;p&gt;길게 소개하자면 한도 끝도 없고, 나 말고도 필력 좋은 블로그들이 더 잘 소개했을 것 같기에 간단하게만 중점만 짚어 소개하자면,&lt;/p&gt;
+
+&lt;p&gt;레디스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;In-Memory Database&lt;/code&gt;로서 고가용성인 메모리에 저장하고 조회한다. 기존 관계형 데이터베이스 앞에 캐싱 시스템으로 이용하기 적합한 것으로 알려져있다. 오픈소스인만큼 다양한 서비스에서 사용되고 있으며, 앞으로 계속해서 중요한 역할을 할 것같아 책에 예제와 함께 내용을 정리해보려 한다.&lt;/p&gt;
+
+&lt;p&gt;이번 포스트에서는 레디스의 자료형에 대해 알아보겠다.&lt;/p&gt;
+
+&lt;p&gt;모든 내용은 책 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/code&gt;의 기반하고 있다.&lt;/p&gt;
+
+&lt;h1 id=&quot;레디스-데이터-타입&quot;&gt;레디스 데이터 타입&lt;/h1&gt;
+
+&lt;p&gt;레디스의 특징이라면 바로 다양한 자료구조를 지원한다는 점인데, 또 다른 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;In-Memory Database&lt;/code&gt;인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Memcached&lt;/code&gt;와 차이가 두드러진다&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/redis-collection.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;레디스는 기본적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hash&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt; 를 제공했고, 버전이 올라가면서 현재는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Geospatial Index&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stream&lt;/code&gt; 등의 자료형도 지원하고 있다.
+다양한 데이터 타입을 지원하는만큼 때에 따라 다양한 사용방법을 익히고 적용할 수 있다.&lt;/p&gt;
+
+&lt;h2 id=&quot;string&quot;&gt;String&lt;/h2&gt;
+
+&lt;p&gt;스트링 자료구조는 가장 보편적인 데이터 타입이다. 다목적 사용이 가능하며 여러 커맨드를 구비하고 있다.
+텍스트 문자열과 정수, 비트맵 등 다양한 타입을 사용할 수 있다. 또한 어떤 형식의 데이터도 될 수 있으며, 512MB를 초과하지 않는 선에서 데이터 타입을 저장 가능하다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Cache mechanism: 텍스트나 바이너리 데이터를 캐시 가능하며 API 응답, HTML 페이지의 이미지 혹은 비디오일 수 있다. 간단한 캐싱은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MSET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGET&lt;/code&gt;을 이용하여 가능하다.&lt;/li&gt;
+  &lt;li&gt;Cache with automatic expiration: 자동 만료 키를 사용하여 캐싱을 효과적으로 이용할 수 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SETEX&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPIRE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPIREAT&lt;/code&gt;와 같은 커맨드를 사용하며, 데이터베이스 실행 시간이 상당히 길며 캐싱을 같이해야 하는 경우 매우 유용할 수 있다.&lt;/li&gt;
+  &lt;li&gt;Counting: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt;를 통해 사용가능하다. 카운터는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page view&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;video view&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;like&lt;/code&gt;에 이용될 수 있으며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECRBY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRFLOATBY&lt;/code&gt; 등도 제공한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;mest-mget&quot;&gt;MEST MGET&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MEST&lt;/code&gt;은 다중 키 설정을 도와준다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGET&lt;/code&gt;은 다중 키 획득을 도와준다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; MSET first &quot;First Key value&quot; second &quot;Second Key value&quot;
+OK
+127.0.0.1:6379&amp;gt; MGET first second
+1) &quot;First Key value&quot;
+2) &quot;Second Key value&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;expire-ttl&quot;&gt;EXPIRE TTL&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPIRE&lt;/code&gt;는 키에 만료 시간을 설정할 수 있다. 만료시간이 자나면 자동으로 삭제되며, 만료시간이 성공적으로 설정되면 1, 아니면 0을 출력한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TTL&lt;/code&gt;은 아래와 같은 값을 반환한다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;양수: 만료까지 남은 시간을 출력한다.&lt;/li&gt;
+  &lt;li&gt;-2: 키가 존재하지 않거나 만료되었을 경우 출력한다.&lt;/li&gt;
+  &lt;li&gt;-1: 키가 만료시간이 설정되지 않았을 경우 출력한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; SET current_chapter &quot;Chapter 1&quot;
+OK
+127.0.0.1:6379&amp;gt; EXPIRE current_chapter 10
+(integer) 1
+127.0.0.1:6379&amp;gt; GET current_chapter
+&quot;Chapter 1&quot;
+127.0.0.1:6379&amp;gt; TTL current_chapter
+(integer) 3
+127.0.0.1:6379&amp;gt; TTL current_chapter
+(integer) -2
+127.0.0.1:6379&amp;gt; GET current_chapter
+(nil)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;incr-incrby-incrbybloadt&quot;&gt;INCR INCRBY INCRBYBLOADT&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt;는 비슷한 기능을 지원한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;은 키값을 1 올린 후 값을 리턴한다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt;는 주어진 정수 값을 토대로 키 값을 올린 후 값을 리턴한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECR&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECRBY&lt;/code&gt;는 위 두 커맨드와 상반되게 키 값을 빼는 기능을 제공한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBYFLOAT&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FLOAT&lt;/code&gt; 값을 더할 수 있다.
+위 세 커맨드 모드 양수 음수 모두 사용할 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; SET counter 100
+OK
+127.0.0.1:6379&amp;gt; INCR counter
+(integer) 101
+127.0.0.1:6379&amp;gt; INCRBY counter 5
+(integer) 106
+127.0.0.1:6379&amp;gt; DECR counter
+(integer) 105
+127.0.0.1:6379&amp;gt; DECRBY counter 100
+(integer) 5
+127.0.0.1:6379&amp;gt; GET counter
+&quot;5&quot;
+127.0.0.1:6379&amp;gt; INCRBYFLOAT counter 2.4
+&quot;7.4&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위에 보여진 커맨드는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ATOMIC&lt;/code&gt;하다 즉, 하나의 오퍼레이션으로 취급한다는 것인데 이는 두 명의 서로 다른 클라이언트가 같은 시간의 같은 실행 명렁어를 통해 같은 값을 얻을 수 없다는 것이다.&lt;/p&gt;
+
+&lt;p&gt;예를들어, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;counter&lt;/code&gt; 키가 1이라면 서로 다른 클라이언트 A와 B가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;을 동시에 입력했을 때 A가 2 B가 3을 받게 될것이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Redis is single threaded, which means that it always executes one
+command at a time. Sometimes, commands are mentioned as atomic,
+which means that a race condition will never happen when multiple
+clients try to perform operations on the same key at the same time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;nodejs-voting-system&quot;&gt;Node.js voting system&lt;/h3&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;upVote&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 4&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;incr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 5&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;downVote&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;showResults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;headlineKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:headline&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;voteKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;headlineKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;voteKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;The article &quot;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot; has&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+ &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGET&lt;/code&gt;을 이용하여 키 배열과 콜백함수를 전달한다. 만약 키 값이 없다면 null을 리턴할 것이다.
+&lt;br /&gt;
+익명함수 파라미터인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;replies&lt;/code&gt;는 두 개의 밸류를 가진다. 각각 주어진 키 배열 순서대로 매핑된 값이다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 클라이언트는 반드시 비동기적&lt;/p&gt;
+
+&lt;h2 id=&quot;lists&quot;&gt;Lists&lt;/h2&gt;
+&lt;p&gt;리스트는 레디스에서 매우 유동적인 데이터 타입이다. 스택, 큐와 같은 기능 또한 구현할 수 있으며, 많은 시스템들이 작업 큐를 사용하기 위해 리스트를 이용한다. 이는 동시성을 제공하는 시스템에서 리스트의 동작이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;atomic&lt;/code&gt;하기 때문이다.&lt;/p&gt;
+
+&lt;p&gt;리스트에는 블록킹 커맨드가 존재한다. 만약 클라이언트가 블록킹 커맨드를 빈 리스트에 실행한다면 클라이언트는 새로운 아이템이 들어오기까지 기다린다.(blocking)&lt;/p&gt;
+
+&lt;p&gt;레디스 리스트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Linked List&lt;/code&gt;로 구현되어 있기 때문에 맨앞과 맨뒤에 아이템을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insertion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deletion&lt;/code&gt;하는 과정이 \(O(1)\)만에 가능하다.
+특정 아이템을 액세스 하는데에는 \(O(N)\)이 걸리며, 마찬가지로 맨 앞과 맨 뒤는 상수시간안에 가능하다.&lt;/p&gt;
+
+&lt;p&gt;리스트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list-max-ziplist-entries&lt;/code&gt;값보다 작은 원소 개수와 ` list-max-ziplist-value` 값보다 작은 원소 값을 가진다면 최적화와 인코딩이 가능하다. 이는 추후 4챕터에서 알아보도록 하자.&lt;/p&gt;
+
+&lt;p&gt;실제 사용 예시&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Event Queue: 이미 많은 툴에서 사용 중이다.&lt;/li&gt;
+  &lt;li&gt;Storing most recent user posts: 트위터는 최근 유저의 트윗을 리스트에 저장하여 이를 구현했다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;list-examples-with-redis-cli&quot;&gt;List examples with redis-cli&lt;/h3&gt;
+
+&lt;p&gt;링크드 리스트인만큼 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;head&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tail&lt;/code&gt;에 데이터 삽입 삭제가 가능하다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LPUSH&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;head&lt;/code&gt;에 새로운 값을 넣는다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RPUSH&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tail&lt;/code&gt;에 새로운 값을 삽입한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ redis-cli
+127.0.0.1:6379&amp;gt; LPUSH books &quot;Clean Code&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; RPUSH books &quot;Code Complete&quot;
+(integer) 2
+127.0.0.1:6379&amp;gt; LPUSH books &quot;Peopleware&quot;
+(integer) 3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LLEN&lt;/code&gt;: 리스트의 길이를 반환한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LINDEX&lt;/code&gt;: 주어진 인덱스에 저장된 값을 반환한다. 리스트를 수정하지 않는 커맨드다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;인덱스는 항상 왼쪽에서 오른쪽으로 진행된다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;negative-index&lt;/code&gt; 또한 가능하다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; LLEN books
+(integer) 3
+127.0.0.1:6379&amp;gt; LINDEX books 1
+&quot;Clean Code&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LRANGE&lt;/code&gt;: 주어진 인덱스 범위 내에 값을 모두 리턴한다. 앞에서 언급했듯이 음수 인덱스가 가능하기에 아래와 같은 예제가 가능하다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; LRANGE books 0 1
+1) &quot;Peopleware&quot;
+2) &quot;Clean Code&quot;
+127.0.0.1:6379&amp;gt; LRANGE books 0 -1
+1) &quot;Peopleware&quot;
+2) &quot;Clean Code&quot;
+3) &quot;Code Complete&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LPOP&lt;/code&gt;: 가장 처음 원소를 리스트에서 제거하면서 동시에 반환한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RPOP&lt;/code&gt;: 가장 마지막 원소를 리스트에서 제거하면서 동시에 반환한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;위 둘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RINDEX&lt;/code&gt;와 다르게 리스트를 수정하는 커맨드다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; LPOP books
+&quot;Peopleware&quot;
+127.0.0.1:6379&amp;gt; RPOP books
+&quot;Code Complete&quot;
+127.0.0.1:6379&amp;gt; LRANGE books 0 -1
+1) &quot;Clean Code&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;hashes&quot;&gt;Hashes&lt;/h2&gt;
+
+&lt;p&gt;해쉬는 오브젝트를 저장하기에 적절한 저장구조이다. 필드를 값에 대입할 수 있으며, 메모리 사용과 데이터 엑세스에 매우 최적화 돼있다.
+해쉬는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String to String&lt;/code&gt; 매핑 구조이다.&lt;/p&gt;
+
+&lt;p&gt;우리는 위에서 투표 시스템 구현을 통해 일종의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sematic&lt;/code&gt;한 해쉬를 구현했다. 하지만, 해쉬를 사용하는 직접적인 이유는 메모리 최적화 때문이다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hash-max-ziplist-entries&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hash-max-ziplist-value&lt;/code&gt;를 통해 사용가능하며, 챕터 4에서 자세히 알아보겠다.&lt;/p&gt;
+
+&lt;p&gt;해쉬는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hash table&lt;/code&gt; 혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt;가 될 수 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt;는 메모리 최적화된 양방향 링크드 리스트다. 정수는 캐릭터 시퀀스 대신 실제 정수가 저장된다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt;는 최적화에 불구하고 룩업에는 일정한 시간이 걸린다. 반면에 해시 테이블은 상수 시간에 탐색이 가능하지만 메모리 최적화는 되어있지 않다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Instagram had to back-reference 300 million media IDs to user IDs,
+and they decided to benchmark a Redis prototype using Strings
+and Hashes. The String solution used one key per media ID and
+around 21 GB of memory. The Hash solution used around 5 GB with
+some configuration tweaks&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;using-hashes-withj-redis-cli&quot;&gt;Using Hashes withj redis-cli&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSET&lt;/code&gt;: 필드에 주어진 키에 대해 값을 설정한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSET key field value&lt;/code&gt;와 같은 문법으로 사용할 수 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HMSET&lt;/code&gt;: 여러 필드 값을 키에 설정할 수 있다. 스페이스로 구분한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;위 둘은 필드 값이 존재하지 않을 경우 생성하고 있을 경우 덮어쓰기를 진행한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://medium.com/garimoo/개발자를-위한-레디스-튜토리얼-01-92aaa24ca8cc&lt;/li&gt;
+    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="NoSQL" /><category term="database" /><category term="nodejs" /><summary type="html"></summary></entry><entry><title type="html">InnoDB 인덱스 페이지 구조</title><link href="http://localhost:4000/database/innoDB_index_page/" rel="alternate" type="text/html" title="InnoDB 인덱스 페이지 구조" /><published>2020-11-14T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/innoDB_index_page</id><content type="html" xml:base="http://localhost:4000/database/innoDB_index_page/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;p&gt;이 포스트는 &lt;a href=&quot;/database/b+_tree&quot;&gt;B+ Tree 포스트&lt;/a&gt;와 이어집니다.&lt;/p&gt;
@@ -15,6 +270,8 @@
 
 &lt;h1 id=&quot;innodb-인덱스-페이지-구조&quot;&gt;InnoDB 인덱스 페이지 구조&lt;/h1&gt;
 
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;InnoDB&lt;/code&gt;는 디스크에 데이터를 저장하는 가장 기본 단위를 페이지라고 하며, 인덱스 역시 페이지 단위로 관리된다.&lt;/p&gt;
+
 &lt;h2 id=&quot;innodb는-모든-것이-인덱스로-이루어져있다&quot;&gt;InnoDB는 모든 것이 인덱스로 이루어져있다.&lt;/h2&gt;
 
 &lt;p&gt;무슨 뜻인지 알아보자.&lt;/p&gt;
@@ -24,6 +281,55 @@
   &lt;li&gt;행 데이터(프라이머리키를 가지지 않는 필드)가 프라이머리 키 인덱스 구조에 저장될 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;clusterd key&lt;/code&gt;라고 부른다. 이 인덱스 구조에서 프라이머리 키를 키로, 행 데이터를 키에 첨부되는 값이다. (물론 &lt;a href=&quot;/database/database_MVCC&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MVCC&lt;/code&gt;&lt;/a&gt;를 위한 필드도)&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Secondary key&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;identical&lt;/code&gt;한 인덱스 구조에 저장되지만, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;KEY&lt;/code&gt; 밸류에 키값이며 프라이머리 키 값은 그 키에 첨부된다.&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/INDEX_Page_Overview.png&quot; alt=&quot;페이지 오버뷰&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위는 페이지 구조에 대한 오버뷰이며 그에 대한 설명은 아래와 같다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FIL&lt;/code&gt; 헤더와 트레일러는 페이지의 공통적으로 있는 속성이다. 직접적인 예시로는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INDEX&lt;/code&gt; 페이지에 같은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;level&lt;/code&gt;에 존재하는 이전 페이지와 다음 페이지를 포인터를 가지고 있는 경우와 인덱스의 키값을 오름차순으로 가지고 있는 경우이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FSEG&lt;/code&gt; 헤더는 파일 관리에 사용되는 헤더이며 루트 페이지의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FSEG&lt;/code&gt;는 인덱스를 사용하는 파일 세그먼트에 대한 포인터를 가지고 있다. 그외에 페이지에서는 사용하지 않는다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INDEX&lt;/code&gt; 헤더는 인덱스 페이지와 레코드 관리를 위한 필드를 포함한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;System records&lt;/code&gt;는 모든 페이지가 가지고 있는 시스템 레코드로써 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;infimum&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;supremum&lt;/code&gt;을 가지고 있다 이는 페이지에 대한 오프셋이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User records&lt;/code&gt;는 실제 제이터이다. 모든 레코드는 변수는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;variable-width(가변 폭) header&lt;/code&gt;와 실제 콜럼 데이터를 가지고 있다. 헤더에는 다음 레코드에 대한 포인터를 포함하며, 이는 오름차순으로 정렬되어 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;The page directory&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FIL&lt;/code&gt; 트레일러에서 시작하는 페이지의 top에서부터 아래로 확장되며, 페이지의 일부 레코드에(매 4~8번째 레코드) 대한 포인터를 포함한다. 아래에서 자세히 설명하겠다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;index-header&quot;&gt;INDEX header&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/INDEX_Header.png&quot; alt=&quot;페이지 인덱스 헤더&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위는 인덱스 헤더 대한 개요이며, 고정 크기를 가진 구조이다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Index ID&lt;/code&gt;: 인덱스 페이지가 속한 아이디이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Format Flag&lt;/code&gt;: 현재 페이지가 저장한 레코드의 포맷이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Number of Heap Records&lt;/code&gt; 필드보다 높은 비트에서 저장되며, 가능한 값으로는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPACT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REDUNDANT&lt;/code&gt;가 있다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Maximum Transaction ID&lt;/code&gt;: 현재 페이지에서 레코드에 대한 수정의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;maximum transaction ID&lt;/code&gt;이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Number of Heap Records&lt;/code&gt;: 현재 페이지에 레코드 총 개수이며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;infimum&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;supremum&lt;/code&gt;, 삭제된 레코드를 포함한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Number of Records&lt;/code&gt;: 삭제되지 않은 페이지 레코드이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Heap Top Position&lt;/code&gt;: 현재 사용된 공간의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;end&lt;/code&gt; 바이트 오프셋이다. 모든 저장공간은 힙의 탑과 페이지 디렉토리의 끝을 비워둔다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;First Garbage Record Offset&lt;/code&gt;: 삭제된 레코드 리스트의 첫 원소를 가리키는 포인터다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Garbage Space&lt;/code&gt;: 가비지 레코드 리스트에서 관리하는 레코드의 총 바이트 수이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Last Insert Position&lt;/code&gt;: 마지막으로 페이지에 추가된 레코드의 바이트 오프셋이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Page Direction&lt;/code&gt;: 페이지 디렉션을 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LEFT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RIGHT&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;NO_DIRECTION&lt;/code&gt;이 사용된다. 이 페이지에 순차적인 삽입 혹은 임의적인 삽입이 일어나는지에 대한 표시자이다. 각 삽입에서 마지막 삽입 위치를 읽고 삽입 방향을 결정하기 위해 현재 삽입된 레코드 키와 비교한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Number of Inserts in Page Direction&lt;/code&gt;: 한번 페이지 디렉션이 설정되면 그 이후 삽입에서 방향을 바꾸지 않고 이 값을 증가시킨다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Number of Directory Slots&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;slots&lt;/code&gt;에 각 값이 16-bit 바이트 오프셋인 페이지 디렉토리 사이즈이다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Page Level&lt;/code&gt;: 현재 인덱스 페이지의 레벨이다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;record-format-redundant-vs-compact&quot;&gt;Record format: redundant VS compact&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPACT&lt;/code&gt; 레코드 포멧은 새로운 형식의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Barracuda table format&lt;/code&gt;이며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REDUNDANT&lt;/code&gt;는 기존의 형식의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Antelope table format&lt;/code&gt;이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COMPACT&lt;/code&gt; 형식은 각 레코드에 중복 저장되어 정보들을 삭제하였다. 예를들어 데이터 딕셔너리에서 얻을 수 있는 필드 수, nullable 필드, 필드의 동적 길이 등이 있다.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-page-directory&quot;&gt;the page directory&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/INDEX_Page_Directory.png&quot; alt=&quot;페이지 인덱스 디렉토리&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;페이지 디렉토리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FIL&lt;/code&gt; 트레일러에서 시작하며 유저 레코드 위에 있으며, 아래 방향으로 크기가 커진다. 페이지 디렉토리 매 4-8 레코드의 포인터를 포함하며, 항상 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;infimum&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;supremum&lt;/code&gt;를 포함한다.&lt;/p&gt;
+
+&lt;p&gt;페이지 디렉토리는 동적 크기 배열이며, 16비트 오프셋 포인터를 가진다.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
@@ -722,80 +1028,4 @@ FROM ANIMAL_INS
 
 	&lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="PS" /><category term="greedy" /><category term="sort" /><category term="dp" /><summary type="html"></summary></entry><entry><title type="html">recommender system 개발</title><link href="http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/" rel="alternate" type="text/html" title="recommender system 개발" /><published>2020-10-19T00:00:00+09:00</published><updated>2020-10-20T04:00:00+09:00</updated><id>http://localhost:4000/ml/deep_learning_with_keras_recommender_systems</id><content type="html" xml:base="http://localhost:4000/ml/deep_learning_with_keras_recommender_systems/">&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
-&lt;p&gt;추천시스템 개발을 위해 예제를 참고하여 정리하였다.
-파이썬 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;keras&lt;/code&gt;로 개발 후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Flaks&lt;/code&gt;를 이용해 간단한 API 설계로 서버와 통신하려한다.
-아직 미흡한 점이 많은 시슽&lt;/p&gt;
-
-&lt;h1 id=&quot;코드&quot;&gt;코드&lt;/h1&gt;
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;zipfile&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ZipFile&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;tensorflow.keras&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;layers&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pathlib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Path&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;plt&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;DNN.RecommenderNet&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RecommenderNet&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# get file for server or
-&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ratings_file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ratings.csv&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ratings_file&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;user_ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;userId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;user2user_encoded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;userencoded2user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;book_ids&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bookId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;unique&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tolist&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;book2book_encoded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;book_encoded2book&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;enumerate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book_ids&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;userId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user2user_encoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;book&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;movieId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book2book_encoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;num_users&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user2user_encoded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;num_books&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book_encoded2book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;astype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# min and max ratings will be used to normalize the ratings later
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;max_rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;Number of users: {}, Number of Movies: {}, Min rating: {}, Max rating: {}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;num_users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max_rating&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frac&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;random_state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;book&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Normalize the targets between 0 and 1. Makes it easy to train.
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;rating&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;apply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;lambda&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;max_rating&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min_rating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Assuming training on 90% of the data and validating on 10%.
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.9&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;x_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_val&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:],&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:],&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;EMBEDDING_SIZE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;models&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'recommender_model.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;except&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RecommenderNet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;num_books&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EMBEDDING_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;loss&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;losses&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BinaryCrossentropy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keras&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Adam&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.001&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y_train&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;batch_size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;epochs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;validation_data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y_val&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'recommender_model.h5'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="ML" /><category term="ML" /><category term="Collaborative Filtering" /><category term="projects" /><summary type="html">개요 추천시스템 개발을 위해 예제를 참고하여 정리하였다. 파이썬 keras로 개발 후 Flaks를 이용해 간단한 API 설계로 서버와 통신하려한다. 아직 미흡한 점이 많은 시슽</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="PS" /><category term="greedy" /><category term="sort" /><category term="dp" /><summary type="html"></summary></entry></feed>
