@@ -4,7 +4,7 @@ tags:
   - nodejs
   - projects
 categories:
-  - nodejs
+  - projects
 last_modified_at: 2020-09-24T13:00:00+18:00
 toc: true
 ---
