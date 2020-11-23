@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Nouvelle Vague  |  untitled</title>
+<!-- begin _includes/seo.html --><title>면접준비용(이후 정리)  |  untitled</title>
 <meta name="description" content="MEAN stack">
 
 
@@ -19,8 +19,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="Nouvelle Vague">
-<meta property="og:url" content="http://localhost:4000/nodejs/interview/">
+<meta property="og:title" content="면접준비용(이후 정리)">
+<meta property="og:url" content="http://localhost:4000/projects/interview/">
 
 
   <meta property="og:description" content="MEAN stack">
@@ -44,7 +44,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/nodejs/interview/">
+<link rel="canonical" href="http://localhost:4000/projects/interview/">
 
 
 
@@ -281,7 +281,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Nouvelle Vague">
+    <meta itemprop="headline" content="면접준비용(이후 정리)">
     <meta itemprop="description" content="MEAN stack">
     <meta itemprop="datePublished" content="2020-10-10T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-09-24T04:00:00+09:00">
@@ -289,7 +289,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Nouvelle Vague
+          <h1 id="page-title" class="page__title" itemprop="headline">면접준비용(이후 정리)
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  4 분 소요
+  8 분 소요
 
 </p>
           
@@ -314,19 +314,17 @@
   <li><a href="#spa">SPA</a></li>
   <li><a href="#스크립트-언어">스크립트 언어</a></li>
   <li><a href="#docker-란">Docker 란</a></li>
-  <li><a href="#온-디맨드-이미지-리사이징">온 디맨드 이미지 리사이징</a>
+  <li><a href="#온-디맨드-이미지-리사이징">온 디맨드 이미지 리사이징</a></li>
+  <li><a href="#content-delivery-network">content delivery network</a>
     <ul>
-      <li><a href="#content-delivery-network">content delivery network</a></li>
+      <li><a href="#http란">http란</a></li>
     </ul>
   </li>
   <li><a href="#httponlycookie">httponlycookie</a></li>
-  <li><a href="#federated-learning">federated learning</a>
-    <ul>
-      <li><a href="#secure-aggregation-protocol">secure aggregation Protocol</a></li>
-      <li><a href="#kgc">KGC?</a></li>
-      <li><a href="#middle-server">middle server</a></li>
-    </ul>
-  </li>
+  <li><a href="#federated-learning">federated learning</a></li>
+  <li><a href="#secure-aggregation-protocol">secure aggregation Protocol</a></li>
+  <li><a href="#kgc">KGC?</a></li>
+  <li><a href="#middle-server">middle server</a></li>
   <li><a href="#데이터베이스-캐싱">데이터베이스 캐싱</a></li>
   <li><a href="#데이터베이스-모델">데이터베이스 모델</a></li>
   <li><a href="#rest-http-api">REST, HTTP API</a>
@@ -386,6 +384,20 @@
   </li>
   <li><a href="#스레드">스레드</a></li>
   <li><a href="#sql-엔진-차이점">sql 엔진 차이점</a></li>
+  <li><a href="#비-클러스터-인덱스">비 클러스터 인덱스</a></li>
+  <li><a href="#객체지향-프로그래밍이란">객체지향 프로그래밍이란</a></li>
+  <li><a href="#함수형-프로그래밍">함수형 프로그래밍</a>
+    <ul>
+      <li><a href="#컨셉">컨셉</a></li>
+      <li><a href="#모든-것은-객체이다">모든 것은 객체이다.</a></li>
+      <li><a href="#1급-객체란">1급 객체란?</a></li>
+    </ul>
+  </li>
+  <li><a href="#aop">AOP</a></li>
+  <li><a href="#자바-컴파일">자바 컴파일</a></li>
+  <li><a href="#string-string-buffer-string-builder">String ,String Buffer, String Builder</a></li>
+  <li><a href="#hahsmap-hashtable-concurrenthashmap">hahsmap, hashtable, concurrenthashmap</a></li>
+  <li><a href="#샤딩-레플리카">샤딩, 레플리카</a></li>
 </ul>
 
             </nav>
@@ -422,9 +434,12 @@
 <p>https://heropy.blog/2019/07/21/resizing-images-cloudfrount-lambda/
 https://helloinyong.tistory.com/246</p>
 
-<h2 id="content-delivery-network">content delivery network</h2>
+<h1 id="content-delivery-network">content delivery network</h1>
 
 <p>https://goddaehee.tistory.com/173</p>
+
+<h2 id="http란">http란</h2>
+<p>Hypertext Transfer Protocol (HTTP) is an application-layer protocol for transmitting hypermedia documents, such as HTML. It was designed for communication between web browsers and web servers, but it can also be used for other purposes</p>
 
 <h1 id="httponlycookie">httponlycookie</h1>
 
@@ -434,15 +449,15 @@ https://helloinyong.tistory.com/246</p>
 
 <p>연합학습이란, 민감정보를 이용한 러닝을 효과적으로 진행할 수 있는 방식으로써, 사용자 개개인의 데이터를 이용한 로컬 모델의 러닝이후 weight값을 모아 평균을 구하고, 이를 글로벌 모델에게</p>
 
-<h2 id="secure-aggregation-protocol">secure aggregation Protocol</h2>
+<h1 id="secure-aggregation-protocol">secure aggregation Protocol</h1>
 
-<h2 id="kgc">KGC?</h2>
+<h1 id="kgc">KGC?</h1>
 
 <p>key generation server 약자.</p>
 
 <p>trusted third party</p>
 
-<h2 id="middle-server">middle server</h2>
+<h1 id="middle-server">middle server</h1>
 
 <h1 id="데이터베이스-캐싱">데이터베이스 캐싱</h1>
 
@@ -617,6 +632,102 @@ http://restapi.example.com/houses/apartments  (0)
 
 <p>https://rebeccajo.tistory.com/14</p>
 
+<h1 id="비-클러스터-인덱스">비 클러스터 인덱스</h1>
+<p>Non-Clustered Index는 데이터와 인덱스를 각각 다른 위치에 저장합니다. 인덱스는 해당 데이터의 위치에 대한 포인터를 포함하고 있습니다. Non-Clustered Index의 인덱스가 서로 다른 위치에 저장되므로 단일 테이블에는 많은 Non-Clustered Index가 있을 수 있습니다.</p>
+
+<p>예를 들면, 책 한권은 내용을 빠르게 찾기 위해서 보통 두 가지 이상의 색인을 가지게 됩니다. 앞쪽에는 “목차” 기준으로 정렬되어 있고, 뒤쪽에는 “찾아보기”와 같은 용어에 대한 알파벳 순으로 표시하는 것을 볼 수 있습니다. 책을 테이블이라고 하고 목차, 찾아보기를 Non-Clustered Index로 생각하면 이해가 될 수 있습니다.</p>
+
+<h1 id="객체지향-프로그래밍이란">객체지향 프로그래밍이란</h1>
+
+<p>객체 지향 프로그래밍 이전의 프로그래밍 패러다임을 살펴보면, 중심이 컴퓨터에 있었다. 컴퓨터가 사고하는대로 프로그래밍을 하는 것이다. 하지만 객체지향 프로그래밍이란 인간 중심적 프로그래밍 패러다임이라고 할 수 있다. 즉, 현실 세계를 프로그래밍으로 옮겨와 프로그래밍하는 것을 말한다. 현실 세계의 사물들을 객체라고 보고 그 객체로부터 개발하고자 하는 애플리케이션에 필요한 특징들을 뽑아와 프로그래밍 하는 것이다. 이것을 추상화라한다.</p>
+
+<p>OOP 로 코드를 작성하면 이미 작성한 코드에 대한 재사용성이 높다. 자주 사용되는 로직을 라이브러리로 만들어두면 계속해서 사용할 수 있으며 그 신뢰성을 확보 할 수 있다. 또한 라이브러리를 각종 예외상황에 맞게 잘 만들어두면 개발자가 사소한 실수를 하더라도 그 에러를 컴파일 단계에서 잡아낼 수 있으므로 버그 발생이 줄어든다. 또한 내부적으로 어떻게 동작하는지 몰라도 개발자는 라이브러리가 제공하는 기능들을 사용할 수 있기 때문에 생산성이 높아지게 된다. 객체 단위로 코드가 나눠져 작성되기 때문에 디버깅이 쉽고 유지보수에 용이하다. 또한 데이터 모델링을 할 때 객체와 매핑하는 것이 수월하기 때문에 요구사항을 보다 명확하게 파악하여 프로그래밍 할 수 있다.</p>
+
+<p>객체 간의 정보 교환이 모두 메시지 교환을 통해 일어나므로 실행 시스템에 많은 overhead 가 발생하게 된다. 하지만 이것은 하드웨어의 발전으로 많은 부분 보완되었다. 객체 지향 프로그래밍의 치명적인 단점은 함수형 프로그래밍 패러다임의 등장 배경을 통해서 알 수 있다. 바로 객체가 상태를 갖는다는 것이다. 변수가 존재하고 이 변수를 통해 객체가 예측할 수 없는 상태를 갖게 되어 애플리케이션 내부에서 버그를 발생시킨다는 것이다. 이러한 이유로 함수형 패러다임이 주목받고 있다.</p>
+
+<h1 id="함수형-프로그래밍">함수형 프로그래밍</h1>
+
+<h2 id="컨셉">컨셉</h2>
+<ol>
+  <li>변경 가능한 상태를 불변상태(Immutab)로 만들어 SideEffect를 없애자.</li>
+  <li>모든 것은 객체이다.</li>
+  <li>코드를 간결하게 하고 가독성을 높여 구현할 로직에 집중 시키자.</li>
+  <li>동시성 작업을 보다 쉽게 안전하게 구현 하자.</li>
+</ol>
+
+<p>변경 가능한 상태를 불변상태(Immutable)로 만들어 SideEffect를 없애자.</p>
+
+<p>함수의 기본은 f(x) = y, 한 번쯤은 봤을 법한 공식입니다. 쉽게 말해서 함수f()에 x 를 입력하면 항상 y라는 결과값이 나오는 것을 말합니다. 여기서 중요한 점은 함수 안에서 상태를 관리하고 상태에 따라서 결과값이 달라지면 안된 다는 말 입니다. 상태를 사용하지 않음으로 SideEffect를 사전에 차단 할수 있습니다. 또 변수 보다는 상수를 사용해 SideEffect를 차단합니다.</p>
+
+<h2 id="모든-것은-객체이다">모든 것은 객체이다.</h2>
+
+<p>함수형 언어에서는 모든것이 객체입니다. 클래스 외에 함수 또한 객체 이기 때문에 함수를 값으로 할당 할수 있고, 파라미터로 전달 및 결과 값으로 반환이 가능합니다. 위 3가지를 만족하는 객체를 1급 객체 라고 합니다. 자바 8 이전에 함수는 위 3가지를 만족시키지 못해 함수가 1급 객체가 아니였지만 함수형 프로그래밍 언어에서는 3가지 조건을 만족시켜 함수가 1급 객체 입니다. 이전에 정리한 글에 보다 자세한 설명과 예제가 있습니다.</p>
+
+<h2 id="1급-객체란">1급 객체란?</h2>
+
+<p>아래 3 가지조건을 충족한다면 1급 객체라고 할수 있습니다.</p>
+
+<ol>
+  <li>변수나 데이타에 할당 할 수 있어야 한다.</li>
+  <li>객체의 인자로 넘길 수 있어야 한다.</li>
+  <li>객체의 리턴값으로 리턴 할수 있어야 한다.</li>
+</ol>
+
+<h1 id="aop">AOP</h1>
+
+<ul>
+  <li>핵심 기능 / 공통 기능을 구분하여, 공통 기능을 개발자의 코드 밖에서 필요한 시점에 적용하는 방법</li>
+  <li>Spring에선는 @Aspect 어노테이션을 통해, 공통 기능을 정의하고 그 기능이 사용될 시점을 적의 가능</li>
+  <li>Ex. 핵심 기능 = 비즈니스 로직 / 공통 기능 = logging, 보안, DB 연결 등</li>
+</ul>
+
+<h1 id="자바-컴파일">자바 컴파일</h1>
+
+<p>자바는 컴파일하여 바이트 코드로 변경 후 JVM이 바이트 코드를 해석(인터프리터, just-in-time 컴파일러)하여 기계어 캐싱을 통해 런타임한다.</p>
+
+<h1 id="string-string-buffer-string-builder">String ,String Buffer, String Builder</h1>
+
+<p>스트링과 스트링 버퍼 빌더 차이는 mutable, immutable</p>
+
+<p>그럼 두 클래스의 차이점은 무엇일까요? 바로 동기화 여부입니다.</p>
+
+<ul>
+  <li>StringBuffer는 각 메서드별로 Synchronized Keyword가 존재하여, 멀티스레드 환경에서도 동기화를 지원.</li>
+  <li>반면, StringBuilder는 동기화를 보장하지 않음.</li>
+</ul>
+
+<h1 id="hahsmap-hashtable-concurrenthashmap">hahsmap, hashtable, concurrenthashmap</h1>
+
+<p>HashMap</p>
+
+<ul>
+  <li>HashMap은 synchronized 키워드가 없기 때문에 동기화가 보장되지 못한다. (싱글 스레드 환경에서 사용하길) 따라서 동기화처리를 하지 않기 때문에 값을 찾는 속도가 상당히 빠르다. 또한 HashTable과 다르게 key,value null값을 허용한다. 즉 속도가 빠르지만, 신뢰성 안정성은 떨어진다고 생각하면 된다.</li>
+</ul>
+
+<p>ConCurrentHaspMap</p>
+
+<ul>
+  <li>HashMap의 멀티스레드 환경에서의 동기화처리로 인한 문제점을 보완한 것이 ConCurrentHashMap이다. 하지만 HashMap과 다르게 key,value에 null을 허용하지 않는다.</li>
+</ul>
+
+<p>HashTable</p>
+
+<ul>
+  <li>HashTable의 메서드는 전부 synchronized 키워드가 붙어있기 때문에 메서드 호출 전 쓰레드간 동기화 락을 통해 멀티 쓰레드 환경에서 data의 무결성을 보장해준다. 또한 key,value값의 null을 허용하지 않는다. 즉 동기화 락때문에 속도는 느리지만, data의 안정성이 높고 신뢰가 높은 컬렉션이다.</li>
+</ul>
+
+<h1 id="샤딩-레플리카">샤딩, 레플리카</h1>
+
+<p>레플리카는 fail-over나 read/write 경합 감소(또는 제거), read 코스트 분산 등에 치중되어있다.</p>
+
+<p>fail-over시에는 복제 디비를 둠으로써, 메인 디비가 장애가 생겨도 복제 디비에서 정상적인 서비스를 빠르게 구성할 수 있게 구성하는 것이 목적이다.</p>
+
+<p>read/write node를 분리함으로써 성능 분산도 처리할 수 있다. (특히 경합이 이루어질 경우 성능 저하도 우회할 수 있다.)</p>
+
+<p>샤딩의 목적은 데이터를 분산 저장함으로써, 트래픽 분산에 목적이 있다. 샤딩도 디테일에서 여러방식으로 갈리는데, 샤딩된 노드끼리 통신해야 할 경우에는 트래픽이 다시 몰리는 경우가 있다. (여러 노드의 데이터를 조합해서 결과를 내야 하기 때문)</p>
+
+<p>샤딩은 분산된 데이터 그 자체로 의미가 있을 때는 샤딩 그 자체가 트래픽 분산이 깔끔하게 이루어진다. 실질적으로 이 경우는 샤딩이라 부르기보단 DB 분산 (또는 파티셔닝. 게임의 경우 월드 단위 DB를 따로 쓰는 등의)이라고 부르는 경우도 많은 것이 그 이유다.</p>
+
 <blockquote>
   <font size="6">Refernce</font>
   <ul>
@@ -625,6 +736,7 @@ http://restapi.example.com/houses/apartments  (0)
     <li>https://github.com/Mrchanghao/Interview_Question_for_Beginner</li>
     <li>https://velog.io/@godori/ES6-%EC%A0%95%EB%A6%AC-vpjmrh6hhe</li>
     <li>https://eslint.org/docs/rules/no-var.html</li>
+    <li>https://medium.com/@lazysoul/%ED%95%A8%EC%88%98%ED%98%95-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%EC%9D%B4%EB%9E%80-d881230f2a5e</li>
   </ul>
 </blockquote>
 
@@ -672,7 +784,7 @@ http://restapi.example.com/houses/apartments  (0)
     
       
       
-      <a href="/categories/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a>
+      <a href="/categories/#projects" class="page__taxonomy-item" rel="tag">projects</a>
     
     </span>
   </p>
@@ -689,11 +801,11 @@ http://restapi.example.com/houses/apartments  (0)
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Nouvelle+Vague%20http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Finterview%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%EB%A9%B4%EC%A0%91%EC%A4%80%EB%B9%84%EC%9A%A9%28%EC%9D%B4%ED%9B%84+%EC%A0%95%EB%A6%AC%29%20http%3A%2F%2Flocalhost%3A4000%2Fprojects%2Finterview%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Finterview%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fprojects%2Finterview%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnodejs%2Finterview%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fprojects%2Finterview%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -729,7 +841,7 @@ http://restapi.example.com/houses/apartments  (0)
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/redis_00/" rel="permalink">레디스 기본 데이터 타입(작성중)
+        <a href="/algorithm/HLD/" rel="permalink">Heavy-Light Decompostion
 </a>
       
     </h2>
@@ -739,7 +851,7 @@ http://restapi.example.com/houses/apartments  (0)
 
 
 
-  5 분 소요
+  1 분 소요
 
 </p>
     
@@ -759,7 +871,7 @@ http://restapi.example.com/houses/apartments  (0)
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/innoDB_index_page/" rel="permalink">InnoDB 인덱스 페이지 구조
+        <a href="/database/redis_01/" rel="permalink">레디스 콜렉션(작성중)
 </a>
       
     </h2>
@@ -769,7 +881,7 @@ http://restapi.example.com/houses/apartments  (0)
 
 
 
-  3 분 소요
+  4 분 소요
 
 </p>
     
@@ -789,7 +901,36 @@ http://restapi.example.com/houses/apartments  (0)
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/database_MVCC/" rel="permalink">MVVC
+        <a href="/backend/Serverless/" rel="permalink">Serverless(작성중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/FaaS_BaaS/" rel="permalink">FaaS, BaaS
 </a>
       
     </h2>
@@ -803,38 +944,7 @@ http://restapi.example.com/houses/apartments  (0)
 
 </p>
     
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/database/B+_tree/" rel="permalink">B+tree, InnoDB Structure(작성중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
+    <p class="archive__item-excerpt" itemprop="description">서버리스 컴퓨팅에 대해 정리하다가 FaaS와 BaaS에 대한 언급이 잦아 정리해보려고 한다.
 </p>
   </article>
 </div>

@@ -1,0 +1,620 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Serverless(작성중)  |  untitled</title>
+<meta name="description" content="이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!">
+
+
+  <meta name="author" content="조원빈">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="untitled">
+<meta property="og:title" content="Serverless(작성중)">
+<meta property="og:url" content="http://localhost:4000/backend/Serverless/">
+
+
+  <meta property="og:description" content="이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2020-11-20T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2020-11-20T04:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/backend/Serverless/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "조원빈",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="untitled Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          untitled
+          <span class="site-subtitle">기록용 블로그입니다.</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">연도별 포스트</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar_logo2.jpg" alt="조원빈" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">조원빈</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Was mich nicht umbringt, macht mich stärker.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:lkic1625@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Serverless(작성중)">
+    <meta itemprop="description" content="이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!">
+    <meta itemprop="datePublished" content="2020-11-20T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-11-20T04:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Serverless(작성중)
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#serverless-란">Serverless 란</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <p>이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!</p>
+
+<h1 id="serverless-란">Serverless 란</h1>
+
+<p><code class="language-plaintext highlighter-rouge">Serverless</code> 아키텍처는 기존과 다른 인터넷 기반 서버개발 프로세스이다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">third-party services</code>, <code class="language-plaintext highlighter-rouge">client-side logic</code>, 호스팅 원격 프로시져 콜의 조합에만 의존한다.(Instead they rely solely on a combination of third-party services, client-side logic, and service hosted remote procedure calls <a href="/backend/FaaS_BaaS">(Faas)</a>)</p>
+
+<p><img src="/assets/images/serverless-archittectures.png" alt="이미지" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">Serverless</code> 어플리케이션은 전통적으로 서버가 처리하던 작업을 수행하기 위해 <code class="language-plaintext highlighter-rouge">third party services</code>를 광범위하게 사용한다. 이러한 서비스는 아마존 <code class="language-plaintext highlighter-rouge">AWS</code>, <code class="language-plaintext highlighter-rouge">Azure</code>와 같이 상호 운용되는 서비스의 풍부한 생태계가 될 수 있고, <code class="language-plaintext highlighter-rouge">Parse</code>나 <code class="language-plaintext highlighter-rouge">Firebase</code>같은 턴키 기능 셋을 제공하는 단일 서비스일 수도 있다.</p>
+
+<p>이 서비스에서 제공되는 <code class="language-plaintext highlighter-rouge">abstraction</code>은 인프라(메세지 큐, 데이터베이스, edge caching) 또는 더 높은 수준에 (federated identity, role and capability managemnet, seach) 등이 될 수 있다.</p>
+
+<p>범용 서버 기반 웹 어플리케이션에서 가장 중요한 것 중 하나는 request-response 사이클을 제어하는 것이다. 서버사이드에 컨트롤러는 입력을 처리하고 적절한 어플리케이션 작업을 포함하며, 동적인 리스폰스를 생성한다. <code class="language-plaintext highlighter-rouge">third-party services</code>로부터 어플리케이션 동작이 함께 짜여진 서버리스 어플리케이션에서 클라이언트 사이드 컨트롤러와 동적 콘텐츠 생성은 서버 사이트 컨트롤러로 대체한다. 수많은 자바스크립트 어플리케이션과 모바일 어플리케이션은 API 호출과 동적인 콘텐츠 생성을 위한 클라이언트 사이드 UI 프레임워크를 사용함으로써 다양한 서비스 간의 상호작용을 조정한다.</p>
+
+<p>서버 기반 웹 어플리케이션의 가장 중요한 부분은 컨트롤러와 인프라 사이에 발생하는 작업이다;(비지니스 로직) <code class="language-plaintext highlighter-rouge">long-lived server</code>는 이 로직을 구현하는 코드를 호스트하고 어플리케이션 활성 상태를 유지하는 한 필요한 처리를 수행한다. 서버리스 어플리케이션에서, 커스텀 코드 컴포넌트는 단일 HTTP request/response 사이클의 타임라인보다 더욱 짧고, 가까운 라이프 사이클을 가진다. 코드는 리퀘스트가 도착했을 때 실행되며, 이를 처리하고 종료되는 즉시 휴먼상태가 된다. 이러한 코드는 보통 <code class="language-plaintext highlighter-rouge">AWS Lambda</code>, <code class="language-plaintext highlighter-rouge">Azure Function</code>, <code class="language-plaintext highlighter-rouge">Google Cloud Function</code>등 코드 생명주기를 관리하고 스캐일링을 돕는 환경에서 사용할 수 있다. 이러한 스타일의 소프트웨어를 <code class="language-plaintext highlighter-rouge">FaaS</code>라고 부르기도 한다.</p>
+
+<p>더 좋은 서버리스 아키텍쳐에 대해 읽고 싶다면 <a href="https://martinfowler.com/articles/serverless.html">이 링크</a>를 읽어보는 것도 좋다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>https://martinfowler.com/bliki/Serverless.html</li>
+  </ul>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#backend" class="page__taxonomy-item" rel="tag">backend</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#serverless" class="page__taxonomy-item" rel="tag">serverless</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#backend" class="page__taxonomy-item" rel="tag">backend</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-20">November 20, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Serverless%28%EC%9E%91%EC%84%B1%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fbackend%2FServerless%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fbackend%2FServerless%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fbackend%2FServerless%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/backend/FaaS_BaaS/" class="pagination--pager" title="FaaS, BaaS
+">이전</a>
+    
+    
+      <a href="/database/redis_01/" class="pagination--pager" title="레디스 콜렉션(작성중)
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/algorithm/HLD/" rel="permalink">Heavy-Light Decompostion
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/redis_01/" rel="permalink">레디스 콜렉션(작성중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/FaaS_BaaS/" rel="permalink">FaaS, BaaS
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">서버리스 컴퓨팅에 대해 정리하다가 FaaS와 BaaS에 대한 언급이 잦아 정리해보려고 한다.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/redis_00/" rel="permalink">레디스 기본 데이터 타입
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2020 조원빈. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

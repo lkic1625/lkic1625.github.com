@@ -1,4 +1,330 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-19T07:16:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">레디스 기본 데이터 타입(작성중)</title><link href="http://localhost:4000/database/redis_00/" rel="alternate" type="text/html" title="레디스 기본 데이터 타입(작성중)" /><published>2020-11-18T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_00</id><content type="html" xml:base="http://localhost:4000/database/redis_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-24T04:03:26+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Heavy-Light Decompostion</title><link href="http://localhost:4000/algorithm/HLD/" rel="alternate" type="text/html" title="Heavy-Light Decompostion" /><published>2020-11-23T00:00:00+09:00</published><updated>2020-11-02T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/HLD</id><content type="html" xml:base="http://localhost:4000/algorithm/HLD/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;오늘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HLD&lt;/code&gt;에 대해 포스팅을 해보려 한다. 상당히 문제 유형이 한정적이고 어려운 테크닉에 속하기에 포스팅할까 망설였다.(어디다 쓰는 알고리즘인데 도대체) 대회 준비를 하는 것도 아니기에 기본적인 자료구조, 알고리즘을 지향하려 했지만, 최근에는 굳이 그럴 필요 있을까 생각한다.&lt;/p&gt;
+
+&lt;p&gt;알고리즘은 기업 코테도 있다보니 겸사겸사 시작했지만, 요즘은 하나의 논리를 배우는 거라 생각한다. 우리는 개발을 하면서 언어에 대해 항상 문법만 배우지 말을 잘하는 법을 배우진 않는다. 논리적으로 말하지 않아도 의미만 잘 전달된다면 상관없을지 모른다. 하지만, 직업 특성상 우리는 항상 효율적인 것을 생각한다. 논리를 배우는 건 필수적이지 않지만 달변가들이 많은 논리를 알고 있는 것은 어찌보면 당연하지 않을까?&lt;/p&gt;
+
+&lt;p&gt;서론이 길어졌다. 바로 알고리즘에 대해 알아보자.&lt;/p&gt;
+
+&lt;h1 id=&quot;heavy-light-decomposition&quot;&gt;Heavy-Light Decomposition&lt;/h1&gt;
+
+&lt;p&gt;일반적인 그래프에서 정점 \(u\)에서 \(v\)로 가는 경로에 대한 문제는 풀기가 어렵고 제시할 수 있는 유형이 한정적이다. 트리에서 단순 경로는 반드시 하나 존재한다는 특성 떄문에 일반적인 경우에 비해 쉽게 접근할 수 있지만, 경로를 탐색하기 위해 트리 전체를 순회하는 결과를 야기한다. 또한, 정점이나 간선의 속성을 변경하는 작업일 경우엔 더욱이 효율적인 처리가 불가능에 가까워질 것이다.&lt;/p&gt;
+
+&lt;p&gt;이를 해결할 수 있는 방법 중 하나가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HLD&lt;/code&gt;다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HLD&lt;/code&gt;는 트리를 정점 단위가 아닌 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chain&lt;/code&gt;단위로 분할하여 마치 1차원 배열의 묶음처럼 다룰 수 있게 해준다.&lt;/p&gt;
+
+&lt;h2 id=&quot;문제-정의&quot;&gt;문제 정의&lt;/h2&gt;
+
+&lt;p&gt;\(N\)개의 정점을 가진 트리가 있다고 하자. 이 때 임의의 두 정점에 대해 이들을 잇는 경로는 \(O(N)\)개의 간선을 가진다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Heavy light decomposition&lt;/code&gt;은 트리의 간선들을 적절히 일자 경로인 “묶음”들로 잘라, 임의의 두 간선 사이 경로를 \(O(\log N)\)개의 묶음으로 표현할 수 있게 해 준다. 이것을 세그먼트 트리 등의 일차원 자료 구조와 결합함으로써, 임의의 두 정점 사이의 경로에 대한 연산을 \(O(\log^2N)\)에 할 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;그런데 특별한 제약 조건이 없는 그래프 문제의 경우 이 모델화에 성공하면 대체로 문제가 쉬워지거나, 전형적인 알고리즘을 요구하는 문제로 바뀌게 됩니다. 오히려 제약 조건이 추가된 형태일수록 그 조건에 의해 나타나는 특성을 코어까지 활용해야 하는 어려운 문제를 자주 마주치게 됩니다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;1차원이라면&quot;&gt;1차원이라면?&lt;/h2&gt;
+
+&lt;p&gt;알고스팟에서 이에 대한 기본적인 문제를 제공하지만, 나는 &lt;a href=&quot;https://www.acmicpc.net/problem/2927&quot;&gt;남극 탐험 - 2927&lt;/a&gt; 문제를 통해 예시를 풀어보려 한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;http://theyearlyprophet.com/heavy-light-decomposition.html&lt;/li&gt;
+    &lt;li&gt;https://www.secmem.org/blog/2019/12/12/HLD/&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="traversal" /><category term="graph" /><category term="segment_tree" /><category term="lca" /><summary type="html"></summary></entry><entry><title type="html">레디스 콜렉션(작성중)</title><link href="http://localhost:4000/database/redis_01/" rel="alternate" type="text/html" title="레디스 콜렉션(작성중)" /><published>2020-11-21T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_01</id><content type="html" xml:base="http://localhost:4000/database/redis_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;이번-포스트에서는&quot;&gt;이번 포스트에서는..&lt;/h1&gt;
+
+&lt;p&gt;저번 포스트에서는 기본적인 데이터 타입을 설명했다. 이번 포스트에선 한발 더 나아가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt; 데이터 타입을 살펴보려 한다.&lt;/p&gt;
+
+&lt;p&gt;이 글은 &lt;a href=&quot;/database/redis_00&quot;&gt;레디스 기본 데이터 타입&lt;/a&gt; 포스트와 이어집니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;sets&quot;&gt;Sets&lt;/h2&gt;
+
+&lt;p&gt;셋은 스트링과는 구분되는 순서가 없는 콜렉션이다. 중복되는 원소를 셋에 집어넣을수 없으며 내부적으로 해쉬테이블처럼 구현됐다. 이러한 이유는 최적화 때문인데, 멤버 추가, 삭제, 서치 등의 시간이 \(O(1)\)에 실행되기 때문이다.&lt;/p&gt;
+
+&lt;p&gt;셋의 메모리 footprint?는 모든 멤버가 정수일 경우 줄일 수 있다. 멤버 최종 수는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set-max-inset-entries&lt;/code&gt;에 의존하며 이는 챕터 4에서 추후 설명하겠다.&lt;/p&gt;
+
+&lt;p&gt;원소 개수는 \(2^32 -1\)이며 40억개 저장 가능하다.&lt;/p&gt;
+
+&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sets&lt;/code&gt;의 사용 사례다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;데이터 필터링: 예를들어 특정 도시에서 출발하여 다른 도시에 도착하는 지정된 항공편을 필터링 할 수 있다.&lt;/li&gt;
+  &lt;li&gt;데이터 그루핑: 비슷한 제품을 본 모든 사용자를 그룹핑(아마존의 추천 시스템)&lt;/li&gt;
+  &lt;li&gt;멤버쉽 체킹: 블랙리스트에 존재하는지를 확인.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;sadd&quot;&gt;SADD&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SADD&lt;/code&gt;는 하나 혹은 그 이상의 멤버를 추가하기 위한 커맨드다. 만약 추가하려는 멤버가 존재할 경우 이를 기각하고, 추가된 멤버 수를 리턴한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; SADD user:max:favorite_artists &quot;Arcade Fire&quot; &quot;Arctic Monkeys&quot;
+&quot;Belle &amp;amp; Sebastian&quot; &quot;Lenine&quot;
+(integer) 4
+127.0.0.1:6379&amp;gt; SADD user:hugo:favorite_artists &quot;Daft Punk&quot; &quot;The Kooks&quot; &quot;Arctic
+Monkeys&quot;
+(integer) 3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;sinter&quot;&gt;SINTER&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SINTER&lt;/code&gt; 커맨드는 하나 혹은 그 이상의 셋을 받고, 모든 셋에 공통적으로 존재하는 멤버를 배열로 리턴한다.&lt;/p&gt;
+
+&lt;p&gt;아래 예제는 Hugo와 Max가 공통적으로 좋아하는 아티스트를 보여준다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SINTER user:max:favorite_artists user:hugo:favorite_artists
+1) &quot;Arctic Monkeys&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;sdiff&quot;&gt;SDIFF&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SDIFF&lt;/code&gt; 커맨드는 하나 혹은 그 이상의 셋을 받는다. 뒤에 따라오는 셋에 존재하지 않는 모든 멤버를 리턴한다. 이 커맨드는 키 네임의 순서가 중요하다. 존재하지 않는 모든 키는 빈 집합으로 간주된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SDIFF user:max:favorite_artists user:hugo:favorite_artists
+1) &quot;Belle &amp;amp; Sebastian&quot;
+2) &quot;Arcade Fire&quot;
+3) &quot;Lenine&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;두 번째 예제는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user:max:favorite_artists&lt;/code&gt;의 존재하지 않는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user:hugo:favorite_artists&lt;/code&gt;의 멤버를 모두 리턴한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SDIFF user:hugo:favorite_artists user:max:favorite_artists
+1) &quot;Daft Punk&quot;
+2) &quot;The Kooks&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;sunion&quot;&gt;SUNION&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SUNION&lt;/code&gt; 커맨드는 하나 혹은 그 이상의 셋을 받는다. 모든 셋의 모든 멤버를 리턴한다. 중복되는 멤버는 한 번만 보여준다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SUNION user:max:favorite_artists user:hugo:favorite_artists
+1) &quot;Lenine&quot;
+2) &quot;Daft Punk&quot;
+3) &quot;Belle &amp;amp; Sebastian&quot;
+4) &quot;Arctic Monkeys&quot;
+5) &quot;Arcade Fire&quot;
+6) &quot;The Kooks&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;spandmember&quot;&gt;SPANDMEMBER&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SPNADMEMBER&lt;/code&gt;는 주어진 셋에 랜덤한 멤버를 리턴한다. 셋은 순서가 없기 때문에 위치 인덱스 값으로 반환할 수 없다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SRANDMEMBER user:max:favorite_artists
+&quot;Arcade Fire&quot;
+127.0.0.1:6379&amp;gt; SRANDMEMBER user:max:favorite_artists
+&quot;Lenine&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;sismember-srem-scard-smembers&quot;&gt;SISMEMBER, SREM, SCARD, SMEMBERS&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SISMEMBER&lt;/code&gt;는 멤버가 셋 안에 존재하는지 확인한다. 존재할 경우에는 1, 아닐 경우에는 0을 리턴한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SISMEMBERS&lt;/code&gt;는 셋에 존재하는 모든 멤버를 리턴한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SREM&lt;/code&gt;은 멤버를 셋에서 삭제하고 인티저 값을 리턴한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SCARD&lt;/code&gt;는 멤버의 수를 리턴한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SISMEMBER user:max:favorite_artists &quot;Arctic Monkeys&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; SREM user:max:favorite_artists &quot;Arctic Monkeys&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; SISMEMBER user:max:favorite_artists &quot;Arctic Monkeys&quot;
+(integer) 0
+127.0.0.1:6379&amp;gt; SCARD user:max:favorite_artists
+(integer) 3
+127.0.0.1:6379&amp;gt; SMEMBERS user:max:favorite_artists
+1) &quot;Belle &amp;amp; Sebastian&quot;
+2) &quot;Arcade Fire&quot;
+3) &quot;Lenine&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;sorted-sets&quot;&gt;Sorted Sets&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt; 은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;과 매우 흡사하다. 하지만 각 멤버들이 연관된 스코어를 가지고 있다. 다른 말로 하자면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;은 중복된 멤버를 가지지 않고, 스코어에의해서 정렬된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Strings&lt;/code&gt;다. 스코어는 중복될 수 있다. 이러한 경우에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lexicographically&lt;/code&gt;하게 정렬한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt; 작업은 매우 빠르지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;의 작업보단 빠르지 않다. 추가, 삭제 갱신은 \(O(logN)\)이 걸린다. 내부적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;은 두 개의 자료구조로 나뉘어져 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;skip list with hash table&lt;/code&gt; 스킵 리스트는 정렬된 원소 시퀀스를 빠르게 탐색하기 위한 자료구조다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zset-max-ziplist-entries&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zset-max-ziplist-value&lt;/code&gt;에 기반한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt; 이는 챕터 4에서 다루도록 한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;의 사용사례다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;웨이팅 리스트&lt;/li&gt;
+  &lt;li&gt;온라인 게임과 같은 곳에 리더보드&lt;/li&gt;
+  &lt;li&gt;자동완성 시스템&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;zadd&quot;&gt;ZADD&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZADD&lt;/code&gt;는 하나 혹은 그 이상 멤버를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;에 추가한다. 이미 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;에 존재하는 멤버일 경우에는 요청을 무시한다. 추가된 멤버를 정수 값으로 반환한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; ZADD leaders 100 &quot;Alice&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; ZADD leaders 100 &quot;Zed&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; ZADD leaders 102 &quot;Hugo&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; ZADD leaders 101 &quot;Max&quot;
+(integer) 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;에 멤버는 스코어와 문자열로 추가된다. 앞에서도 설명했듯이 두가지 정렬 기준이 존재하는데, 스코어 순으로 정렬하며, 만약 스코어가 같을 경우에는 멤버의 문자열 값을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lexicographically&lt;/code&gt;하게 정렬한다. 앞 예제에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Alice&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Zed&lt;/code&gt;가 같은 스코어를 가지기 때문에, 알파벳 순으로 정렬된다.&lt;/p&gt;
+
+&lt;h3 id=&quot;zrange-zrevrange--withscores&quot;&gt;ZRANGE, ZREVRANGE ~ WITHSCORES&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZRANGE&lt;/code&gt;는 주어진 범위에 해당되는 멤버를 출력하며, 오름차순으로 출력한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZREVRANGE&lt;/code&gt;는 주어진 범위에 해당되는 멤버를 출력하며, 내림차순으로 출력한다.&lt;/p&gt;
+
+&lt;p&gt;위 두 커맨드에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WITHSCORES&lt;/code&gt;를 옵션 파라미터로 줄 수 있으며, 스코어를 같이 출력하게 된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZREVRANGE leaders 0 -1 WITHSCORES
+1) &quot;Hugo&quot;
+2) &quot;102&quot;
+3) &quot;Max&quot;
+4) &quot;101&quot;
+5) &quot;Zed&quot;
+6) &quot;100&quot;
+7) &quot;Alice&quot;
+8) &quot;100&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZREVRANGE leaders 0 -1
+1) &quot;Hugo&quot;
+2) &quot;Max&quot;
+3) &quot;Zed&quot;
+4) &quot;Alice&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;zrem&quot;&gt;ZREM&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZREM&lt;/code&gt;은 멤버를 지운다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZREM leaders &quot;Hugo&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; ZREVRANGE leaders 0 -1
+1) &quot;Max&quot;
+2) &quot;Zed&quot;
+3) &quot;Alice&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;zscore-zrank-zrevrank&quot;&gt;ZSCORE, ZRANK, ZREVRANK&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZSCORE&lt;/code&gt;는 특정 멤버에 스코어를 반환한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZRANK&lt;/code&gt;는 특정 멤버에 랭크(인덱스)를 반환한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZREVRANK&lt;/code&gt; 는 특정 멤버에 랭크를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;high to low&lt;/code&gt; 방향에서 인덱스를 반환한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZSCORE leaders &quot;Max&quot;
+&quot;101&quot;
+127.0.0.1:6379&amp;gt; ZRANK leaders &quot;Max&quot;
+(integer) 2
+127.0.0.1:6379&amp;gt; ZREVRANK leaders &quot;Max&quot;
+(integer) 0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;bitmap&quot;&gt;Bitmap&lt;/h2&gt;
+&lt;p&gt;비트맵이 실제 데이터 타입은 아니고, 스트링이다. 스트링에 비트 오퍼레이션을 진행하기 위해 만들어진 데이터 타입이라 볼 수 있다. 레디스에선 이를 조작할 수 있는 커맨드들을 제공하기에 데이터 타입으로 취급한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;은 0과 1을 저장할 수 있는 비트 시퀀스이다. 레디스 공식 문서에서 비트맵에 인덱스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;offset&lt;/code&gt;으로 불린다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><summary type="html"></summary></entry><entry><title type="html">FaaS, BaaS</title><link href="http://localhost:4000/backend/FaaS_BaaS/" rel="alternate" type="text/html" title="FaaS, BaaS" /><published>2020-11-20T00:00:00+09:00</published><updated>2020-11-20T04:00:00+09:00</updated><id>http://localhost:4000/backend/FaaS_BaaS</id><content type="html" xml:base="http://localhost:4000/backend/FaaS_BaaS/">&lt;p&gt;서버리스 컴퓨팅에 대해 정리하다가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BaaS&lt;/code&gt;에 대한 언급이 잦아 정리해보려고 한다.&lt;/p&gt;
+
+&lt;h1 id=&quot;function-as-a-service&quot;&gt;Function as a Service&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS Lambda&lt;/code&gt;가 대표적인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt;의 예시다. 아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS Lambda&lt;/code&gt;의 공식 홈페이지 설명을 가져와봤다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;AWS Lambda lets you run code without provisioning or managing servers. … With Lambda, you can run code for virtually any type of application or backend service ) - all with zero administration. Just upload your code and Lambda takes care of everything required to run and scale  your code with high availability. You can set up your code to automatically trigger from other AWS services or call it directly from any web or mobile app.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt; 근본적으로는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;long-lived&lt;/code&gt; 서버 어플리케이션 혹은 서버 시스템을 관리 없이 실행 가능한 백엔드 코드이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;long-lived&lt;/code&gt; 서버는 어플리케이션 컨테이너나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PaaS&lt;/code&gt;와 같은 모던 아키텍쳐 트렌드와 비교할 때 중요한 차이점이다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt;는 특정 프레임워크나 라이브러리의 코딩을 필요로 하지 않는다. 예를 들어 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS Lambda&lt;/code&gt; 함수는 Javascript, Python, Go, 모든 JVM 언어(Java, Clojure, Scala 등) 또는 에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;first class&quot;&lt;/code&gt; 를 구현할 수 있다.
+심지어 람다 함수는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deployment artifact&lt;/code&gt;와 함께 제공되는 번들로 다른 프로세스를 실행할 수 있다. 즉, 모든 언어를 사용할 수 있는 것이다.
+&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt; 함수는 특히 상태 및 실행 시간에 관항 경우 구조적인 제약이 있다.
+&lt;br /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;배포시에는 기존 시스템 구조와 매우 다른데, 구동시킬 서버 어플리케이션이 존재하지 않기 때문이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt; 환경에서는 코드를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt; 제공자에게 업로드하고, 제공자가 리소스 프로비저닝, VM 인스턴스화, 프로세스 관리 등에 필요한 모든 작업을 수행한다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;수평 스케일링은 완전히 자동적이고 탄력적이며, 제공자에 의해 관리된다. 만약 시스템이 100개의 리퀘스트를 병렬처리 해야 한다하자 어떤 추가적인 작업없이 해당 요청을 처리할 수 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;compute container&lt;/code&gt;는 일시적으로 생성되는 함수이며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt; 제공자가 요구되는 시간에 생성하고 삭제한다. 가장 중요한 것은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt;를 통해 벤더가 모든 기본 리소스 프로비저닝 및 할당을 처리한다는 점이다. 즉, 사용자가 클러스터나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;VM&lt;/code&gt;을 관리할 필요가 전혀 없다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt;내 함수는 제공자에게 정의된 전형적인 이벤트 타입의 함수다. 아마존 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;S3&lt;/code&gt;업데이트, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Scheduled tasks&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;messages bus&lt;/code&gt; 등이 이에 대한 예시다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;대부분의 제공자는 인바운드 HTTP 리퀘스트에 대한 응답으로 함수가 트리거 되는 것을 허용한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS&lt;/code&gt;에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt; 게이트웨이를 사용하여 이를 가능하게 한다. 함수는 플랫폼에서 제공된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;를 통해 직접적으로 포함될 수 있지만, 이는 자주 사용되지는 않는다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&quot;mobile-backend-as-a-service&quot;&gt;Mobile Backend as a Service&lt;/h1&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BaaS&lt;/code&gt;로도 많이 알려진 이름이다. 웹앱과 모바일앱 개발자에게 어플리케이션에서 노출되는 백엔드 클라우드 스토리지 및 API에 어플리케이션을 연결하는 동시에 사용자 관리, 푸시 알림, 소셜 네트워크 서비스의 통합 등의 기능을 제공하는 모델이다. 이는 커스텀 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SDKs&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;APIs&lt;/code&gt;를 통해 제공될 수 있다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;웹과 모바일 앱은 운영을 위해  알림 서비스, 소셜네트워크 통합, 클라우드 저장소 등 백엔드의 비슷한 기능을 필요로한다. 각각의 앱과 상호작용 하기 위한 API를 가지며 개발자에게 많은 시간을 소모하게 한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BaaS&lt;/code&gt; 제공자는 프론트엔드와 클라우드 베이스의 백엔드를 API와 SDK를 통해 제공한다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;백엔드 데이터를 일관성 있게 관리할 수 있는 방법을 제공한다는 것은 개발자가 앱에서 접근해야할 각 서비스에 대해 재개발 하지 않아도 되는 것을 의미한다. 이는 시간과 비용을 모두 절약할 수 있다.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;클라우드 컴퓨팅 비지니스 모델인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SaaS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IaaS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PaaS&lt;/code&gt;와 비슷해 보이지만, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BaaS&lt;/code&gt;는 자사 앱을 클라우드 서비스에 연결하는 통일된 수단을 제공함으로써 웹 및 모바일 앱 개발자의 클라우드 컴퓨팅 요구를 구체적으로 해결한다는 차별점이 존재한다.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://martinfowler.com/articles/serverless.html#unpacking-faas&lt;/li&gt;
+    &lt;li&gt;https://en.wikipedia.org/wiki/Mobile_backend_as_a_service&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="serverless" /><category term="FaaS" /><summary type="html">서버리스 컴퓨팅에 대해 정리하다가 FaaS와 BaaS에 대한 언급이 잦아 정리해보려고 한다.</summary></entry><entry><title type="html">Serverless(작성중)</title><link href="http://localhost:4000/backend/Serverless/" rel="alternate" type="text/html" title="Serverless(작성중)" /><published>2020-11-20T00:00:00+09:00</published><updated>2020-11-20T04:00:00+09:00</updated><id>http://localhost:4000/backend/Serverless</id><content type="html" xml:base="http://localhost:4000/backend/Serverless/">&lt;p&gt;이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!&lt;/p&gt;
+
+&lt;h1 id=&quot;serverless-란&quot;&gt;Serverless 란&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Serverless&lt;/code&gt; 아키텍처는 기존과 다른 인터넷 기반 서버개발 프로세스이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;third-party services&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;client-side logic&lt;/code&gt;, 호스팅 원격 프로시져 콜의 조합에만 의존한다.(Instead they rely solely on a combination of third-party services, client-side logic, and service hosted remote procedure calls &lt;a href=&quot;/backend/FaaS_BaaS&quot;&gt;(Faas)&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/serverless-archittectures.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Serverless&lt;/code&gt; 어플리케이션은 전통적으로 서버가 처리하던 작업을 수행하기 위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;third party services&lt;/code&gt;를 광범위하게 사용한다. 이러한 서비스는 아마존 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Azure&lt;/code&gt;와 같이 상호 운용되는 서비스의 풍부한 생태계가 될 수 있고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Parse&lt;/code&gt;나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Firebase&lt;/code&gt;같은 턴키 기능 셋을 제공하는 단일 서비스일 수도 있다.&lt;/p&gt;
+
+&lt;p&gt;이 서비스에서 제공되는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;abstraction&lt;/code&gt;은 인프라(메세지 큐, 데이터베이스, edge caching) 또는 더 높은 수준에 (federated identity, role and capability managemnet, seach) 등이 될 수 있다.&lt;/p&gt;
+
+&lt;p&gt;범용 서버 기반 웹 어플리케이션에서 가장 중요한 것 중 하나는 request-response 사이클을 제어하는 것이다. 서버사이드에 컨트롤러는 입력을 처리하고 적절한 어플리케이션 작업을 포함하며, 동적인 리스폰스를 생성한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;third-party services&lt;/code&gt;로부터 어플리케이션 동작이 함께 짜여진 서버리스 어플리케이션에서 클라이언트 사이드 컨트롤러와 동적 콘텐츠 생성은 서버 사이트 컨트롤러로 대체한다. 수많은 자바스크립트 어플리케이션과 모바일 어플리케이션은 API 호출과 동적인 콘텐츠 생성을 위한 클라이언트 사이드 UI 프레임워크를 사용함으로써 다양한 서비스 간의 상호작용을 조정한다.&lt;/p&gt;
+
+&lt;p&gt;서버 기반 웹 어플리케이션의 가장 중요한 부분은 컨트롤러와 인프라 사이에 발생하는 작업이다;(비지니스 로직) &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;long-lived server&lt;/code&gt;는 이 로직을 구현하는 코드를 호스트하고 어플리케이션 활성 상태를 유지하는 한 필요한 처리를 수행한다. 서버리스 어플리케이션에서, 커스텀 코드 컴포넌트는 단일 HTTP request/response 사이클의 타임라인보다 더욱 짧고, 가까운 라이프 사이클을 가진다. 코드는 리퀘스트가 도착했을 때 실행되며, 이를 처리하고 종료되는 즉시 휴먼상태가 된다. 이러한 코드는 보통 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AWS Lambda&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Azure Function&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Google Cloud Function&lt;/code&gt;등 코드 생명주기를 관리하고 스캐일링을 돕는 환경에서 사용할 수 있다. 이러한 스타일의 소프트웨어를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FaaS&lt;/code&gt;라고 부르기도 한다.&lt;/p&gt;
+
+&lt;p&gt;더 좋은 서버리스 아키텍쳐에 대해 읽고 싶다면 &lt;a href=&quot;https://martinfowler.com/articles/serverless.html&quot;&gt;이 링크&lt;/a&gt;를 읽어보는 것도 좋다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://martinfowler.com/bliki/Serverless.html&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="serverless" /><summary type="html">이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!</summary></entry><entry><title type="html">레디스 기본 데이터 타입</title><link href="http://localhost:4000/database/redis_00/" rel="alternate" type="text/html" title="레디스 기본 데이터 타입" /><published>2020-11-18T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_00</id><content type="html" xml:base="http://localhost:4000/database/redis_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;redis&quot;&gt;Redis?&lt;/h1&gt;
@@ -238,7 +564,7 @@ around 21 GB of memory. The Hash solution used around 5 GB with
 some configuration tweaks&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h3 id=&quot;using-hashes-withj-redis-cli&quot;&gt;Using Hashes withj redis-cli&lt;/h3&gt;
+&lt;h3 id=&quot;using-hashes-with-redis-cli&quot;&gt;Using Hashes with redis-cli&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSET&lt;/code&gt;: 필드에 주어진 키에 대해 값을 설정한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSET key field value&lt;/code&gt;와 같은 문법으로 사용할 수 있다.&lt;/li&gt;
@@ -247,13 +573,66 @@ some configuration tweaks&lt;/p&gt;
 
 &lt;p&gt;위 둘은 필드 값이 존재하지 않을 경우 생성하고 있을 경우 덮어쓰기를 진행한다.&lt;/p&gt;
 
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HINCRBY&lt;/code&gt;: 주어진 인티저 값을 필드에 더한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HINCRBYFLOAT&lt;/code&gt;:  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBYFLOAT&lt;/code&gt; 비슷하게 동작한다. 아래 코드에서 확인할 수 있다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
+127.0.0.1:6379&amp;gt; HSET movie &quot;title&quot; &quot;The Godfather&quot;
+(integer) 1
+127.0.0.1:6379&amp;gt; HMSET movie &quot;year&quot; 1972 &quot;rating&quot; 9.2 &quot;watchers&quot; 10000000
+OK
+127.0.0.1:6379&amp;gt; HINCRBY movie &quot;watchers&quot; 3
+(integer) 10000003
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HGET&lt;/code&gt;: 해쉬에서 필드를 반환한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HMGET&lt;/code&gt;: 필드들을 반환한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; HGET movie &quot;title&quot;
+&quot;The Godfather&quot;
+127.0.0.1:6379&amp;gt; HMGET movie &quot;title&quot; &quot;watchers&quot;
+1) &quot;The Godfather&quot;
+2) &quot;10000003&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HDEL&lt;/code&gt;: 해쉬에서 필드를 삭제한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; HDEL movie &quot;watchers&quot;
+(integer) 1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HGETALL&lt;/code&gt;: 모든 필드/밸류 페어를 리턴한다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; HGETALL movie
+1) &quot;title&quot;
+2) &quot;The Godfather&quot;
+3) &quot;year&quot;
+4) &quot;1972&quot;
+5) &quot;rating&quot;
+6) &quot;9.2&quot;
+127.0.0.1:6379&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSCAN&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HGETALL&lt;/code&gt;은 해쉬가 많은 필드를 포함할 경우 매우 큰 메모리를 사용하여 레디스 성능의 영향을 미칠 수 있다. 이럴 경우 대책으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSCAN&lt;/code&gt;이 있다.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSCAN&lt;/code&gt;은 모든필드를 리턴하지 않고 커서와 주어진 개수만큼 출력하게 한다.&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;
     &lt;li&gt;https://medium.com/garimoo/개발자를-위한-레디스-튜토리얼-01-92aaa24ca8cc&lt;/li&gt;
     &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="NoSQL" /><category term="database" /><category term="nodejs" /><summary type="html"></summary></entry><entry><title type="html">InnoDB 인덱스 페이지 구조</title><link href="http://localhost:4000/database/innoDB_index_page/" rel="alternate" type="text/html" title="InnoDB 인덱스 페이지 구조" /><published>2020-11-14T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/innoDB_index_page</id><content type="html" xml:base="http://localhost:4000/database/innoDB_index_page/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><summary type="html"></summary></entry><entry><title type="html">InnoDB 인덱스 페이지 구조</title><link href="http://localhost:4000/database/innoDB_index_page/" rel="alternate" type="text/html" title="InnoDB 인덱스 페이지 구조" /><published>2020-11-14T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/innoDB_index_page</id><content type="html" xml:base="http://localhost:4000/database/innoDB_index_page/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;p&gt;이 포스트는 &lt;a href=&quot;/database/b+_tree&quot;&gt;B+ Tree 포스트&lt;/a&gt;와 이어집니다.&lt;/p&gt;
@@ -723,309 +1102,9 @@ Isolation Level을 Serializable Read로 상향 조정하면, 일관성 기준 �
 
 
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="traversal" /><summary type="html"></summary></entry><entry><title type="html">floyd warshall(moved)</title><link href="http://localhost:4000/algorithm/floyd_warshall/" rel="alternate" type="text/html" title="floyd warshall(moved)" /><published>2020-10-31T00:00:00+09:00</published><updated>2020-10-31T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/floyd_warshall</id><content type="html" xml:base="http://localhost:4000/algorithm/floyd_warshall/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;floyd-warshall&quot;&gt;floyd warshall&lt;/h1&gt;
-
-&lt;p&gt;이 포스트는 &lt;a href=&quot;/algorithm/dynamic_programming/#floyd-warshall&quot;&gt;여기로&lt;/a&gt; 옮겨졌습니다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="dp" /><summary type="html"></summary></entry><entry><title type="html">edit distance(moved)</title><link href="http://localhost:4000/algorithm/edit_distance/" rel="alternate" type="text/html" title="edit distance(moved)" /><published>2020-10-31T00:00:00+09:00</published><updated>2020-10-31T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/edit_distance</id><content type="html" xml:base="http://localhost:4000/algorithm/edit_distance/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="traversal" /><summary type="html"></summary></entry><entry><title type="html">edit distance(moved)</title><link href="http://localhost:4000/algorithm/edit_distance/" rel="alternate" type="text/html" title="edit distance(moved)" /><published>2020-10-31T00:00:00+09:00</published><updated>2020-10-31T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/edit_distance</id><content type="html" xml:base="http://localhost:4000/algorithm/edit_distance/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;edit-distance&quot;&gt;edit distance&lt;/h1&gt;
 
-&lt;p&gt;이 포스트는 &lt;a href=&quot;/algorithm/dynamic_programming/#edit-distance&quot;&gt;여기로&lt;/a&gt; 옮겨졌습니다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="dp" /><summary type="html">edit distance</summary></entry><entry><title type="html">segment tree</title><link href="http://localhost:4000/algorithm/segment_tree/" rel="alternate" type="text/html" title="segment tree" /><published>2020-10-24T00:00:00+09:00</published><updated>2020-10-24T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/segment_tree</id><content type="html" xml:base="http://localhost:4000/algorithm/segment_tree/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;개요&quot;&gt;개요&lt;/h1&gt;
-
-&lt;p&gt;구간별로 합을 저장해두는 자료구조이다. 특정 쿼리에 대해 \(O(logn + k)\)로 처리 가능하며 공간 복잡도와 생성 과정에서 \(O(nlogn)\)이 사용된다.&lt;/p&gt;
-
-&lt;h2 id=&quot;구조-설명&quot;&gt;구조 설명&lt;/h2&gt;
-
-&lt;p&gt;\(S\)를 구간 혹은 세그먼트의 집합이라고 하고, \(p_1, p_2, ..., p_m\)을 오름차순으로 정렬한 구간의 끝점 (혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;endpoint&lt;/code&gt;)라 하자.
-각각의 점에 따라 분할되는 구간을 생각했을 때 이를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;elementary intervals&lt;/code&gt;라 한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/seg_tree_intervals.png&quot; alt=&quot;이미지1&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;elementary intervals&lt;/code&gt;들은 연속적인 두 개의 끝점에선 개구간을, 한 점으로 이루어진 경우에는 폐구간을 갖는다.
-한 점을 구간으로 취급하는 이유는 쿼리에 대한 응답에서 내부의 끝점과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;elementary intervals&lt;/code&gt;를 구분할 필요가 없기 때문이다(?)&lt;/p&gt;
-
-&lt;p&gt;구간 혹은 세그먼트 집합 \(I\)가 주어졌을 때, 트리 \(T\)는 아래와 같이 구성된다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;\(T\)는 이진트리다.&lt;/li&gt;
-  &lt;li&gt;종단 노드는 끝점으로 구성된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;elementary intervals&lt;/code&gt;를 순서대로 나타내며, 왼쪽 종단 노드는 가장 왼쪽에 있는 구간(intervals)이다.
-종단노드 \(v\)를 나타내는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;elementary intervals&lt;/code&gt;는 Int(\(v\))라 표기한다.&lt;/li&gt;
-  &lt;li&gt;중간 노드는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;elementary intervals&lt;/code&gt;의 합이다. 노드 \(N\)에 대해 구간 합 Int(\(N\))은 \(N\)을 조상으로 가지는 두 자식 노드의 합이다.&lt;/li&gt;
-  &lt;li&gt;노드는&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;construction&quot;&gt;Construction&lt;/h2&gt;
-
-&lt;p&gt;구간 집합 \(I\)로 이루어지는 세그먼트 트리를 구성하는 방법에 대해 알아보자.
-우선, 구간의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;endpoint&lt;/code&gt;는 정렬되어 있다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://www.acmicpc.net/blog/view/9&lt;/li&gt;
-    &lt;li&gt;https://en.wikipedia.org/wiki/Segment_tree&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="search" /><category term="tree" /><category term="graph" /><category term="datatructure" /><category term="algorithm" /><summary type="html"></summary></entry><entry><title type="html">SQL QUERY 정리 2</title><link href="http://localhost:4000/database/SQL_QUERY_02/" rel="alternate" type="text/html" title="SQL QUERY 정리 2" /><published>2020-10-24T00:00:00+09:00</published><updated>2020-10-24T04:00:00+09:00</updated><id>http://localhost:4000/database/SQL_QUERY_02</id><content type="html" xml:base="http://localhost:4000/database/SQL_QUERY_02/">&lt;h1 id=&quot;sql-쿼리-지문-정리&quot;&gt;sql 쿼리 지문 정리&lt;/h1&gt;
-
-&lt;h2 id=&quot;중복값-제거-count&quot;&gt;중복값 제거 COUNT&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT COUNT(DISTINCT NAME) FROM ANIMAL_INS ;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;COUNT(*)&lt;/code&gt;은 NULL 을 허용한다&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;avg-sum-min-max&quot;&gt;AVG, SUM, MIN, MAX&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;--테이블 (MY_TABLE)의 평균나이(AGE) 조회--
-SELECT AVG(AGE) AS 평균나이 FROM MY_TABLE
-
---테이블(MY_TABLE)의 수량(QT)의 전체 평균(AS 평균수량)조회--
-SELECT AVG(QT) AS 평균수량 FROM MY_TABLE
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;이름이-두-번-이상-쓰인-경우를-이름순으로-조회&quot;&gt;이름이 두 번 이상 쓰인 경우를 이름순으로 조회&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT NAME, COUNT(NAME) AS `count` FROM ANIMAL_INS GROUP BY NAME HAVING `count` &amp;gt;= 2 ORDER BY NAME ASC
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;0900부터-1959까지-각-시간대별로-입양이-몇-건이나-발생했는지-조회하는-sql문&quot;&gt;09:00부터 19:59까지, 각 시간대별로 입양이 몇 건이나 발생했는지 조회하는 SQL문&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT HOUR(DATETIME) AS `HOUR`, COUNT(HOUR(DATETIME)) AS `COUNT`
-FROM ANIMAL_OUTS
-GROUP BY HOUR(DATETIME)
-HAVING `HOUR` &amp;gt;= 9 AND `HOUR` &amp;lt;= 19
-ORDER BY `HOUR` ASC;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;0시부터-23시까지-시간대별로-입양-건-변수를-활용하여-존재하지-않는-datetime까지-표시&quot;&gt;0시부터 23시까지 시간대별로 입양 건 (변수를 활용하여 존재하지 않는 datetime까지 표시)&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SET @hour = -1;
-SELECT (@hour := @hour + 1) as `HOUR`, (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @hour) AS `COUNT`
-FROM ANIMAL_OUTS
-WHERE @hour &amp;lt; 23
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;is-null&quot;&gt;IS NULL&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME IS NULL
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;왼쪽에만-있는-콜럼-값이-있는-데이터-출력&quot;&gt;왼쪽에만 있는 콜럼 값이 있는 데이터 출력&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT L.ANIMAL_ID, L.NAME
-FROM ANIMAL_OUTS L
-LEFT JOIN ANIMAL_INS R ON L.ANIMAL_ID = R.ANIMAL_ID
-WHERE R.ANIMAL_ID IS NULL
-ORDER BY R.ANIMAL_ID ASC;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;like-예제&quot;&gt;LIKE 예제&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;--A로 시작하는 문자를 찾기--
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE 'A%'
-
---A로 끝나는 문자 찾기--
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '%A'
-
---A를 포함하는 문자 찾기--
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '%A%'
-
---A로 시작하는 두글자 문자 찾기--
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE 'A_'
-
---첫번째 문자가 'A''가 아닌 모든 문자열 찾기--
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE'[^A]'
-
---첫번째 문자가 'A'또는'B'또는'C'인 문자열 찾기--
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '[ABC]'
-SELECT 컬럼명 FROM 테이블 WHERE 컬럼명 LIKE '[A-C]'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;instirng1-&quot;&gt;IN(‘STIRNG1’, …)&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME, SEX_UPON_INTAKE
-FROM ANIMAL_INS
-WHERE NAME IN('Lucy', 'Ella', 'Pickle', 'Rogan', 'Sabrina', 'Mitty')
-ORDER BY ANIMAL_ID
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;inselect-statement&quot;&gt;IN(SELECT STATEMENT)&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT * FROM Customers
-WHERE Country IN (SELECT Country FROM Suppliers);
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;대소문자-구분없이-like&quot;&gt;대소문자 구분없이 LIKE&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME
-FROM ANIMAL_INS
-WHERE LOWER(NAME) LIKE '%el%' AND ANIMAL_TYPE = 'DOG'
-ORDER BY NAME ASC
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;if&quot;&gt;IF()&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME,
-IF(SEX_UPON_INTAKE REGEXP 'Neutered|Spayed', 'O', 'X') AS '중성화'
-FROM ANIMAL_INS
-ORDER BY ANIMAL_ID
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;when&quot;&gt;WHEN&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT ANIMAL_ID, NAME,
-  CASE
-    WHEN SEX_UPON_INTAKE REGEXP 'Neutered|Spayed' THEN 'O'
-    ELSE 'X'
-  END AS '중성화'
-FROM ANIMAL_INS
-ORDER BY ANIMAL_ID
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;datediff&quot;&gt;DATEDIFF()&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT L.ANIMAL_ID, L.NAME
-FROM ANIMAL_INS L
-JOIN ANIMAL_OUTS R
-ON L.ANIMAL_ID = R.ANIMAL_ID
-ORDER BY DATEDIFF(L.DATETIME, R.DATETIME) ASC
-LIMIT 2
-
--- DATEDIFF(L.DATETIME, R.DATETIME) 대신 L.DATETIME - R.DATETIME 사용가능.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;date_format&quot;&gt;DATE_FORMAT()&lt;/h2&gt;
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;SELECT DATE_FORMAT(&quot;2017-06-15&quot;, &quot;%W %M %e %Y&quot;);
--- Thursday June 15 2017
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%Y&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;%y&lt;/code&gt;는 다름 직접 써보기 위에는 영어로 나오지만 아래는 숫자로 나온다.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-SQL&quot;&gt;-- 코드를 입력하세요
-SELECT ANIMAL_ID, NAME, DATE_FORMAT(`DATETIME`, '%Y-%m-%d') AS '날짜'
-FROM ANIMAL_INS
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://www.w3schools.com/sql/&lt;/li&gt;
-    &lt;li&gt;https://programmers.co.kr/learn/challenges?tab=sql_practice_kit&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="database" /><summary type="html">sql 쿼리 지문 정리</summary></entry><entry><title type="html">젓가락</title><link href="http://localhost:4000/ps/BOJ_2256/" rel="alternate" type="text/html" title="젓가락" /><published>2020-10-23T00:00:00+09:00</published><updated>2020-10-23T05:00:00+09:00</updated><id>http://localhost:4000/ps/BOJ_2256</id><content type="html" xml:base="http://localhost:4000/ps/BOJ_2256/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h2 id=&quot;아이디어&quot;&gt;아이디어&lt;/h2&gt;
-
-&lt;p&gt;처음으로 든 생각은 젓가락 길이를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sorting&lt;/code&gt; 해서 서로 붙어있는 짝을 \(A,B\)로 두어야 할 것 같았다.&lt;/p&gt;
-
-&lt;p&gt;그 이후에는 이 쌍을 선택하거나 선택하지 않는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0-1 knapsack&lt;/code&gt; 문제와 다를 것이 없다.&lt;/p&gt;
-
-&lt;h3 id=&quot;증명&quot;&gt;증명&lt;/h3&gt;
-
-&lt;p&gt;\(Claim\): 정답을 구성하는 쌍들 중 하나를 \(p\)라 하자 \(p = \{a, b, c\}(a \le b \le c)\)&lt;br /&gt;
-크기 순서로 \(a\) 바로 뒤에 있는 원소 \(\bar{b}\)라 하면 \(\bar{b} = b\) 이다.&lt;/p&gt;
-
-&lt;p&gt;\(Proof\): 만약 \(a,b\)가 서로 크기상으로 한칸 이상 떨어져 있다고 가정하자.&lt;/p&gt;
-
-&lt;h3 id=&quot;점화식&quot;&gt;점화식&lt;/h3&gt;
-
-\[points[i] = (chopsticks[i] - chopsticks[i + 1])^2\]
-
-\[DP[i][j] =  \begin{cases} min\{DP[i + 1][j], DP[i + 2][j - 1] + points[i]\} &amp;amp; \text{if }j &amp;gt; 0 \\ DP[i + 1][j]  &amp;amp; else \end{cases}\]
-
-&lt;h2 id=&quot;문제&quot;&gt;문제&lt;/h2&gt;
-
-&lt;p&gt;사람들은 보통 식사를 할 때 젓가락을 두 개 사용한다. 그러나 모 선생님 댁에서는 조금 다르게 세 개의 젓가락을 사용한다. 우리가 일반적으로 사용하는 한 벌의 젓가락에 큰 젓가락을 한 개 더 포함시켜 큰 음식을 젓가락에 꽂아 먹는 방식을 택한다.&lt;/p&gt;
-
-&lt;p&gt;큰 젓가락의 경우에는 별도의 용도로 사용하기 때문에 문제가 없지만, 나머지 두 젓가락의 길이가 많이 차이 나는 경우에는 불편할 수도 있다. 한 사람이 가지게 되는 젓가락의 길이 A, B, C(A ≤ B ≤ C)라고 할 때, (A-B)×(A-B)가 그 벌점이 된다.&lt;/p&gt;
-
-&lt;p&gt;오늘은 모 선생님의 생일이라 K(1 ≤ K ≤ 1000)명의 사람들이 함께 식사를 하게 되었다. 이를 위해서 모 선생님은 K벌(3×K개)의 젓가락을 준비해야 한다. 이를 위해서 모 선생님은 이미 가지고 있는 N(3×K ≤ N ≤ 5000)개의 젓가락들 중에서 몇 개의 젓가락을 골라서 K명의 사람들에게 나눠주기로 하였다. 하지만 이렇게 많은 인원이 식사하게 된 경우가 처음이라 일부 젓가락의 길이가 맞지 않게 되었다. 모 선생님은 가급적 모든 사람들이 편하게 젓가락을 이용할 수 있도록, 각 사람에게 나눠준 젓가락의 벌점의 총 합이 최소가 되도록 하려 한다.&lt;/p&gt;
-
-&lt;p&gt;젓가락에 대한 정보가 주어졌을 때, 벌점의 총 합의 최솟값을 구해내는 프로그램을 작성하시오.&lt;/p&gt;
-
-&lt;h3 id=&quot;입력&quot;&gt;입력&lt;/h3&gt;
-
-&lt;p&gt;첫째 줄에 두 정수 K, N이 주어진다. 다음 줄에는 N개의 젓가락의 길이가 주어진다. 각 젓가락의 길이는 1이상 32767이하의 정수이다.&lt;/p&gt;
-
-&lt;h3 id=&quot;출력&quot;&gt;출력&lt;/h3&gt;
-
-&lt;p&gt;첫째 줄에 벌점의 총 합의 최솟값을 출력한다.&lt;/p&gt;
-
-&lt;h2 id=&quot;코드&quot;&gt;코드&lt;/h2&gt;
-
-&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;iostream&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;queue&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_LENGTH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32767&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// == 2 ^ 15 - 1&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_M&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1000&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_LENGTH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chopsticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;points&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MAX_M&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;//recursive version&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;//To use this function, dp array must be initialize to -1&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;memo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//j: Number of pairs to pull out&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//i: current index&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//basis cases&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;//check negative index or Insufficient nodes to pull out.&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;memo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;points&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//init&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//Memset is a char array only initialization function&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//and sometimes does not work well in large arrays.&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX_N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MAX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;//input&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;cin&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chopsticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;//sorting chopsticks&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;sort&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chopsticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chopsticks&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;//get points&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chopsticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;chopsticks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-		&lt;span class=&quot;n&quot;&gt;points&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;c1&quot;&gt;//dp&lt;/span&gt;
-	&lt;span class=&quot;c1&quot;&gt;//iteration version&lt;/span&gt;
-	&lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;N&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;N&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-				&lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;points&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-			&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-				&lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-			&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-		&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-	&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>조원빈</name></author><category term="PS" /><category term="greedy" /><category term="sort" /><category term="dp" /><summary type="html"></summary></entry></feed>
+&lt;p&gt;이 포스트는 &lt;a href=&quot;/algorithm/dynamic_programming/#edit-distance&quot;&gt;여기로&lt;/a&gt; 옮겨졌습니다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="dp" /><summary type="html">edit distance</summary></entry></feed>

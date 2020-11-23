@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>레디스 기본 데이터 타입(작성중)  |  untitled</title>
+<!-- begin _includes/seo.html --><title>레디스 기본 데이터 타입  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="레디스 기본 데이터 타입(작성중)">
+<meta property="og:title" content="레디스 기본 데이터 타입">
 <meta property="og:url" content="http://localhost:4000/database/redis_00/">
 
 
@@ -281,7 +281,7 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="레디스 기본 데이터 타입(작성중)">
+    <meta itemprop="headline" content="레디스 기본 데이터 타입">
     <meta itemprop="description" content="">
     <meta itemprop="datePublished" content="2020-11-18T00:00:00+09:00">
     <meta itemprop="dateModified" content="2020-11-16T04:00:00+09:00">
@@ -289,7 +289,7 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">레디스 기본 데이터 타입(작성중)
+          <h1 id="page-title" class="page__title" itemprop="headline">레디스 기본 데이터 타입
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  5 분 소요
+  6 분 소요
 
 </p>
           
@@ -328,7 +328,7 @@
       </li>
       <li><a href="#hashes">Hashes</a>
         <ul>
-          <li><a href="#using-hashes-withj-redis-cli">Using Hashes withj redis-cli</a></li>
+          <li><a href="#using-hashes-with-redis-cli">Using Hashes with redis-cli</a></li>
         </ul>
       </li>
     </ul>
@@ -578,7 +578,7 @@ around 21 GB of memory. The Hash solution used around 5 GB with
 some configuration tweaks</p>
 </blockquote>
 
-<h3 id="using-hashes-withj-redis-cli">Using Hashes withj redis-cli</h3>
+<h3 id="using-hashes-with-redis-cli">Using Hashes with redis-cli</h3>
 
 <ul>
   <li><code class="language-plaintext highlighter-rouge">HSET</code>: 필드에 주어진 키에 대해 값을 설정한다. <code class="language-plaintext highlighter-rouge">HSET key field value</code>와 같은 문법으로 사용할 수 있다.</li>
@@ -586,6 +586,59 @@ some configuration tweaks</p>
 </ul>
 
 <p>위 둘은 필드 값이 존재하지 않을 경우 생성하고 있을 경우 덮어쓰기를 진행한다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HINCRBY</code>: 주어진 인티저 값을 필드에 더한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">HINCRBYFLOAT</code>:  <code class="language-plaintext highlighter-rouge">INCRBY</code> 과 <code class="language-plaintext highlighter-rouge">INCRBYFLOAT</code> 비슷하게 동작한다. 아래 코드에서 확인할 수 있다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ redis-cli
+127.0.0.1:6379&gt; HSET movie "title" "The Godfather"
+(integer) 1
+127.0.0.1:6379&gt; HMSET movie "year" 1972 "rating" 9.2 "watchers" 10000000
+OK
+127.0.0.1:6379&gt; HINCRBY movie "watchers" 3
+(integer) 10000003
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HGET</code>: 해쉬에서 필드를 반환한다.</li>
+  <li><code class="language-plaintext highlighter-rouge">HMGET</code>: 필드들을 반환한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; HGET movie "title"
+"The Godfather"
+127.0.0.1:6379&gt; HMGET movie "title" "watchers"
+1) "The Godfather"
+2) "10000003"
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HDEL</code>: 해쉬에서 필드를 삭제한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; HDEL movie "watchers"
+(integer) 1
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HGETALL</code>: 모든 필드/밸류 페어를 리턴한다.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; HGETALL movie
+1) "title"
+2) "The Godfather"
+3) "year"
+4) "1972"
+5) "rating"
+6) "9.2"
+127.0.0.1:6379&gt;
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HSCAN</code>: <code class="language-plaintext highlighter-rouge">HGETALL</code>은 해쉬가 많은 필드를 포함할 경우 매우 큰 메모리를 사용하여 레디스 성능의 영향을 미칠 수 있다. 이럴 경우 대책으로 <code class="language-plaintext highlighter-rouge">HSCAN</code>이 있다.
+<code class="language-plaintext highlighter-rouge">HSCAN</code>은 모든필드를 리턴하지 않고 커서와 주어진 개수만큼 출력하게 한다.</li>
+</ul>
 
 <blockquote>
   <font size="6">Refernce</font>
@@ -622,7 +675,11 @@ some configuration tweaks</p>
     
       
       
-      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">NoSQL</a>
+      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">NoSQL</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#redis" class="page__taxonomy-item" rel="tag">redis</a>
     
     </span>
   </p>
@@ -660,7 +717,7 @@ some configuration tweaks</p>
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%EB%A0%88%EB%94%94%EC%8A%A4+%EA%B8%B0%EB%B3%B8+%EB%8D%B0%EC%9D%B4%ED%84%B0+%ED%83%80%EC%9E%85%28%EC%9E%91%EC%84%B1%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2Fredis_00%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%EB%A0%88%EB%94%94%EC%8A%A4+%EA%B8%B0%EB%B3%B8+%EB%8D%B0%EC%9D%B4%ED%84%B0+%ED%83%80%EC%9E%85%20http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2Fredis_00%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2Fredis_00%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -675,7 +732,8 @@ some configuration tweaks</p>
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/backend/FaaS_BaaS/" class="pagination--pager" title="FaaS, BaaS
+">다음</a>
     
   </nav>
 
@@ -699,7 +757,7 @@ some configuration tweaks</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/innoDB_index_page/" rel="permalink">InnoDB 인덱스 페이지 구조
+        <a href="/algorithm/HLD/" rel="permalink">Heavy-Light Decompostion
 </a>
       
     </h2>
@@ -709,7 +767,7 @@ some configuration tweaks</p>
 
 
 
-  3 분 소요
+  1 분 소요
 
 </p>
     
@@ -729,67 +787,7 @@ some configuration tweaks</p>
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/database_MVCC/" rel="permalink">MVVC
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/database/B+_tree/" rel="permalink">B+tree, InnoDB Structure(작성중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/algorithm/parallel_binary_search/" rel="permalink">parallel binary search
+        <a href="/database/redis_01/" rel="permalink">레디스 콜렉션(작성중)
 </a>
       
     </h2>
@@ -805,6 +803,64 @@ some configuration tweaks</p>
     
     <p class="archive__item-excerpt" itemprop="description">
 
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/Serverless/" rel="permalink">Serverless(작성중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/FaaS_BaaS/" rel="permalink">FaaS, BaaS
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">서버리스 컴퓨팅에 대해 정리하다가 FaaS와 BaaS에 대한 언급이 잦아 정리해보려고 한다.
 </p>
   </article>
 </div>

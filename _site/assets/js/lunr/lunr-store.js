@@ -144,9 +144,9 @@ var store = [{
         "teaser": null
       },{
         "title": "책깔:피",
-        "excerpt":"책깔피   수업에서 간단한 팀프로젝트 겸 개발했던 프로젝트에서 백엔드 개발 자체를 파이어베이스로 넘겼기에 noed js express 기반으로 작성하였다.   책 OPEN API를 통해 책 정보를 저장하고 사용자는 이를 공유하면 된다.   frontend   backend   더 보완할 점   간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.  ","categories": ["nodejs"],
+        "excerpt":"책깔피   수업에서 간단한 팀프로젝트 겸 개발했던 프로젝트에서 백엔드 개발 자체를 파이어베이스로 넘겼기에 noed js express 기반으로 작성하였다.   책 OPEN API를 통해 책 정보를 저장하고 사용자는 이를 공유하면 된다.   frontend   backend   더 보완할 점   간단한 DNN을 통해서 사용자가 원하는 게시글을 뽑아내면 안정적인 서비스 제공에 도움이 될 것 같다.  ","categories": ["projects"],
         "tags": ["nodejs","projects"],
-        "url": "http://localhost:4000/nodejs/bookmark/",
+        "url": "http://localhost:4000/projects/bookmark/",
         "teaser": null
       },{
         "title": "starting rails(작성 중)",
@@ -162,9 +162,9 @@ var store = [{
         "teaser": null
       },{
         "title": "Nouvelle Vague",
-        "excerpt":"개요 알게된 것 https security - should password be hashed server-side or client-side? https://security.stackexchange.com/questions/8596/https-security-should-password-be-hashed-server-side-or-client-side login css design https://doctorcodetutorial.blogspot.com/2019/07/make-animated-signup-form-using-html.html sequelize validation https://sequelize.org/master/manual/validations-and-constraints.html JWT 토큰은 어디에 저장하는게 좋을까? https://lazyhoneyant.tistory.com/ https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#:~:text=JWT%20sessionStorage%20and%20localStorage%20Security,site%20scripting%20(XSS)%20attacks. Session Storage is Evil https://liferay.dev/blogs/-/blogs/session-storage-is-evil How to log out when using JWT https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6 multer upload multiple files https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83 HTTP authentication https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication 비동기...","categories": ["nodejs"],
+        "excerpt":"개요 알게된 것 https security - should password be hashed server-side or client-side? https://security.stackexchange.com/questions/8596/https-security-should-password-be-hashed-server-side-or-client-side login css design https://doctorcodetutorial.blogspot.com/2019/07/make-animated-signup-form-using-html.html sequelize validation https://sequelize.org/master/manual/validations-and-constraints.html JWT 토큰은 어디에 저장하는게 좋을까? https://lazyhoneyant.tistory.com/ https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#:~:text=JWT%20sessionStorage%20and%20localStorage%20Security,site%20scripting%20(XSS)%20attacks. Session Storage is Evil https://liferay.dev/blogs/-/blogs/session-storage-is-evil How to log out when using JWT https://medium.com/devgorilla/how-to-log-out-when-using-jwt-a8c7823e8a6 multer upload multiple files https://www.zerocho.com/category/NodeJS/post/5950a6c4f7934c001894ea83 HTTP authentication https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication 비동기...","categories": ["projects"],
         "tags": ["nodejs","projects"],
-        "url": "http://localhost:4000/nodejs/Nouvelle_Vague/",
+        "url": "http://localhost:4000/projects/Nouvelle_Vague/",
         "teaser": null
       },{
         "title": "개인정보처리방침",
@@ -185,10 +185,10 @@ var store = [{
         "url": "http://localhost:4000/algorithm/covex_hull/",
         "teaser": null
       },{
-        "title": "Nouvelle Vague",
-        "excerpt":"MEAN stack mongodb express angular nodejs 모두 자바스크립트로 동작 가능하며, 오픈 소스이다. SPA single page application이라 하며 모든 페이지가 단 하나로 되어 있는 사이트. 보통 웹사이트는 글쓰기, 회원가입 등 복잡한 기능을 여러 페이지에서 지원하지만, 이 페이지는 html 상에서 추가로 필요한 데이터만 서버로부터 받아 화면을 구성해주는 것으로 실제로 추가 HTML 호출이...","categories": ["nodejs"],
+        "title": "면접준비용(이후 정리)",
+        "excerpt":"MEAN stack mongodb express angular nodejs 모두 자바스크립트로 동작 가능하며, 오픈 소스이다. SPA single page application이라 하며 모든 페이지가 단 하나로 되어 있는 사이트. 보통 웹사이트는 글쓰기, 회원가입 등 복잡한 기능을 여러 페이지에서 지원하지만, 이 페이지는 html 상에서 추가로 필요한 데이터만 서버로부터 받아 화면을 구성해주는 것으로 실제로 추가 HTML 호출이...","categories": ["projects"],
         "tags": ["nodejs","projects"],
-        "url": "http://localhost:4000/nodejs/interview/",
+        "url": "http://localhost:4000/projects/interview/",
         "teaser": null
       },{
         "title": "tree diameter",
@@ -287,9 +287,33 @@ var store = [{
         "url": "http://localhost:4000/database/innoDB_index_page/",
         "teaser": null
       },{
-        "title": "레디스 기본 데이터 타입(작성중)",
+        "title": "레디스 기본 데이터 타입",
         "excerpt":"Redis? 길게 소개하자면 한도 끝도 없고, 나 말고도 필력 좋은 블로그들이 더 잘 소개했을 것 같기에 간단하게만 중점만 짚어 소개하자면, 레디스는 In-Memory Database로서 고가용성인 메모리에 저장하고 조회한다. 기존 관계형 데이터베이스 앞에 캐싱 시스템으로 이용하기 적합한 것으로 알려져있다. 오픈소스인만큼 다양한 서비스에서 사용되고 있으며, 앞으로 계속해서 중요한 역할을 할 것같아 책에 예제와...","categories": ["database"],
-        "tags": ["NoSQL","database","nodejs"],
+        "tags": ["NoSQL","database","redis","nodejs"],
         "url": "http://localhost:4000/database/redis_00/",
+        "teaser": null
+      },{
+        "title": "FaaS, BaaS",
+        "excerpt":"서버리스 컴퓨팅에 대해 정리하다가 FaaS와 BaaS에 대한 언급이 잦아 정리해보려고 한다. Function as a Service AWS Lambda가 대표적인 FaaS의 예시다. 아래는 AWS Lambda의 공식 홈페이지 설명을 가져와봤다. AWS Lambda lets you run code without provisioning or managing servers. … With Lambda, you can run code for virtually any type of...","categories": ["backend"],
+        "tags": ["backend","serverless","FaaS"],
+        "url": "http://localhost:4000/backend/FaaS_BaaS/",
+        "teaser": null
+      },{
+        "title": "Serverless(작성중)",
+        "excerpt":"이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다! Serverless 란 Serverless 아키텍처는 기존과 다른 인터넷 기반 서버개발 프로세스이다. third-party services, client-side logic, 호스팅 원격 프로시져 콜의 조합에만 의존한다.(Instead they rely solely on a combination of third-party services, client-side logic, and service hosted remote procedure calls (Faas)) Serverless 어플리케이션은 전통적으로 서버가 처리하던...","categories": ["backend"],
+        "tags": ["backend","serverless"],
+        "url": "http://localhost:4000/backend/Serverless/",
+        "teaser": null
+      },{
+        "title": "레디스 콜렉션(작성중)",
+        "excerpt":"이번 포스트에서는.. 저번 포스트에서는 기본적인 데이터 타입을 설명했다. 이번 포스트에선 한발 더 나아가 Set, Sorted Set, Bitmap, Hyperloglog 데이터 타입을 살펴보려 한다. 이 글은 레디스 기본 데이터 타입 포스트와 이어집니다. Sets 셋은 스트링과는 구분되는 순서가 없는 콜렉션이다. 중복되는 원소를 셋에 집어넣을수 없으며 내부적으로 해쉬테이블처럼 구현됐다. 이러한 이유는 최적화 때문인데, 멤버...","categories": ["database"],
+        "tags": ["NoSQL","database","redis","nodejs"],
+        "url": "http://localhost:4000/database/redis_01/",
+        "teaser": null
+      },{
+        "title": "Heavy-Light Decompostion",
+        "excerpt":"Introduction 오늘은 HLD에 대해 포스팅을 해보려 한다. 상당히 문제 유형이 한정적이고 어려운 테크닉에 속하기에 포스팅할까 망설였다.(어디다 쓰는 알고리즘인데 도대체) 대회 준비를 하는 것도 아니기에 기본적인 자료구조, 알고리즘을 지향하려 했지만, 최근에는 굳이 그럴 필요 있을까 생각한다. 알고리즘은 기업 코테도 있다보니 겸사겸사 시작했지만, 요즘은 하나의 논리를 배우는 거라 생각한다. 우리는 개발을 하면서...","categories": ["algorithm"],
+        "tags": ["algorithm","traversal","graph","segment_tree","lca"],
+        "url": "http://localhost:4000/algorithm/HLD/",
         "teaser": null
       }]

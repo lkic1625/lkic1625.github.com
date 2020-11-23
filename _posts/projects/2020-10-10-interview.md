@@ -38,9 +38,12 @@ https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html
 https://heropy.blog/2019/07/21/resizing-images-cloudfrount-lambda/
 https://helloinyong.tistory.com/246
 
-## content delivery network
+# content delivery network
 
 https://goddaehee.tistory.com/173
+
+## http란
+Hypertext Transfer Protocol (HTTP) is an application-layer protocol for transmitting hypermedia documents, such as HTML. It was designed for communication between web browsers and web servers, but it can also be used for other purposes
 
 # httponlycookie
 
@@ -50,15 +53,15 @@ https://owasp.org/www-community/HttpOnly
 
 연합학습이란, 민감정보를 이용한 러닝을 효과적으로 진행할 수 있는 방식으로써, 사용자 개개인의 데이터를 이용한 로컬 모델의 러닝이후 weight값을 모아 평균을 구하고, 이를 글로벌 모델에게
 
-## secure aggregation Protocol
+# secure aggregation Protocol
 
-## KGC?
+# KGC?
 
 key generation server 약자.
 
 trusted third party
 
-## middle server
+# middle server
 
 # 데이터베이스 캐싱
 
@@ -227,6 +230,91 @@ console.log("We have " + count + " people and " + sandwiches.length + " sandwich
 
 https://rebeccajo.tistory.com/14
 
+# 비 클러스터 인덱스
+Non-Clustered Index는 데이터와 인덱스를 각각 다른 위치에 저장합니다. 인덱스는 해당 데이터의 위치에 대한 포인터를 포함하고 있습니다. Non-Clustered Index의 인덱스가 서로 다른 위치에 저장되므로 단일 테이블에는 많은 Non-Clustered Index가 있을 수 있습니다.
+
+예를 들면, 책 한권은 내용을 빠르게 찾기 위해서 보통 두 가지 이상의 색인을 가지게 됩니다. 앞쪽에는 "목차" 기준으로 정렬되어 있고, 뒤쪽에는 "찾아보기"와 같은 용어에 대한 알파벳 순으로 표시하는 것을 볼 수 있습니다. 책을 테이블이라고 하고 목차, 찾아보기를 Non-Clustered Index로 생각하면 이해가 될 수 있습니다.
+
+# 객체지향 프로그래밍이란
+
+객체 지향 프로그래밍 이전의 프로그래밍 패러다임을 살펴보면, 중심이 컴퓨터에 있었다. 컴퓨터가 사고하는대로 프로그래밍을 하는 것이다. 하지만 객체지향 프로그래밍이란 인간 중심적 프로그래밍 패러다임이라고 할 수 있다. 즉, 현실 세계를 프로그래밍으로 옮겨와 프로그래밍하는 것을 말한다. 현실 세계의 사물들을 객체라고 보고 그 객체로부터 개발하고자 하는 애플리케이션에 필요한 특징들을 뽑아와 프로그래밍 하는 것이다. 이것을 추상화라한다.
+
+OOP 로 코드를 작성하면 이미 작성한 코드에 대한 재사용성이 높다. 자주 사용되는 로직을 라이브러리로 만들어두면 계속해서 사용할 수 있으며 그 신뢰성을 확보 할 수 있다. 또한 라이브러리를 각종 예외상황에 맞게 잘 만들어두면 개발자가 사소한 실수를 하더라도 그 에러를 컴파일 단계에서 잡아낼 수 있으므로 버그 발생이 줄어든다. 또한 내부적으로 어떻게 동작하는지 몰라도 개발자는 라이브러리가 제공하는 기능들을 사용할 수 있기 때문에 생산성이 높아지게 된다. 객체 단위로 코드가 나눠져 작성되기 때문에 디버깅이 쉽고 유지보수에 용이하다. 또한 데이터 모델링을 할 때 객체와 매핑하는 것이 수월하기 때문에 요구사항을 보다 명확하게 파악하여 프로그래밍 할 수 있다.
+
+객체 간의 정보 교환이 모두 메시지 교환을 통해 일어나므로 실행 시스템에 많은 overhead 가 발생하게 된다. 하지만 이것은 하드웨어의 발전으로 많은 부분 보완되었다. 객체 지향 프로그래밍의 치명적인 단점은 함수형 프로그래밍 패러다임의 등장 배경을 통해서 알 수 있다. 바로 객체가 상태를 갖는다는 것이다. 변수가 존재하고 이 변수를 통해 객체가 예측할 수 없는 상태를 갖게 되어 애플리케이션 내부에서 버그를 발생시킨다는 것이다. 이러한 이유로 함수형 패러다임이 주목받고 있다.
+
+# 함수형 프로그래밍
+
+## 컨셉
+1. 변경 가능한 상태를 불변상태(Immutab)로 만들어 SideEffect를 없애자.
+2. 모든 것은 객체이다.
+3. 코드를 간결하게 하고 가독성을 높여 구현할 로직에 집중 시키자.
+4. 동시성 작업을 보다 쉽게 안전하게 구현 하자.
+
+변경 가능한 상태를 불변상태(Immutable)로 만들어 SideEffect를 없애자.
+
+함수의 기본은 f(x) = y, 한 번쯤은 봤을 법한 공식입니다. 쉽게 말해서 함수f()에 x 를 입력하면 항상 y라는 결과값이 나오는 것을 말합니다. 여기서 중요한 점은 함수 안에서 상태를 관리하고 상태에 따라서 결과값이 달라지면 안된 다는 말 입니다. 상태를 사용하지 않음으로 SideEffect를 사전에 차단 할수 있습니다. 또 변수 보다는 상수를 사용해 SideEffect를 차단합니다.
+
+## 모든 것은 객체이다.
+
+함수형 언어에서는 모든것이 객체입니다. 클래스 외에 함수 또한 객체 이기 때문에 함수를 값으로 할당 할수 있고, 파라미터로 전달 및 결과 값으로 반환이 가능합니다. 위 3가지를 만족하는 객체를 1급 객체 라고 합니다. 자바 8 이전에 함수는 위 3가지를 만족시키지 못해 함수가 1급 객체가 아니였지만 함수형 프로그래밍 언어에서는 3가지 조건을 만족시켜 함수가 1급 객체 입니다. 이전에 정리한 글에 보다 자세한 설명과 예제가 있습니다.
+
+## 1급 객체란?
+
+아래 3 가지조건을 충족한다면 1급 객체라고 할수 있습니다.
+
+1. 변수나 데이타에 할당 할 수 있어야 한다.
+2. 객체의 인자로 넘길 수 있어야 한다.
+3. 객체의 리턴값으로 리턴 할수 있어야 한다.
+
+
+# AOP
+
+- 핵심 기능 / 공통 기능을 구분하여, 공통 기능을 개발자의 코드 밖에서 필요한 시점에 적용하는 방법
+- Spring에선는 @Aspect 어노테이션을 통해, 공통 기능을 정의하고 그 기능이 사용될 시점을 적의 가능
+- Ex. 핵심 기능 = 비즈니스 로직 / 공통 기능 = logging, 보안, DB 연결 등
+
+# 자바 컴파일
+
+자바는 컴파일하여 바이트 코드로 변경 후 JVM이 바이트 코드를 해석(인터프리터, just-in-time 컴파일러)하여 기계어 캐싱을 통해 런타임한다.
+
+# String ,String Buffer, String Builder
+
+스트링과 스트링 버퍼 빌더 차이는 mutable, immutable
+
+그럼 두 클래스의 차이점은 무엇일까요? 바로 동기화 여부입니다.
+
+- StringBuffer는 각 메서드별로 Synchronized Keyword가 존재하여, 멀티스레드 환경에서도 동기화를 지원.
+- 반면, StringBuilder는 동기화를 보장하지 않음.
+
+
+# hahsmap, hashtable, concurrenthashmap
+
+HashMap
+
+- HashMap은 synchronized 키워드가 없기 때문에 동기화가 보장되지 못한다. (싱글 스레드 환경에서 사용하길) 따라서 동기화처리를 하지 않기 때문에 값을 찾는 속도가 상당히 빠르다. 또한 HashTable과 다르게 key,value null값을 허용한다. 즉 속도가 빠르지만, 신뢰성 안정성은 떨어진다고 생각하면 된다.
+
+ConCurrentHaspMap
+
+- HashMap의 멀티스레드 환경에서의 동기화처리로 인한 문제점을 보완한 것이 ConCurrentHashMap이다. 하지만 HashMap과 다르게 key,value에 null을 허용하지 않는다.
+
+HashTable
+
+- HashTable의 메서드는 전부 synchronized 키워드가 붙어있기 때문에 메서드 호출 전 쓰레드간 동기화 락을 통해 멀티 쓰레드 환경에서 data의 무결성을 보장해준다. 또한 key,value값의 null을 허용하지 않는다. 즉 동기화 락때문에 속도는 느리지만, data의 안정성이 높고 신뢰가 높은 컬렉션이다.
+
+# 샤딩, 레플리카
+
+레플리카는 fail-over나 read/write 경합 감소(또는 제거), read 코스트 분산 등에 치중되어있다.
+
+fail-over시에는 복제 디비를 둠으로써, 메인 디비가 장애가 생겨도 복제 디비에서 정상적인 서비스를 빠르게 구성할 수 있게 구성하는 것이 목적이다.
+
+read/write node를 분리함으로써 성능 분산도 처리할 수 있다. (특히 경합이 이루어질 경우 성능 저하도 우회할 수 있다.)
+
+
+샤딩의 목적은 데이터를 분산 저장함으로써, 트래픽 분산에 목적이 있다. 샤딩도 디테일에서 여러방식으로 갈리는데, 샤딩된 노드끼리 통신해야 할 경우에는 트래픽이 다시 몰리는 경우가 있다. (여러 노드의 데이터를 조합해서 결과를 내야 하기 때문)
+
+샤딩은 분산된 데이터 그 자체로 의미가 있을 때는 샤딩 그 자체가 트래픽 분산이 깔끔하게 이루어진다. 실질적으로 이 경우는 샤딩이라 부르기보단 DB 분산 (또는 파티셔닝. 게임의 경우 월드 단위 DB를 따로 쓰는 등의)이라고 부르는 경우도 많은 것이 그 이유다.
+
 
 ><font size="6">Refernce</font>
 - https://www.a-mean-blog.com/ko/blog/MEAN-Stack/_/MEAN-Stack-%EC%86%8C%EA%B0%9C
@@ -234,3 +322,4 @@ https://rebeccajo.tistory.com/14
 - https://github.com/Mrchanghao/Interview_Question_for_Beginner
 - https://velog.io/@godori/ES6-%EC%A0%95%EB%A6%AC-vpjmrh6hhe
 - https://eslint.org/docs/rules/no-var.html
+- https://medium.com/@lazysoul/%ED%95%A8%EC%88%98%ED%98%95-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%EC%9D%B4%EB%9E%80-d881230f2a5e
