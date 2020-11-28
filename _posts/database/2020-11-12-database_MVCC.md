@@ -1,5 +1,5 @@
 ---
-title: "MVVC"
+title: "MVCC"
 tags:
   - database
   - MVVC

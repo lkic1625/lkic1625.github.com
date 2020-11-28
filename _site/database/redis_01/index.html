@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>레디스 콜렉션(작성중)  |  untitled</title>
+<!-- begin _includes/seo.html --><title>레디스 콜렉션  |  untitled</title>
 <meta name="description" content="">
 
 
@@ -19,7 +19,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="untitled">
-<meta property="og:title" content="레디스 콜렉션(작성중)">
+<meta property="og:title" content="레디스 콜렉션">
 <meta property="og:url" content="http://localhost:4000/database/redis_01/">
 
 
@@ -35,7 +35,7 @@
 
 
 
-  <meta property="article:modified_time" content="2020-11-16T04:00:00+09:00">
+  <meta property="article:modified_time" content="2020-11-27T04:00:00+09:00">
 
 
 
@@ -281,15 +281,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="레디스 콜렉션(작성중)">
+    <meta itemprop="headline" content="레디스 콜렉션">
     <meta itemprop="description" content="">
     <meta itemprop="datePublished" content="2020-11-21T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-11-16T04:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-11-27T04:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">레디스 콜렉션(작성중)
+          <h1 id="page-title" class="page__title" itemprop="headline">레디스 콜렉션
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -297,7 +297,7 @@
 
 
 
-  3 분 소요
+  6 분 소요
 
 </p>
           
@@ -330,7 +330,23 @@
           <li><a href="#zscore-zrank-zrevrank">ZSCORE, ZRANK, ZREVRANK</a></li>
         </ul>
       </li>
-      <li><a href="#bitmap">Bitmap</a></li>
+      <li><a href="#bitmap">Bitmap</a>
+        <ul>
+          <li><a href="#comparison-scenario">Comparison Scenario</a></li>
+          <li><a href="#setbit">SETBIT</a></li>
+          <li><a href="#getbit">GETBIT</a></li>
+          <li><a href="#bitcount">BITCOUNT</a></li>
+          <li><a href="#bittop">BITTOP</a></li>
+        </ul>
+      </li>
+      <li><a href="#hyperloglogs">HYperloglogs</a>
+        <ul>
+          <li><a href="#countiong-unique-users---hyperloglog-vs-set">Countiong unique users - Hyperloglog vs Set</a></li>
+          <li><a href="#pfadd">PFADD</a></li>
+          <li><a href="#pfcount">PFCOUNT</a></li>
+          <li><a href="#pfmerge">PFMERGE</a></li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
@@ -353,7 +369,7 @@
 
 <p>셋의 메모리 footprint?는 모든 멤버가 정수일 경우 줄일 수 있다. 멤버 최종 수는 <code class="language-plaintext highlighter-rouge">set-max-inset-entries</code>에 의존하며 이는 챕터 4에서 추후 설명하겠다.</p>
 
-<p>원소 개수는 \(2^32 -1\)이며 40억개 저장 가능하다.</p>
+<p>원소 개수는 \(2^{32} -1\)이며 40억개 저장 가능하다.</p>
 
 <p>아래는 <code class="language-plaintext highlighter-rouge">Sets</code>의 사용 사례다.</p>
 <ul>
@@ -541,6 +557,209 @@ Monkeys"
 
 <p><code class="language-plaintext highlighter-rouge">Bitmap</code>은 0과 1을 저장할 수 있는 비트 시퀀스이다. 레디스 공식 문서에서 비트맵에 인덱스는 <code class="language-plaintext highlighter-rouge">offset</code>으로 불린다.</p>
 
+<p>비트맵이 메모리를 어떻게 효율적으로 사용하는지 알기위해선 Set과 비교해볼 필요가있다.</p>
+
+<h3 id="comparison-scenario">Comparison Scenario</h3>
+
+<p>만약 5백만명의 사용자가 존재하고, 하루에 2백만명 정도의 사용자가 웹사이트에 접속한다고 가정하자. 이때 사용자 아이디는 <code class="language-plaintext highlighter-rouge">4byte</code> 정수값으로 표현된다.</p>
+
+<p>웹사이트에 당일 접속한 모든 유저의 아이디를 저장하는 기능을 구현한다하면, (비트맵에선 오프셋이 유저의 아이디를 매핑할 것이다) 이러한 상황에서 두 자료구조는 아래와 같은 구현 스펙이 결정된다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Redis Key</th>
+      <th style="text-align: left">Data type</th>
+      <th style="text-align: left">Amount of bits per user</th>
+      <th style="text-align: left">Stored users</th>
+      <th style="text-align: left">Total memory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">visits:2015-01-01</td>
+      <td style="text-align: left">Bitmap</td>
+      <td style="text-align: left">1 bit</td>
+      <td style="text-align: left">5 million</td>
+      <td style="text-align: left">1 * 5000000 bits = 625kB</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">visits:2015-01-01</td>
+      <td style="text-align: left">Set</td>
+      <td style="text-align: left">32 bit</td>
+      <td style="text-align: left">2 million</td>
+      <td style="text-align: left">32 * 2000000 bits = 8MB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>최악의 상황에서도 비트맵은 <code class="language-plaintext highlighter-rouge">Set</code>보다 괜찮은 메모리 효율을 보여주고 있다. 하지만 그렇다고해서 항상 비트맵이 효율적이라고 단정지을 순 없다. 아래 테이블을 보자.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Redis Key</th>
+      <th style="text-align: left">Data type</th>
+      <th style="text-align: left">Amount of bits per user</th>
+      <th style="text-align: left">Stored users</th>
+      <th style="text-align: left">Total memory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">visits:2015-01-01</td>
+      <td style="text-align: left">Bitmap</td>
+      <td style="text-align: left">1 bit</td>
+      <td style="text-align: left">5 million</td>
+      <td style="text-align: left">1 * 5000000 bits = 625kB</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">visits:2015-01-01</td>
+      <td style="text-align: left">Set</td>
+      <td style="text-align: left">32 bit</td>
+      <td style="text-align: left">100</td>
+      <td style="text-align: left">32 * 100 bits = 3.125KB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>비트맵은 실시간 분석에 사용하기 적합한 자료구조이다. 예를들어, 사용자 X가 Y를 얼마나 행했는가에 대한 질문 혹은 얼마나 많은 유저가 Y라는 이벤트를 행했는지 확인할 수있다. 아래는 <code class="language-plaintext highlighter-rouge">Bitmap</code>에 대한 사용 예시다.</p>
+
+<ul>
+  <li>얼마나 많은 사람이 오늘 이 블로그 포스트를 봤는가?</li>
+  <li>특정 유저 1이 오늘 이 블로그를 읽었는가?</li>
+</ul>
+
+<h3 id="setbit">SETBIT</h3>
+
+<p><code class="language-plaintext highlighter-rouge">SETBIT</code>는 특정 비트맵에 있는 오프셋을 설정한다. 1과 0만을 값으로 받으며, 만약 존재하지 않을 경우 생성한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; SETBIT visits:2015-01-01 10 1
+(integer) 0
+127.0.0.1:6379&gt; SETBIT visits:2015-01-01 15 1
+(integer) 0
+127.0.0.1:6379&gt; SETBIT visits:2015-01-02 10 1
+(integer) 0
+127.0.0.1:6379&gt; SETBIT visits:2015-01-02 11 1
+(integer) 0
+</code></pre></div></div>
+
+<h3 id="getbit">GETBIT</h3>
+
+<p><code class="language-plaintext highlighter-rouge">GETBIT</code>는 특정 비트맵에 있는 오프셋을 가져온다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; GETBIT visits:2015-01-01 10
+(integer) 1
+127.0.0.1:6379&gt; GETBIT visits:2015-01-02 15
+(integer) 0
+</code></pre></div></div>
+
+<h3 id="bitcount">BITCOUNT</h3>
+
+<p><code class="language-plaintext highlighter-rouge">BITCOUNT</code>는 특정 비트맵에 1로 설정된 오프셋의 개수를 반환한다. 현재 예제에서는 당일 날 접속한 사용자가 몇명인지 반환한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; BITCOUNT visits:2015-01-01
+(integer) 2
+127.0.0.1:6379&gt; BITCOUNT visits:2015-01-02
+(integer) 2
+</code></pre></div></div>
+
+<h3 id="bittop">BITTOP</h3>
+
+<p><code class="language-plaintext highlighter-rouge">BITOP</code>는 비트 연산을 수행하며 이에 대한 결과값을 저장할 <code class="language-plaintext highlighter-rouge">destination key</code>가 필요하다. 비트 오퍼레이션에는 <code class="language-plaintext highlighter-rouge">OR</code>, <code class="language-plaintext highlighter-rouge">AND</code>, <code class="language-plaintext highlighter-rouge">XOR</code>, <code class="language-plaintext highlighter-rouge">AND</code> 등이 있다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; BITOP OR total_users visits:2015-01-01 visits:2015-01-02
+(integer) 2
+127.0.0.1:6379&gt; BITCOUNT total_users
+(integer) 3
+</code></pre></div></div>
+
+<h2 id="hyperloglogs">HYperloglogs</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Hyperloglog</code> 또한 실제 데이터타입은 아니다. 개념적으로 <code class="language-plaintext highlighter-rouge">Hyperloglog</code>는 <code class="language-plaintext highlighter-rouge">Set</code>에 존재하는 <code class="language-plaintext highlighter-rouge">unique element</code>의 <code class="language-plaintext highlighter-rouge">Cardinality</code> 근사값을 제공하는 데에 효과적인 알고리즘이다.</p>
+
+<p>\(O(1)\), 상수시간안에 이를 해결하며, 메모리 사용량도 매우 적기 때문에 효과적이다. 실제 데이터타입은 아니지만, 레디스에서 <code class="language-plaintext highlighter-rouge">Hyperloglog</code>를 사용하여 <code class="language-plaintext highlighter-rouge">Set</code>에 <code class="language-plaintext highlighter-rouge">Cardinality</code>를 계산 하기위해 <code class="language-plaintext highlighter-rouge">String</code>을 조작하는 커맨드를 제공한다.</p>
+
+<p>하지만, <code class="language-plaintext highlighter-rouge">Hyperloglog</code> 사용할 때 알아둬야 할 것은 이 알고리즘은 확률적 알고리즘으로써 정확도가 100퍼센트는 아닌, 근사값을 예측하는 알고리즘이라는 것이다. <code class="language-plaintext highlighter-rouge">Redis</code>에서는 기본적으로 0.81퍼센트의 오차가 있다고 말한다.</p>
+
+<p>알고리즘에 대한 설명은 <a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm</a> 에서 확인할 수 있다.</p>
+
+<p>아래는 <code class="language-plaintext highlighter-rouge">HyperLogLog</code>에 사용 예시다.</p>
+
+<ul>
+  <li>웹사이트를 방문한 특정 유저의 수.</li>
+  <li>특정 시간 혹은 날짜에 나의 사이트에서 검색된 용어 개수</li>
+  <li>해쉬태크 개수</li>
+  <li>이 포스트에서 사용된 구별가능한 단어 개수</li>
+</ul>
+
+<h3 id="countiong-unique-users---hyperloglog-vs-set">Countiong unique users - Hyperloglog vs Set</h3>
+
+<p>시간당 평균 10만명에 사용자가 접속한다고 하자. 각각의 사용자는 <code class="language-plaintext highlighter-rouge">UUID(universally unique identifier)</code>와 같은 32바이트 스트링(ex:  de305d54-75b4-431b-adb2-eb6b9e546014)으로 특정된다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Data type</th>
+      <th style="text-align: left">Memory in an hour</th>
+      <th style="text-align: left">Memory in a day</th>
+      <th style="text-align: left">Memory in a month</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">HyperLogLog</td>
+      <td style="text-align: left">12 kb</td>
+      <td style="text-align: left">12 kB * 24 = 288 kB</td>
+      <td style="text-align: left">288 kB * 30 = 8.4 MB</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Set</td>
+      <td style="text-align: left">32 bytes * 100000 = 3.2 MB</td>
+      <td style="text-align: left">3.2 MB * 24 = 76.8 MB</td>
+      <td style="text-align: left">76.8 MB * 30 = 2.25 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code class="language-plaintext highlighter-rouge">HyperLogLog</code>는 시간당 특정 사용자가 접속한지 확인하기 위해 저장매체의 용량이 12kb 밖에 안된다.</p>
+
+<h3 id="pfadd">PFADD</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PFADD</code>는 하나 혹은 그 이상의 스트링을 입력받으며, <code class="language-plaintext highlighter-rouge">cardinality</code>가 변경되었을 경우 1 아닐경우 0을 반환한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ redis-cli
+127.0.0.1:6379&gt; PFADD visits:2015-01-01 "carl" "max" "hugo" "arthur"
+(integer) 1
+127.0.0.1:6379&gt; PFADD visits:2015-01-01 "max" "hugo"
+(integer) 0
+127.0.0.1:6379&gt; PFADD visits:2015-01-02 "max" "kc" "hugo" "renata"
+(integer) 1
+</code></pre></div></div>
+
+<h3 id="pfcount">PFCOUNT</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PFCOUNT</code>는 하나 혹은 그 이상의 키를 받으며, 인자가 하나일 경우에는 <code class="language-plaintext highlighter-rouge">approximate cardinality</code>를 반환한다. 키가 여러 개일 경우 총 합을 반환한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; PFCOUNT visits:2015-01-01
+(integer) 4
+127.0.0.1:6379&gt; PFCOUNT visits:2015-01-02
+(integer) 4
+127.0.0.1:6379&gt; PFCOUNT visits:2015-01-01 visits:2015-01-02
+(integer) 6
+</code></pre></div></div>
+
+<h3 id="pfmerge">PFMERGE</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PFMERGE</code>는 <code class="language-plaintext highlighter-rouge">destination key</code>를 필요로 하며, 하나 혹은 그 이상의 키를 인자로 받아야 한다. 특정 <code class="language-plaintext highlighter-rouge">Hyperloglog</code>를 모두 저장한 값을 리턴한다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>127.0.0.1:6379&gt; PFMERGE visits:total visits:2015-01-01 visits:2015-01-02
+OK
+127.0.0.1:6379&gt; PFCOUNT visits:total
+(integer) 6
+
+</code></pre></div></div>
+
 <blockquote>
   <font size="6">Refernce</font>
   <ul>
@@ -607,7 +826,7 @@ Monkeys"
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-16">November 16, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-27">November 27, 2020</time></p>
 
 
       </footer>
@@ -617,7 +836,7 @@ Monkeys"
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%EB%A0%88%EB%94%94%EC%8A%A4+%EC%BD%9C%EB%A0%89%EC%85%98%28%EC%9E%91%EC%84%B1%EC%A4%91%29%20http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2Fredis_01%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%EB%A0%88%EB%94%94%EC%8A%A4+%EC%BD%9C%EB%A0%89%EC%85%98%20http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2Fredis_01%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fdatabase%2Fredis_01%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -628,11 +847,11 @@ Monkeys"
       
   <nav class="pagination">
     
-      <a href="/backend/Serverless/" class="pagination--pager" title="Serverless(작성중)
+      <a href="/backend/Serverless/" class="pagination--pager" title="Serverless
 ">이전</a>
     
     
-      <a href="/algorithm/HLD/" class="pagination--pager" title="Heavy-Light Decompostion
+      <a href="/algorithm/HLD/" class="pagination--pager" title="Heavy-Light Decompostion(작성중)
 ">다음</a>
     
   </nav>
@@ -657,95 +876,7 @@ Monkeys"
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/algorithm/HLD/" rel="permalink">Heavy-Light Decompostion
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/backend/Serverless/" rel="permalink">Serverless(작성중)
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/backend/FaaS_BaaS/" rel="permalink">FaaS, BaaS
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">서버리스 컴퓨팅에 대해 정리하다가 FaaS와 BaaS에 대한 언급이 잦아 정리해보려고 한다.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/database/redis_00/" rel="permalink">레디스 기본 데이터 타입
+        <a href="/nodejs/node_event_loop/" rel="permalink">Node.js 이벤트 루프(작성중)
 </a>
       
     </h2>
@@ -759,8 +890,95 @@ Monkeys"
 
 </p>
     
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="permalink">동기, 비동기, 블록킹 그리고 논 블록킹
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/database/redis_02/" rel="permalink">시계열 데이터 관측
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
     <p class="archive__item-excerpt" itemprop="description">
 
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/REST/" rel="permalink">그런 REST API로 괜찮은가.
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">REpresentaion State Transfer
 </p>
   </article>
 </div>

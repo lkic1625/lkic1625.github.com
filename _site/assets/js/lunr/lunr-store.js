@@ -275,7 +275,7 @@ var store = [{
         "url": "http://localhost:4000/database/B+_tree/",
         "teaser": null
       },{
-        "title": "MVVC",
+        "title": "MVCC",
         "excerpt":"MVCC MVCC(Multi Version Concurrency Control)의 약자이다. Multi Version는 하나의 레코드에 대해 여러 버전이 관리된다는 의미이다. 일반적으로 레코드 레벨의 트랜잭션을 지원하는 DBMS가 제공하는 기능이며, 가장 큰 목적은 잠금을 사용하지 않는 일관된 읽기를 제공하는데 있다. Concurrency Control Concurrency Control 즉, 동시성 제어란 DBMS가 다수의 사용자 사이에서 동시에 작용하는 트랜잭션의 상호간섭 작용에서 데이터베이스를...","categories": ["database"],
         "tags": ["database","MVVC"],
         "url": "http://localhost:4000/database/database_MVCC/",
@@ -299,21 +299,51 @@ var store = [{
         "url": "http://localhost:4000/backend/FaaS_BaaS/",
         "teaser": null
       },{
-        "title": "Serverless(작성중)",
+        "title": "Serverless",
         "excerpt":"이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다! Serverless 란 Serverless 아키텍처는 기존과 다른 인터넷 기반 서버개발 프로세스이다. third-party services, client-side logic, 호스팅 원격 프로시져 콜의 조합에만 의존한다.(Instead they rely solely on a combination of third-party services, client-side logic, and service hosted remote procedure calls (Faas)) Serverless 어플리케이션은 전통적으로 서버가 처리하던...","categories": ["backend"],
         "tags": ["backend","serverless"],
         "url": "http://localhost:4000/backend/Serverless/",
         "teaser": null
       },{
-        "title": "레디스 콜렉션(작성중)",
+        "title": "레디스 콜렉션",
         "excerpt":"이번 포스트에서는.. 저번 포스트에서는 기본적인 데이터 타입을 설명했다. 이번 포스트에선 한발 더 나아가 Set, Sorted Set, Bitmap, Hyperloglog 데이터 타입을 살펴보려 한다. 이 글은 레디스 기본 데이터 타입 포스트와 이어집니다. Sets 셋은 스트링과는 구분되는 순서가 없는 콜렉션이다. 중복되는 원소를 셋에 집어넣을수 없으며 내부적으로 해쉬테이블처럼 구현됐다. 이러한 이유는 최적화 때문인데, 멤버...","categories": ["database"],
         "tags": ["NoSQL","database","redis","nodejs"],
         "url": "http://localhost:4000/database/redis_01/",
         "teaser": null
       },{
-        "title": "Heavy-Light Decompostion",
-        "excerpt":"Introduction 오늘은 HLD에 대해 포스팅을 해보려 한다. 상당히 문제 유형이 한정적이고 어려운 테크닉에 속하기에 포스팅할까 망설였다.(어디다 쓰는 알고리즘인데 도대체) 대회 준비를 하는 것도 아니기에 기본적인 자료구조, 알고리즘을 지향하려 했지만, 최근에는 굳이 그럴 필요 있을까 생각한다. 알고리즘은 기업 코테도 있다보니 겸사겸사 시작했지만, 요즘은 하나의 논리를 배우는 거라 생각한다. 우리는 개발을 하면서...","categories": ["algorithm"],
+        "title": "Heavy-Light Decompostion(작성중)",
+        "excerpt":"Introduction 오늘은 HLD에 대해 포스팅을 해보려 한다. 문제 유형이 한정적이고 어려운 테크닉에 속하기에 포스팅할까 망설였다.(어디다 쓰는 알고리즘인데 도대체) 대회 준비를 하는 것도 아니기에 기본적인 자료구조, 알고리즘을 지향하려 했지만, 최근에는 굳이 그럴 필요 있을까 생각한다. 알고리즘은 기업 코테도 있다보니 겸사겸사 시작했지만, 요즘은 하나의 논리를 배우는 거라 생각한다. 우리는 개발을 하면서 언어에...","categories": ["algorithm"],
         "tags": ["algorithm","traversal","graph","segment_tree","lca"],
         "url": "http://localhost:4000/algorithm/HLD/",
+        "teaser": null
+      },{
+        "title": "CORS(작성중)",
+        "excerpt":"CORS란 Cross Origin Resource Sharing(CORS)는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다. 이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP 요청을 제한한다. API를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 CORS...","categories": ["backend"],
+        "tags": ["backend","serverless"],
+        "url": "http://localhost:4000/backend/CORS/",
+        "teaser": null
+      },{
+        "title": "그런 REST API로 괜찮은가.",
+        "excerpt":"REpresentaion State Transfer 1991년에 WWW이 출시된 이후 인터넷 정보를 어떻게 공유할 것인가에 대한 연구가 활발히 진행됐는데, 그 예로 가장 먼저 HTTP라는 프로토콜이 만들어졌다. Roy T.Fielding은 REST의 창시자이며 HTTP 프로토콜 개발에 참여했던 연구진으로 HTTP 개발이후 HTTP object model이란 이름의 REST 아키텍쳐를 발표했다. Roy T.Fielding: “How do i improve HTTP without breaking...","categories": ["backend"],
+        "tags": ["backend","serverless"],
+        "url": "http://localhost:4000/backend/REST/",
+        "teaser": null
+      },{
+        "title": "시계열 데이터 관측",
+        "excerpt":"Time Series 시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다. -wikipedia 시계열 데이터는 다양한 분석방법에 쓰일 수 있으며, 아래는 이에 대한 예시이다. Usage of specific words or terms in a...","categories": ["database"],
+        "tags": ["NoSQL","database","redis","nodejs","time-series"],
+        "url": "http://localhost:4000/database/redis_02/",
+        "teaser": null
+      },{
+        "title": "동기, 비동기, 블록킹 그리고 논 블록킹",
+        "excerpt":"Introduction 최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자. 이번 포스트 주제는 말은 비슷해 보이지만 뭔가 다른 두 쌍에 대해 알아보자. Blocking/Non-Blocking blocking과 non-blocking 호출되는 함수가 바로 리턴하는가에 차이다....","categories": ["js"],
+        "tags": ["os","sync"],
+        "url": "http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/",
+        "teaser": null
+      },{
+        "title": "Node.js 이벤트 루프(작성중)",
+        "excerpt":"Introduction Node.js를 통해 개발하면서 사용할 줄만 알았지 제대로 된 개념하나 안 잡힌 것 같아 포스트를 작성한다. 이벤트 루프에 대해 알아보자. 블로그에서 최근 작성한 글 중에서 가장 긴 글이 되지 않을까 싶다. Event Loop 자바스크립트는 알다 싶이 단일 스레드 기반의 언어다. 단일 쓰레드라는 의미는 들어오는 작업에 대해 순차적으로, 동시성을 지원하지 못하는...","categories": ["nodejs"],
+        "tags": ["js","event_loop"],
+        "url": "http://localhost:4000/nodejs/node_event_loop/",
         "teaser": null
       }]
