@@ -1,5 +1,5 @@
 ---
-title: "MVCC"
+title: "MVCC(추가 필요)"
 tags:
   - database
   - MVVC

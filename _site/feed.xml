@@ -1,4 +1,517 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-29T00:24:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">동기, 비동기, 블록킹 그리고 논 블록킹</title><link href="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="alternate" type="text/html" title="동기, 비동기, 블록킹 그리고 논 블록킹" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous</id><content type="html" xml:base="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-11-30T06:55:59+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">HTTP 헤더</title><link href="http://localhost:4000/backend/http_headers/" rel="alternate" type="text/html" title="HTTP 헤더" /><published>2020-11-29T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/backend/http_headers</id><content type="html" xml:base="http://localhost:4000/backend/http_headers/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;오늘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP headers&lt;/code&gt;에 대해 알아보려 한다.&lt;/p&gt;
+
+&lt;p&gt;보통 블로그 포스팅 혹은 면접 준비를 위해 여러 블로그를 참조하는데, 최근에 한 포스트에서 인상적인 문구를 봤다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;결국, 어떤 프로토콜을 이해하려면 프로토콜의 헤더만 알면 된다는 얘기었다.&lt;br /&gt;
+특정 프로토콜의 헤더의 내용은 특정 프로토콜의 기능을 제공하기 위해 담고 있는 최소한의 정보기 때문이다.&lt;br /&gt;
+출처: https://jeong-pro.tistory.com/181 [기본기를 쌓는 정아마추어 코딩블로그]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 프로토콜에 대한 전반적인 이해를 위해 이 포스트를 작성한다.&lt;/p&gt;
+
+&lt;h1 id=&quot;http-headers&quot;&gt;HTTP headers&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;HTTP headers let the client and the server pass additional information with an HTTP request or response&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;말 그대로 통신 중 이를 해석하기 위한 추가적인 정보다.&lt;/p&gt;
+
+&lt;p&gt;보통 헤더는 콜론(:)으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;field&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;value&lt;/code&gt;를 구분하며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;field&lt;/code&gt;는 대소문자를 구분하지 않고, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;value&lt;/code&gt; 앞에 나오는 공백을 무시한다.&lt;/p&gt;
+
+&lt;p&gt;헤더는 아래와 같이 4가지 분류로 나뉜다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;General headers: 요청과 응답에 모두 포함되는 헤더지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;body&lt;/code&gt;에서 전송되는 데이터와는 관련이 없다.&lt;/li&gt;
+  &lt;li&gt;Request headers: 가져올 리소스와 이를 요청하는 클라이언트에 대한 자세한 정보를 가진다.&lt;/li&gt;
+  &lt;li&gt;Response header: 리소스를 제공하는 서버, 위치 등 응답에 대한 추가적인 정보를 가지고 있다.&lt;/li&gt;
+  &lt;li&gt;Entity heders: 콘텐츠 데이터 길이, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MIME type&lt;/code&gt;과 같은 리소의 본문에 대한 정보를 가진다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;또한, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;프록시&lt;/code&gt;가 어떻게 아래 헤더를 다루냐에 따라 분류할 수 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Connection&lt;/li&gt;
+  &lt;li&gt;Keep-Alive&lt;/li&gt;
+  &lt;li&gt;Proxy-Authenticate&lt;/li&gt;
+  &lt;li&gt;Proxy-Authorization&lt;/li&gt;
+  &lt;li&gt;TE&lt;/li&gt;
+  &lt;li&gt;Trailer&lt;/li&gt;
+  &lt;li&gt;Transfer-Encoding&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Upgrade (see also Protocol upgrade mechanism).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;End-to-end headers: 이 헤더는 반드시 최종 메세지 수신자에게 전송되야 하는 헤더다. 중간 프록시는 반드시 이를 캐싱해야하며, 어떤 수정도 하면 안 된다.&lt;/li&gt;
+  &lt;li&gt;Hop-by-hop headers: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;single transport-level connection&lt;/code&gt;에서 유의미한 헤더다. 반드시 재전송 혹은 캐싱될 필요 없다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Connection&lt;/code&gt; general header 를 사용하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hob-by-hob header&lt;/code&gt;만 설정할 수 있다는 점을 유의하자.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;general-headers&quot;&gt;General headers&lt;/h2&gt;
+
+&lt;p&gt;요청 및 응답 메세지 모두에서 사용 가능한 기적인 헤더다.&lt;/p&gt;
+
+&lt;h3 id=&quot;cache-control&quot;&gt;Cache-Control&lt;/h3&gt;
+
+&lt;p&gt;이후 다른 포스트로 이전할 수도 있는 항목입니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;syntax&quot;&gt;syntax&lt;/h4&gt;
+
+&lt;p&gt;모든 캐싱시스템이 따라야할 지시사항을 지정한다. 문법은 아래와 같다&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Cache-Control : cache-request-directive|cache-response-directive
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;서버와 클라이언트는 캐시에서 특정 문서를 요청하거나 캐싱하기 위해 특정 파라미터를 이용하여 이 헤더를 사용할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;클라이언트가 사용가능한 캐싱 요청 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;directive&lt;/code&gt;다&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Cache-Control: max-age=&amp;lt;seconds&amp;gt;
+Cache-Control: max-stale[=&amp;lt;seconds&amp;gt;]
+Cache-Control: min-fresh=&amp;lt;seconds&amp;gt;
+Cache-control: no-cache
+Cache-control: no-store
+Cache-control: no-transform
+Cache-control: only-if-cached
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;서버가 사용가능한 캐싱 응답 디렉티브다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Cache-control: must-revalidate
+Cache-control: no-cache
+Cache-control: no-store
+Cache-control: no-transform
+Cache-control: public
+Cache-control: private
+Cache-control: proxy-revalidate
+Cache-Control: max-age=&amp;lt;seconds&amp;gt;
+Cache-control: s-maxage=&amp;lt;seconds&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;directive&quot;&gt;Directive&lt;/h4&gt;
+
+&lt;h5 id=&quot;cacheability&quot;&gt;Cacheability&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;directive&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;public&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;어떤 요청에 대해서든 캐싱한다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;private&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;타인과 공유되는 프록시 서버에는 캐싱하지 않는다. end-user에만 브라우저에 캐싱한다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;no-cache&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;캐싱된 값을 사용하기 위해선 반드시 서버에서 유효한지 확인해야한다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;no-store&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;어떤 요청도 캐시로 저장하지 않는다.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h5 id=&quot;expiration&quot;&gt;Expiration&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;directive&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;max-age=&lt;seconds&gt;&lt;/seconds&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;신선도(?)를 설정한다. 이는 캐시가 언제 생성됐는지와 연관있으며 이 후에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;304 Modifed&lt;/code&gt;를 받아야만 사용가능하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expires&lt;/code&gt;와는 다르게 상대 시간을 설정한다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;max-stale[=&lt;seconds&gt;]&lt;/seconds&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Indicates the client will accept a stale response. An optional value in seconds indicates the upper limit of staleness the client will accept.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;min-fresh=&lt;seconds&gt;&lt;/seconds&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Indicates the client wants a response that will still be fresh for at least the specified number of seconds.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h5 id=&quot;revalidation-and-reloading&quot;&gt;Revalidation and reloading&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;directive&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;must-revalidate&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;리소스가 오래됐을 경우 캐시가 반드시 원 서버의 유효성 검사이후 사용해야한다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;proxy-revalidate&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;must-revalidate&lt;/code&gt;와 비슷하지만 공유 캐시에 이용된다.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;immutable&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Indicates that the response body will not change over time. The resource, if unexpired, is unchanged on the server and therefore the client should not send a conditional revalidation for it (e.g. If-None-Match or If-Modified-Since) to check for updates, even when the user explicitly refreshes the page. Clients that aren’t aware of this extension must ignore them as per the HTTP specification. In Firefox, immutable is only honored on https:// transactions. For more information, see also this blog post.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h5 id=&quot;other&quot;&gt;Other&lt;/h5&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;directive&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;no-transform&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;중간 캐시 혹은 프록시가 응답 본문, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Content-Encoding&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Content-Range&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cotent-Type&lt;/code&gt;을 수정할 수 없다.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;connection&quot;&gt;Connection&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Connection&lt;/code&gt; 헤더는 클라이언트와 서버의 연결방식을 설정하는 헤더다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP/1.1&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;keep-alive&lt;/code&gt;가 디폴트다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP/2&lt;/code&gt;에선 아예 사라져버렸다. 사실상 의미가 없다는 이야기를 들었다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Connection: keep-alive
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;date&quot;&gt;Date&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;가 만들어진 시각. 자동으로 생성된다.&lt;/p&gt;
+
+&lt;p&gt;모든 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;는 타임스탬프를 반드시 가지고 있어야 하며, 기준은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Greenwich Mean Time(GMT)&lt;/code&gt;이다. 아래 세 가지 템플릿을 허용하니 알아두자.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Sun, 06 Nov 1994 08:49:37 GMT  ; RFC 822, updated by RFC 1123
+Sunday, 06-Nov-94 08:49:37 GMT ; RFC 850, obsoleted by RFC 1036
+Sun Nov  6 08:49:37 1994       ; ANSI C's asctime() format
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;pragma&quot;&gt;Pragma&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Pragma&lt;/code&gt;는 캐시제어 (no-cache), HTTP/1.0에서 쓰던 것으로 HTTP/1.1에서는 Cache-Control이 쓰인다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Pragma: no-cache
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;transfer-encoding&quot;&gt;Transfer-Encoding&lt;/h3&gt;
+
+&lt;p&gt;발신자와 수신자 사이에 안전한 메세지 압축을 위해 본문 내용의 압축 방식을 지정한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chunked&lt;/code&gt;면 본문 내용이 동적으로 생성되어 길이를 모르기 때문에 나눠서 보낸다는 의미다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Transfer-Encoding: chunked
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;trailer&quot;&gt;Trailer&lt;/h3&gt;
+
+&lt;p&gt;트레일러 헤더는 메세지 무결성 검사, 디지털 서명 또는 처리 상태와 같이 메세지 본문이 전송되는 동안 생성될 수 있는 메타데이터를 제공하기 위해 보낸 사람이 chunked 된 메세지의 끝에 추가 필드를 포함시킬 수 있다.&lt;/p&gt;
+
+&lt;h3 id=&quot;upgrade&quot;&gt;Upgrade&lt;/h3&gt;
+
+&lt;p&gt;프로토콜 변경을 위해 사용한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Upgrade: HTTP/2.0, SHTTP/1.3, IRC/6.9, RTA/x11
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;via&quot;&gt;Via&lt;/h3&gt;
+
+&lt;p&gt;중계 프록시 서버의 이름, 버전, 호스트 명을 나타낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;warning&quot;&gt;Warning&lt;/h3&gt;
+
+&lt;p&gt;메세지에 반영되지 않은 상태 또는 압축에 대한 추가적인 정보를 보내기 위해 사용한다. 응답은 하나 이상의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Waring header&lt;/code&gt;를 보낸다.&lt;/p&gt;
+
+&lt;h2 id=&quot;request-headers&quot;&gt;Request headers&lt;/h2&gt;
+
+&lt;h3 id=&quot;accept&quot;&gt;Accept&lt;/h3&gt;
+
+&lt;p&gt;클라이이언트가 응답에서 처리가능한 모든 미디어 타입을 명시한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Accept: type/subtype [q=qvalue]
+
+Accept: text/plain; q=0.5, text/html, text/x-dvi; q=0.8, text/x-c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;qvalue&lt;/code&gt;는 0과 1사이 스케일 값을 가지며, 허용가능한 미디어 타입의 퀄리티 레벨을 표시한다.&lt;/p&gt;
+
+&lt;h3 id=&quot;accept-charset&quot;&gt;Accept-charset&lt;/h3&gt;
+
+&lt;p&gt;클라이언트가 지원가능한 문자열 인코딩 방식을 명시한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Accept-Charset: character_set [q=qvalue]
+
+Accept-Charset: iso-8859-5, unicode-1-1; q=0.8
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;qvalue&lt;/code&gt;는 0과 1사이 스케일 값으로 선호되지 않는 문자열 집합에 대해 허용되는 품질 수준을 나타낸다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*&lt;/code&gt; 와일드 카드가 존재 시 모든 인코딩 방식을 허용하고, 위 헤더가 존재하지 않을 시 기본값이다.&lt;/p&gt;
+
+&lt;h3 id=&quot;accept-encoding&quot;&gt;Accept-Encoding&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Accept&lt;/code&gt;와 비슷하지만 클라이언트가 해석가능한 압축 방식을 지정.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Accept-Encoding: compress, gzip
+Accept-Encoding:
+Accept-Encoding: *
+Accept-Encoding: compress;q=0.5, gzip;q=1.0
+Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;accept-language&quot;&gt;Accept-Language&lt;/h3&gt;
+
+&lt;p&gt;클라이언트가 지원가능한 언어를 나열한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Accept-Language: language [q=qvalue]
+
+Accept-Language: da, en-gb;q=0.8, en;q=0.7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;qvalue&lt;/code&gt;는 비선호 언어에 대한 스케일을 0과 1사이로 나타낸다.&lt;/p&gt;
+
+&lt;h3 id=&quot;authorization&quot;&gt;Authorization&lt;/h3&gt;
+
+&lt;p&gt;토큰 기반 엑세스를 지원하는 경우 위 헤더를 통해 토큰을 보낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Authorization: BASIC Z3Vlc3Q6Z3Vlc3QxMjM=
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;cookie&quot;&gt;Cookie&lt;/h3&gt;
+
+&lt;p&gt;쿠키 값을 보내며 key-value로 표현된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Cookie: name1=value1;name2=value2;name3=value3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;expect&quot;&gt;Expect&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expect&lt;/code&gt;는 클라이언트가 요구하는 특정 서버 동작을 나타낸다.&lt;/p&gt;
+
+&lt;p&gt;서버가 지원하지 않는 방식의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Expect&lt;/code&gt; 헤더를 전달받았을 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;417 Expaectation Failed&lt;/code&gt;를 전송한다.&lt;/p&gt;
+
+&lt;h3 id=&quot;host&quot;&gt;Host&lt;/h3&gt;
+
+&lt;p&gt;요청하려는 서버 호스트 이름과 포트 번호를 나타낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /pub/WWW/ HTTP/1.1
+Host: www.w3.org
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;명시하지 않을 경우 default로 80 포트를 설정한다.&lt;/p&gt;
+
+&lt;h3 id=&quot;if-match&quot;&gt;If-Match&lt;/h3&gt;
+
+&lt;p&gt;The If-Match request-header field is used with a method to make it conditional. This header requests the server to perform the requested method only if the given value in this tag matches the given entity tags represented by ETag. The general syntax is:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;If-Match : entity-tag
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;An asterisk (*) matches any entity, and the transaction continues only if the entity exists. Following are possible examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;If-Match: &quot;xyzzy&quot;
+If-Match: &quot;xyzzy&quot;, &quot;r2d2xxxx&quot;, &quot;c3piozzzz&quot;
+If-Match: *
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;if-modifed-since&quot;&gt;If-Modifed-Since&lt;/h3&gt;
+
+&lt;p&gt;현재 필드에 입력된 값 이후로 수정되지 않았다면 본문 없는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;304 not modified&lt;/code&gt;를 서버에서 전송한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;If-Modified-Since: Sat, 29 Oct 1994 19:43:31 GMT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;proxy-authorization&quot;&gt;Proxy-Authorization&lt;/h3&gt;
+
+&lt;p&gt;인증을 필요로 하는 프록시에게 권한을 포함한 값을 전달.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Proxy-Authorization : credentials
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;referer&quot;&gt;Referer&lt;/h3&gt;
+
+&lt;p&gt;이 페이지 이전 페이지 주소가 담겨있다. 이 헤더를 사용하면 페이지 이동에 대해 확인 가능하다. 보통 데이터 애널리스틱스 같은 데 많이 사용한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 관련해서 이 헤더를 사용하는 방법을 해결 방법으로 제시하긴 하는데, 헤더를 조작하는 방법이 존재해 그렇게 큰 의미를 가지지 않는 것으로 안다.&lt;/p&gt;
+
+&lt;h3 id=&quot;user-agent&quot;&gt;User-Agent&lt;/h3&gt;
+
+&lt;p&gt;클라이언트 프로그램 정보를 나타낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;User-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;response-headers&quot;&gt;Response headers&lt;/h2&gt;
+
+&lt;h3 id=&quot;access-control-allow-origin&quot;&gt;Access-Control-Allow-Origin&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;/backend/2020-11-27-CORS&quot;&gt;여기로 이동&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;age&quot;&gt;Age&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;max-age&lt;/code&gt; 시간내 얼마나 지났는지를 나타내는 추정치&lt;/p&gt;
+
+&lt;h3 id=&quot;location&quot;&gt;Location&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;300&lt;/code&gt;번대 응답 혹은  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;201 Created&lt;/code&gt; 상태 코드일 때 볼 수 있는 헤더로 서버가 응답이 다른 곳에 있다고 알려주며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt;를 지정함.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Location: http://www.tutorialspoint.org/http/index.htm
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;server&quot;&gt;Server&lt;/h3&gt;
+
+&lt;p&gt;웹 서버의 종류를 나타낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Server: Apache/2.2.14 (Win32)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;set-cookie&quot;&gt;Set-Cookie&lt;/h3&gt;
+
+&lt;p&gt;이름-밸류 쌍의 형식으로 되어있으며, 쿠키를 설정한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Set-Cookie: name1=value1,name2=value2; Expires=Wed, 09 Jun 2021 10:18:14 GMT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;옵션은 아래와 같다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;options&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Comment=comment&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;쿠키와 관련된 코멘트 작성&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Domain=domain&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;쿠키가 유효한 도메인을 명시&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Expires=Date-time&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;쿠키 만료시간을 나타냄. 만약 공백일 경우 방문자가 나갈경우 쿠키가 만료됨.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Path=path&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;쿠키가 사용될 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URL Path&lt;/code&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Secure&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;secure connection&lt;/code&gt; 밑에 있을 경우에만 사용가능한&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;proxy-authenticate&quot;&gt;Proxy-Authenticate&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;407 Proxy Authentication Required&lt;/code&gt;와 함께 나타나며 요청한 서버가 프록시 서버인 겨웅 유저 인증을 위한 값을 나타낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Proxy-Authenticate  : challenge
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;www-authenticate&quot;&gt;WWW-Authenticate&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;401 Unauthorized&lt;/code&gt;와 관려있으며 사용자 인증이 필요한 자원을 요구할 시, 서버가 제공하는 인증방식.&lt;/p&gt;
+
+&lt;h2 id=&quot;entity-headers&quot;&gt;Entity headers&lt;/h2&gt;
+
+&lt;h3 id=&quot;allow&quot;&gt;Allow&lt;/h3&gt;
+
+&lt;p&gt;허용 가능한 메소드를 명시한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Allow: GET, HEAD, PUT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;content-encoding&quot;&gt;Content-Encoding&lt;/h3&gt;
+
+&lt;p&gt;컨텐츠 압축 방식이다. 응답 컨텐츠를  br, gzip, deflate 등의 알고리즘으로 압축해서 보내면 브루아주거 알아서 해제 후 사용한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Content-Encoding: gzip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;content-language&quot;&gt;Content-Language&lt;/h3&gt;
+
+&lt;p&gt;사용자의 언어를 뜻 한다. 응답이 무슨 언어인지와는 관련이 없다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Content-Language: mi, en
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;content-length&quot;&gt;Content-Length&lt;/h3&gt;
+
+&lt;p&gt;요청과 응답 메세지의 본문 크기를 나타낸다. 자동으로 만들어짐.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Content-Length: 3495
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;content-md5&quot;&gt;Content-MD5&lt;/h3&gt;
+
+&lt;p&gt;메세지 무결성을 위해 포함하며, 해싱한 값이다&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Content-MD5  : 8c2d46911f3f5a326455f0ed7a8ed3b3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;content-type&quot;&gt;Content-Type&lt;/h3&gt;
+
+&lt;p&gt;컨텐츠의 타입과 문자열 인코딩을 명시할 수 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Accept&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Accept-Charset&lt;/code&gt;과 대응된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Content-Type: text/html; charset=ISO-8859-4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;expires&quot;&gt;Expires&lt;/h3&gt;
+
+&lt;p&gt;지원의 만료 일자. 응답이 신선하지 않은지를 확인할 수 있는 기준.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Expires: Thu, 01 Dec 1994 16:00:00 GMT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;last-modified&quot;&gt;Last-Modified&lt;/h3&gt;
+
+&lt;p&gt;최근에 수정된 날짜를 나타낸다.&lt;/p&gt;
+
+&lt;p&gt;현재 리소스가 수정된 날짜를 나타낸다. 여러 버전의 같은 리소스를 비교할 때 사용.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ETag&lt;/code&gt; 보단 부정확하지만, 계산이 쉽다.&lt;/p&gt;
+
+&lt;h1 id=&quot;마무리하며&quot;&gt;마무리하며..&lt;/h1&gt;
+
+&lt;p&gt;헤더를 작성 후 다른 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 관련 포스트를 작성했을 때 더 빠른 이해를 돕지 않을까 싶다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cache&lt;/code&gt; 관련한 섹션은 따로 빼서 포스트를 작성할 것이다. 수정이 안 되어 있다면 작성자가 게으른 것.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://feel5ny.github.io/2019/10/05/HTTP_007-2/#cacheflow&lt;/li&gt;
+    &lt;li&gt;http://www.ktword.co.kr/abbr_view.php?m_temp1=3790&lt;/li&gt;
+    &lt;li&gt;https://developer.mozilla.org/ko/docs/Web/HTTP/CORS&lt;/li&gt;
+    &lt;li&gt;https://www.tutorialspoint.com/http/http_header_fields.htm&lt;/li&gt;
+    &lt;li&gt;https://www.zerocho.com/category/HTTP/post/5b3ba2d0b3dabd001b53b9db&lt;/li&gt;
+    &lt;li&gt;https://feel5ny.github.io/2019/10/05/HTTP_007-2/&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="network" /><category term="header" /><summary type="html">Introduction</summary></entry><entry><title type="html">동기, 비동기, 블록킹 그리고 논 블록킹</title><link href="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="alternate" type="text/html" title="동기, 비동기, 블록킹 그리고 논 블록킹" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous</id><content type="html" xml:base="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자.&lt;/p&gt;
 
@@ -49,7 +562,7 @@
   &lt;ul&gt;
     &lt;li&gt;http://homoefficio.github.io/2017/02/19/Blocking-NonBlocking-Synchronous-Asynchronous/&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="os" /><category term="sync" /><summary type="html">Introduction</summary></entry><entry><title type="html">Node.js 이벤트 루프(작성중)</title><link href="http://localhost:4000/nodejs/node_event_loop/" rel="alternate" type="text/html" title="Node.js 이벤트 루프(작성중)" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/node_event_loop</id><content type="html" xml:base="http://localhost:4000/nodejs/node_event_loop/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="os" /><category term="sync" /><summary type="html">Introduction</summary></entry><entry><title type="html">Node.js 이벤트 루프</title><link href="http://localhost:4000/nodejs/node_event_loop/" rel="alternate" type="text/html" title="Node.js 이벤트 루프" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/node_event_loop</id><content type="html" xml:base="http://localhost:4000/nodejs/node_event_loop/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;를 통해 개발하면서 사용할 줄만 알았지 제대로 된 개념하나 안 잡힌 것 같아 포스트를 작성한다. 이벤트 루프에 대해 알아보자. 블로그에서 최근 작성한 글 중에서 가장 긴 글이 되지 않을까 싶다.&lt;/p&gt;
 
@@ -292,7 +805,7 @@
   &lt;p&gt;Immediately after mainline finishes and after every phase of the event loop, the microtask callbacks run.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nextTickQueue&lt;/code&gt; 또한 마찬가지이며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nextTickQueue는&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;microTaskQueue보다는&lt;/code&gt; 높은 우선 순위를 가지고 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nextTickQueue&lt;/code&gt; 또한 마찬가지이며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nextTickQueue는&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;microTaskQueue&lt;/code&gt; 보다는 높은 우선 순위를 가지고 있다.&lt;/p&gt;
 
 &lt;h1 id=&quot;글을-마치며&quot;&gt;글을 마치며..&lt;/h1&gt;
 
@@ -307,17 +820,7 @@
     &lt;li&gt;https://developer.ibm.com/tutorials/learn-nodejs-the-event-loop/&lt;/li&gt;
     &lt;li&gt;https://www.voidcanvas.com/nodejs-event-loop&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="js" /><category term="event_loop" /><summary type="html">Introduction</summary></entry><entry><title type="html">CORS(작성중)</title><link href="http://localhost:4000/backend/CORS/" rel="alternate" type="text/html" title="CORS(작성중)" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/backend/CORS</id><content type="html" xml:base="http://localhost:4000/backend/CORS/">&lt;h1 id=&quot;cors란&quot;&gt;CORS란&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cross Origin Resource Sharing(CORS)&lt;/code&gt;는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다.&lt;/p&gt;
-
-&lt;p&gt;이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP 요청을 제한한다.&lt;/p&gt;
-
-&lt;p&gt;API를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 CORS 헤더를 포함한 응답을 반환해야 한다.&lt;/p&gt;
-
-&lt;h2 id=&quot;functional-overview&quot;&gt;Functional Overview&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt;는 웹 브라우저에서 해당 정보를 읽는 것이&lt;/p&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="serverless" /><summary type="html">CORS란</summary></entry><entry><title type="html">시계열 데이터 관측</title><link href="http://localhost:4000/database/redis_02/" rel="alternate" type="text/html" title="시계열 데이터 관측" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_02</id><content type="html" xml:base="http://localhost:4000/database/redis_02/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="js" /><category term="event_loop" /><summary type="html">Introduction</summary></entry><entry><title type="html">시계열 데이터 관측</title><link href="http://localhost:4000/database/redis_02/" rel="alternate" type="text/html" title="시계열 데이터 관측" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_02</id><content type="html" xml:base="http://localhost:4000/database/redis_02/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;time-series&quot;&gt;Time Series&lt;/h1&gt;
@@ -475,7 +978,234 @@
   &lt;ul&gt;
     &lt;li&gt;https://tv.naver.com/v/2292653&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="serverless" /><summary type="html">REpresentaion State Transfer</summary></entry><entry><title type="html">Heavy-Light Decompostion(작성중)</title><link href="http://localhost:4000/algorithm/HLD/" rel="alternate" type="text/html" title="Heavy-Light Decompostion(작성중)" /><published>2020-11-23T00:00:00+09:00</published><updated>2020-11-27T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/HLD</id><content type="html" xml:base="http://localhost:4000/algorithm/HLD/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="REST" /><summary type="html">REpresentaion State Transfer</summary></entry><entry><title type="html">CORS(작성중)</title><link href="http://localhost:4000/backend/CORS/" rel="alternate" type="text/html" title="CORS(작성중)" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-30T04:00:00+09:00</updated><id>http://localhost:4000/backend/CORS</id><content type="html" xml:base="http://localhost:4000/backend/CORS/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node&lt;/code&gt; 개발할 때, 따로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt;란 단어를 책에선 본 적은 있지만 제대로 다루지는 않았다 헤더에 와일드 카드를 추가하던가, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cors&lt;/code&gt; 모듈을 사용하여 가능한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt;를 설정하라는 것은 익히 알고 있었으나 그 속 내부까지 파고들어 가볼까 한다.&lt;/p&gt;
+
+&lt;h1 id=&quot;cors란&quot;&gt;CORS란&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/CORS_principle.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cross Origin Resource Sharing(CORS)&lt;/code&gt;는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다.&lt;/p&gt;
+
+&lt;p&gt;이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 요청을 제한한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 헤더를 포함한 응답을 반환해야 한다.&lt;/p&gt;
+
+&lt;p&gt;간단히 요약하자면 브라우저에서 서버로 하는 요청은 반드시 같은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;이어야 한다는 것이다.&lt;/p&gt;
+
+&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 표준은 웹 브라우저에서 해당 정보를 읽는 것이 허용된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;을 서버에서 설명할 수 있도록 새로운 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 헤더를 추가한다.&lt;/p&gt;
+
+&lt;p&gt;보통은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preflight&lt;/code&gt;를 우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 메서드로 전달 후 서버에서 허가가 떨어졌을 경우 실제 요청을 보내도록 진행된다 . 필요한 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authenticate&lt;/code&gt;를 요청할 수 있다.&lt;/p&gt;
+
+&lt;h2 id=&quot;cors를-사용하는-요청&quot;&gt;CORS를 사용하는 요청?&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 표준은 다음과 같은 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 요청을 허용한다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Fetch API 호출&lt;/li&gt;
+  &lt;li&gt;웹 폰트&lt;/li&gt;
+  &lt;li&gt;WebGL 텍스쳐&lt;/li&gt;
+  &lt;li&gt;drawImage()&lt;/li&gt;
+  &lt;li&gt;이미지로부터 추출하는 CSS Shapes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;origin&quot;&gt;Origin?&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt;에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Path&lt;/code&gt; 이전 부분을 나타낸다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;은 페칭된 출처를 나타낸다. 쉽게 말하면 요청한 클라이언트가 어디서 요청했는지 그 위치를 알려준다.&lt;/p&gt;
+
+&lt;p&gt;브라우저의 개발자 도구에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Location&lt;/code&gt; 객체가 가진 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;origin&lt;/code&gt;의 프로퍼티에 접근하면 쉽게 그 값을 알아낼 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;console.log(location.origin);
+VM76:1 https://lkic1625.github.io
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;sopsame-origin-policy&quot;&gt;SOP(Same-Origin Policy)&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOP&lt;/code&gt;는 &lt;a href=&quot;https://tools.ietf.org/html/rfc6454#section-3&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RFC6454&lt;/code&gt;&lt;/a&gt;에서 처음 등장한 보안 정책으로 같은 출처에서만 리소스를 공유할 수 있다는 정책이다.&lt;/p&gt;
+
+&lt;p&gt;하지만 웹 환경에서는 다른 출처의 리소스를 가져오는 일이 굉장히 흔하므로 예외 조항인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 정책에 한해 출처가 다른 리소스를 허용했다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Access to network resources varies depending on whether the resources are in the same origin as the content attempting to access them.&lt;br /&gt;&lt;br /&gt;
+Generally, reading information from another origin is forbidden. However, an origin is permitted to use some kinds of resources retrieved from other origins. For example, an origin is permitted to execute script, render images, and apply style sheets from any origin. Likewise, an origin can display content from another origin, such as an HTML document in an HTML frame. Network resources can also opt into letting other origins read their information, for example, using Cross-Origin Resource Sharing.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;same-origin&quot;&gt;Same Origin?&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;에서 가장 잘 알아둬야할 점은 같은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;을 구별하는 사항이 서버의 구현된 스펙이 아닌 브라우저에 구현된 스펙이라는 것이다. 브라우저마다 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IE&lt;/code&gt; 같은 경우는 포트가 달라도 호스트가 같다면 같은 출처로 보며, 포트마다 다른 출처라고 하는 브라우저도 존재한다.&lt;/p&gt;
+
+&lt;p&gt;서버가 같은 출처에서 보낸 요청만 받겠다는 로직을 가지고 있는 경우가 아니라면 서버는 정상적으로 응답을 하고, 브라우저에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 정책 위반이라고 판단하고 응답을 &lt;b&gt;폐기&lt;/b&gt;할 수 있다는 말이다.&lt;/p&gt;
+
+&lt;p&gt;서버는 계속해서 정상적으로 응답한다고 뜨는데, 계속해서 오류가 나는 경우 디버깅이 매우 힘들 것이다. 따라서, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 관련하여 제대로 알고 있는 것이 매우 중요하다.&lt;/p&gt;
+
+&lt;h2 id=&quot;접근-제어-시나리오&quot;&gt;접근 제어 시나리오&lt;/h2&gt;
+
+&lt;h3 id=&quot;simple-requests&quot;&gt;Simple requests&lt;/h3&gt;
+
+&lt;p&gt;단순 요청은 서버간에 간단한 통신을 하고, 교차출처 전용 헤더(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Allow-Origin&lt;/code&gt;)를 사용하여 권한을 처리한다.&lt;/p&gt;
+
+&lt;p&gt;단순 요청은 매우 간편해 보이지만, 보안적으로 상당히 취약하므로 특정 상황에서만 가능하다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;요청의 메소드는 GET, HEAD, POST 중 하나여야 한다.&lt;/li&gt;
+  &lt;li&gt;Accept, Accept-Language, Content-Language, Content-Type, DPR, Downlink, Save-Data, Viewport-Width, Width를 제외한 헤더를 사용하면 안된다.&lt;/li&gt;
+  &lt;li&gt;만약 Content-Type를 사용하는 경우에는 application/x-www-form-urlencoded, multipart/form-data, text/plain만 허용된다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;제약 조건을 알아봤으니 이제 직접 예제를 봐보자. 예를들어, https://foo.example 의 웹 컨텐츠가  https://bar.other 도메인의 컨텐츠를 호출하길 원할 때, foo.example에 배포된 자바스크립트에는 아래와 같은 코드가 사용될 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const xhr = new XMLHttpRequest();
+const url = 'https://bar.other/resources/public-data/';
+
+xhr.open('GET', url);
+xhr.onreadystatechange = someHandler;
+xhr.send();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/simple-req-updated.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Request
+GET /resources/public-data/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Origin: https://foo.example
+
+Response
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 00:23:53 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: *
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: application/xml
+
+[…XML Data…]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;요청 헤더에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin: https://foo.example&lt;/code&gt;과 응답 헤더의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Allow-Origin: *&lt;/code&gt;이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Simple request&lt;/code&gt;의 핵심이며, 와일드카드(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*&lt;/code&gt;)를 사용할 경우 모든 경우의 교차출처를 허용하겠다는 의미다.&lt;/p&gt;
+
+&lt;h3 id=&quot;preflight-request&quot;&gt;Preflight request&lt;/h3&gt;
+
+&lt;p&gt;프리플라이트 요청은 앞에서 말한 단순 요청과 달리 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 메서드를 통해 다른 도메인의 리소스 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 요청이 가능한지 먼저 확인한다.&lt;/p&gt;
+
+&lt;p&gt;요청시 유저에게 영향을 줄 수 있기 때문에 사전 전송을 통해 안전한지를 확인하는 작업이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/preflight_correct.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;OPTIONS /resources/post-here/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Origin: http://foo.example
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: X-PINGOTHER, Content-Type
+
+
+HTTP/1.1 204 No Content
+Date: Mon, 01 Dec 2008 01:15:39 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: https://foo.example
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+Access-Control-Max-Age: 86400
+Vary: Accept-Encoding, Origin
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 메서드를 사용해 프리플라이트 요청을 날린 결과물이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SAFE METHOD&lt;/code&gt;이기에 서버의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resource&lt;/code&gt;를 변경하지 않는다.&lt;/p&gt;
+
+&lt;p&gt;프리플라이트 요청에서 주의깊게 살펴볼 부분은 아래와 같다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Request-Method: POST
+Access-Control-Request-Headers: X-PINGOTHER, Content-Type
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Request-Method: POST&lt;/code&gt;: 실제 요청에서 전송할 메서드를 알려준다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Request-Headers: X-PINGOTHER, Content-Type&lt;/code&gt;: 실제 요청에서 이 헤더를 함께 전송한다는 의미다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이번엔 응답 부분을 살펴보자.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Allow-Origin: http://foo.example
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+Access-Control-Max-Age: 8640
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Access-Control-Allow-Origin: http://foo.example: 요청 가능한 출처를 의미합니다.&lt;/li&gt;
+  &lt;li&gt;Access-Control-Allow-Methods: POST, GET, OPTIONS: 요청 가능한 메서드를 의미한다.&lt;/li&gt;
+  &lt;li&gt;Access-Control-Allow-Headers: X-PINGOTHER, Content-Type&lt;/li&gt;
+  &lt;li&gt;Access-Control-Max-Age: 8640:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;아래는 이후 직접적인 교차 출처 요청, 응답 헤더이다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST /resources/post-here/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+X-PINGOTHER: pingpong
+Content-Type: text/xml; charset=UTF-8
+Referer: https://foo.example/examples/preflightInvocation.html
+Content-Length: 55
+Origin: https://foo.example
+Pragma: no-cache
+Cache-Control: no-cache
+
+&amp;lt;person&amp;gt;&amp;lt;name&amp;gt;Arun&amp;lt;/name&amp;gt;&amp;lt;/person&amp;gt;
+
+
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 01:15:40 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: https://foo.example
+Vary: Accept-Encoding, Origin
+Content-Encoding: gzip
+Content-Length: 235
+Keep-Alive: timeout=2, max=99
+Connection: Keep-Alive
+Content-Type: text/plain
+
+[Some GZIP'd payload]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;credentialed-request&quot;&gt;Credentialed request&lt;/h3&gt;
+
+&lt;p&gt;인증정보를 포함한 요청은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP cookies&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP Authentication&lt;/code&gt; 정보를 인식 가능하다.&lt;/p&gt;
+
+&lt;p&gt;요청 시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fetch&lt;/code&gt;에 함부로 쿠키 정보나 인증과 관련된 헤더를 담을 수 없다. 이를 지원하게 해주는 것이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;credentials&lt;/code&gt; 옵션이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://developer.mozilla.org/ko/docs/Web/HTTP/CORS&lt;/li&gt;
+    &lt;li&gt;https://evan-moon.github.io/2020/05/21/about-cors/&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;p&gt;https://evan-moon.github.io/2020/05/21/about-cors/&lt;/p&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="CORS" /><summary type="html">Introduction</summary></entry><entry><title type="html">Heavy-Light Decompostion(작성중)</title><link href="http://localhost:4000/algorithm/HLD/" rel="alternate" type="text/html" title="Heavy-Light Decompostion(작성중)" /><published>2020-11-23T00:00:00+09:00</published><updated>2020-11-27T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/HLD</id><content type="html" xml:base="http://localhost:4000/algorithm/HLD/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
@@ -1004,312 +1734,4 @@ OK
   &lt;ul&gt;
     &lt;li&gt;https://martinfowler.com/bliki/Serverless.html&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="serverless" /><summary type="html">이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!</summary></entry><entry><title type="html">레디스 기본 데이터 타입</title><link href="http://localhost:4000/database/redis_00/" rel="alternate" type="text/html" title="레디스 기본 데이터 타입" /><published>2020-11-18T00:00:00+09:00</published><updated>2020-11-16T04:00:00+09:00</updated><id>http://localhost:4000/database/redis_00</id><content type="html" xml:base="http://localhost:4000/database/redis_00/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;redis&quot;&gt;Redis?&lt;/h1&gt;
-
-&lt;p&gt;길게 소개하자면 한도 끝도 없고, 나 말고도 필력 좋은 블로그들이 더 잘 소개했을 것 같기에 간단하게만 중점만 짚어 소개하자면,&lt;/p&gt;
-
-&lt;p&gt;레디스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;In-Memory Database&lt;/code&gt;로서 고가용성인 메모리에 저장하고 조회한다. 기존 관계형 데이터베이스 앞에 캐싱 시스템으로 이용하기 적합한 것으로 알려져있다. 오픈소스인만큼 다양한 서비스에서 사용되고 있으며, 앞으로 계속해서 중요한 역할을 할 것같아 책에 예제와 함께 내용을 정리해보려 한다.&lt;/p&gt;
-
-&lt;p&gt;이번 포스트에서는 레디스의 자료형에 대해 알아보겠다.&lt;/p&gt;
-
-&lt;p&gt;모든 내용은 책 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/code&gt;의 기반하고 있다.&lt;/p&gt;
-
-&lt;h1 id=&quot;레디스-데이터-타입&quot;&gt;레디스 데이터 타입&lt;/h1&gt;
-
-&lt;p&gt;레디스의 특징이라면 바로 다양한 자료구조를 지원한다는 점인데, 또 다른 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;In-Memory Database&lt;/code&gt;인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Memcached&lt;/code&gt;와 차이가 두드러진다&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/redis-collection.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;레디스는 기본적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hash&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt; 를 제공했고, 버전이 올라가면서 현재는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Geospatial Index&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Stream&lt;/code&gt; 등의 자료형도 지원하고 있다.
-다양한 데이터 타입을 지원하는만큼 때에 따라 다양한 사용방법을 익히고 적용할 수 있다.&lt;/p&gt;
-
-&lt;h2 id=&quot;string&quot;&gt;String&lt;/h2&gt;
-
-&lt;p&gt;스트링 자료구조는 가장 보편적인 데이터 타입이다. 다목적 사용이 가능하며 여러 커맨드를 구비하고 있다.
-텍스트 문자열과 정수, 비트맵 등 다양한 타입을 사용할 수 있다. 또한 어떤 형식의 데이터도 될 수 있으며, 512MB를 초과하지 않는 선에서 데이터 타입을 저장 가능하다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Cache mechanism: 텍스트나 바이너리 데이터를 캐시 가능하며 API 응답, HTML 페이지의 이미지 혹은 비디오일 수 있다. 간단한 캐싱은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MSET&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGET&lt;/code&gt;을 이용하여 가능하다.&lt;/li&gt;
-  &lt;li&gt;Cache with automatic expiration: 자동 만료 키를 사용하여 캐싱을 효과적으로 이용할 수 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SETEX&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPIRE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPIREAT&lt;/code&gt;와 같은 커맨드를 사용하며, 데이터베이스 실행 시간이 상당히 길며 캐싱을 같이해야 하는 경우 매우 유용할 수 있다.&lt;/li&gt;
-  &lt;li&gt;Counting: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt;를 통해 사용가능하다. 카운터는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page view&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;video view&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;like&lt;/code&gt;에 이용될 수 있으며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECRBY&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRFLOATBY&lt;/code&gt; 등도 제공한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;mest-mget&quot;&gt;MEST MGET&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MEST&lt;/code&gt;은 다중 키 설정을 도와준다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGET&lt;/code&gt;은 다중 키 획득을 도와준다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; MSET first &quot;First Key value&quot; second &quot;Second Key value&quot;
-OK
-127.0.0.1:6379&amp;gt; MGET first second
-1) &quot;First Key value&quot;
-2) &quot;Second Key value&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;expire-ttl&quot;&gt;EXPIRE TTL&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXPIRE&lt;/code&gt;는 키에 만료 시간을 설정할 수 있다. 만료시간이 자나면 자동으로 삭제되며, 만료시간이 성공적으로 설정되면 1, 아니면 0을 출력한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TTL&lt;/code&gt;은 아래와 같은 값을 반환한다.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;양수: 만료까지 남은 시간을 출력한다.&lt;/li&gt;
-  &lt;li&gt;-2: 키가 존재하지 않거나 만료되었을 경우 출력한다.&lt;/li&gt;
-  &lt;li&gt;-1: 키가 만료시간이 설정되지 않았을 경우 출력한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; SET current_chapter &quot;Chapter 1&quot;
-OK
-127.0.0.1:6379&amp;gt; EXPIRE current_chapter 10
-(integer) 1
-127.0.0.1:6379&amp;gt; GET current_chapter
-&quot;Chapter 1&quot;
-127.0.0.1:6379&amp;gt; TTL current_chapter
-(integer) 3
-127.0.0.1:6379&amp;gt; TTL current_chapter
-(integer) -2
-127.0.0.1:6379&amp;gt; GET current_chapter
-(nil)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;incr-incrby-incrbybloadt&quot;&gt;INCR INCRBY INCRBYBLOADT&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt;는 비슷한 기능을 지원한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;은 키값을 1 올린 후 값을 리턴한다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt;는 주어진 정수 값을 토대로 키 값을 올린 후 값을 리턴한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECR&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DECRBY&lt;/code&gt;는 위 두 커맨드와 상반되게 키 값을 빼는 기능을 제공한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBYFLOAT&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FLOAT&lt;/code&gt; 값을 더할 수 있다.
-위 세 커맨드 모드 양수 음수 모두 사용할 수 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; SET counter 100
-OK
-127.0.0.1:6379&amp;gt; INCR counter
-(integer) 101
-127.0.0.1:6379&amp;gt; INCRBY counter 5
-(integer) 106
-127.0.0.1:6379&amp;gt; DECR counter
-(integer) 105
-127.0.0.1:6379&amp;gt; DECRBY counter 100
-(integer) 5
-127.0.0.1:6379&amp;gt; GET counter
-&quot;5&quot;
-127.0.0.1:6379&amp;gt; INCRBYFLOAT counter 2.4
-&quot;7.4&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;위에 보여진 커맨드는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ATOMIC&lt;/code&gt;하다 즉, 하나의 오퍼레이션으로 취급한다는 것인데 이는 두 명의 서로 다른 클라이언트가 같은 시간의 같은 실행 명렁어를 통해 같은 값을 얻을 수 없다는 것이다.&lt;/p&gt;
-
-&lt;p&gt;예를들어, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;counter&lt;/code&gt; 키가 1이라면 서로 다른 클라이언트 A와 B가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCR&lt;/code&gt;을 동시에 입력했을 때 A가 2 B가 3을 받게 될것이다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Redis is single threaded, which means that it always executes one
-command at a time. Sometimes, commands are mentioned as atomic,
-which means that a race condition will never happen when multiple
-clients try to perform operations on the same key at the same time.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;nodejs-voting-system&quot;&gt;Node.js voting system&lt;/h3&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;upVote&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
- &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 4&lt;/span&gt;
- &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;incr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 5&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;downVote&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
- &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
- &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;showResults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
- &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;headlineKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:headline&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
- &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;voteKey&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;article:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
- &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;headlineKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;voteKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
- &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;The article &quot;&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&quot; has&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;replies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
- &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;votes&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGET&lt;/code&gt;을 이용하여 키 배열과 콜백함수를 전달한다. 만약 키 값이 없다면 null을 리턴할 것이다.
-&lt;br /&gt;
-익명함수 파라미터인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;replies&lt;/code&gt;는 두 개의 밸류를 가진다. 각각 주어진 키 배열 순서대로 매핑된 값이다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 클라이언트는 반드시 비동기적&lt;/p&gt;
-
-&lt;h2 id=&quot;lists&quot;&gt;Lists&lt;/h2&gt;
-&lt;p&gt;리스트는 레디스에서 매우 유동적인 데이터 타입이다. 스택, 큐와 같은 기능 또한 구현할 수 있으며, 많은 시스템들이 작업 큐를 사용하기 위해 리스트를 이용한다. 이는 동시성을 제공하는 시스템에서 리스트의 동작이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;atomic&lt;/code&gt;하기 때문이다.&lt;/p&gt;
-
-&lt;p&gt;리스트에는 블록킹 커맨드가 존재한다. 만약 클라이언트가 블록킹 커맨드를 빈 리스트에 실행한다면 클라이언트는 새로운 아이템이 들어오기까지 기다린다.(blocking)&lt;/p&gt;
-
-&lt;p&gt;레디스 리스트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Linked List&lt;/code&gt;로 구현되어 있기 때문에 맨앞과 맨뒤에 아이템을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;insertion&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;deletion&lt;/code&gt;하는 과정이 \(O(1)\)만에 가능하다.
-특정 아이템을 액세스 하는데에는 \(O(N)\)이 걸리며, 마찬가지로 맨 앞과 맨 뒤는 상수시간안에 가능하다.&lt;/p&gt;
-
-&lt;p&gt;리스트는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;list-max-ziplist-entries&lt;/code&gt;값보다 작은 원소 개수와 ` list-max-ziplist-value` 값보다 작은 원소 값을 가진다면 최적화와 인코딩이 가능하다. 이는 추후 4챕터에서 알아보도록 하자.&lt;/p&gt;
-
-&lt;p&gt;실제 사용 예시&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Event Queue: 이미 많은 툴에서 사용 중이다.&lt;/li&gt;
-  &lt;li&gt;Storing most recent user posts: 트위터는 최근 유저의 트윗을 리스트에 저장하여 이를 구현했다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;list-examples-with-redis-cli&quot;&gt;List examples with redis-cli&lt;/h3&gt;
-
-&lt;p&gt;링크드 리스트인만큼 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;head&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tail&lt;/code&gt;에 데이터 삽입 삭제가 가능하다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LPUSH&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;head&lt;/code&gt;에 새로운 값을 넣는다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RPUSH&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tail&lt;/code&gt;에 새로운 값을 삽입한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; $ redis-cli
-127.0.0.1:6379&amp;gt; LPUSH books &quot;Clean Code&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; RPUSH books &quot;Code Complete&quot;
-(integer) 2
-127.0.0.1:6379&amp;gt; LPUSH books &quot;Peopleware&quot;
-(integer) 3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LLEN&lt;/code&gt;: 리스트의 길이를 반환한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LINDEX&lt;/code&gt;: 주어진 인덱스에 저장된 값을 반환한다. 리스트를 수정하지 않는 커맨드다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;인덱스는 항상 왼쪽에서 오른쪽으로 진행된다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;negative-index&lt;/code&gt; 또한 가능하다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; LLEN books
-(integer) 3
-127.0.0.1:6379&amp;gt; LINDEX books 1
-&quot;Clean Code&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LRANGE&lt;/code&gt;: 주어진 인덱스 범위 내에 값을 모두 리턴한다. 앞에서 언급했듯이 음수 인덱스가 가능하기에 아래와 같은 예제가 가능하다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; LRANGE books 0 1
-1) &quot;Peopleware&quot;
-2) &quot;Clean Code&quot;
-127.0.0.1:6379&amp;gt; LRANGE books 0 -1
-1) &quot;Peopleware&quot;
-2) &quot;Clean Code&quot;
-3) &quot;Code Complete&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;LPOP&lt;/code&gt;: 가장 처음 원소를 리스트에서 제거하면서 동시에 반환한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RPOP&lt;/code&gt;: 가장 마지막 원소를 리스트에서 제거하면서 동시에 반환한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;위 둘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RINDEX&lt;/code&gt;와 다르게 리스트를 수정하는 커맨드다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; LPOP books
-&quot;Peopleware&quot;
-127.0.0.1:6379&amp;gt; RPOP books
-&quot;Code Complete&quot;
-127.0.0.1:6379&amp;gt; LRANGE books 0 -1
-1) &quot;Clean Code&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;hashes&quot;&gt;Hashes&lt;/h2&gt;
-
-&lt;p&gt;해쉬는 오브젝트를 저장하기에 적절한 저장구조이다. 필드를 값에 대입할 수 있으며, 메모리 사용과 데이터 엑세스에 매우 최적화 돼있다.
-해쉬는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String to String&lt;/code&gt; 매핑 구조이다.&lt;/p&gt;
-
-&lt;p&gt;우리는 위에서 투표 시스템 구현을 통해 일종의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sematic&lt;/code&gt;한 해쉬를 구현했다. 하지만, 해쉬를 사용하는 직접적인 이유는 메모리 최적화 때문이다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hash-max-ziplist-entries&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hash-max-ziplist-value&lt;/code&gt;를 통해 사용가능하며, 챕터 4에서 자세히 알아보겠다.&lt;/p&gt;
-
-&lt;p&gt;해쉬는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hash table&lt;/code&gt; 혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt;가 될 수 있다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt;는 메모리 최적화된 양방향 링크드 리스트다. 정수는 캐릭터 시퀀스 대신 실제 정수가 저장된다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt;는 최적화에 불구하고 룩업에는 일정한 시간이 걸린다. 반면에 해시 테이블은 상수 시간에 탐색이 가능하지만 메모리 최적화는 되어있지 않다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Instagram had to back-reference 300 million media IDs to user IDs,
-and they decided to benchmark a Redis prototype using Strings
-and Hashes. The String solution used one key per media ID and
-around 21 GB of memory. The Hash solution used around 5 GB with
-some configuration tweaks&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;using-hashes-with-redis-cli&quot;&gt;Using Hashes with redis-cli&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSET&lt;/code&gt;: 필드에 주어진 키에 대해 값을 설정한다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSET key field value&lt;/code&gt;와 같은 문법으로 사용할 수 있다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HMSET&lt;/code&gt;: 여러 필드 값을 키에 설정할 수 있다. 스페이스로 구분한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;위 둘은 필드 값이 존재하지 않을 경우 생성하고 있을 경우 덮어쓰기를 진행한다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HINCRBY&lt;/code&gt;: 주어진 인티저 값을 필드에 더한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HINCRBYFLOAT&lt;/code&gt;:  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBY&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;INCRBYFLOAT&lt;/code&gt; 비슷하게 동작한다. 아래 코드에서 확인할 수 있다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; HSET movie &quot;title&quot; &quot;The Godfather&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; HMSET movie &quot;year&quot; 1972 &quot;rating&quot; 9.2 &quot;watchers&quot; 10000000
-OK
-127.0.0.1:6379&amp;gt; HINCRBY movie &quot;watchers&quot; 3
-(integer) 10000003
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HGET&lt;/code&gt;: 해쉬에서 필드를 반환한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HMGET&lt;/code&gt;: 필드들을 반환한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; HGET movie &quot;title&quot;
-&quot;The Godfather&quot;
-127.0.0.1:6379&amp;gt; HMGET movie &quot;title&quot; &quot;watchers&quot;
-1) &quot;The Godfather&quot;
-2) &quot;10000003&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HDEL&lt;/code&gt;: 해쉬에서 필드를 삭제한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; HDEL movie &quot;watchers&quot;
-(integer) 1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HGETALL&lt;/code&gt;: 모든 필드/밸류 페어를 리턴한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; HGETALL movie
-1) &quot;title&quot;
-2) &quot;The Godfather&quot;
-3) &quot;year&quot;
-4) &quot;1972&quot;
-5) &quot;rating&quot;
-6) &quot;9.2&quot;
-127.0.0.1:6379&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSCAN&lt;/code&gt;: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HGETALL&lt;/code&gt;은 해쉬가 많은 필드를 포함할 경우 매우 큰 메모리를 사용하여 레디스 성능의 영향을 미칠 수 있다. 이럴 경우 대책으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSCAN&lt;/code&gt;이 있다.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HSCAN&lt;/code&gt;은 모든필드를 리턴하지 않고 커서와 주어진 개수만큼 출력하게 한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://medium.com/garimoo/개발자를-위한-레디스-튜토리얼-01-92aaa24ca8cc&lt;/li&gt;
-    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="database" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><summary type="html"></summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="serverless" /><summary type="html">이 글은 https://martinfowler.com/bliki/Serverless.html 번역을 기반으로 작성된 포스트입니다!</summary></entry></feed>

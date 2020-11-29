@@ -275,7 +275,7 @@ var store = [{
         "url": "http://localhost:4000/database/B+_tree/",
         "teaser": null
       },{
-        "title": "MVCC",
+        "title": "MVCC(추가 필요)",
         "excerpt":"MVCC MVCC(Multi Version Concurrency Control)의 약자이다. Multi Version는 하나의 레코드에 대해 여러 버전이 관리된다는 의미이다. 일반적으로 레코드 레벨의 트랜잭션을 지원하는 DBMS가 제공하는 기능이며, 가장 큰 목적은 잠금을 사용하지 않는 일관된 읽기를 제공하는데 있다. Concurrency Control Concurrency Control 즉, 동시성 제어란 DBMS가 다수의 사용자 사이에서 동시에 작용하는 트랜잭션의 상호간섭 작용에서 데이터베이스를...","categories": ["database"],
         "tags": ["database","MVVC"],
         "url": "http://localhost:4000/database/database_MVCC/",
@@ -318,14 +318,14 @@ var store = [{
         "teaser": null
       },{
         "title": "CORS(작성중)",
-        "excerpt":"CORS란 Cross Origin Resource Sharing(CORS)는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다. 이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP 요청을 제한한다. API를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 CORS...","categories": ["backend"],
-        "tags": ["backend","serverless"],
+        "excerpt":"Introduction node 개발할 때, 따로 CORS란 단어를 책에선 본 적은 있지만 제대로 다루지는 않았다 헤더에 와일드 카드를 추가하던가, cors 모듈을 사용하여 가능한 URI를 설정하라는 것은 익히 알고 있었으나 그 속 내부까지 파고들어 가볼까 한다. CORS란 Cross Origin Resource Sharing(CORS)는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다. 이는 도메인 또는 포트가...","categories": ["backend"],
+        "tags": ["backend","CORS"],
         "url": "http://localhost:4000/backend/CORS/",
         "teaser": null
       },{
         "title": "그런 REST API로 괜찮은가.",
         "excerpt":"REpresentaion State Transfer 1991년에 WWW이 출시된 이후 인터넷 정보를 어떻게 공유할 것인가에 대한 연구가 활발히 진행됐는데, 그 예로 가장 먼저 HTTP라는 프로토콜이 만들어졌다. Roy T.Fielding은 REST의 창시자이며 HTTP 프로토콜 개발에 참여했던 연구진으로 HTTP 개발이후 HTTP object model이란 이름의 REST 아키텍쳐를 발표했다. Roy T.Fielding: “How do i improve HTTP without breaking...","categories": ["backend"],
-        "tags": ["backend","serverless"],
+        "tags": ["backend","REST"],
         "url": "http://localhost:4000/backend/REST/",
         "teaser": null
       },{
@@ -341,9 +341,15 @@ var store = [{
         "url": "http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/",
         "teaser": null
       },{
-        "title": "Node.js 이벤트 루프(작성중)",
+        "title": "Node.js 이벤트 루프",
         "excerpt":"Introduction Node.js를 통해 개발하면서 사용할 줄만 알았지 제대로 된 개념하나 안 잡힌 것 같아 포스트를 작성한다. 이벤트 루프에 대해 알아보자. 블로그에서 최근 작성한 글 중에서 가장 긴 글이 되지 않을까 싶다. Event Loop 자바스크립트는 알다 싶이 단일 스레드 기반의 언어다. 단일 쓰레드라는 의미는 들어오는 작업에 대해 순차적으로, 동시성을 지원하지 못하는...","categories": ["nodejs"],
         "tags": ["js","event_loop"],
         "url": "http://localhost:4000/nodejs/node_event_loop/",
+        "teaser": null
+      },{
+        "title": "HTTP 헤더",
+        "excerpt":"Introduction 오늘은 HTTP headers에 대해 알아보려 한다. 보통 블로그 포스팅 혹은 면접 준비를 위해 여러 블로그를 참조하는데, 최근에 한 포스트에서 인상적인 문구를 봤다. 결국, 어떤 프로토콜을 이해하려면 프로토콜의 헤더만 알면 된다는 얘기었다. 특정 프로토콜의 헤더의 내용은 특정 프로토콜의 기능을 제공하기 위해 담고 있는 최소한의 정보기 때문이다. 출처: https://jeong-pro.tistory.com/181 [기본기를 쌓는...","categories": ["backend"],
+        "tags": ["backend","HTTP","network","header"],
+        "url": "http://localhost:4000/backend/http_headers/",
         "teaser": null
       }]

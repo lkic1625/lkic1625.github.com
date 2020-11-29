@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>CORS(작성중)  |  untitled</title>
-<meta name="description" content="CORS란">
+<meta name="description" content="Introduction">
 
 
   <meta name="author" content="조원빈">
@@ -23,7 +23,7 @@
 <meta property="og:url" content="http://localhost:4000/backend/CORS/">
 
 
-  <meta property="og:description" content="CORS란">
+  <meta property="og:description" content="Introduction">
 
 
 
@@ -35,7 +35,7 @@
 
 
 
-  <meta property="article:modified_time" content="2020-11-27T04:00:00+09:00">
+  <meta property="article:modified_time" content="2020-11-30T04:00:00+09:00">
 
 
 
@@ -282,9 +282,9 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="CORS(작성중)">
-    <meta itemprop="description" content="CORS란">
+    <meta itemprop="description" content="Introduction">
     <meta itemprop="datePublished" content="2020-11-27T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2020-11-27T04:00:00+09:00">
+    <meta itemprop="dateModified" content="2020-11-30T04:00:00+09:00">
 
     <div class="page__inner-wrap">
       
@@ -297,7 +297,7 @@
 
 
 
-  최대 1 분 소요
+  4 분 소요
 
 </p>
           
@@ -310,9 +310,21 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
               <ul class="toc__menu">
+  <li><a href="#introduction">Introduction</a></li>
   <li><a href="#cors란">CORS란</a>
     <ul>
-      <li><a href="#functional-overview">Functional Overview</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#cors를-사용하는-요청">CORS를 사용하는 요청?</a></li>
+      <li><a href="#origin">Origin?</a></li>
+      <li><a href="#sopsame-origin-policy">SOP(Same-Origin Policy)</a></li>
+      <li><a href="#same-origin">Same Origin?</a></li>
+      <li><a href="#접근-제어-시나리오">접근 제어 시나리오</a>
+        <ul>
+          <li><a href="#simple-requests">Simple requests</a></li>
+          <li><a href="#preflight-request">Preflight request</a></li>
+          <li><a href="#credentialed-request">Credentialed request</a></li>
+        </ul>
+      </li>
     </ul>
   </li>
 </ul>
@@ -320,17 +332,234 @@
             </nav>
           </aside>
         
-        <h1 id="cors란">CORS란</h1>
+        <h1 id="introduction">Introduction</h1>
+
+<p><code class="language-plaintext highlighter-rouge">node</code> 개발할 때, 따로 <code class="language-plaintext highlighter-rouge">CORS</code>란 단어를 책에선 본 적은 있지만 제대로 다루지는 않았다 헤더에 와일드 카드를 추가하던가, <code class="language-plaintext highlighter-rouge">cors</code> 모듈을 사용하여 가능한 <code class="language-plaintext highlighter-rouge">URI</code>를 설정하라는 것은 익히 알고 있었으나 그 속 내부까지 파고들어 가볼까 한다.</p>
+
+<h1 id="cors란">CORS란</h1>
+
+<p><img src="/assets/images/CORS_principle.png" alt="이미지" /></p>
 
 <p><code class="language-plaintext highlighter-rouge">Cross Origin Resource Sharing(CORS)</code>는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다.</p>
 
-<p>이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 HTTP 요청을 제한한다.</p>
+<p>이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 <code class="language-plaintext highlighter-rouge">HTTP</code> 요청을 제한한다.</p>
 
-<p>API를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 CORS 헤더를 포함한 응답을 반환해야 한다.</p>
+<p><code class="language-plaintext highlighter-rouge">API</code>를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 <code class="language-plaintext highlighter-rouge">CORS</code> 헤더를 포함한 응답을 반환해야 한다.</p>
 
-<h2 id="functional-overview">Functional Overview</h2>
+<p>간단히 요약하자면 브라우저에서 서버로 하는 요청은 반드시 같은 <code class="language-plaintext highlighter-rouge">Origin</code>이어야 한다는 것이다.</p>
 
-<p><code class="language-plaintext highlighter-rouge">CORS</code>는 웹 브라우저에서 해당 정보를 읽는 것이</p>
+<h2 id="overview">Overview</h2>
+
+<p><code class="language-plaintext highlighter-rouge">CORS</code> 표준은 웹 브라우저에서 해당 정보를 읽는 것이 허용된 <code class="language-plaintext highlighter-rouge">Origin</code>을 서버에서 설명할 수 있도록 새로운 <code class="language-plaintext highlighter-rouge">HTTP</code> 헤더를 추가한다.</p>
+
+<p>보통은 <code class="language-plaintext highlighter-rouge">preflight</code>를 우선 <code class="language-plaintext highlighter-rouge">OPTIONS</code> 메서드로 전달 후 서버에서 허가가 떨어졌을 경우 실제 요청을 보내도록 진행된다 . 필요한 경우 <code class="language-plaintext highlighter-rouge">Authenticate</code>를 요청할 수 있다.</p>
+
+<h2 id="cors를-사용하는-요청">CORS를 사용하는 요청?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">CORS</code> 표준은 다음과 같은 경우 <code class="language-plaintext highlighter-rouge">HTTP</code> 요청을 허용한다.</p>
+
+<ul>
+  <li>Fetch API 호출</li>
+  <li>웹 폰트</li>
+  <li>WebGL 텍스쳐</li>
+  <li>drawImage()</li>
+  <li>이미지로부터 추출하는 CSS Shapes</li>
+</ul>
+
+<h2 id="origin">Origin?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">URI</code>에 <code class="language-plaintext highlighter-rouge">Path</code> 이전 부분을 나타낸다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Origin</code>은 페칭된 출처를 나타낸다. 쉽게 말하면 요청한 클라이언트가 어디서 요청했는지 그 위치를 알려준다.</p>
+
+<p>브라우저의 개발자 도구에서 <code class="language-plaintext highlighter-rouge">Location</code> 객체가 가진 <code class="language-plaintext highlighter-rouge">origin</code>의 프로퍼티에 접근하면 쉽게 그 값을 알아낼 수 있다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>console.log(location.origin);
+VM76:1 https://lkic1625.github.io
+</code></pre></div></div>
+
+<h2 id="sopsame-origin-policy">SOP(Same-Origin Policy)</h2>
+
+<p><code class="language-plaintext highlighter-rouge">SOP</code>는 <a href="https://tools.ietf.org/html/rfc6454#section-3"><code class="language-plaintext highlighter-rouge">RFC6454</code></a>에서 처음 등장한 보안 정책으로 같은 출처에서만 리소스를 공유할 수 있다는 정책이다.</p>
+
+<p>하지만 웹 환경에서는 다른 출처의 리소스를 가져오는 일이 굉장히 흔하므로 예외 조항인 <code class="language-plaintext highlighter-rouge">CORS</code> 정책에 한해 출처가 다른 리소스를 허용했다.</p>
+
+<blockquote>
+  <p>Access to network resources varies depending on whether the resources are in the same origin as the content attempting to access them.<br /><br />
+Generally, reading information from another origin is forbidden. However, an origin is permitted to use some kinds of resources retrieved from other origins. For example, an origin is permitted to execute script, render images, and apply style sheets from any origin. Likewise, an origin can display content from another origin, such as an HTML document in an HTML frame. Network resources can also opt into letting other origins read their information, for example, using Cross-Origin Resource Sharing.</p>
+</blockquote>
+
+<h2 id="same-origin">Same Origin?</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Origin</code>에서 가장 잘 알아둬야할 점은 같은 <code class="language-plaintext highlighter-rouge">Origin</code>을 구별하는 사항이 서버의 구현된 스펙이 아닌 브라우저에 구현된 스펙이라는 것이다. 브라우저마다 <code class="language-plaintext highlighter-rouge">IE</code> 같은 경우는 포트가 달라도 호스트가 같다면 같은 출처로 보며, 포트마다 다른 출처라고 하는 브라우저도 존재한다.</p>
+
+<p>서버가 같은 출처에서 보낸 요청만 받겠다는 로직을 가지고 있는 경우가 아니라면 서버는 정상적으로 응답을 하고, 브라우저에서는 <code class="language-plaintext highlighter-rouge">CORS</code> 정책 위반이라고 판단하고 응답을 <b>폐기</b>할 수 있다는 말이다.</p>
+
+<p>서버는 계속해서 정상적으로 응답한다고 뜨는데, 계속해서 오류가 나는 경우 디버깅이 매우 힘들 것이다. 따라서, <code class="language-plaintext highlighter-rouge">CORS</code> 관련하여 제대로 알고 있는 것이 매우 중요하다.</p>
+
+<h2 id="접근-제어-시나리오">접근 제어 시나리오</h2>
+
+<h3 id="simple-requests">Simple requests</h3>
+
+<p>단순 요청은 서버간에 간단한 통신을 하고, 교차출처 전용 헤더(<code class="language-plaintext highlighter-rouge">Access-Control-Allow-Origin</code>)를 사용하여 권한을 처리한다.</p>
+
+<p>단순 요청은 매우 간편해 보이지만, 보안적으로 상당히 취약하므로 특정 상황에서만 가능하다.</p>
+
+<ol>
+  <li>요청의 메소드는 GET, HEAD, POST 중 하나여야 한다.</li>
+  <li>Accept, Accept-Language, Content-Language, Content-Type, DPR, Downlink, Save-Data, Viewport-Width, Width를 제외한 헤더를 사용하면 안된다.</li>
+  <li>만약 Content-Type를 사용하는 경우에는 application/x-www-form-urlencoded, multipart/form-data, text/plain만 허용된다.</li>
+</ol>
+
+<p>제약 조건을 알아봤으니 이제 직접 예제를 봐보자. 예를들어, https://foo.example 의 웹 컨텐츠가  https://bar.other 도메인의 컨텐츠를 호출하길 원할 때, foo.example에 배포된 자바스크립트에는 아래와 같은 코드가 사용될 수 있다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const xhr = new XMLHttpRequest();
+const url = 'https://bar.other/resources/public-data/';
+
+xhr.open('GET', url);
+xhr.onreadystatechange = someHandler;
+xhr.send();
+</code></pre></div></div>
+
+<p><img src="/assets/images/simple-req-updated.png" alt="이미지" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Request
+GET /resources/public-data/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Origin: https://foo.example
+
+Response
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 00:23:53 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: *
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: application/xml
+
+[…XML Data…]
+</code></pre></div></div>
+
+<p>요청 헤더에서 <code class="language-plaintext highlighter-rouge">Origin: https://foo.example</code>과 응답 헤더의 <code class="language-plaintext highlighter-rouge">Access-Control-Allow-Origin: *</code>이 <code class="language-plaintext highlighter-rouge">Simple request</code>의 핵심이며, 와일드카드(<code class="language-plaintext highlighter-rouge">*</code>)를 사용할 경우 모든 경우의 교차출처를 허용하겠다는 의미다.</p>
+
+<h3 id="preflight-request">Preflight request</h3>
+
+<p>프리플라이트 요청은 앞에서 말한 단순 요청과 달리 먼저 <code class="language-plaintext highlighter-rouge">OPTIONS</code> 메서드를 통해 다른 도메인의 리소스 <code class="language-plaintext highlighter-rouge">HTTP</code> 요청이 가능한지 먼저 확인한다.</p>
+
+<p>요청시 유저에게 영향을 줄 수 있기 때문에 사전 전송을 통해 안전한지를 확인하는 작업이다.</p>
+
+<p><img src="/assets/images/preflight_correct.png" alt="이미지" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OPTIONS /resources/post-here/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Origin: http://foo.example
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: X-PINGOTHER, Content-Type
+
+
+HTTP/1.1 204 No Content
+Date: Mon, 01 Dec 2008 01:15:39 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: https://foo.example
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+Access-Control-Max-Age: 86400
+Vary: Accept-Encoding, Origin
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">OPTIONS</code> 메서드를 사용해 프리플라이트 요청을 날린 결과물이다. <code class="language-plaintext highlighter-rouge">SAFE METHOD</code>이기에 서버의 <code class="language-plaintext highlighter-rouge">resource</code>를 변경하지 않는다.</p>
+
+<p>프리플라이트 요청에서 주의깊게 살펴볼 부분은 아래와 같다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Access-Control-Request-Method: POST
+Access-Control-Request-Headers: X-PINGOTHER, Content-Type
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Request-Method: POST</code>: 실제 요청에서 전송할 메서드를 알려준다.</li>
+  <li><code class="language-plaintext highlighter-rouge">Access-Control-Request-Headers: X-PINGOTHER, Content-Type</code>: 실제 요청에서 이 헤더를 함께 전송한다는 의미다.</li>
+</ul>
+
+<p>이번엔 응답 부분을 살펴보자.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Access-Control-Allow-Origin: http://foo.example
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
+Access-Control-Max-Age: 8640
+</code></pre></div></div>
+
+<ul>
+  <li>Access-Control-Allow-Origin: http://foo.example: 요청 가능한 출처를 의미합니다.</li>
+  <li>Access-Control-Allow-Methods: POST, GET, OPTIONS: 요청 가능한 메서드를 의미한다.</li>
+  <li>Access-Control-Allow-Headers: X-PINGOTHER, Content-Type</li>
+  <li>Access-Control-Max-Age: 8640:</li>
+</ul>
+
+<p>아래는 이후 직접적인 교차 출처 요청, 응답 헤더이다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /resources/post-here/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+X-PINGOTHER: pingpong
+Content-Type: text/xml; charset=UTF-8
+Referer: https://foo.example/examples/preflightInvocation.html
+Content-Length: 55
+Origin: https://foo.example
+Pragma: no-cache
+Cache-Control: no-cache
+
+&lt;person&gt;&lt;name&gt;Arun&lt;/name&gt;&lt;/person&gt;
+
+
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 01:15:40 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: https://foo.example
+Vary: Accept-Encoding, Origin
+Content-Encoding: gzip
+Content-Length: 235
+Keep-Alive: timeout=2, max=99
+Connection: Keep-Alive
+Content-Type: text/plain
+
+[Some GZIP'd payload]
+</code></pre></div></div>
+
+<h3 id="credentialed-request">Credentialed request</h3>
+
+<p>인증정보를 포함한 요청은 <code class="language-plaintext highlighter-rouge">HTTP cookies</code>와 <code class="language-plaintext highlighter-rouge">HTTP Authentication</code> 정보를 인식 가능하다.</p>
+
+<p>요청 시 <code class="language-plaintext highlighter-rouge">XMLHttpRequest</code>, <code class="language-plaintext highlighter-rouge">fetch</code>에 함부로 쿠키 정보나 인증과 관련된 헤더를 담을 수 없다. 이를 지원하게 해주는 것이 <code class="language-plaintext highlighter-rouge">credentials</code> 옵션이다.</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>https://developer.mozilla.org/ko/docs/Web/HTTP/CORS</li>
+    <li>https://evan-moon.github.io/2020/05/21/about-cors/</li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <p>https://evan-moon.github.io/2020/05/21/about-cors/</p>
+</blockquote>
 
         
       </section>
@@ -355,7 +584,7 @@
     
       
       
-      <a href="/tags/#serverless" class="page__taxonomy-item" rel="tag">serverless</a>
+      <a href="/tags/#cors" class="page__taxonomy-item" rel="tag">CORS</a>
     
     </span>
   </p>
@@ -383,7 +612,7 @@
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-27">November 27, 2020</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2020-11-30">November 30, 2020</time></p>
 
 
       </footer>
@@ -433,7 +662,36 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/nodejs/node_event_loop/" rel="permalink">Node.js 이벤트 루프(작성중)
+        <a href="/backend/http_headers/" rel="permalink">HTTP 헤더
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  7 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/nodejs/node_event_loop/" rel="permalink">Node.js 이벤트 루프
 </a>
       
     </h2>
@@ -507,35 +765,6 @@
     
     <p class="archive__item-excerpt" itemprop="description">
 
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/backend/REST/" rel="permalink">그런 REST API로 괜찮은가.
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  2 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">REpresentaion State Transfer
 </p>
   </article>
 </div>

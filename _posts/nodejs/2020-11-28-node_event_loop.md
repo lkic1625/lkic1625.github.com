@@ -1,5 +1,5 @@
 ---
-title: "Node.js 이벤트 루프(작성중)"
+title: "Node.js 이벤트 루프"
 tags:
   - js
   - event_loop
@@ -242,7 +242,7 @@ foo();
 
 >Immediately after mainline finishes and after every phase of the event loop, the microtask callbacks run.
 
-`nextTickQueue` 또한 마찬가지이며, `nextTickQueue는` `microTaskQueue보다는` 높은 우선 순위를 가지고 있다.
+`nextTickQueue` 또한 마찬가지이며, `nextTickQueue는` `microTaskQueue` 보다는 높은 우선 순위를 가지고 있다.
 
 # 글을 마치며..
 
