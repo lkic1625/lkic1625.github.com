@@ -1,5 +1,5 @@
 ---
-title: "Pollard's rho algorithm(작성중)"
+title: "Pollard's rho algorithm"
 tags:
   - math
   - number_theory
@@ -13,16 +13,11 @@ toc: true
 src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
-<!-- 
-$$A = [a_1, a_2, a_3, ... , a_n]$$<br>
-$$B = [b_1, b_2, b_3, ... , b_n]$$
-
-$$BW = A$$<br>
-$$a_i = \sum_i {b_kW_{k, i}}$$ -->
-
 # Introduction
 
-이번 포스트에서 다룰 알고리즘은 폴라드 $$\rho$$ 알고리즘이다. 백준에서 본 문제의 해결법인데, 빠른 소인수 분해를 어떻게 진행하는지 소개해보겠다.
+이번 포스트에서 다룰 알고리즘은 폴라드 $$\rho$$ 알고리즘이다. 폴라드 $$\rho$$ 알고리즘은 빠른 소인수 분해를 위한 알고리즘이다.
+
+백준에 [큰 수 소인수분해 4149](https://www.acmicpc.net/problem/4149) 문제 풀이와 함께 진행하겠다.
 
 # Core ideas
 
@@ -32,7 +27,7 @@ $$a_i = \sum_i {b_kW_{k, i}}$$ -->
 
 $$x_1 = g(2),\,x_2=g(g(2)),\,x_3=g(g(g(2)))$$
 
-위와 같은 형태로 수열이 생성된다. 이 수열은 다른 수열 $$\{x_k \,mod\,p\}$$ 과 관련이 있으나 $$p$$가 사전에 주어지지 않았기 때문에, 두 번째 수열은 위 알고리즘으로 계산 불가능하다. 여기서 첫 번째 수열과 두 번째 수열의 관계가 `폴라드 로` 알고리즘의 <b>핵심</b> 아이디어다.
+위와 같은 형태로 수열이 생성된다. 이를 $$\{x_k\}$$라 하자. 그러면 이 수열은 다른 수열 $$\{x_k \,mod\,p\}$$ 과 관련이 있다. 하지만 $$p$$가 사전에 주어지지 않았기 때문에, 두 번째 수열은 위 알고리즘으로 계산 불가능하다. 여기서 첫 번째 수열과 두 번째 수열의 관계가 `폴라드 로` 알고리즘의 <b>핵심</b> 아이디어다.
 
 이 수열에 나오는 수의 개수는 유한하기 때문에, $$n$$의 나머지 수열 $$\{x_k\}$$와 $$\{x_k \,mod\,p\}$$는 언젠가 반복된다. 이 수열을 완전한 난수라고 가정하면 `birthday pardox`에 의해 이 수열이 반복되기 전까지 나오는 서로 다른 $$x_k$$의 개수는 대략 $$O(\sqrt{n})$$이다. (여기서 $$N$$은 가능한 값의 개수이다.) 따라서, 수열  $$\{x_k \,mod\,p\}$$은 수열  $$\{x_k\}$$보다 먼저 반복된다.
 
@@ -40,14 +35,12 @@ $$x_1 = g(2),\,x_2=g(g(2)),\,x_3=g(g(g(2)))$$
 
 ![이미지](/assets/images/pollards'_rho.png)
 
-# Overview
-
-알고리즘의 대략적인 개요는 아래와 같다.
-
 1. 위 수열에서 나오는 반복을 플로이드 순환 찾기 알고리즘으로 찾는다.
 2. 먼저 두 수 $$x_i$$와 $$x_j$$를 정한다. $$x_i \equiv x_j \pmod p$$를 만족 시 $$p = k(x_i - x_j) ,\, k \in N$$가 성립한다.
 3. $$gcd(x_i - x_j, n)$$이 1이 아니라면 수열 $$\{x_k \,mod\,p\}$$는 사이클이 있다는 것을 의미하고, $$x_i - x_j$$이 p의 배수 혹은 0이 되어야한다.
 4. $$gcd(x_i - x_j, n)$$는 결국 $$n$$ 혹은 $$p$$를 값으로 가지게되고, $$p$$를 구할 수 있다.
+
+
 
 
 # Algorithm
@@ -56,7 +49,25 @@ $$x_1 = g(2),\,x_2=g(g(2)),\,x_3=g(g(g(2)))$$
 
 우선 수열 $$\{x_k \,mod\,p\}$$의 사이클을 찾는 알고리즘은, 플로이드 알고리즘을 통해 구현한다.
 
+이는 `Two Pointer`를 이용하며, 이 포인터는 서로 다른 속도로 시퀀스를 탐색한다. 매 반복마다, 첫 포인터는 한 칸을 움직이고 두번째 포인터는 두 칸을 움직인다. 만약 사이클 길이가 $$\lambda$$이고 사이클이 시작하는 곳의 첫 인덱스가 $$\mu$$일 경우 시간복잡도는 $$O(\mu + \lambda)$$다.
+
+>This algorithm is also known as tortoise and the hare algorithm, based on the tale in which a tortoise (here a slow pointer) and a hare (here a faster pointer) make a race.
+
 플로이드 알고리즘은 재귀적으로 비교하는 두 인자에 진행속도에 차이를 두어 만약 사이클이 존재할 경우 둘이 만날 수 밖에 없도록 하는 것이다.
+
+### pseudo code
+
+```
+function floyd(f, x0):
+    tortoise = x0
+    hare = f(x0)
+    while tortoise != hare:
+        tortoise = f(tortoise)
+        hare = f(f(hare))
+    return true
+```
+
+### implementation
 
 ```cpp
 ...
@@ -74,6 +85,29 @@ do {
   g = gcd(n, sub);
 } while (g == 1);
 ...
+```
+
+## Brent's algorithm
+
+`__int128_t` 타입을 사용하지 않을 경우 곱셈 연산을 매우 느리게 진행해야하는데, 이에 따라 플로이드 알고리즘 만으로는 제한시간 내에 풀기 어려울 수 있어 새로운 알고리즘 도입이 필요했다.
+
+위 알고리즘은 플로이드 알고리즘과 비슷하다. 투 포인터를 사용하지만 $$2^i$$만큼 전진시킨다. $$2^i$$가 $$\mu, \lambda$$보다 크면, 사이클을 찾을 수 있다. 자세한 코드는 최종 코드에서 확인하길 바란다.
+
+### pseudo code
+
+```
+function floyd(f, x0):
+    tortoise = x0
+    hare = f(x0)
+    l = 1
+    while tortoise != hare:
+        tortoise = hare
+        repeat l times:
+            hare = f(hare)
+            if tortoise == hare:
+                return true
+        l *= 2
+    return true
 ```
 
 ## Miller-Rabin primality test
@@ -121,37 +155,16 @@ $$\begin{align} a^{2^sd} & = (a^{2^{s-1}d}-1)(a^{2^{s-1}d} + 1) \\ &= (a^{2^{s-2
 
 ```cpp
 ...
-ull add_with_mod(ull a, ull b, ull mod) {
-	a = a % mod;
-	b = b % mod;
-	return (a + b) % mod;
-}
-
-ull mul_with_mod(ull a, ull b, ull mod) {
-	a = a % mod;
-	b = b % mod;
-	ull ret = 0;
-	while (b > 0) {
-		if (b % 2 == 1) {
-			ret = add_with_mod(ret, a, mod);
-		}
-		a = add_with_mod(a, a, mod);
-		b = b / 2;
-	}
-
-	return ret;
-}
-
-//return a^b % mod
 ull pow_with_mod(ull a, ull b, ull mod) {
-	a = a & mod;
+
+	a = a % mod;
 	ull ret = 1;
 	while (b > 0) {
 		if (b % 2 == 1) {
-			ret = mul_with_mod(ret, a, mod);
+			ret = (__int128_t)ret * a % mod;
 		}
-		a = mul_with_mod(a, a, mod);
-		b = b / 2;
+		a = (__int128_t)a * a % mod;
+		b = b >> 1;
 	}
 
 	return ret;
@@ -160,13 +173,12 @@ ull pow_with_mod(ull a, ull b, ull mod) {
 
 bool miller_rabin_primality_test(ull n, ull a) {
 
-	int r = 0;
 	ull d = n - 1;
 	while (d % 2 == 0) {
 		if (pow_with_mod(a, d, n) == n - 1) {
 			return true;
 		}
-		d = d / 2;
+		d = d >> 1;
 	}
 
 	ull pow_of_a_d = pow_with_mod(a, d, n);
@@ -176,7 +188,7 @@ bool miller_rabin_primality_test(ull n, ull a) {
 
 bool is_prime(ull n) {
 	if( n <= 1 ) return false;
-	if (n <= 10000000000ULL) {
+	if (n <= 1000000000ULL) {
 		for (ull i = 2; i * i <= n; i++) {
 			if (n % i == 0) {
 				return false;
@@ -191,6 +203,7 @@ bool is_prime(ull n) {
 	}
 	return true;
 }
+
 ...
 ```
 
@@ -200,47 +213,30 @@ bool is_prime(ull n) {
 ```cpp
 #include<iostream>
 #include<vector>
-#include<math.h>
+
 #include<algorithm>
 
-using ull = long long;
+
+using ull = unsigned long long;
 
 using namespace std;
 
 vector<ull> factors;
 ull n;
 
-ull add_with_mod(ull a, ull b, ull mod) {
-	a = a % mod;
-	b = b % mod;
-	return (a + b) % mod;
-}
+//NOTICE: __int128_t type only use in gcc
 
-ull mul_with_mod(ull a, ull b, ull mod) {
-	a = a % mod;
-	b = b % mod;
-	ull ret = 0;
-	while (b > 0) {
-		if (b % 2 == 1) {
-			ret = add_with_mod(ret, a, mod);
-		}
-		a = add_with_mod(a, a, mod);
-		b = b / 2;
-	}
-
-	return ret;
-}
-
-//return a^b % mod
+//return a^b % mod with divide and conquer
 ull pow_with_mod(ull a, ull b, ull mod) {
-	a = a & mod;
+
+	a = a % mod;
 	ull ret = 1;
 	while (b > 0) {
 		if (b % 2 == 1) {
-			ret = mul_with_mod(ret, a, mod);
+			ret = (__int128_t)ret * a % mod;
 		}
-		a = mul_with_mod(a, a, mod);
-		b = b / 2;
+		a = (__int128_t)a * a % mod;
+		b = b >> 1;
 	}
 
 	return ret;
@@ -249,13 +245,12 @@ ull pow_with_mod(ull a, ull b, ull mod) {
 
 bool miller_rabin_primality_test(ull n, ull a) {
 
-	int r = 0;
 	ull d = n - 1;
 	while (d % 2 == 0) {
 		if (pow_with_mod(a, d, n) == n - 1) {
 			return true;
 		}
-		d = d / 2;
+		d = d >> 1;
 	}
 
 	ull pow_of_a_d = pow_with_mod(a, d, n);
@@ -265,7 +260,7 @@ bool miller_rabin_primality_test(ull n, ull a) {
 
 bool is_prime(ull n) {
 	if( n <= 1 ) return false;
-	if (n <= 10000000000ULL) {
+	if (n <= 1000000000ULL) {
 		for (ull i = 2; i * i <= n; i++) {
 			if (n % i == 0) {
 				return false;
@@ -281,10 +276,17 @@ bool is_prime(ull n) {
 	return true;
 }
 
+ull abs(ull a) {
+	return a > 0 ? a : -1 * a;
+}
+
+//Euclidean algorithm
 ull gcd(ull a, ull b) {
+	if (a < b) swap(a, b);
 	if (b == 0) return a;
 	return gcd(b, a % b);
 }
+
 
 void factorize(ull n) {
 	if (n <= 1) return;
@@ -294,27 +296,41 @@ void factorize(ull n) {
 		return;
 	}
 
-	ull x, y, c, g = n;
+	ull x = 2, q = 1, g = 1, xs, y, c = rand() % 10 + 1;
 
 	auto f = [=](ull x) {
-		return mul_with_mod(x, x, n);
+		return ((__int128_t)x * x + c) % n;
 	};
 
-	do {
-		if (g == n) {
-			x = y = rand() % n + 1;			
-			c = rand() % n + 1;
-			g = 1;
+	//Brent's Algorithm: Faster than Floyd's cycle-fiding algorithm
+	int m = 128;
+	int l = 1;
+	while (g == 1) {
+		y = x;
+		for (int i = 1; i < l; i++) {
+			x = f(x);
 		}
-		x = f(x);
-		y = f(f(y));
-
-		ull sub = x > y ? x - y : y - x;
-
-		g = gcd(n, sub);
-	} while (g == 1);
+		int k = 0;
+		while (k < l && g == 1) {
+			xs = x;
+			for (int i = 0; i < m && i < l - k; i++) {
+				x = f(x);
+				q = (__int128_t)q * abs(y - x) % n;
+			}
+			g = gcd(q, n);
+			k += m;
+		}
+		l *= 2;
+	}
+	if (g == n) {
+		do {
+			xs = f(xs);
+			g = gcd(abs(xs - y), n);
+		} while (g == 1);
+	}
 	factorize(g);
 	factorize(n / g);
+
 }
 
 int main() {
@@ -330,6 +346,7 @@ int main() {
 ```
 
 ><font size="6">Refernce</font>
+- https://cp-algorithms.com/algebra/factorization.html#toc-tgt-9
 - https://ko.wikipedia.org/wiki/폴라드_로_알고리즘
 - https://aruz.tistory.com/140
 - https://crypto.stanford.edu/pbc/notes/numbertheory/millerrabin.html

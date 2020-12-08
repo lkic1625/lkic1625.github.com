@@ -297,7 +297,7 @@
 
 
 
-  4 분 소요
+  5 분 소요
 
 </p>
           
@@ -548,17 +548,65 @@ Content-Type: text/plain
 
 <p>요청 시 <code class="language-plaintext highlighter-rouge">XMLHttpRequest</code>, <code class="language-plaintext highlighter-rouge">fetch</code>에 함부로 쿠키 정보나 인증과 관련된 헤더를 담을 수 없다. 이를 지원하게 해주는 것이 <code class="language-plaintext highlighter-rouge">credentials</code> 옵션이다.</p>
 
+<p>예제를 보며 이야기하자.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const invocation = new XMLHttpRequest();
+const url = 'http://bar.other/resources/credentialed-content/';
+
+function callOtherDomain() {
+  if (invocation) {
+    invocation.open('GET', url, true);
+    invocation.withCredentials = true;
+    invocation.onreadystatechange = handler;
+    invocation.send();
+  }
+}
+</code></pre></div></div>
+
+<p>7번째 줄을 확인해보면, <code class="language-plaintext highlighter-rouge">XMLHttpRequest</code>가 가지고 있는 <code class="language-plaintext highlighter-rouge">withCredentials</code>을 <code class="language-plaintext highlighter-rouge">true</code>로 변경했다.
+이 프로퍼티는 기본적으로 <code class="language-plaintext highlighter-rouge">false</code>값을 가지는 <code class="language-plaintext highlighter-rouge">boolean</code> 타입이다.</p>
+
+<p>실제로, <code class="language-plaintext highlighter-rouge">Access-Control-Allow-Credentials: true</code>을 포함하지 않을 경우 브라우저는 현재 요청이 단순 <code class="language-plaintext highlighter-rouge">GET</code>요청이므로 기각할 것이다.</p>
+
+<p><img src="/assets/images/cred-req-updated.png" alt="이미지" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /resources/credentialed-content/ HTTP/1.1
+Host: bar.other
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-us,en;q=0.5
+Accept-Encoding: gzip,deflate
+Connection: keep-alive
+Referer: http://foo.example/examples/credential.html
+Origin: http://foo.example
+Cookie: pageAccess=2
+
+
+HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 01:34:52 GMT
+Server: Apache/2
+Access-Control-Allow-Origin: https://foo.example
+Access-Control-Allow-Credentials: true
+Cache-Control: no-cache
+Pragma: no-cache
+Set-Cookie: pageAccess=3; expires=Wed, 31-Dec-2008 01:34:53 GMT
+Vary: Accept-Encoding, Origin
+Content-Encoding: gzip
+Content-Length: 106
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Content-Type: text/plain
+
+
+[text/plain payload]
+</code></pre></div></div>
+
 <blockquote>
   <font size="6">Refernce</font>
   <ul>
     <li>https://developer.mozilla.org/ko/docs/Web/HTTP/CORS</li>
     <li>https://evan-moon.github.io/2020/05/21/about-cors/</li>
   </ul>
-</blockquote>
-
-<blockquote>
-  <font size="6">Refernce</font>
-  <p>https://evan-moon.github.io/2020/05/21/about-cors/</p>
 </blockquote>
 
         
@@ -662,6 +710,36 @@ Content-Type: text/plain
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/algorithm/pollards_rho/" rel="permalink">Pollard’s rho algorithm
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/backend/http_headers/" rel="permalink">HTTP 헤더
 </a>
       
@@ -701,7 +779,7 @@ Content-Type: text/plain
 
 
 
-  6 분 소요
+  7 분 소요
 
 </p>
     
@@ -735,36 +813,6 @@ Content-Type: text/plain
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">Introduction
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/database/redis_02/" rel="permalink">시계열 데이터 관측
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
 </p>
   </article>
 </div>

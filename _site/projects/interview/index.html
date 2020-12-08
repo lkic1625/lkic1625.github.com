@@ -297,7 +297,7 @@
 
 
 
-  8 분 소요
+  9 분 소요
 
 </p>
           
@@ -313,6 +313,7 @@
   <li><a href="#mean-stack">MEAN stack</a></li>
   <li><a href="#spa">SPA</a></li>
   <li><a href="#스크립트-언어">스크립트 언어</a></li>
+  <li><a href="#jvm">JVM</a></li>
   <li><a href="#docker-란">Docker 란</a></li>
   <li><a href="#온-디맨드-이미지-리사이징">온 디맨드 이미지 리사이징</a></li>
   <li><a href="#content-delivery-network">content delivery network</a>
@@ -398,6 +399,17 @@
   <li><a href="#string-string-buffer-string-builder">String ,String Buffer, String Builder</a></li>
   <li><a href="#hahsmap-hashtable-concurrenthashmap">hahsmap, hashtable, concurrenthashmap</a></li>
   <li><a href="#샤딩-레플리카">샤딩, 레플리카</a></li>
+  <li><a href="#js-깊은-복사-얕은-복사">js 깊은 복사 얕은 복사</a></li>
+  <li><a href="#자바스크립트-네이밍-컨벤션">자바스크립트 네이밍 컨벤션</a>
+    <ul>
+      <li><a href="#변수-인스턴스-객체-함수는-반드시-camelcase">변수, 인스턴스, 객체, 함수는 반드시 camelCase</a></li>
+      <li><a href="#생성자와-클래스는-반드시-pascalcase">생성자와 클래스는 반드시 PascalCase</a></li>
+      <li><a href="#trailing-leading-underscores는-금지한다">trailing, leading underscores는 금지한다.</a></li>
+    </ul>
+  </li>
+  <li><a href="#array-vs-linked-list">array vs linked List</a></li>
+  <li><a href="#코테">코테</a></li>
+  <li><a href="#퀵소트">퀵소트</a></li>
 </ul>
 
             </nav>
@@ -425,6 +437,19 @@
 
 <p>https://www.a-mean-blog.com/ko/blog/MEAN-Stack/_/MEAN-Stack-%EC%86%8C%EA%B0%9C</p>
 
+<p>스크립트(Script) 언어란 소스 코드를 컴파일(Compile)하지 않고도 실행할 수 있는 프로그래밍 언어를 말한다.</p>
+
+<p>예를 들어 C나 비주얼베이직, 자바같은 경우는 작성한 소스를 컴파일러를 통해 기계어 코드로 변경해야 사용자가 실행할수 있는 실행 파일이 얻어지는데 비해 스크립트 언어는 별도의 컴파일 없이 내장된 번역기에 의해 번역 되므로 바로 실행 할 수 있다.</p>
+
+<p>스크립트 언어는 소스를 작성한 후 컴파일 과정 없이 바로 실행하여 결과를 확인할 수 있다는 장점이 있는 반면에 번역 과정을 거쳐야 하기 때문에 다소 느리다는 단점이 있다. C언어나 Java와 같은 비스크립트 언어의 경우 실행 속도가 빠른 장점이 있는 반면 컴파일 과정을 거쳐야 하는 등 개발 과정이 조금 복잡하다는 단점이 있다.</p>
+
+<h1 id="jvm">JVM</h1>
+
+<p>실행엔진(Execution Engine)은 JVM 메모리에 올라온 바이트 코드들을 명령어 단위로 하나씩 가져와서 실행합니다. 이때, 실행엔진은 2가지 방식으로 동작할 수 있습니다.</p>
+
+<p>자바 인터프리터 : 바이트 코드 명령어를 하나씩 읽어서 해석하고 실행합니다. 하나하나의 실행은 빠르나, 전체적인 실행 속도가 느리다는 단점을 가집니다.
+JIT 컴파일러(Just-In-Time Compiler) : 인터프리터의 단점을 보완하기 위해 도입된 방식으로 바이트 코드 전체를 컴파일하여 바이너리 코드로 변경하고 이후에는 해당 메서드를 더이상 인터프리팅 하지 않고, 바이너리 코드로 직접 실행하는 방식입니다. 하나씩 인터프리팅하여 실행하는 것이 아니라 바이트 코드 전체가 컴파일된 바이너리 코드를 실행하는 것이기 때문에 전체적인 실행속도는 인터프리팅 방식보다 빠릅니다.</p>
+
 <h1 id="docker-란">Docker 란</h1>
 
 <p>https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html</p>
@@ -444,6 +469,8 @@ https://helloinyong.tistory.com/246</p>
 <h1 id="httponlycookie">httponlycookie</h1>
 
 <p>https://owasp.org/www-community/HttpOnly</p>
+
+<p>제일 근접한 서버에서 처리함으로써 지연시간을 줄인다.</p>
 
 <h1 id="federated-learning">federated learning</h1>
 
@@ -728,6 +755,45 @@ http://restapi.example.com/houses/apartments  (0)
 
 <p>샤딩은 분산된 데이터 그 자체로 의미가 있을 때는 샤딩 그 자체가 트래픽 분산이 깔끔하게 이루어진다. 실질적으로 이 경우는 샤딩이라 부르기보단 DB 분산 (또는 파티셔닝. 게임의 경우 월드 단위 DB를 따로 쓰는 등의)이라고 부르는 경우도 많은 것이 그 이유다.</p>
 
+<h1 id="js-깊은-복사-얕은-복사">js 깊은 복사 얕은 복사</h1>
+
+<p>일반 문자열 숫자 불린은 복사된 값이 영향을 미치지 못한다. 레퍼런스가 다르다.</p>
+
+<p>하지만 객체 같은 경우는 같은 값을 참조한다. 같은 메모리 주소.</p>
+
+<p><code class="language-plaintext highlighter-rouge">shallow copy</code>는 js에서 가장 상위 객체만 생성되고 하위 객체들은 모두 참조값이 같은 경우다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">deep copy</code>는 내부 객체까지 모두 다른 경우다.</p>
+
+<h1 id="자바스크립트-네이밍-컨벤션">자바스크립트 네이밍 컨벤션</h1>
+
+<h2 id="변수-인스턴스-객체-함수는-반드시-camelcase">변수, 인스턴스, 객체, 함수는 반드시 camelCase</h2>
+
+<h2 id="생성자와-클래스는-반드시-pascalcase">생성자와 클래스는 반드시 PascalCase</h2>
+
+<h2 id="trailing-leading-underscores는-금지한다">trailing, leading underscores는 금지한다.</h2>
+
+<p>자바스크립트는 원래부터 <code class="language-plaintext highlighter-rouge">private</code>한 속성과 메서드가 존재하지 않는다.</p>
+
+<h1 id="array-vs-linked-list">array vs linked List</h1>
+
+<p>배열은 랜덤 엑세스가 가능한 상수시간 접근이 가능하다.</p>
+
+<p>삭제가 오래걸린다.</p>
+
+<p>전부다 떙기고 그래야 해서</p>
+
+<p>배열은 전부다 shift 선형
+링크드 리스트는 삭제할 자리를 찾는데 선형</p>
+
+<h1 id="코테">코테</h1>
+
+<p>파스칼의 삼각형</p>
+
+<h1 id="퀵소트">퀵소트</h1>
+
+<p>피벗 정해서 그것보다 큰놈들 정리 그것보다 작은 놈들 정리</p>
+
 <blockquote>
   <font size="6">Refernce</font>
   <ul>
@@ -841,6 +907,36 @@ http://restapi.example.com/houses/apartments  (0)
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/algorithm/pollards_rho/" rel="permalink">Pollard’s rho algorithm
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/backend/http_headers/" rel="permalink">HTTP 헤더
 </a>
       
@@ -880,7 +976,7 @@ http://restapi.example.com/houses/apartments  (0)
 
 
 
-  6 분 소요
+  7 분 소요
 
 </p>
     
@@ -914,36 +1010,6 @@ http://restapi.example.com/houses/apartments  (0)
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">Introduction
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/database/redis_02/" rel="permalink">시계열 데이터 관측
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
 </p>
   </article>
 </div>

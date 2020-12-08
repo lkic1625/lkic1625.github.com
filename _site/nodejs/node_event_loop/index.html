@@ -297,7 +297,7 @@
 
 
 
-  7 분 소요
+  8 분 소요
 
 </p>
           
@@ -350,6 +350,25 @@
     </ul>
   </li>
   <li><a href="#글을-마치며">글을 마치며..</a></li>
+  <li><a href="#트랜잭션">트랜잭션?</a></li>
+  <li><a href="#sql-nosql">sql, nosql?</a></li>
+  <li><a href="#운영체제">운영체제</a>
+    <ul>
+      <li><a href="#쓰레드-프로세스">쓰레드 프로세스</a></li>
+      <li><a href="#컨텍스트-스위칭">컨텍스트 스위칭</a>
+        <ul>
+          <li><a href="#쓰레드세이">쓰레드세이</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#쿠키-세션-토큰">쿠키 세션 토큰</a>
+    <ul>
+      <li><a href="#토큰">토큰</a></li>
+      <li><a href="#jwt">jwt</a></li>
+      <li><a href="#cdn이란">CDN이란?</a></li>
+    </ul>
+  </li>
 </ul>
 
             </nav>
@@ -468,9 +487,9 @@
 
 <p>이 페이즈는 폴링을 진행하는 단계다. 이벤트 루프가 이 페이즈에 들어왔을 경우 <code class="language-plaintext highlighter-rouge">polling queue(watcher_queue)</code> 내부파일 읽기에 대한 콜백, HTTP 응답 콜백과 같은 작업이 존재하며, 시스템 한도 내에서 이를 실행시킨다.</p>
 
-<p>만약 더 이상 실행할 콜백이 없다면,  <code class="language-plaintext highlighter-rouge">check_queue</code>, <code class="language-plaintext highlighter-rouge">pending_queue</code>, <code class="language-plaintext highlighter-rouge">closing_callbacks_queue에</code> 해야할 작업이 있는지를 검사하고, 만약 해야할 작업이 있다면 바로 <code class="language-plaintext highlighter-rouge">Poll phase가</code> 종료되고 다음 페이즈로 넘어가게 된다. 하지만 특별히 해야할 작업이 더 이상 없는 경우 <code class="language-plaintext highlighter-rouge">Poll phase</code>는 다음 페이즈로 넘어가지 않고 계속 대기하게 된다.
-ㅔㅔ
-대기시간에 제약은 아래 알고리즘을 따른다.</p>
+<p>만약 더 이상 실행할 콜백이 없다면,  <code class="language-plaintext highlighter-rouge">check_queue</code>, <code class="language-plaintext highlighter-rouge">pending_queue</code>, <code class="language-plaintext highlighter-rouge">closing_callbacks_queue</code>에 해야할 작업이 있는지를 검사하고, 만약 해야할 작업이 있다면 바로 <code class="language-plaintext highlighter-rouge">Poll phase가</code> 종료되고 다음 페이즈로 넘어가게 된다. 하지만 특별히 해야할 작업이 더 이상 없는 경우 <code class="language-plaintext highlighter-rouge">Poll phase</code>는 다음 페이즈로 넘어가지 않고 계속 대기하게 된다.</p>
+
+<p>대기시간에 제약은 아래 알고리즘을 따른다.</p>
 <ol>
   <li><code class="language-plaintext highlighter-rouge">Check Phase</code>에 실행할 콜백이 있는가?</li>
   <li>없다면 <code class="language-plaintext highlighter-rouge">Timer</code>에 있는가? -&gt; 타이머 페이즈가 실행 가능한 시간까지 대기 후 타이머 페이즈로 간다.</li>
@@ -604,6 +623,81 @@
 
 <p>오랜만에 좋은 블로그와 자료들을 찾아서 이를 나만의 방식으로 정리했다. 최근에 포스트를 단순히 옮겨적는 데에 치중했었는데 늘어졌던 자세를 바로잡는 기회가 되지 않았나 싶다.</p>
 
+<h1 id="트랜잭션">트랜잭션?</h1>
+
+<p>데이터베이스의 상태를 변화시키기 위해 수행하는 작업의 단위</p>
+
+<h1 id="sql-nosql">sql, nosql?</h1>
+
+<p>sql은 시스템이 커지면 스케일업 즉 서버 한 대의 성능을 높여야 한다.</p>
+
+<p>nosql은 아님. 걍 서버 대수만 올리면됨</p>
+
+<p>nosql 은 유연한 db 스키마를 가지고 있음.</p>
+
+<p>https://brunch.co.kr/@kooslab/181</p>
+
+<h1 id="운영체제">운영체제</h1>
+
+<h2 id="쓰레드-프로세스">쓰레드 프로세스</h2>
+
+<p>프로세스는 현재 실행중인 프로그램
+자원을 요구하는 주체.</p>
+
+<p>전통적 프로세스는 공유변수를 가지기 어렵다. 데이터 스택 영역 모두 복사하기 때문에 오버헤드 존재.</p>
+
+<p>쓰레드 코드와 데이터 힙영역은 공유하고 스택과 프로그램 카운터 같은 특수 레지스터는 따로 갖는 형태.</p>
+
+<h2 id="컨텍스트-스위칭">컨텍스트 스위칭</h2>
+
+<p>Context Switching이란 인터럽트를 발생시켜 CPU에서 실행중인 프로세스를 중단하고, 다른 프로세스를 처리하기 위한 과정입니다. Context Switching는 현재 실행중인 프로세스의 상태(Context)를 먼저 저장하고, 다음 프로세스를 동작시켜 작업을 처리한 후에 이전에 저장된 프로세스의 상태를 다시 복구합니다. 여기서 인터럽트란 CPU가 프로세스를 실행하고 있을 때, 입출력 하드웨어 등의 장치나 예외상황이 발생하여 처리가 필요함을 CPU에게 알리는 것을 말합니다.</p>
+
+<h3 id="쓰레드세이">쓰레드세이</h3>
+
+<h1 id="쿠키-세션-토큰">쿠키 세션 토큰</h1>
+
+<p>연결을 끊어버리기 때문에, 클라이언트의 이전 상태를 알 수가 없다. 이러한 HTTP의 특징을 stateless라고 하는데, Connectless로 부터 파생되는 특징이라고 할 수 있다. 클라이언트의 이전 상태 정보를 알 수 없게 되면, 웹 서비스를 하는데 당장에 문제가 생긴다. 예컨데, 클라이언트가 과거에 로그인을 성공하더라도 로그 정보를 유지할 수가 없다. HTTP는 cookie를 이용해서 이 문제를 해결하고 있다.</p>
+
+<p>세션은 서버측에 저장한다는 점에서 쿠키와 상반된다.</p>
+
+<h2 id="토큰">토큰</h2>
+
+<p>서버기반 인증의 문제.</p>
+
+<p>서버측 메모리에 저장. 자원 부족.</p>
+
+<p>확장성 세션동기화가 힘듦.</p>
+
+<p>stateless 서버를 만들기 위해.</p>
+
+<h2 id="jwt">jwt</h2>
+
+<ul>
+  <li>헤더</li>
+</ul>
+
+<p>토큰타입, 해시알고리즘</p>
+
+<ul>
+  <li>페이로드</li>
+</ul>
+
+<p>토큰 대상자 아이디 등.</p>
+
+<ul>
+  <li>서명</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">jwt</code>는 HAMC이라는 방법으로 서명한다.</p>
+
+<p>헤더와 페이로드를 특정 알고리즘으로 서명하는 것.</p>
+
+<h2 id="cdn이란">CDN이란?</h2>
+
+<p>CDN(Content Delivery Network)는 물리적으로 떨어져 있는 사용자에게 컨텐츠를 더 빠르게 제공하기 위해 고안된 기술입니다. 만약 우리나라에 있는 사람이 미국에 있는 서버로부터 이미지나 파일 등을 다운받으려고 하면 시간이 오래 걸립니다. 따라서 느린 응답속도와 다운로드 시간을 극복하기 위해 서버를 분산시켜 캐싱해두고, 빠르게 다운받을 수 있게 합니다.</p>
+
+<p>CDN은 콘텐츠에 대한 요청이 발생하면 사용자와 가장 가까운 위치에 존재하는 서버로 매핑시켜, 요청된 파일의 캐싱된(사전 저장된) 버전으로 요청을 처리합니다. 서버가 파일을 찾는 데 실패하는 경우 CDN 플랫폼의 다른 서버에서 콘텐츠를 찾은 다음 엔드유저에게 응답을 전송합니다.</p>
+
 <blockquote>
   <font size="6">Refernce</font>
   <ul>
@@ -716,6 +810,36 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
+        <a href="/algorithm/pollards_rho/" rel="permalink">Pollard’s rho algorithm
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
         <a href="/backend/http_headers/" rel="permalink">HTTP 헤더
 </a>
       
@@ -774,7 +898,7 @@
     
     <h2 class="archive__item-title" itemprop="headline">
       
-        <a href="/database/redis_02/" rel="permalink">시계열 데이터 관측
+        <a href="/redis/redis_02/" rel="permalink">시계열 데이터 관측
 </a>
       
     </h2>
@@ -790,35 +914,6 @@
     
     <p class="archive__item-excerpt" itemprop="description">
 
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/backend/REST/" rel="permalink">그런 REST API로 괜찮은가.
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">REpresentaion State Transfer
 </p>
   </article>
 </div>

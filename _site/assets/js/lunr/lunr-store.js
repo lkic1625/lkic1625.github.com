@@ -288,9 +288,9 @@ var store = [{
         "teaser": null
       },{
         "title": "레디스 기본 데이터 타입",
-        "excerpt":"Redis? 길게 소개하자면 한도 끝도 없고, 나 말고도 필력 좋은 블로그들이 더 잘 소개했을 것 같기에 간단하게만 중점만 짚어 소개하자면, 레디스는 In-Memory Database로서 고가용성인 메모리에 저장하고 조회한다. 기존 관계형 데이터베이스 앞에 캐싱 시스템으로 이용하기 적합한 것으로 알려져있다. 오픈소스인만큼 다양한 서비스에서 사용되고 있으며, 앞으로 계속해서 중요한 역할을 할 것같아 책에 예제와...","categories": ["database"],
+        "excerpt":"Redis? 길게 소개하자면 한도 끝도 없고, 나 말고도 필력 좋은 블로그들이 더 잘 소개했을 것 같기에 간단하게만 중점만 짚어 소개하자면, 레디스는 In-Memory Database로서 고가용성인 메모리에 저장하고 조회한다. 기존 관계형 데이터베이스 앞에 캐싱 시스템으로 이용하기 적합한 것으로 알려져있다. 오픈소스인만큼 다양한 서비스에서 사용되고 있으며, 앞으로 계속해서 중요한 역할을 할 것같아 책에 예제와...","categories": ["redis"],
         "tags": ["NoSQL","database","redis","nodejs"],
-        "url": "http://localhost:4000/database/redis_00/",
+        "url": "http://localhost:4000/redis/redis_00/",
         "teaser": null
       },{
         "title": "FaaS, BaaS",
@@ -306,9 +306,9 @@ var store = [{
         "teaser": null
       },{
         "title": "레디스 콜렉션",
-        "excerpt":"이번 포스트에서는.. 저번 포스트에서는 기본적인 데이터 타입을 설명했다. 이번 포스트에선 한발 더 나아가 Set, Sorted Set, Bitmap, Hyperloglog 데이터 타입을 살펴보려 한다. 이 글은 레디스 기본 데이터 타입 포스트와 이어집니다. Sets 셋은 스트링과는 구분되는 순서가 없는 콜렉션이다. 중복되는 원소를 셋에 집어넣을수 없으며 내부적으로 해쉬테이블처럼 구현됐다. 이러한 이유는 최적화 때문인데, 멤버...","categories": ["database"],
+        "excerpt":"이번 포스트에서는.. 저번 포스트에서는 기본적인 데이터 타입을 설명했다. 이번 포스트에선 한발 더 나아가 Set, Sorted Set, Bitmap, Hyperloglog 데이터 타입을 살펴보려 한다. 이 글은 레디스 기본 데이터 타입 포스트와 이어집니다. Sets 셋은 스트링과는 구분되는 순서가 없는 콜렉션이다. 중복되는 원소를 셋에 집어넣을수 없으며 내부적으로 해쉬테이블처럼 구현됐다. 이러한 이유는 최적화 때문인데, 멤버...","categories": ["redis"],
         "tags": ["NoSQL","database","redis","nodejs"],
-        "url": "http://localhost:4000/database/redis_01/",
+        "url": "http://localhost:4000/redis/redis_01/",
         "teaser": null
       },{
         "title": "Heavy-Light Decompostion(작성중)",
@@ -330,9 +330,9 @@ var store = [{
         "teaser": null
       },{
         "title": "시계열 데이터 관측",
-        "excerpt":"Time Series 시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다. -wikipedia 시계열 데이터는 다양한 분석방법에 쓰일 수 있으며, 아래는 이에 대한 예시이다. Usage of specific words or terms in a...","categories": ["database"],
+        "excerpt":"Time Series 시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다. -wikipedia 시계열 데이터는 다양한 분석방법에 쓰일 수 있으며, 아래는 이에 대한 예시이다. Usage of specific words or terms in a...","categories": ["redis"],
         "tags": ["NoSQL","database","redis","nodejs","time-series"],
-        "url": "http://localhost:4000/database/redis_02/",
+        "url": "http://localhost:4000/redis/redis_02/",
         "teaser": null
       },{
         "title": "동기, 비동기, 블록킹 그리고 논 블록킹",
@@ -351,5 +351,11 @@ var store = [{
         "excerpt":"Introduction 오늘은 HTTP headers에 대해 알아보려 한다. 보통 블로그 포스팅 혹은 면접 준비를 위해 여러 블로그를 참조하는데, 최근에 한 포스트에서 인상적인 문구를 봤다. 결국, 어떤 프로토콜을 이해하려면 프로토콜의 헤더만 알면 된다는 얘기었다. 특정 프로토콜의 헤더의 내용은 특정 프로토콜의 기능을 제공하기 위해 담고 있는 최소한의 정보기 때문이다. 출처: https://jeong-pro.tistory.com/181 [기본기를 쌓는...","categories": ["backend"],
         "tags": ["backend","HTTP","network","header"],
         "url": "http://localhost:4000/backend/http_headers/",
+        "teaser": null
+      },{
+        "title": "Pollard's rho algorithm",
+        "excerpt":"Introduction 이번 포스트에서 다룰 알고리즘은 폴라드 \\(\\rho\\) 알고리즘이다. 폴라드 \\(\\rho\\) 알고리즘은 빠른 소인수 분해를 위한 알고리즘이다. 백준에 큰 수 소인수분해 4149 문제 풀이와 함께 진행하겠다. Core ideas 소인수 분해하려는 숫자 \\(n = pq\\)에서 \\(p\\)는 자명하지 않은 인수라고 가정하자. 다항식을 \\(n\\)으로 나누는 연산 \\(g(x) = (x^2 + 1)\\text{ mod n}\\)은 암호학의...","categories": ["algorithm"],
+        "tags": ["math","number_theory","prime"],
+        "url": "http://localhost:4000/algorithm/pollards_rho/",
         "teaser": null
       }]
