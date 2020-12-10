@@ -241,6 +241,10 @@
 <lastmod>2020-11-27T05:00:00+09:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/backend/websocket/</loc>
+<lastmod>2020-12-09T04:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/about/</loc>
 </url>
 <url>
@@ -287,5 +291,8 @@
 </url>
 <url>
 <loc>http://localhost:4000/page12/</loc>
+</url>
+<url>
+<loc>http://localhost:4000/page13/</loc>
 </url>
 </urlset>

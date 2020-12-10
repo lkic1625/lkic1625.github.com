@@ -297,7 +297,7 @@
 
 
 
-  6 분 소요
+  7 분 소요
 
 </p>
           
@@ -351,7 +351,7 @@
 
 <h1 id="core-ideas">Core ideas</h1>
 
-<p>소인수 분해하려는 숫자 \(n = pq\)에서 \(p\)는 자명하지 않은 <b>인수</b>라고 가정하자. 다항식을 \(n\)으로 나누는 연산 \(g(x) = (x^2 + 1)\text{ mod n}\)은 암호학의 유사난수 수열을 생성(<code class="language-plaintext highlighter-rouge">PRG</code>)할 때 사용된다.</p>
+<p>소인수 분해하려는 숫자 \(n = pq\)에서 \(p\)는 자명하지 않은 <b>인수</b>라고 가정하자. 다항식을 \(n\)으로 나누는 연산 \(g(x) = (x^2 + 1)\text{ mod n}\)은 암호학에 유사난수 수열을 생성(<code class="language-plaintext highlighter-rouge">PRG</code>)할 때 사용된다.</p>
 
 <p>이때 시작값을 적당히 2로 설정하면</p>
 
@@ -365,9 +365,11 @@
 
 <p><img src="/assets/images/pollards'_rho.png" alt="이미지" /></p>
 
+<p>그렇다면, 두 수열의 관계를 어떻게 이용하여 우리는 인수 <code class="language-plaintext highlighter-rouge">p</code>를 찾아내는 것일까? 알고리즘은 아래와 같이 동작한다.</p>
+
 <ol>
-  <li>위 수열에서 나오는 반복을 플로이드 순환 찾기 알고리즘으로 찾는다.</li>
-  <li>먼저 두 수 \(x_i\)와 \(x_j\)를 정한다. \(x_i \equiv x_j \pmod p\)를 만족 시 \(p = k(x_i - x_j) ,\, k \in N\)가 성립한다.</li>
+  <li>위 수열에서 나오는 반복을 순환 찾기 알고리즘으로 찾는다.</li>
+  <li>먼저 두 수 \(x_i\)와 \(x_j\)를 정한다. \(x_i \equiv x_j \pmod p\)를 만족 시 \(p = k(x_i - x_j) ,\, k \in \mathbb{N}\)가 성립한다.</li>
   <li>\(gcd(x_i - x_j, n)\)이 1이 아니라면 수열 \(\{x_k \,mod\,p\}\)는 사이클이 있다는 것을 의미하고, \(x_i - x_j\)이 p의 배수 혹은 0이 되어야한다.</li>
   <li>\(gcd(x_i - x_j, n)\)는 결국 \(n\) 혹은 \(p\)를 값으로 가지게되고, \(p\)를 구할 수 있다.</li>
 </ol>
@@ -766,7 +768,8 @@
 ">이전</a>
     
     
-      <a href="#" class="pagination--pager disabled">다음</a>
+      <a href="/backend/websocket/" class="pagination--pager" title="Websocket
+">다음</a>
     
   </nav>
 
@@ -780,6 +783,35 @@
     <div class="page__related">
       <h4 class="page__related-title">참고</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/backend/websocket/" rel="permalink">Websocket
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
         
           
 
@@ -829,7 +861,7 @@
 
 
 
-  8 분 소요
+  7 분 소요
 
 </p>
     
@@ -863,36 +895,6 @@
 </p>
     
     <p class="archive__item-excerpt" itemprop="description">Introduction
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title" itemprop="headline">
-      
-        <a href="/redis/redis_02/" rel="permalink">시계열 데이터 관측
-</a>
-      
-    </h2>
-    
-      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
-
-
-
-
-  최대 1 분 소요
-
-</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">
-
 </p>
   </article>
 </div>
