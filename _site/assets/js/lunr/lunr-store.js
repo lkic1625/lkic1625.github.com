@@ -359,7 +359,7 @@ var store = [{
         "url": "http://localhost:4000/algorithm/pollards_rho/",
         "teaser": null
       },{
-        "title": "Websocket",
+        "title": "WebSocket",
         "excerpt":"Introduction 최근에 포스팅이 눈에 띄게 적었는데, 다시 시작해볼까 한다. 조금 들떠있었나보다. 다시 마음을 가다듬고 싶다. 오늘은 웹소켓에 대해 알아보려한다. 입사 전에 간단한 채팅 시스템을 만들고 싶은데 웹소켓을 사용하려 한다. 물론 회사에선 직접적으로 안 쓰일 수 있겠지만, 절대 필요없는 지식이 없다는 생각으로 포스팅한다. WebSocket The WebSocket Protocol enables two-way communication between...","categories": ["backend"],
         "tags": ["backend","ws","websocket","http"],
         "url": "http://localhost:4000/backend/websocket/",

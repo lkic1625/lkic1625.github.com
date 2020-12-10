@@ -1,5 +1,5 @@
 ---
-title: "Websocket"
+title: "WebSocket"
 tags:
   - backend
   - ws
