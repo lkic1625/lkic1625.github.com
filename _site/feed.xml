@@ -1,8 +1,375 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-10T11:47:21+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">WebSocket</title><link href="http://localhost:4000/backend/websocket/" rel="alternate" type="text/html" title="WebSocket" /><published>2020-12-09T00:00:00+09:00</published><updated>2020-12-09T04:00:00+09:00</updated><id>http://localhost:4000/backend/websocket</id><content type="html" xml:base="http://localhost:4000/backend/websocket/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-20T23:07:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">의미있는 변수명</title><link href="http://localhost:4000/programming/meaningful_naming/" rel="alternate" type="text/html" title="의미있는 변수명" /><published>2020-12-20T00:00:00+09:00</published><updated>2020-12-20T04:00:00+09:00</updated><id>http://localhost:4000/programming/meaningful_naming</id><content type="html" xml:base="http://localhost:4000/programming/meaningful_naming/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
-&lt;p&gt;최근에 포스팅이 눈에 띄게 적었는데, 다시 시작해볼까 한다. 조금 들떠있었나보다. 다시 마음을 가다듬고 싶다.&lt;/p&gt;
+&lt;p&gt;이번에 포스팅할 주제는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Robert Cecil Martin, Clean Code&lt;/code&gt;의 내용이다.&lt;/p&gt;
 
-&lt;p&gt;오늘은 웹소켓에 대해 알아보려한다. 입사 전에 간단한 채팅 시스템을 만들고 싶은데 웹소켓을 사용하려 한다. 물론 회사에선 직접적으로 안 쓰일 수 있겠지만, 절대 필요없는 지식이 없다는 생각으로 포스팅한다.&lt;/p&gt;
+&lt;p&gt;책에서는 좋은 코드에 대한 정의를 상당히 자세히 그리고 친절하게 설명해두었다.&lt;br /&gt;
+근데 막상 직접 느껴보면 뭐가 나쁜 코드인지는 본능적으로 알지 않나 싶다.&lt;/p&gt;
+
+&lt;p&gt;난 예전부터 좋은 코드는 주석 없이도 술술 읽히며 이 코드가 뭘 원하는지 알 수 있는 코드가 제일 좋은 코드라 생각했다.&lt;br /&gt;
+특히 작성자의 설명 없이도 읽힌다면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;아름다운&lt;/code&gt; 코드가 아닐까?&lt;/p&gt;
+
+&lt;p&gt;오늘도 별 쓰잘데없는 서론으로 시작한다. 자 이제 본격적으로 포스팅에 들어가보자.&lt;/p&gt;
+
+&lt;h1 id=&quot;의미있는-변수명&quot;&gt;의미있는 변수명&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Names are everywhere in software. We name our variables, our functions, our arguments,
+classes, and packages. We name our source files and the directories that contain them. We
+name our jar files and war files and ear files. We name and name and name.&lt;br /&gt;&lt;br /&gt;
+Clean Code, Chapte 2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;우리는 모든 곳에 이름을 붙인다. 솔직히 이름 정하기가 제일 어렵다. 알고리즘 고민보다 변수명 작성이 더 어려운 것 같다..&lt;/p&gt;
+
+&lt;p&gt;따라서, 이와 관련된 절대적이지는 않지만 지향되는 규칙을 정리해보겠다.&lt;/p&gt;
+
+&lt;h2 id=&quot;의도를-분명히-밝혀라&quot;&gt;의도를 분명히 밝혀라&lt;/h2&gt;
+
+&lt;p&gt;변수나 함수는 존재 이유, 수행 기능, 사용 방법 등에 대해 분명히 밝힐 필요가있다. 주석과 함께 추가 설명이 필요하다면 이를 충분히 제공하지 못하는 이름이라 할 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//경과 시간 (단위: 날짜)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;보단,&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elapsedTimeInDays&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;daysSinceCreation&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;daysSinceModification&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fileAgeInDays&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 코드가 직관적이다.&lt;/p&gt;
+
+&lt;p&gt;코드를 작성한 사람만 코드를 읽는 게 아니다. 협업을 하고 우리가 만든 코드를 누군가가 사용할 때 작동하는 법을 읽히거나 변수를 사용할 것이다.
+&lt;br /&gt;아무리 주석을 잘 달아놓은 변수명이라고 하더라도, 기억력이 아주 좋지 않은 이상 저런 모호한 이름은 까먹고 계속해서 정의를 확인하는 작업이 동반될 것이다.
+&lt;br /&gt;이러한 상황은 결국 비효율적이다. 개발자는 누구보다 효율적이야 하지 않은가?&lt;/p&gt;
+
+&lt;h2 id=&quot;그릇된-정보를-피해라&quot;&gt;그릇된 정보를 피해라.&lt;/h2&gt;
+
+&lt;p&gt;코드에 오해의 소지가 있는 단서를 남기면 안 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hp&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aix&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sco&lt;/code&gt;과 같은 변수명은 유닉스 플랫폼이나 유닉스 변종을 가리키는 이름이다. 삼각형의 빗변(hypotenuse)을 나타내는 변수명으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hp&lt;/code&gt;는 적절해 보일지 모르지만, 그릇된 정보를 제공하는 것이다.&lt;br /&gt;
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AccountsList&lt;/code&gt; 또한 그러하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;는 개발자에게 특별한 의미를 갖는 이름이다. 차라리, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;accountGroup&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bunchOfAccounts&lt;/code&gt; 혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Accounts&lt;/code&gt;가 더 적합할 것 같다.&lt;br /&gt;
+서로 흡사한 이름도 지양된다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="programming" /><category term="clean_code" /><category term="naming" /><summary type="html">Introduction</summary></entry><entry><title type="html">시계열 데이터 관측</title><link href="http://localhost:4000/redis/time_series_with_redis/" rel="alternate" type="text/html" title="시계열 데이터 관측" /><published>2020-12-18T00:00:00+09:00</published><updated>2020-12-18T04:00:00+09:00</updated><id>http://localhost:4000/redis/time_series_with_redis</id><content type="html" xml:base="http://localhost:4000/redis/time_series_with_redis/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;오랜만에 포스팅한다. 하고 싶은 포스팅은 넘치는데 천천히 하나씩 해보겠다.&lt;/p&gt;
+
+&lt;p&gt;이 포스트는 &lt;a href=&quot;/redis/redis_01&quot;&gt;레디스 콜렉션&lt;/a&gt;과 이어집니다.&lt;/p&gt;
+
+&lt;h1 id=&quot;time-series&quot;&gt;Time Series&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다.
+-wikipedia&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;시계열 데이터는 다양한 분석방법에 쓰일 수 있으며, 아래는 이에 대한 예시이다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Usage of specific words or terms in a newspaper over time&lt;/li&gt;
+  &lt;li&gt;Minimum wage year-by-year&lt;/li&gt;
+  &lt;li&gt;Daily changes in stock prices&lt;/li&gt;
+  &lt;li&gt;Product purchases month-by-month&lt;/li&gt;
+  &lt;li&gt;Climate changes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;많은 시계열 시스템이 빠르게 늘어나는 데이테셋을 저장하는 문제를 겪고있다.&lt;/p&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
+    &lt;li&gt;https://ko.wikipedia.org/wiki/시계열&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><category term="time-series" /><summary type="html"></summary></entry><entry><title type="html">Diamond Problem</title><link href="http://localhost:4000/programming/diamond_problem/" rel="alternate" type="text/html" title="Diamond Problem" /><published>2020-12-12T00:00:00+09:00</published><updated>2020-12-20T04:00:00+09:00</updated><id>http://localhost:4000/programming/diamond_problem</id><content type="html" xml:base="http://localhost:4000/programming/diamond_problem/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;더닝 크루커 효과라고 혹시 알고있는가?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/dunning_kruger.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이 글을 쓰는 이유는 내가 현재 우매함의 봉우리를 지나 절망의 계곡에 갇혀있기 때문이다..&lt;/p&gt;
+
+&lt;p&gt;최근에 입사하고 아직 배울 게 많다고 느꼈다. 부족한만큼 열심히 해보자.&lt;/p&gt;
+
+&lt;p&gt;긴 인트로는 싫어하니 깨달음의 비탈길로 나서기 위한 포스팅을 시작하겠다.&lt;/p&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+
+&lt;p&gt;오늘 알아 볼 주제는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Diamond Problem&lt;/code&gt;이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Diamond Problem&lt;/code&gt;은 다중상속 시 일어나는 문제로써 이를 설명하기 위한 다이어그램이 꼭 다이아몬드와 같다해서 생겨난 별칭이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/330px-Diamond_inheritance.svg.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;다양한 언어에서 이를 방지하기 위한 대책을 마련해두었는데, 이번 포스트에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C++&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Java&lt;/code&gt;에서 어떻게 이를 해결하는지 이야기해보겠다.&lt;/p&gt;
+
+&lt;h1 id=&quot;multiple-inheritance&quot;&gt;Multiple Inheritance&lt;/h1&gt;
+
+&lt;p&gt;우선 다중 상속부터 먼저 설명해야겠다. 다중 상속은 말 그대로 하나 이상의 클래스를 상속받는 것이다. 자바에서는 클래스단위에서 다중 상속을 허용하지 않는데, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C++&lt;/code&gt;은 허용한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-cpp highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;A&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;A's constructor called&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;B&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;B's constructor called&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Note the order&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;C's constructor called&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;출력이 어떻게 될지 머릿속에 그려진다면 어느정도 다중상속에 대한 지식이 있는 것 같아보인다.&lt;/p&gt;
+
+&lt;p&gt;참고로 소멸자는 생성자가 호출된 순서와 정반대로 호출된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;B's constructor called
+A's constructor called
+C's constructor called
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;diamond-problem&quot;&gt;Diamond Problem&lt;/h1&gt;
+
+&lt;h2 id=&quot;in-c&quot;&gt;in C++&lt;/h2&gt;
+
+&lt;p&gt;다이아몬드 문제를 C++ 예제로 직접 살펴보자.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;iostream&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;A::A() &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;A::A(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;) &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;private:&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;m_x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;B::B(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;) &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;C::C(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;) &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;D::D(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;, &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;) &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Create b(2): &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Create c(3): &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Create d(2,3): &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;D&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// error: request for member 'getX' is ambiguous&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//cout &amp;lt;&amp;lt; &quot;d.getX() = &quot; &amp;lt;&amp;lt; d.getX() &amp;lt;&amp;lt; endl;&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// error: 'A' is an ambiguous base of 'D'&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//cout &amp;lt;&amp;lt; &quot;d.A::getX() = &quot; &amp;lt;&amp;lt; d.A::getX() &amp;lt;&amp;lt; endl;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;d.B::getX() = &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;d.C::getX() = &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getX&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;endl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;위 코드의 출력은 어떻게 될지 상상해보자.&lt;/p&gt;
+
+&lt;p&gt;이러한 경우 상속 관계는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; 클래스가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;를 상속했지만, 실제로 생성되는 인스턴스는 두 개의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;를 가지게 된다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;A   A  
+|   |
+B   C  
+ \ /  
+  D
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;b&gt; output&lt;/b&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Create b(2):
+A::A(2) B::B(2)
+
+Create c(3):
+A::A(3) C::C(3)
+
+Create d(2,3):
+A::A(2) C::C(2) A::A(3) B::B(3) D::D(2, 3)
+
+d.B::getX() = 3
+d.C::getX() = 2
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C++&lt;/code&gt;에서는 이러한 상황을 막기위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual&lt;/code&gt;이라는 키워드를 통해 다이아몬드 문제를 해결했다.&lt;/p&gt;
+
+&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;B::B(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;) &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;nl&quot;&gt;public:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;C::C(&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;) &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;b&gt; output&lt;/b&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Create b(2):
+A::A(2) B::B(2)
+
+Create c(3):
+A::A(3) C::C(3)
+
+Create d(2,3):
+A::A() C::C(2) B::B(3) D::D(2, 3)
+
+d.B::getX() = 42
+d.C::getX() = 42
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;결과값에서 알 수 있듯이 virtual을 사용한다면 하나의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;의 (기본생성자)생성자를 호출한다.&lt;/p&gt;
+
+&lt;h2 id=&quot;in-java&quot;&gt;in Java&lt;/h2&gt;
+&lt;p&gt;자바에서는 다이아몬드 문제를 막기위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;interface&lt;/code&gt;를 두어 그 외에 클래스는 다중상속을 불가능하게 했다.&lt;/p&gt;
+
+&lt;p&gt;끝!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/IMG_0946.gif&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이렇게만 끝나면 재미없으나 고맙게도 다이아몬드 문제를 해결해야할 새로운 기능이 자바에 추가됐다.&lt;/p&gt;
+
+&lt;h3 id=&quot;default-method&quot;&gt;Default Method&lt;/h3&gt;
+
+&lt;p&gt;인터페이스는 원래 기능에 대한 선언만 가능하고 실제 구현은 포함될 수 없었다.&lt;/p&gt;
+
+&lt;p&gt;하지만 자바8부터는 이러한 룰을 깨고 메소드에 키워드 하나만 명시해도 인터페이스 내부에 코드를 작성할 수 있는 방법이 생겼다. 그것이 바로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default method&lt;/code&gt;이다.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyInterface&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;printHello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello World&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;reason-for-adding-default-and-static-methods-in-interfaces&quot;&gt;Reason for adding default and static methods in interfaces&lt;/h4&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;…(중략) … 바로 “하위 호환성”때문이다. 예를 들어 설명하자면, 여러분들이 만약 오픈 소스코드를 만들었다고 가정하자. 그 오픈소스가 엄청 유명해져서 전 세계 사람들이 다 사용하고 있는데, 인터페이스에 새로운 메소드를 만들어야 하는 상황이 발생했다. 자칫 잘못하면 내가 만든 오픈소스를 사용한 사람들은 전부 오류가 발생하고 수정을 해야 하는 일이 발생할 수도 있다. 이럴 때 사용하는 것이 바로 default 메소드다. &lt;br /&gt;&lt;br /&gt; (자바의 신 2권)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The main goal is to allow interface evolution, that is, the addition of new methods. If a new method is added to an interface, existing classes that implement the interface would be missing an implementation, which would be incompatible. To be compatible, an implementation has to come from somewhere, so it is provided by default methods.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;더 깊게 더 많이 설명하고 싶지만, 나중 포스팅을 위해 아껴두겠다.&lt;/p&gt;
+
+&lt;h3 id=&quot;solution&quot;&gt;solution&lt;/h3&gt;
+
+&lt;p&gt;자바8에서는 이 문제에 대해 3가지 규칙을 따른다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;클래스가 항상 우선순위를 가진다.
+    &lt;ul&gt;
+      &lt;li&gt;클래스나 슈퍼클래스에서 정의한 메서드가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;default method&lt;/code&gt;보다 우선권을 가진다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;1번 규칙 이외의 상황에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sub interface&lt;/code&gt;가 우선권을 가진다.
+    &lt;ul&gt;
+      &lt;li&gt;상속관계를 갖는 인터페이스에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;를 상속받았을 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;가 우선권을 가진다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;그 외에는 명시한다.
+    &lt;ul&gt;
+      &lt;li&gt;자바8에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;parentClassName.super.methodName()&lt;/code&gt;과 같은 형태의 새로운 문법을 제시하였다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;이해를 돕기 위해 몇 가지 예시와 함께 살펴보자.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-sub-interface가-우선권을-가진다&quot;&gt;2. sub interface가 우선권을 가진다.&lt;/h2&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello World from A&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello World from B&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+       &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+           &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;C&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//Hello World from B:&lt;/span&gt;
+       &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;그-외에는-명시한다&quot;&gt;그 외에는 명시한다.&lt;/h2&gt;
+
+&lt;p&gt;만약 위 예제에서 클래스 B가 A를 상속받지 않았을 경우, 컴파일러는 아래와 같은 메세지를 발생시킨다.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;class C inherits unrelated defaults for hello() from types A and B
+reference to hello is ambiguous, both method hello() in A and method hello() in B match.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;첫 번째 에러 메세지 상속된 디폴트 메서드가 호출된 상황과 관계없이 출력된다.&lt;/p&gt;
+
+&lt;p&gt;자바8에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;parentClassName.super.methodName()&lt;/code&gt;과 같은 형태의 새로운 문법을 제시하였다. 이를 사용하자면,&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;C&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;B&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;no&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//  Hello World from A.&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;마치며&quot;&gt;마치며,,&lt;/h1&gt;
+
+&lt;p&gt;이번 포스팅에서는 다이아몬드 문제에 대해 알아보았다. 가장 기본적인 것인데 머리속에 담아두지 않았던 게 아쉽다.&lt;/p&gt;
+
+&lt;p&gt;이번 포스팅이 객체지향을 이해하는데 큰 도움이 되었으면 좋겠다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;https://www.geeksforgeeks.org/multiple-inheritance-in-c/&lt;/li&gt;
+    &lt;li&gt;https://en.wikipedia.org/wiki/Multiple_inheritance#cite_note-6&lt;/li&gt;
+    &lt;li&gt;https://goodgid.github.io/Java-8-Default-Method/&lt;/li&gt;
+    &lt;li&gt;https://stackoverflow.com/questions/29997052/reason-for-adding-default-and-static-methods-in-interfaces&lt;/li&gt;
+    &lt;li&gt;http://www.lambdafaq.org/what-about-the-diamond-problem/&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="programming" /><category term="OOP" /><category term="diamond_problem" /><summary type="html">Introduction</summary></entry><entry><title type="html">WebSocket</title><link href="http://localhost:4000/backend/websocket/" rel="alternate" type="text/html" title="WebSocket" /><published>2020-12-09T00:00:00+09:00</published><updated>2020-12-09T04:00:00+09:00</updated><id>http://localhost:4000/backend/websocket</id><content type="html" xml:base="http://localhost:4000/backend/websocket/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;오늘은 웹소켓에 대해 알아보려한다. 입사 전에 간단한 채팅 시스템을 만들고 싶은데 웹소켓을 사용하려 한다. 물론 회사에선 직접적으로 안 쓰일 수 있겠지만, 쓸모없는 지식이 어디 있겠냐는 생각으로 시작해본다.&lt;/p&gt;
 
 &lt;h1 id=&quot;websocket&quot;&gt;WebSocket&lt;/h1&gt;
 
@@ -1091,58 +1458,7 @@ If-Match: *
     &lt;li&gt;https://www.zerocho.com/category/HTTP/post/5b3ba2d0b3dabd001b53b9db&lt;/li&gt;
     &lt;li&gt;https://feel5ny.github.io/2019/10/05/HTTP_007-2/&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="network" /><category term="header" /><summary type="html">Introduction</summary></entry><entry><title type="html">동기, 비동기, 블록킹 그리고 논 블록킹</title><link href="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="alternate" type="text/html" title="동기, 비동기, 블록킹 그리고 논 블록킹" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous</id><content type="html" xml:base="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
-
-&lt;p&gt;최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자.&lt;/p&gt;
-
-&lt;p&gt;이번 포스트 주제는 말은 비슷해 보이지만 뭔가 다른 두 쌍에 대해 알아보자.&lt;/p&gt;
-
-&lt;h1 id=&quot;blockingnon-blocking&quot;&gt;Blocking/Non-Blocking&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blocking&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-blocking&lt;/code&gt; 호출되는 함수가 바로 리턴하는가에 차이다.&lt;/p&gt;
-
-&lt;p&gt;호출된 함수가 바로 리턴해서 호출한 함수에게 제어권을 넘겨주고 호출한 함수가 다른일을 할 수 있는 기회를 줄 수 있으면, 논블록킹이다.&lt;/p&gt;
-
-&lt;p&gt;그렇지 않고 호출된 함수가 자신의 작업을 모두 마칠 때까지 호출한 함수에게 제어권을 넘겨주지 않고 대기하게 만든다면 블록킹이다.&lt;/p&gt;
-
-&lt;h1 id=&quot;synchronousasynchronous&quot;&gt;Synchronous/Asynchronous&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;는 호출되는 함수의 작업 완료 여부를 누가 신경쓰는가에 차이다.&lt;/p&gt;
-
-&lt;p&gt;호출되는 함수에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;callback&lt;/code&gt;을 전달해서 호출되는 함수의 작업이 완료되면, 전달받은 callback을 실행하고, 호출하는 함수는 작업 완료 여부를 신경쓰지 않으면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;다.&lt;/p&gt;
-
-&lt;p&gt;호출하는 함수가 호출되는 함수의 작업 완료 후 리턴을 기다리거나 호출되는 함수로부터 바로 리턴 받더라도 작업 완료 여부를 호출하는 함수 스스로 계속 스스로 확인하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;다.&lt;/p&gt;
-
-&lt;h1 id=&quot;blocking-with-synchronous-non-blocking-with-asynchronous&quot;&gt;Blocking with Synchronous, Non-Blocking with Asynchronous&lt;/h1&gt;
-
-&lt;p&gt;이와 같이 묶인 조합은 상당히 비슷한 동작을 진행하는 둘이기에 이해가 쉽다. 아래 그림을 참조하자.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/ibm-devwokrs-2x2matrix.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;non-blocking-with-synchronous&quot;&gt;Non-Blocking with Synchronous&lt;/h1&gt;
-
-&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴을 하지만, 호출한 함수가 작업 완료여부를 계속해서 확인하는 것이다. 작업 완료 전까지는 호출한 함수가 계속해서 물으며 진행은 못하지만 또 다른 작업을 진행할 수는 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/nonblocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;blocking-with-asynchronous&quot;&gt;Blocking with Asynchronous&lt;/h1&gt;
-
-&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴하지 않지만, 이에 대한 완료여부를 호출한 함수가 신경쓰지 않는 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/blocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;참고한 블로그에서는 이에대한 예시로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;의 조합을 언급했다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 쪽에서 callback 지옥을 헤치면서 Async로 전진해와도, 결국 DB 작업 호출 시에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;에서 제공하는 드라이버를 호출하게 되는데, 이 드라이버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Blocking&lt;/code&gt; 방식이라고 한다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Blocking-Async는 별다른 장점이 없어서 일부러 사용할 필요는 없지만, NonBlocking-Async 방식을 쓰는데 그 과정 중에 하나라도 Blocking으로 동작하는 놈이 포함되어 있다면 의도하지 않게 Blocking-Async로 동작할 수 있다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;http://homoefficio.github.io/2017/02/19/Blocking-NonBlocking-Synchronous-Asynchronous/&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="os" /><category term="sync" /><summary type="html">Introduction</summary></entry><entry><title type="html">Node.js 이벤트 루프</title><link href="http://localhost:4000/nodejs/node_event_loop/" rel="alternate" type="text/html" title="Node.js 이벤트 루프" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/node_event_loop</id><content type="html" xml:base="http://localhost:4000/nodejs/node_event_loop/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="network" /><category term="header" /><summary type="html">Introduction</summary></entry><entry><title type="html">Node.js 이벤트 루프</title><link href="http://localhost:4000/nodejs/node_event_loop/" rel="alternate" type="text/html" title="Node.js 이벤트 루프" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/node_event_loop</id><content type="html" xml:base="http://localhost:4000/nodejs/node_event_loop/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;를 통해 개발하면서 사용할 줄만 알았지 제대로 된 개념하나 안 잡힌 것 같아 포스트를 작성한다. 이벤트 루프에 대해 알아보자. 블로그에서 최근 작성한 글 중에서 가장 긴 글이 되지 않을까 싶다.&lt;/p&gt;
 
@@ -1400,165 +1716,58 @@ If-Match: *
     &lt;li&gt;https://developer.ibm.com/tutorials/learn-nodejs-the-event-loop/&lt;/li&gt;
     &lt;li&gt;https://www.voidcanvas.com/nodejs-event-loop&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="js" /><category term="event_loop" /><summary type="html">Introduction</summary></entry><entry><title type="html">시계열 데이터 관측</title><link href="http://localhost:4000/redis/redis_02/" rel="alternate" type="text/html" title="시계열 데이터 관측" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/redis/redis_02</id><content type="html" xml:base="http://localhost:4000/redis/redis_02/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="js" /><category term="event_loop" /><summary type="html">Introduction</summary></entry><entry><title type="html">동기, 비동기, 블록킹 그리고 논 블록킹</title><link href="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="alternate" type="text/html" title="동기, 비동기, 블록킹 그리고 논 블록킹" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous</id><content type="html" xml:base="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
-&lt;h1 id=&quot;time-series&quot;&gt;Time Series&lt;/h1&gt;
+&lt;p&gt;최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자.&lt;/p&gt;
+
+&lt;p&gt;이번 포스트 주제는 말은 비슷해 보이지만 뭔가 다른 두 쌍에 대해 알아보자.&lt;/p&gt;
+
+&lt;h1 id=&quot;blockingnon-blocking&quot;&gt;Blocking/Non-Blocking&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blocking&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-blocking&lt;/code&gt; 호출되는 함수가 바로 리턴하는가에 차이다.&lt;/p&gt;
+
+&lt;p&gt;호출된 함수가 바로 리턴해서 호출한 함수에게 제어권을 넘겨주고 호출한 함수가 다른일을 할 수 있는 기회를 줄 수 있으면, 논블록킹이다.&lt;/p&gt;
+
+&lt;p&gt;그렇지 않고 호출된 함수가 자신의 작업을 모두 마칠 때까지 호출한 함수에게 제어권을 넘겨주지 않고 대기하게 만든다면 블록킹이다.&lt;/p&gt;
+
+&lt;h1 id=&quot;synchronousasynchronous&quot;&gt;Synchronous/Asynchronous&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;는 호출되는 함수의 작업 완료 여부를 누가 신경쓰는가에 차이다.&lt;/p&gt;
+
+&lt;p&gt;호출되는 함수에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;callback&lt;/code&gt;을 전달해서 호출되는 함수의 작업이 완료되면, 전달받은 callback을 실행하고, 호출하는 함수는 작업 완료 여부를 신경쓰지 않으면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;다.&lt;/p&gt;
+
+&lt;p&gt;호출하는 함수가 호출되는 함수의 작업 완료 후 리턴을 기다리거나 호출되는 함수로부터 바로 리턴 받더라도 작업 완료 여부를 호출하는 함수 스스로 계속 스스로 확인하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;다.&lt;/p&gt;
+
+&lt;h1 id=&quot;blocking-with-synchronous-non-blocking-with-asynchronous&quot;&gt;Blocking with Synchronous, Non-Blocking with Asynchronous&lt;/h1&gt;
+
+&lt;p&gt;이와 같이 묶인 조합은 상당히 비슷한 동작을 진행하는 둘이기에 이해가 쉽다. 아래 그림을 참조하자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/ibm-devwokrs-2x2matrix.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;non-blocking-with-synchronous&quot;&gt;Non-Blocking with Synchronous&lt;/h1&gt;
+
+&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴을 하지만, 호출한 함수가 작업 완료여부를 계속해서 확인하는 것이다. 작업 완료 전까지는 호출한 함수가 계속해서 물으며 진행은 못하지만 또 다른 작업을 진행할 수는 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/nonblocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;blocking-with-asynchronous&quot;&gt;Blocking with Asynchronous&lt;/h1&gt;
+
+&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴하지 않지만, 이에 대한 완료여부를 호출한 함수가 신경쓰지 않는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/blocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;참고한 블로그에서는 이에대한 예시로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;의 조합을 언급했다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 쪽에서 callback 지옥을 헤치면서 Async로 전진해와도, 결국 DB 작업 호출 시에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;에서 제공하는 드라이버를 호출하게 되는데, 이 드라이버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Blocking&lt;/code&gt; 방식이라고 한다.&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다.
--wikipedia&lt;/p&gt;
+  &lt;p&gt;Blocking-Async는 별다른 장점이 없어서 일부러 사용할 필요는 없지만, NonBlocking-Async 방식을 쓰는데 그 과정 중에 하나라도 Blocking으로 동작하는 놈이 포함되어 있다면 의도하지 않게 Blocking-Async로 동작할 수 있다.&lt;/p&gt;
 &lt;/blockquote&gt;
-
-&lt;p&gt;시계열 데이터는 다양한 분석방법에 쓰일 수 있으며, 아래는 이에 대한 예시이다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Usage of specific words or terms in a newspaper over time&lt;/li&gt;
-  &lt;li&gt;Minimum wage year-by-year&lt;/li&gt;
-  &lt;li&gt;Daily changes in stock prices&lt;/li&gt;
-  &lt;li&gt;Product purchases month-by-month&lt;/li&gt;
-  &lt;li&gt;Climate changes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;많은 시계열 시스템이 빠르게 늘어나는 데이테셋을 저장하는 문제를 겪고있다.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;
-    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
-    &lt;li&gt;https://ko.wikipedia.org/wiki/시계열&lt;/li&gt;
+    &lt;li&gt;http://homoefficio.github.io/2017/02/19/Blocking-NonBlocking-Synchronous-Asynchronous/&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><category term="time-series" /><summary type="html"></summary></entry><entry><title type="html">그런 REST API로 괜찮은가.</title><link href="http://localhost:4000/backend/REST/" rel="alternate" type="text/html" title="그런 REST API로 괜찮은가." /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/backend/REST</id><content type="html" xml:base="http://localhost:4000/backend/REST/">&lt;h1 id=&quot;representaion-state-transfer&quot;&gt;REpresentaion State Transfer&lt;/h1&gt;
-
-&lt;p&gt;1991년에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WWW&lt;/code&gt;이 출시된 이후 인터넷 정보를 어떻게 공유할 것인가에 대한 연구가 활발히 진행됐는데, 그 예로 가장 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;라는 프로토콜이 만들어졌다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Roy T.Fielding&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;의 창시자이며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 프로토콜 개발에 참여했던 연구진으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 개발이후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP object model&lt;/code&gt;이란 이름의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 아키텍쳐를 발표했다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Roy T.Fielding: “How do i improve HTTP without breaking the Web?”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;rest-api&quot;&gt;REST API&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 아키텍쳐 스타일(제약조건의 집합)을 따르는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;는 아키텍쳐 스타일의 집합이기 때문에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hyper archittecture styles&lt;/code&gt;라고도 불린다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;client-server&lt;/li&gt;
-  &lt;li&gt;stateless&lt;/li&gt;
-  &lt;li&gt;cache&lt;/li&gt;
-  &lt;li&gt;uniform interface&lt;/li&gt;
-  &lt;li&gt;layered system&lt;/li&gt;
-  &lt;li&gt;code-on-demand(Optional)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;대부분 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 기반에서 사용할 경우 쉽게 지켜질 수 있는 부분이나, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uniform interface&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 조건을 지키기 매우 까다롭다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uniform interface&lt;/code&gt;는 클라이언트 혹은 서버가 변경된다 해서 상대방까지 업데이트를 해야하는 상황을 막기위해 반드시 충족되어야 하는 조건이다.
-이를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;독립적 진화&lt;/code&gt;라 하며 아래는 오늘 날 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST API&lt;/code&gt;라 불리우는 것들에게서 충족시키기 어려운 조건들이다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;self-descriptive messages&lt;/li&gt;
-  &lt;li&gt;hypermedia as the engine of application state(HATEOAS)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;이를 잘 지키는 플랫폼은 현재 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Web&lt;/code&gt;이 있다.&lt;/p&gt;
-
-&lt;h1 id=&quot;rest가-웹의-독립적-진화에-도움을-주었나&quot;&gt;REST가 웹의 독립적 진화에 도움을 주었나?&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;HTTP에 지속적으로 영향을 줌&lt;/li&gt;
-  &lt;li&gt;HOST 헤더 추가&lt;/li&gt;
-  &lt;li&gt;길이 제한을 다루는 방법을 명시&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;414 UIL Too Long&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP/1.1&lt;/code&gt; 명세 최신판에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;에 대한 언급이 들어감&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;rest-api는-반드시-따라야-하나&quot;&gt;REST API는 반드시 따라야 하나?&lt;/h1&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Roy T.Fielding: “REST emphasizes evolvability to sustain an unconrollable system. If you think you have control over the system or aren’t interested in evolvability, don’t waste your time arguing about REST”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;api를-rest-api로-구현해보자&quot;&gt;API를 REST API로 구현해보자.&lt;/h1&gt;
-
-&lt;h2 id=&quot;웹과-http-api에-차이점&quot;&gt;웹과 HTTP API에 차이점&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;웹 페이지&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;HTTP API&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Protocol&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HTTP&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HTTP&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;communication&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Human - Machine&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Machine - Machine&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Media Type&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HTML&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;JSON&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTML&lt;/code&gt;에 비해 불안전하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTML&lt;/code&gt;은 명세에 대해 해석 가능하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self-descriptive&lt;/code&gt;하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HATEOAS&lt;/code&gt;하다.&lt;/p&gt;
-
-&lt;p&gt;그러면 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;을 통해 정보를 주고받는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt; 환경에서 어떻게 해야 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;에 대해 만족시킬 수 있을까?&lt;/p&gt;
-
-&lt;h2 id=&quot;self-descriptive&quot;&gt;Self-descriptive&lt;/h2&gt;
-
-&lt;h3 id=&quot;media-type을-정의한다&quot;&gt;Media type을 정의한다.&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;미디어 타입을 정의 후 문서로 정리한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IANA&lt;/code&gt;에 미디어 타입을 등록할 수 있다. 만든 문서를 미디어 타입의 명세로 등록한다.&lt;/li&gt;
-  &lt;li&gt;이제 이 메세지를 보는 사람은 명세를 찾아갈 수 있으므로 이 메세지의 의미를 온전히 해석 가능하다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;profile&quot;&gt;Profile&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 대한 정의를 문서로 작성한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt; 헤더에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile relation&lt;/code&gt;으로 해당 명세를 링크한다.&lt;/li&gt;
-  &lt;li&gt;이제 메세지를 보는 사람은 명세를 찾아갈 수 있으므로 이 문서의 의미를 온전히 해석할 수 있다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt; 헤더에 대한 명세를 이해해야하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Content negotiation&lt;/code&gt;을 할 수 없다.&lt;/p&gt;
-
-&lt;h2 id=&quot;hateoas&quot;&gt;HATEOAS&lt;/h2&gt;
-
-&lt;h3 id=&quot;data에-하이퍼링크를-추가한다&quot;&gt;data에 하이퍼링크를 추가한다.&lt;/h3&gt;
-
-&lt;p&gt;이는 링크를 표현하는 방법을 직접 정의해야하는 단점이있다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;JSON API&lt;/li&gt;
-  &lt;li&gt;HAL&lt;/li&gt;
-  &lt;li&gt;UBER&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;등 이미 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;에서 하이퍼 링크를 표현하는 방법을 정의한 명세를 활용할 수 있지만, 기존에 내가 구현했던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;를 고쳐야하는 단점이 있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;http-헤더로-표현&quot;&gt;HTTP 헤더로 표현&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Location&lt;/code&gt; 등의 헤더로 표현한다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://tv.naver.com/v/2292653&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="REST" /><summary type="html">REpresentaion State Transfer</summary></entry><entry><title type="html">CORS(작성중)</title><link href="http://localhost:4000/backend/CORS/" rel="alternate" type="text/html" title="CORS(작성중)" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-30T04:00:00+09:00</updated><id>http://localhost:4000/backend/CORS</id><content type="html" xml:base="http://localhost:4000/backend/CORS/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="os" /><category term="sync" /><summary type="html">Introduction</summary></entry><entry><title type="html">CORS(작성중)</title><link href="http://localhost:4000/backend/CORS/" rel="alternate" type="text/html" title="CORS(작성중)" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-30T04:00:00+09:00</updated><id>http://localhost:4000/backend/CORS</id><content type="html" xml:base="http://localhost:4000/backend/CORS/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node&lt;/code&gt; 개발할 때, 따로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt;란 단어를 책에선 본 적은 있지만 제대로 다루지는 않았다 헤더에 와일드 카드를 추가하던가, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cors&lt;/code&gt; 모듈을 사용하여 가능한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt;를 설정하라는 것은 익히 알고 있었으나 그 속 내부까지 파고들어 가볼까 한다.&lt;/p&gt;
 
@@ -1833,450 +2042,134 @@ Content-Type: text/plain
     &lt;li&gt;https://developer.mozilla.org/ko/docs/Web/HTTP/CORS&lt;/li&gt;
     &lt;li&gt;https://evan-moon.github.io/2020/05/21/about-cors/&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="CORS" /><summary type="html">Introduction</summary></entry><entry><title type="html">Heavy-Light Decompostion(작성중)</title><link href="http://localhost:4000/algorithm/HLD/" rel="alternate" type="text/html" title="Heavy-Light Decompostion(작성중)" /><published>2020-11-23T00:00:00+09:00</published><updated>2020-11-27T05:00:00+09:00</updated><id>http://localhost:4000/algorithm/HLD</id><content type="html" xml:base="http://localhost:4000/algorithm/HLD/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="CORS" /><summary type="html">Introduction</summary></entry><entry><title type="html">그런 REST API로 괜찮은가.</title><link href="http://localhost:4000/backend/REST/" rel="alternate" type="text/html" title="그런 REST API로 괜찮은가." /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/backend/REST</id><content type="html" xml:base="http://localhost:4000/backend/REST/">&lt;h1 id=&quot;representaion-state-transfer&quot;&gt;REpresentaion State Transfer&lt;/h1&gt;
 
-&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;1991년에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WWW&lt;/code&gt;이 출시된 이후 인터넷 정보를 어떻게 공유할 것인가에 대한 연구가 활발히 진행됐는데, 그 예로 가장 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;라는 프로토콜이 만들어졌다.&lt;/p&gt;
 
-&lt;p&gt;오늘은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HLD&lt;/code&gt;에 대해 포스팅을 해보려 한다. 문제 유형이 한정적이고 어려운 테크닉에 속하기에 포스팅할까 망설였다.(어디다 쓰는 알고리즘인데 도대체) 대회 준비를 하는 것도 아니기에 기본적인 자료구조, 알고리즘을 지향하려 했지만, 최근에는 굳이 그럴 필요 있을까 생각한다.&lt;/p&gt;
-
-&lt;p&gt;알고리즘은 기업 코테도 있다보니 겸사겸사 시작했지만, 요즘은 하나의 논리를 배우는 거라 생각한다. 우리는 개발을 하면서 언어에 대해 항상 문법만 배우지 말을 잘하는 법을 배우진 않는다. 논리적으로 말하지 않아도 의미만 잘 전달된다면 상관없을지도 모른다. 하지만, 직업 특성상 우리는 항상 효율적인 것을 생각한다. 논리를 배우는 건 필수적이지 않지만 달변가들이 많은 논리를 알고 있는 것은 어찌보면 당연하지 않을까?&lt;/p&gt;
-
-&lt;p&gt;서론이 길어졌다. 바로 알고리즘에 대해 알아보자.&lt;/p&gt;
-
-&lt;h1 id=&quot;heavy-light-decomposition&quot;&gt;Heavy-Light Decomposition&lt;/h1&gt;
-
-&lt;p&gt;일반적인 그래프에서 정점 \(u\)에서 \(v\)로 가는 경로에 대한 문제는 풀기가 어렵고 제시할 수 있는 유형이 한정적이다. 트리에서 단순 경로는 반드시 하나 존재한다는 특성 떄문에 일반적인 경우에 비해 쉽게 접근할 수 있지만, 경로를 탐색하기 위해 트리 전체를 순회하는 결과를 야기한다. 또한, 정점이나 간선의 속성을 변경하는 작업일 경우엔 더욱이 효율적인 처리가 불가능에 가까워질 것이다.&lt;/p&gt;
-
-&lt;p&gt;이를 해결할 수 있는 방법 중 하나가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HLD&lt;/code&gt;다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HLD&lt;/code&gt;는 트리를 정점 단위가 아닌 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;chain&lt;/code&gt;단위로 분할하여 마치 1차원 배열의 묶음처럼 다룰 수 있게 해준다.&lt;/p&gt;
-
-&lt;h2 id=&quot;문제-정의&quot;&gt;문제 정의&lt;/h2&gt;
-
-&lt;p&gt;\(N\)개의 정점을 가진 트리가 있다고 하자. 이 때 임의의 두 정점에 대해 이들을 잇는 경로는 \(O(N)\)개의 간선을 가진다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Heavy light decomposition&lt;/code&gt;은 트리의 간선들을 적절히 일자 경로인 “묶음”들로 잘라, 임의의 두 간선 사이 경로를 \(O(\log N)\)개의 묶음으로 표현할 수 있게 해 준다. 이것을 세그먼트 트리 등의 일차원 자료 구조와 결합함으로써, 임의의 두 정점 사이의 경로에 대한 연산을 \(O(\log^2N)\)에 할 수 있다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Roy T.Fielding&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;의 창시자이며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 프로토콜 개발에 참여했던 연구진으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 개발이후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP object model&lt;/code&gt;이란 이름의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 아키텍쳐를 발표했다.&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;그런데 특별한 제약 조건이 없는 그래프 문제의 경우 이 모델화에 성공하면 대체로 문제가 쉬워지거나, 전형적인 알고리즘을 요구하는 문제로 바뀌게 됩니다. 오히려 제약 조건이 추가된 형태일수록 그 조건에 의해 나타나는 특성을 코어까지 활용해야 하는 어려운 문제를 자주 마주치게 됩니다.&lt;/p&gt;
+  &lt;p&gt;Roy T.Fielding: “How do i improve HTTP without breaking the Web?”&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h2 id=&quot;1차원이라면&quot;&gt;1차원이라면?&lt;/h2&gt;
+&lt;h1 id=&quot;rest-api&quot;&gt;REST API&lt;/h1&gt;
 
-&lt;p&gt;알고스팟에서 이에 대한 기본적인 문제를 제공하지만, 나는 &lt;a href=&quot;https://www.acmicpc.net/problem/2927&quot;&gt;남극 탐험 - 2927&lt;/a&gt; 문제를 통해 예시를 풀어보려 한다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 아키텍쳐 스타일(제약조건의 집합)을 따르는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;는 아키텍쳐 스타일의 집합이기 때문에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hyper archittecture styles&lt;/code&gt;라고도 불린다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;client-server&lt;/li&gt;
+  &lt;li&gt;stateless&lt;/li&gt;
+  &lt;li&gt;cache&lt;/li&gt;
+  &lt;li&gt;uniform interface&lt;/li&gt;
+  &lt;li&gt;layered system&lt;/li&gt;
+  &lt;li&gt;code-on-demand(Optional)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;대부분 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 기반에서 사용할 경우 쉽게 지켜질 수 있는 부분이나, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uniform interface&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 조건을 지키기 매우 까다롭다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uniform interface&lt;/code&gt;는 클라이언트 혹은 서버가 변경된다 해서 상대방까지 업데이트를 해야하는 상황을 막기위해 반드시 충족되어야 하는 조건이다.
+이를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;독립적 진화&lt;/code&gt;라 하며 아래는 오늘 날 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST API&lt;/code&gt;라 불리우는 것들에게서 충족시키기 어려운 조건들이다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;self-descriptive messages&lt;/li&gt;
+  &lt;li&gt;hypermedia as the engine of application state(HATEOAS)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;이를 잘 지키는 플랫폼은 현재 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Web&lt;/code&gt;이 있다.&lt;/p&gt;
+
+&lt;h1 id=&quot;rest가-웹의-독립적-진화에-도움을-주었나&quot;&gt;REST가 웹의 독립적 진화에 도움을 주었나?&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;HTTP에 지속적으로 영향을 줌&lt;/li&gt;
+  &lt;li&gt;HOST 헤더 추가&lt;/li&gt;
+  &lt;li&gt;길이 제한을 다루는 방법을 명시&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;414 UIL Too Long&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP/1.1&lt;/code&gt; 명세 최신판에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;에 대한 언급이 들어감&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;rest-api는-반드시-따라야-하나&quot;&gt;REST API는 반드시 따라야 하나?&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Roy T.Fielding: “REST emphasizes evolvability to sustain an unconrollable system. If you think you have control over the system or aren’t interested in evolvability, don’t waste your time arguing about REST”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;api를-rest-api로-구현해보자&quot;&gt;API를 REST API로 구현해보자.&lt;/h1&gt;
+
+&lt;h2 id=&quot;웹과-http-api에-차이점&quot;&gt;웹과 HTTP API에 차이점&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;웹 페이지&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;HTTP API&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Protocol&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;HTTP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;HTTP&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;communication&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Human - Machine&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Machine - Machine&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Media Type&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;HTML&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;JSON&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTML&lt;/code&gt;에 비해 불안전하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTML&lt;/code&gt;은 명세에 대해 해석 가능하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self-descriptive&lt;/code&gt;하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HATEOAS&lt;/code&gt;하다.&lt;/p&gt;
+
+&lt;p&gt;그러면 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;을 통해 정보를 주고받는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt; 환경에서 어떻게 해야 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;에 대해 만족시킬 수 있을까?&lt;/p&gt;
+
+&lt;h2 id=&quot;self-descriptive&quot;&gt;Self-descriptive&lt;/h2&gt;
+
+&lt;h3 id=&quot;media-type을-정의한다&quot;&gt;Media type을 정의한다.&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;미디어 타입을 정의 후 문서로 정리한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IANA&lt;/code&gt;에 미디어 타입을 등록할 수 있다. 만든 문서를 미디어 타입의 명세로 등록한다.&lt;/li&gt;
+  &lt;li&gt;이제 이 메세지를 보는 사람은 명세를 찾아갈 수 있으므로 이 메세지의 의미를 온전히 해석 가능하다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;profile&quot;&gt;Profile&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 대한 정의를 문서로 작성한다.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt; 헤더에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile relation&lt;/code&gt;으로 해당 명세를 링크한다.&lt;/li&gt;
+  &lt;li&gt;이제 메세지를 보는 사람은 명세를 찾아갈 수 있으므로 이 문서의 의미를 온전히 해석할 수 있다.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt; 헤더에 대한 명세를 이해해야하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Content negotiation&lt;/code&gt;을 할 수 없다.&lt;/p&gt;
+
+&lt;h2 id=&quot;hateoas&quot;&gt;HATEOAS&lt;/h2&gt;
+
+&lt;h3 id=&quot;data에-하이퍼링크를-추가한다&quot;&gt;data에 하이퍼링크를 추가한다.&lt;/h3&gt;
+
+&lt;p&gt;이는 링크를 표현하는 방법을 직접 정의해야하는 단점이있다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;JSON API&lt;/li&gt;
+  &lt;li&gt;HAL&lt;/li&gt;
+  &lt;li&gt;UBER&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;등 이미 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;에서 하이퍼 링크를 표현하는 방법을 정의한 명세를 활용할 수 있지만, 기존에 내가 구현했던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;를 고쳐야하는 단점이 있다.&lt;/p&gt;
+
+&lt;h3 id=&quot;http-헤더로-표현&quot;&gt;HTTP 헤더로 표현&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Location&lt;/code&gt; 등의 헤더로 표현한다.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
   &lt;ul&gt;
-    &lt;li&gt;http://theyearlyprophet.com/heavy-light-decomposition.html&lt;/li&gt;
-    &lt;li&gt;https://www.secmem.org/blog/2019/12/12/HLD/&lt;/li&gt;
+    &lt;li&gt;https://tv.naver.com/v/2292653&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="algorithm" /><category term="algorithm" /><category term="traversal" /><category term="graph" /><category term="segment_tree" /><category term="lca" /><summary type="html"></summary></entry><entry><title type="html">레디스 콜렉션</title><link href="http://localhost:4000/redis/redis_01/" rel="alternate" type="text/html" title="레디스 콜렉션" /><published>2020-11-21T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/redis/redis_01</id><content type="html" xml:base="http://localhost:4000/redis/redis_01/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
-&lt;/script&gt;
-
-&lt;h1 id=&quot;이번-포스트에서는&quot;&gt;이번 포스트에서는..&lt;/h1&gt;
-
-&lt;p&gt;저번 포스트에서는 기본적인 데이터 타입을 설명했다. 이번 포스트에선 한발 더 나아가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt; 데이터 타입을 살펴보려 한다.&lt;/p&gt;
-
-&lt;p&gt;이 글은 &lt;a href=&quot;/database/redis_00&quot;&gt;레디스 기본 데이터 타입&lt;/a&gt; 포스트와 이어집니다.&lt;/p&gt;
-
-&lt;h2 id=&quot;sets&quot;&gt;Sets&lt;/h2&gt;
-
-&lt;p&gt;셋은 스트링과는 구분되는 순서가 없는 콜렉션이다. 중복되는 원소를 셋에 집어넣을수 없으며 내부적으로 해쉬테이블처럼 구현됐다. 이러한 이유는 최적화 때문인데, 멤버 추가, 삭제, 서치 등의 시간이 \(O(1)\)에 실행되기 때문이다.&lt;/p&gt;
-
-&lt;p&gt;셋의 메모리 footprint?는 모든 멤버가 정수일 경우 줄일 수 있다. 멤버 최종 수는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;set-max-inset-entries&lt;/code&gt;에 의존하며 이는 챕터 4에서 추후 설명하겠다.&lt;/p&gt;
-
-&lt;p&gt;원소 개수는 \(2^{32} -1\)이며 40억개 저장 가능하다.&lt;/p&gt;
-
-&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sets&lt;/code&gt;의 사용 사례다.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;데이터 필터링: 예를들어 특정 도시에서 출발하여 다른 도시에 도착하는 지정된 항공편을 필터링 할 수 있다.&lt;/li&gt;
-  &lt;li&gt;데이터 그루핑: 비슷한 제품을 본 모든 사용자를 그룹핑(아마존의 추천 시스템)&lt;/li&gt;
-  &lt;li&gt;멤버쉽 체킹: 블랙리스트에 존재하는지를 확인.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;sadd&quot;&gt;SADD&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SADD&lt;/code&gt;는 하나 혹은 그 이상의 멤버를 추가하기 위한 커맨드다. 만약 추가하려는 멤버가 존재할 경우 이를 기각하고, 추가된 멤버 수를 리턴한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; SADD user:max:favorite_artists &quot;Arcade Fire&quot; &quot;Arctic Monkeys&quot;
-&quot;Belle &amp;amp; Sebastian&quot; &quot;Lenine&quot;
-(integer) 4
-127.0.0.1:6379&amp;gt; SADD user:hugo:favorite_artists &quot;Daft Punk&quot; &quot;The Kooks&quot; &quot;Arctic
-Monkeys&quot;
-(integer) 3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;sinter&quot;&gt;SINTER&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SINTER&lt;/code&gt; 커맨드는 하나 혹은 그 이상의 셋을 받고, 모든 셋에 공통적으로 존재하는 멤버를 배열로 리턴한다.&lt;/p&gt;
-
-&lt;p&gt;아래 예제는 Hugo와 Max가 공통적으로 좋아하는 아티스트를 보여준다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SINTER user:max:favorite_artists user:hugo:favorite_artists
-1) &quot;Arctic Monkeys&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;sdiff&quot;&gt;SDIFF&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SDIFF&lt;/code&gt; 커맨드는 하나 혹은 그 이상의 셋을 받는다. 뒤에 따라오는 셋에 존재하지 않는 모든 멤버를 리턴한다. 이 커맨드는 키 네임의 순서가 중요하다. 존재하지 않는 모든 키는 빈 집합으로 간주된다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SDIFF user:max:favorite_artists user:hugo:favorite_artists
-1) &quot;Belle &amp;amp; Sebastian&quot;
-2) &quot;Arcade Fire&quot;
-3) &quot;Lenine&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;두 번째 예제는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user:max:favorite_artists&lt;/code&gt;의 존재하지 않는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user:hugo:favorite_artists&lt;/code&gt;의 멤버를 모두 리턴한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SDIFF user:hugo:favorite_artists user:max:favorite_artists
-1) &quot;Daft Punk&quot;
-2) &quot;The Kooks&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;sunion&quot;&gt;SUNION&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SUNION&lt;/code&gt; 커맨드는 하나 혹은 그 이상의 셋을 받는다. 모든 셋의 모든 멤버를 리턴한다. 중복되는 멤버는 한 번만 보여준다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SUNION user:max:favorite_artists user:hugo:favorite_artists
-1) &quot;Lenine&quot;
-2) &quot;Daft Punk&quot;
-3) &quot;Belle &amp;amp; Sebastian&quot;
-4) &quot;Arctic Monkeys&quot;
-5) &quot;Arcade Fire&quot;
-6) &quot;The Kooks&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;spandmember&quot;&gt;SPANDMEMBER&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SPNADMEMBER&lt;/code&gt;는 주어진 셋에 랜덤한 멤버를 리턴한다. 셋은 순서가 없기 때문에 위치 인덱스 값으로 반환할 수 없다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SRANDMEMBER user:max:favorite_artists
-&quot;Arcade Fire&quot;
-127.0.0.1:6379&amp;gt; SRANDMEMBER user:max:favorite_artists
-&quot;Lenine&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;sismember-srem-scard-smembers&quot;&gt;SISMEMBER, SREM, SCARD, SMEMBERS&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SISMEMBER&lt;/code&gt;는 멤버가 셋 안에 존재하는지 확인한다. 존재할 경우에는 1, 아닐 경우에는 0을 리턴한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SISMEMBERS&lt;/code&gt;는 셋에 존재하는 모든 멤버를 리턴한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SREM&lt;/code&gt;은 멤버를 셋에서 삭제하고 인티저 값을 리턴한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SCARD&lt;/code&gt;는 멤버의 수를 리턴한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SISMEMBER user:max:favorite_artists &quot;Arctic Monkeys&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; SREM user:max:favorite_artists &quot;Arctic Monkeys&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; SISMEMBER user:max:favorite_artists &quot;Arctic Monkeys&quot;
-(integer) 0
-127.0.0.1:6379&amp;gt; SCARD user:max:favorite_artists
-(integer) 3
-127.0.0.1:6379&amp;gt; SMEMBERS user:max:favorite_artists
-1) &quot;Belle &amp;amp; Sebastian&quot;
-2) &quot;Arcade Fire&quot;
-3) &quot;Lenine&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;sorted-sets&quot;&gt;Sorted Sets&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt; 은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;과 매우 흡사하다. 하지만 각 멤버들이 연관된 스코어를 가지고 있다. 다른 말로 하자면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;은 중복된 멤버를 가지지 않고, 스코어에의해서 정렬된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Strings&lt;/code&gt;다. 스코어는 중복될 수 있다. 이러한 경우에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lexicographically&lt;/code&gt;하게 정렬한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt; 작업은 매우 빠르지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;의 작업보단 빠르지 않다. 추가, 삭제 갱신은 \(O(logN)\)이 걸린다. 내부적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;은 두 개의 자료구조로 나뉘어져 있다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;skip list with hash table&lt;/code&gt; 스킵 리스트는 정렬된 원소 시퀀스를 빠르게 탐색하기 위한 자료구조다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zset-max-ziplist-entries&lt;/code&gt; 과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;zset-max-ziplist-value&lt;/code&gt;에 기반한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ziplist&lt;/code&gt; 이는 챕터 4에서 다루도록 한다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;의 사용사례다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;웨이팅 리스트&lt;/li&gt;
-  &lt;li&gt;온라인 게임과 같은 곳에 리더보드&lt;/li&gt;
-  &lt;li&gt;자동완성 시스템&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;zadd&quot;&gt;ZADD&lt;/h3&gt;
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZADD&lt;/code&gt;는 하나 혹은 그 이상 멤버를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;에 추가한다. 이미 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;에 존재하는 멤버일 경우에는 요청을 무시한다. 추가된 멤버를 정수 값으로 반환한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; ZADD leaders 100 &quot;Alice&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; ZADD leaders 100 &quot;Zed&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; ZADD leaders 102 &quot;Hugo&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; ZADD leaders 101 &quot;Max&quot;
-(integer) 1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Sorted Set&lt;/code&gt;에 멤버는 스코어와 문자열로 추가된다. 앞에서도 설명했듯이 두가지 정렬 기준이 존재하는데, 스코어 순으로 정렬하며, 만약 스코어가 같을 경우에는 멤버의 문자열 값을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lexicographically&lt;/code&gt;하게 정렬한다. 앞 예제에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Alice&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Zed&lt;/code&gt;가 같은 스코어를 가지기 때문에, 알파벳 순으로 정렬된다.&lt;/p&gt;
-
-&lt;h3 id=&quot;zrange-zrevrange--withscores&quot;&gt;ZRANGE, ZREVRANGE ~ WITHSCORES&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZRANGE&lt;/code&gt;는 주어진 범위에 해당되는 멤버를 출력하며, 오름차순으로 출력한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZREVRANGE&lt;/code&gt;는 주어진 범위에 해당되는 멤버를 출력하며, 내림차순으로 출력한다.&lt;/p&gt;
-
-&lt;p&gt;위 두 커맨드에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WITHSCORES&lt;/code&gt;를 옵션 파라미터로 줄 수 있으며, 스코어를 같이 출력하게 된다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZREVRANGE leaders 0 -1 WITHSCORES
-1) &quot;Hugo&quot;
-2) &quot;102&quot;
-3) &quot;Max&quot;
-4) &quot;101&quot;
-5) &quot;Zed&quot;
-6) &quot;100&quot;
-7) &quot;Alice&quot;
-8) &quot;100&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZREVRANGE leaders 0 -1
-1) &quot;Hugo&quot;
-2) &quot;Max&quot;
-3) &quot;Zed&quot;
-4) &quot;Alice&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;zrem&quot;&gt;ZREM&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZREM&lt;/code&gt;은 멤버를 지운다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZREM leaders &quot;Hugo&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; ZREVRANGE leaders 0 -1
-1) &quot;Max&quot;
-2) &quot;Zed&quot;
-3) &quot;Alice&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;zscore-zrank-zrevrank&quot;&gt;ZSCORE, ZRANK, ZREVRANK&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZSCORE&lt;/code&gt;는 특정 멤버에 스코어를 반환한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZRANK&lt;/code&gt;는 특정 멤버에 랭크(인덱스)를 반환한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ZREVRANK&lt;/code&gt; 는 특정 멤버에 랭크를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;high to low&lt;/code&gt; 방향에서 인덱스를 반환한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; ZSCORE leaders &quot;Max&quot;
-&quot;101&quot;
-127.0.0.1:6379&amp;gt; ZRANK leaders &quot;Max&quot;
-(integer) 2
-127.0.0.1:6379&amp;gt; ZREVRANK leaders &quot;Max&quot;
-(integer) 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;bitmap&quot;&gt;Bitmap&lt;/h2&gt;
-&lt;p&gt;비트맵이 실제 데이터 타입은 아니고, 스트링이다. 스트링에 비트 오퍼레이션을 진행하기 위해 만들어진 데이터 타입이라 볼 수 있다. 레디스에선 이를 조작할 수 있는 커맨드들을 제공하기에 데이터 타입으로 취급한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;은 0과 1을 저장할 수 있는 비트 시퀀스이다. 레디스 공식 문서에서 비트맵에 인덱스는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;offset&lt;/code&gt;으로 불린다.&lt;/p&gt;
-
-&lt;p&gt;비트맵이 메모리를 어떻게 효율적으로 사용하는지 알기위해선 Set과 비교해볼 필요가있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;comparison-scenario&quot;&gt;Comparison Scenario&lt;/h3&gt;
-
-&lt;p&gt;만약 5백만명의 사용자가 존재하고, 하루에 2백만명 정도의 사용자가 웹사이트에 접속한다고 가정하자. 이때 사용자 아이디는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;4byte&lt;/code&gt; 정수값으로 표현된다.&lt;/p&gt;
-
-&lt;p&gt;웹사이트에 당일 접속한 모든 유저의 아이디를 저장하는 기능을 구현한다하면, (비트맵에선 오프셋이 유저의 아이디를 매핑할 것이다) 이러한 상황에서 두 자료구조는 아래와 같은 구현 스펙이 결정된다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Redis Key&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Data type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Amount of bits per user&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Stored users&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Total memory&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;visits:2015-01-01&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Bitmap&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1 bit&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;5 million&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1 * 5000000 bits = 625kB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;visits:2015-01-01&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Set&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;32 bit&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;2 million&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;32 * 2000000 bits = 8MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;최악의 상황에서도 비트맵은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;보다 괜찮은 메모리 효율을 보여주고 있다. 하지만 그렇다고해서 항상 비트맵이 효율적이라고 단정지을 순 없다. 아래 테이블을 보자.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Redis Key&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Data type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Amount of bits per user&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Stored users&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Total memory&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;visits:2015-01-01&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Bitmap&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1 bit&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;5 million&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;1 * 5000000 bits = 625kB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;visits:2015-01-01&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Set&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;32 bit&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;100&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;32 * 100 bits = 3.125KB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;비트맵은 실시간 분석에 사용하기 적합한 자료구조이다. 예를들어, 사용자 X가 Y를 얼마나 행했는가에 대한 질문 혹은 얼마나 많은 유저가 Y라는 이벤트를 행했는지 확인할 수있다. 아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Bitmap&lt;/code&gt;에 대한 사용 예시다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;얼마나 많은 사람이 오늘 이 블로그 포스트를 봤는가?&lt;/li&gt;
-  &lt;li&gt;특정 유저 1이 오늘 이 블로그를 읽었는가?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;setbit&quot;&gt;SETBIT&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SETBIT&lt;/code&gt;는 특정 비트맵에 있는 오프셋을 설정한다. 1과 0만을 값으로 받으며, 만약 존재하지 않을 경우 생성한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; SETBIT visits:2015-01-01 10 1
-(integer) 0
-127.0.0.1:6379&amp;gt; SETBIT visits:2015-01-01 15 1
-(integer) 0
-127.0.0.1:6379&amp;gt; SETBIT visits:2015-01-02 10 1
-(integer) 0
-127.0.0.1:6379&amp;gt; SETBIT visits:2015-01-02 11 1
-(integer) 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;getbit&quot;&gt;GETBIT&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GETBIT&lt;/code&gt;는 특정 비트맵에 있는 오프셋을 가져온다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; GETBIT visits:2015-01-01 10
-(integer) 1
-127.0.0.1:6379&amp;gt; GETBIT visits:2015-01-02 15
-(integer) 0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;bitcount&quot;&gt;BITCOUNT&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BITCOUNT&lt;/code&gt;는 특정 비트맵에 1로 설정된 오프셋의 개수를 반환한다. 현재 예제에서는 당일 날 접속한 사용자가 몇명인지 반환한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; BITCOUNT visits:2015-01-01
-(integer) 2
-127.0.0.1:6379&amp;gt; BITCOUNT visits:2015-01-02
-(integer) 2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;bittop&quot;&gt;BITTOP&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;BITOP&lt;/code&gt;는 비트 연산을 수행하며 이에 대한 결과값을 저장할 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;destination key&lt;/code&gt;가 필요하다. 비트 오퍼레이션에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AND&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XOR&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AND&lt;/code&gt; 등이 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; BITOP OR total_users visits:2015-01-01 visits:2015-01-02
-(integer) 2
-127.0.0.1:6379&amp;gt; BITCOUNT total_users
-(integer) 3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;hyperloglogs&quot;&gt;HYperloglogs&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt; 또한 실제 데이터타입은 아니다. 개념적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;에 존재하는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unique element&lt;/code&gt;의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cardinality&lt;/code&gt; 근사값을 제공하는 데에 효과적인 알고리즘이다.&lt;/p&gt;
-
-&lt;p&gt;\(O(1)\), 상수시간안에 이를 해결하며, 메모리 사용량도 매우 적기 때문에 효과적이다. 실제 데이터타입은 아니지만, 레디스에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt;를 사용하여 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Set&lt;/code&gt;에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cardinality&lt;/code&gt;를 계산 하기위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt;을 조작하는 커맨드를 제공한다.&lt;/p&gt;
-
-&lt;p&gt;하지만, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt; 사용할 때 알아둬야 할 것은 이 알고리즘은 확률적 알고리즘으로써 정확도가 100퍼센트는 아닌, 근사값을 예측하는 알고리즘이라는 것이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Redis&lt;/code&gt;에서는 기본적으로 0.81퍼센트의 오차가 있다고 말한다.&lt;/p&gt;
-
-&lt;p&gt;알고리즘에 대한 설명은 &lt;a href=&quot;http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf&quot;&gt;HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm&lt;/a&gt; 에서 확인할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HyperLogLog&lt;/code&gt;에 사용 예시다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;웹사이트를 방문한 특정 유저의 수.&lt;/li&gt;
-  &lt;li&gt;특정 시간 혹은 날짜에 나의 사이트에서 검색된 용어 개수&lt;/li&gt;
-  &lt;li&gt;해쉬태크 개수&lt;/li&gt;
-  &lt;li&gt;이 포스트에서 사용된 구별가능한 단어 개수&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;countiong-unique-users---hyperloglog-vs-set&quot;&gt;Countiong unique users - Hyperloglog vs Set&lt;/h3&gt;
-
-&lt;p&gt;시간당 평균 10만명에 사용자가 접속한다고 하자. 각각의 사용자는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UUID(universally unique identifier)&lt;/code&gt;와 같은 32바이트 스트링(ex:  de305d54-75b4-431b-adb2-eb6b9e546014)으로 특정된다.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Data type&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Memory in an hour&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Memory in a day&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;Memory in a month&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HyperLogLog&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;12 kb&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;12 kB * 24 = 288 kB&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;288 kB * 30 = 8.4 MB&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Set&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;32 bytes * 100000 = 3.2 MB&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;3.2 MB * 24 = 76.8 MB&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;76.8 MB * 30 = 2.25 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HyperLogLog&lt;/code&gt;는 시간당 특정 사용자가 접속한지 확인하기 위해 저장매체의 용량이 12kb 밖에 안된다.&lt;/p&gt;
-
-&lt;h3 id=&quot;pfadd&quot;&gt;PFADD&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PFADD&lt;/code&gt;는 하나 혹은 그 이상의 스트링을 입력받으며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cardinality&lt;/code&gt;가 변경되었을 경우 1 아닐경우 0을 반환한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ redis-cli
-127.0.0.1:6379&amp;gt; PFADD visits:2015-01-01 &quot;carl&quot; &quot;max&quot; &quot;hugo&quot; &quot;arthur&quot;
-(integer) 1
-127.0.0.1:6379&amp;gt; PFADD visits:2015-01-01 &quot;max&quot; &quot;hugo&quot;
-(integer) 0
-127.0.0.1:6379&amp;gt; PFADD visits:2015-01-02 &quot;max&quot; &quot;kc&quot; &quot;hugo&quot; &quot;renata&quot;
-(integer) 1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;pfcount&quot;&gt;PFCOUNT&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PFCOUNT&lt;/code&gt;는 하나 혹은 그 이상의 키를 받으며, 인자가 하나일 경우에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;approximate cardinality&lt;/code&gt;를 반환한다. 키가 여러 개일 경우 총 합을 반환한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; PFCOUNT visits:2015-01-01
-(integer) 4
-127.0.0.1:6379&amp;gt; PFCOUNT visits:2015-01-02
-(integer) 4
-127.0.0.1:6379&amp;gt; PFCOUNT visits:2015-01-01 visits:2015-01-02
-(integer) 6
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;pfmerge&quot;&gt;PFMERGE&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PFMERGE&lt;/code&gt;는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;destination key&lt;/code&gt;를 필요로 하며, 하나 혹은 그 이상의 키를 인자로 받아야 한다. 특정 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hyperloglog&lt;/code&gt;를 모두 저장한 값을 리턴한다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;127.0.0.1:6379&amp;gt; PFMERGE visits:total visits:2015-01-01 visits:2015-01-02
-OK
-127.0.0.1:6379&amp;gt; PFCOUNT visits:total
-(integer) 6
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><summary type="html"></summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="REST" /><summary type="html">REpresentaion State Transfer</summary></entry></feed>

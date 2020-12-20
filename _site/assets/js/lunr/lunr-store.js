@@ -329,12 +329,6 @@ var store = [{
         "url": "http://localhost:4000/backend/REST/",
         "teaser": null
       },{
-        "title": "시계열 데이터 관측",
-        "excerpt":"Time Series 시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다. -wikipedia 시계열 데이터는 다양한 분석방법에 쓰일 수 있으며, 아래는 이에 대한 예시이다. Usage of specific words or terms in a...","categories": ["redis"],
-        "tags": ["NoSQL","database","redis","nodejs","time-series"],
-        "url": "http://localhost:4000/redis/redis_02/",
-        "teaser": null
-      },{
         "title": "동기, 비동기, 블록킹 그리고 논 블록킹",
         "excerpt":"Introduction 최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자. 이번 포스트 주제는 말은 비슷해 보이지만 뭔가 다른 두 쌍에 대해 알아보자. Blocking/Non-Blocking blocking과 non-blocking 호출되는 함수가 바로 리턴하는가에 차이다....","categories": ["js"],
         "tags": ["os","sync"],
@@ -360,8 +354,26 @@ var store = [{
         "teaser": null
       },{
         "title": "WebSocket",
-        "excerpt":"Introduction 최근에 포스팅이 눈에 띄게 적었는데, 다시 시작해볼까 한다. 조금 들떠있었나보다. 다시 마음을 가다듬고 싶다. 오늘은 웹소켓에 대해 알아보려한다. 입사 전에 간단한 채팅 시스템을 만들고 싶은데 웹소켓을 사용하려 한다. 물론 회사에선 직접적으로 안 쓰일 수 있겠지만, 절대 필요없는 지식이 없다는 생각으로 포스팅한다. WebSocket The WebSocket Protocol enables two-way communication between...","categories": ["backend"],
+        "excerpt":"Introduction 오늘은 웹소켓에 대해 알아보려한다. 입사 전에 간단한 채팅 시스템을 만들고 싶은데 웹소켓을 사용하려 한다. 물론 회사에선 직접적으로 안 쓰일 수 있겠지만, 쓸모없는 지식이 어디 있겠냐는 생각으로 시작해본다. WebSocket The WebSocket Protocol enables two-way communication between a client running untrusted code in a controlled environment to a remote host that...","categories": ["backend"],
         "tags": ["backend","ws","websocket","http"],
         "url": "http://localhost:4000/backend/websocket/",
+        "teaser": null
+      },{
+        "title": "Diamond Problem",
+        "excerpt":"Introduction 더닝 크루커 효과라고 혹시 알고있는가? 이 글을 쓰는 이유는 내가 현재 우매함의 봉우리를 지나 절망의 계곡에 갇혀있기 때문이다.. 최근에 입사하고 아직 배울 게 많다고 느꼈다. 부족한만큼 열심히 해보자. 긴 인트로는 싫어하니 깨달음의 비탈길로 나서기 위한 포스팅을 시작하겠다. Overview 오늘 알아 볼 주제는 Diamond Problem이다. Diamond Problem은 다중상속 시 일어나는...","categories": ["programming"],
+        "tags": ["OOP","diamond_problem"],
+        "url": "http://localhost:4000/programming/diamond_problem/",
+        "teaser": null
+      },{
+        "title": "시계열 데이터 관측",
+        "excerpt":"Introduction 오랜만에 포스팅한다. 하고 싶은 포스팅은 넘치는데 천천히 하나씩 해보겠다. 이 포스트는 레디스 콜렉션과 이어집니다. Time Series 시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다. -wikipedia 시계열 데이터는 다양한 분석방법에...","categories": ["redis"],
+        "tags": ["NoSQL","database","redis","nodejs","time-series"],
+        "url": "http://localhost:4000/redis/time_series_with_redis/",
+        "teaser": null
+      },{
+        "title": "의미있는 변수명",
+        "excerpt":"Introduction 이번에 포스팅할 주제는 Robert Cecil Martin, Clean Code의 내용이다. 책에서는 좋은 코드에 대한 정의를 상당히 자세히 그리고 친절하게 설명해두었다. 근데 막상 직접 느껴보면 뭐가 나쁜 코드인지는 본능적으로 알지 않나 싶다. 난 예전부터 좋은 코드는 주석 없이도 술술 읽히며 이 코드가 뭘 원하는지 알 수 있는 코드가 제일 좋은 코드라...","categories": ["programming"],
+        "tags": ["clean_code","naming"],
+        "url": "http://localhost:4000/programming/meaningful_naming/",
         "teaser": null
       }]

@@ -8,12 +8,18 @@ tags:
   - time-series
 categories:
   - redis
-last_modified_at: 2020-11-27T13:00:00+18:00
+last_modified_at: 2020-12-18T13:00:00+18:00
 toc: true
 ---
 <script type="text/javascript"
 src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
+
+# Introduction
+
+오랜만에 포스팅한다. 하고 싶은 포스팅은 넘치는데 천천히 하나씩 해보겠다.
+
+이 포스트는 [레디스 콜렉션](/redis/redis_01)과 이어집니다.
 
 
 # Time Series
@@ -30,6 +36,8 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 - Climate changes
 
 많은 시계열 시스템이 빠르게 늘어나는 데이테셋을 저장하는 문제를 겪고있다.
+
+# Overview
 
 
 ><font size="6">Refernce</font>
