@@ -1,5 +1,5 @@
 ---
-title: "시계열 데이터 관측"
+title: "시계열 데이터 관측(작성 중)"
 tags:
   - NoSQL
   - database

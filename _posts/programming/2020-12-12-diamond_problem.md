@@ -11,15 +11,12 @@ toc: true
 
 # Introduction
 
-더닝 크루커 효과라고 혹시 알고있는가?
+다이아몬드 문제는 면접 때 들었던 다중상속에 관한 이야기다.
 
-![이미지](/assets/images/dunning_kruger.png)
+사실 최근에 객체지향언어를 자주 사용한 것도 아니라 답변을 못했다.
+<br>배울 게 아직 많다고 느낀다.
 
-이 글을 쓰는 이유는 내가 현재 우매함의 봉우리를 지나 절망의 계곡에 갇혀있기 때문이다..
-
-최근에 입사하고 아직 배울 게 많다고 느꼈다. 부족한만큼 열심히 해보자.
-
-긴 인트로는 싫어하니 깨달음의 비탈길로 나서기 위한 포스팅을 시작하겠다.
+긴 인트로는 싫어하니 바로 본론으로 들어가보자.
 
 # Overview
 
@@ -62,7 +59,7 @@ int main()
 }
 ```
 
-출력이 어떻게 될지 머릿속에 그려진다면 어느정도 다중상속에 대한 지식이 있는 것 같아보인다.
+아래를 보지 않고도 출력이 어떻게 될지 머릿속에 그려진다면 어느정도 다중상속에 대한 지식이 있는 것 같아보인다.
 
 참고로 소멸자는 생성자가 호출된 순서와 정반대로 호출된다.
 
@@ -128,7 +125,9 @@ int main() {
 }
 ```
 
-위 코드의 출력은 어떻게 될지 상상해보자.
+뭔가 이상함을 느끼고 있는가? `A` 클래스를 상속받은 `B`와 `C`가 `D`를 상속중이다. 이 경우에 생성자는 어떻게 생성과 소멸을 반복할지 명확하지 않다.
+
+위 코드의 출력은 어떻게 될까?
 
 이러한 경우 상속 관계는 `A` 클래스가 `B`와 `C`를 상속했지만, 실제로 생성되는 인스턴스는 두 개의 `A`를 가지게 된다.
 
@@ -156,7 +155,9 @@ d.C::getX() = 2
 
 ```
 
-`C++`에서는 이러한 상황을 막기위해 `virtual`이라는 키워드를 통해 다이아몬드 문제를 해결했다.
+`C++`은 이를 막기위해 `virtual`이라는 키워드를 통해 다이아몬드 문제를 해결했다.
+
+`virtual`에 대한 자세한 설명은 내가 아니더라도 충분히 많은 블로그 및 문서에서 다룰 것이라 생각하기에 관련된 코드만을 올려두겠다.
 
 ```c
 ...
@@ -187,12 +188,12 @@ d.B::getX() = 42
 d.C::getX() = 42
 ```
 
-결과값에서 알 수 있듯이 virtual을 사용한다면 하나의 `A`의 (기본생성자)생성자를 호출한다.
+결과값을 보고 알 수 있듯이 `virtual`을 사용한다면 하나의 `A`의 (기본생성자)생성자를 호출한다.
 
 ## in Java
 자바에서는 다이아몬드 문제를 막기위해 `interface`를 두어 그 외에 클래스는 다중상속을 불가능하게 했다.
 
-끝!
+긴 포스트를 읽느라 수고했다.
 
 ![이미지](/assets/images/IMG_0946.gif)
 
@@ -219,7 +220,6 @@ interface MyInterface {
 >The main goal is to allow interface evolution, that is, the addition of new methods. If a new method is added to an interface, existing classes that implement the interface would be missing an implementation, which would be incompatible. To be compatible, an implementation has to come from somewhere, so it is provided by default methods.
 
 더 깊게 더 많이 설명하고 싶지만, 나중 포스팅을 위해 아껴두겠다.
-
 
 ### solution
 
@@ -274,9 +274,9 @@ public class C implements B, A {
 
 # 마치며,,
 
-이번 포스팅에서는 다이아몬드 문제에 대해 알아보았다. 가장 기본적인 것인데 머리속에 담아두지 않았던 게 아쉽다.
+이번 포스팅에서는 다이아몬드 문제에 대해 알아보았다. 가장 기본적인 것이고 1학년 때도 이와같은 상황을 배웠었다.
 
-이번 포스팅이 객체지향을 이해하는데 큰 도움이 되었으면 좋겠다.
+아쉽게도 계속 머리에 담아두진 않았지만, 이번 포스팅을 통해 객체지향을 이해하는데 도움이 되었으면 좋겠다.
 
 
 ><font size="6">Refernce</font>
