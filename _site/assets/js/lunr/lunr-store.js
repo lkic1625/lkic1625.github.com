@@ -360,20 +360,26 @@ var store = [{
         "teaser": null
       },{
         "title": "Diamond Problem",
-        "excerpt":"Introduction 더닝 크루커 효과라고 혹시 알고있는가? 이 글을 쓰는 이유는 내가 현재 우매함의 봉우리를 지나 절망의 계곡에 갇혀있기 때문이다.. 최근에 입사하고 아직 배울 게 많다고 느꼈다. 부족한만큼 열심히 해보자. 긴 인트로는 싫어하니 깨달음의 비탈길로 나서기 위한 포스팅을 시작하겠다. Overview 오늘 알아 볼 주제는 Diamond Problem이다. Diamond Problem은 다중상속 시 일어나는...","categories": ["programming"],
+        "excerpt":"Introduction 다이아몬드 문제는 면접 때 들었던 다중상속에 관한 이야기다. 사실 최근에 객체지향언어를 자주 사용한 것도 아니라 답변을 못했다. 배울 게 아직 많다고 느낀다. 긴 인트로는 싫어하니 바로 본론으로 들어가보자. Overview 오늘 알아 볼 주제는 Diamond Problem이다. Diamond Problem은 다중상속 시 일어나는 문제로써 이를 설명하기 위한 다이어그램이 꼭 다이아몬드와 같다해서 생겨난...","categories": ["programming"],
         "tags": ["OOP","diamond_problem"],
         "url": "http://localhost:4000/programming/diamond_problem/",
         "teaser": null
       },{
-        "title": "시계열 데이터 관측",
+        "title": "시계열 데이터 관측(작성 중)",
         "excerpt":"Introduction 오랜만에 포스팅한다. 하고 싶은 포스팅은 넘치는데 천천히 하나씩 해보겠다. 이 포스트는 레디스 콜렉션과 이어집니다. Time Series 시계열(時系列, 영어: time series)은 일정 시간 간격으로 배치된 데이터들의 수열을 말한다. 시계열 해석(time series analysis)라고 하는 것은 이런 시계열을 해석하고 이해하는 데 쓰이는 여러 가지 방법을 연구하는 분야이다. -wikipedia 시계열 데이터는 다양한 분석방법에...","categories": ["redis"],
         "tags": ["NoSQL","database","redis","nodejs","time-series"],
         "url": "http://localhost:4000/redis/time_series_with_redis/",
         "teaser": null
       },{
         "title": "의미있는 변수명",
-        "excerpt":"Introduction 이번에 포스팅할 주제는 Robert Cecil Martin, Clean Code의 내용이다. 책에서는 좋은 코드에 대한 정의를 상당히 자세히 그리고 친절하게 설명해두었다. 근데 막상 직접 느껴보면 뭐가 나쁜 코드인지는 본능적으로 알지 않나 싶다. 난 예전부터 좋은 코드는 주석 없이도 술술 읽히며 이 코드가 뭘 원하는지 알 수 있는 코드가 제일 좋은 코드라...","categories": ["programming"],
+        "excerpt":"Introduction 이번에 포스팅할 주제는 Robert Cecil Martin, Clean Code의 내용이다. 위 책에서는 좋은 코드에 대한 정의를 상당히 자세히 그리고 친절하게 설명해두었다. 사실 잘 읽히지 않는 코드는 설명하지 않아도 안다. 우리 몸이 바로 반응하지 않는가? 반면에 좋은 코드를 짜는 방법은 뚜렷한 기준이 없는 것 같다. 위 책은 그 애매모호한 기준을 이해하기...","categories": ["programming"],
         "tags": ["clean_code","naming"],
         "url": "http://localhost:4000/programming/meaningful_naming/",
+        "teaser": null
+      },{
+        "title": "Prototype",
+        "excerpt":" ","categories": [],
+        "tags": [],
+        "url": "http://localhost:4000/prototype/",
         "teaser": null
       }]

@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-20T23:07:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">의미있는 변수명</title><link href="http://localhost:4000/programming/meaningful_naming/" rel="alternate" type="text/html" title="의미있는 변수명" /><published>2020-12-20T00:00:00+09:00</published><updated>2020-12-20T04:00:00+09:00</updated><id>http://localhost:4000/programming/meaningful_naming</id><content type="html" xml:base="http://localhost:4000/programming/meaningful_naming/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-12-28T22:25:09+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Prototype</title><link href="http://localhost:4000/prototype/" rel="alternate" type="text/html" title="Prototype" /><published>2020-12-27T00:00:00+09:00</published><updated>2020-12-27T00:00:00+09:00</updated><id>http://localhost:4000/prototype</id><content type="html" xml:base="http://localhost:4000/prototype/"></content><author><name>조원빈</name></author><summary type="html"></summary></entry><entry><title type="html">의미있는 변수명</title><link href="http://localhost:4000/programming/meaningful_naming/" rel="alternate" type="text/html" title="의미있는 변수명" /><published>2020-12-20T00:00:00+09:00</published><updated>2020-12-20T04:00:00+09:00</updated><id>http://localhost:4000/programming/meaningful_naming</id><content type="html" xml:base="http://localhost:4000/programming/meaningful_naming/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;이번에 포스팅할 주제는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Robert Cecil Martin, Clean Code&lt;/code&gt;의 내용이다.&lt;/p&gt;
 
-&lt;p&gt;책에서는 좋은 코드에 대한 정의를 상당히 자세히 그리고 친절하게 설명해두었다.&lt;br /&gt;
-근데 막상 직접 느껴보면 뭐가 나쁜 코드인지는 본능적으로 알지 않나 싶다.&lt;/p&gt;
+&lt;p&gt;위 책에서는 좋은 코드에 대한 정의를 상당히 자세히 그리고 친절하게 설명해두었다.&lt;/p&gt;
 
-&lt;p&gt;난 예전부터 좋은 코드는 주석 없이도 술술 읽히며 이 코드가 뭘 원하는지 알 수 있는 코드가 제일 좋은 코드라 생각했다.&lt;br /&gt;
-특히 작성자의 설명 없이도 읽힌다면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;아름다운&lt;/code&gt; 코드가 아닐까?&lt;/p&gt;
+&lt;p&gt;사실 잘 읽히지 않는 코드는 설명하지 않아도 안다. 우리 몸이 바로 &lt;b&gt;반응&lt;/b&gt;하지 않는가?
+&lt;br /&gt;반면에 좋은 코드를 짜는 방법은 뚜렷한 &lt;b&gt;기준&lt;/b&gt;이 없는 것 같다. 위 책은 그 애매모호한 기준을 이해하기 쉽게 정리해두었다!&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Netflix&lt;/code&gt;는 개발팀의 누군가가 하나 사라진다해도 완벽히 돌아갈 코드 작성을 지향한다.&lt;/p&gt;
+
+&lt;p&gt;개인적으론 작성자의 &lt;b&gt;주석, 설명 없이도&lt;/b&gt; 완벽히 이해 가능한 코드를 지향한다.
+&lt;br /&gt;코드는 단순히 컴퓨터와 소통하는 기구가 아니라 역시 또한 &lt;b&gt;언어&lt;/b&gt;라는 의미다.&lt;/p&gt;
 
 &lt;p&gt;오늘도 별 쓰잘데없는 서론으로 시작한다. 자 이제 본격적으로 포스팅에 들어가보자.&lt;/p&gt;
 
@@ -21,7 +25,9 @@ Clean Code, Chapte 2&lt;/p&gt;
 
 &lt;p&gt;우리는 모든 곳에 이름을 붙인다. 솔직히 이름 정하기가 제일 어렵다. 알고리즘 고민보다 변수명 작성이 더 어려운 것 같다..&lt;/p&gt;
 
-&lt;p&gt;따라서, 이와 관련된 절대적이지는 않지만 지향되는 규칙을 정리해보겠다.&lt;/p&gt;
+&lt;p&gt;따라서, 이와 관련된 절대적이지는 않지만 지향되는 규칙을 책에서 정리해두었다.&lt;/p&gt;
+
+&lt;p&gt;평소에 몰랐던 것 혹은 매우 중요하게 생각했던 것들만 적어보겠다.&lt;/p&gt;
 
 &lt;h2 id=&quot;의도를-분명히-밝혀라&quot;&gt;의도를 분명히 밝혀라&lt;/h2&gt;
 
@@ -40,17 +46,41 @@ Clean Code, Chapte 2&lt;/p&gt;
 
 &lt;p&gt;위 코드가 직관적이다.&lt;/p&gt;
 
-&lt;p&gt;코드를 작성한 사람만 코드를 읽는 게 아니다. 협업을 하고 우리가 만든 코드를 누군가가 사용할 때 작동하는 법을 읽히거나 변수를 사용할 것이다.
-&lt;br /&gt;아무리 주석을 잘 달아놓은 변수명이라고 하더라도, 기억력이 아주 좋지 않은 이상 저런 모호한 이름은 까먹고 계속해서 정의를 확인하는 작업이 동반될 것이다.
-&lt;br /&gt;이러한 상황은 결국 비효율적이다. 개발자는 누구보다 효율적이야 하지 않은가?&lt;/p&gt;
+&lt;p&gt;코드를 작성한 사람만 코드를 읽는 게 아니다. 협업을 하고 우리가 만든 코드를 누군가가 사용할 때 작동하는 법을 읽히거나 변수를 사용할 것이다.&lt;/p&gt;
+
+&lt;p&gt;아무리 주석을 잘 달아놓은 변수명이라고 하더라도, 기억력이 아주 좋지 않은 이상 저런 모호한 이름은 까먹고 계속해서 정의를 확인하는 작업이 동반될 것이다.
+&lt;br /&gt;이러한 상황은 결국 비효율적이다. 개발자는 누구보다 &lt;b&gt;효율적이야&lt;/b&gt; 하지 않은가?&lt;/p&gt;
 
 &lt;h2 id=&quot;그릇된-정보를-피해라&quot;&gt;그릇된 정보를 피해라.&lt;/h2&gt;
 
 &lt;p&gt;코드에 오해의 소지가 있는 단서를 남기면 안 된다.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hp&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aix&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sco&lt;/code&gt;과 같은 변수명은 유닉스 플랫폼이나 유닉스 변종을 가리키는 이름이다. 삼각형의 빗변(hypotenuse)을 나타내는 변수명으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hp&lt;/code&gt;는 적절해 보일지 모르지만, 그릇된 정보를 제공하는 것이다.&lt;br /&gt;
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AccountsList&lt;/code&gt; 또한 그러하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;는 개발자에게 특별한 의미를 갖는 이름이다. 차라리, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;accountGroup&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bunchOfAccounts&lt;/code&gt; 혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Accounts&lt;/code&gt;가 더 적합할 것 같다.&lt;br /&gt;
-서로 흡사한 이름도 지양된다.&lt;/p&gt;</content><author><name>조원빈</name></author><category term="programming" /><category term="clean_code" /><category term="naming" /><summary type="html">Introduction</summary></entry><entry><title type="html">시계열 데이터 관측</title><link href="http://localhost:4000/redis/time_series_with_redis/" rel="alternate" type="text/html" title="시계열 데이터 관측" /><published>2020-12-18T00:00:00+09:00</published><updated>2020-12-18T04:00:00+09:00</updated><id>http://localhost:4000/redis/time_series_with_redis</id><content type="html" xml:base="http://localhost:4000/redis/time_series_with_redis/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hp&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;aix&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sco&lt;/code&gt;과 같은 변수명은 유닉스 플랫폼이나 유닉스 변종을 가리키는 이름이다. 삼각형의 빗변(hypotenuse)을 나타내는 변수명으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hp&lt;/code&gt;는 적절해 보일지 모르지만, 그릇된 정보를 제공하는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AccountsList&lt;/code&gt; 또한 그러하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;List&lt;/code&gt;는 개발자에게 특별한 의미를 갖는 이름이다. 차라리, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;accountGroup&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bunchOfAccounts&lt;/code&gt; 혹은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Accounts&lt;/code&gt;가 더 적합할 것 같다.&lt;/p&gt;
+
+&lt;p&gt;서로 흡사한 이름도  &lt;b&gt;지양&lt;/b&gt;된다.&lt;/p&gt;
+
+&lt;h2 id=&quot;발음하기-쉬운-이름을-사용하라&quot;&gt;발음하기 쉬운 이름을 사용하라&lt;/h2&gt;
+
+&lt;p&gt;책에서 말해주는 예시는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;genymdhms(generation date, year, month, day, hour, minute, and second)&lt;/code&gt; 젠 야 무다 힘즈.. 정신이 나가버릴 것만 같은 이름이다.&lt;/p&gt;
+
+&lt;p&gt;인간의 뇌는 발음하기 쉬운 것을 쉽게 외운다. 아니 정확히는 자주 발음해본 익숙한 것을 외우기 쉬울 수도 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DtaRcr02&lt;/code&gt;와 같은 축약어 방식도 &lt;b&gt;지양&lt;/b&gt;된다.&lt;/p&gt;
+
+&lt;h2 id=&quot;해법-영역에서-가져온-이름을-사용하라&quot;&gt;해법 영역에서 가져온 이름을 사용하라&lt;/h2&gt;
+
+&lt;p&gt;프로그래머들이 사용하는 전산용어, 알고리즘, 패턴, 수학용어 등은 사용해도 괜찮다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Visitor&lt;/code&gt; 패턴에 익숙하거나 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JobQueue&lt;/code&gt;를 아는 프로그래머 등 기술 개념에는 기술 이름이 가장 적합한 선택이다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Robert Cecil Martin, Clean Code, Chapter 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="programming" /><category term="clean_code" /><category term="naming" /><summary type="html">Introduction</summary></entry><entry><title type="html">시계열 데이터 관측(작성 중)</title><link href="http://localhost:4000/redis/time_series_with_redis/" rel="alternate" type="text/html" title="시계열 데이터 관측(작성 중)" /><published>2020-12-18T00:00:00+09:00</published><updated>2020-12-18T04:00:00+09:00</updated><id>http://localhost:4000/redis/time_series_with_redis</id><content type="html" xml:base="http://localhost:4000/redis/time_series_with_redis/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
 &lt;/script&gt;
 
 &lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
@@ -88,15 +118,12 @@ Clean Code, Chapte 2&lt;/p&gt;
   &lt;/ul&gt;
 &lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><category term="time-series" /><summary type="html"></summary></entry><entry><title type="html">Diamond Problem</title><link href="http://localhost:4000/programming/diamond_problem/" rel="alternate" type="text/html" title="Diamond Problem" /><published>2020-12-12T00:00:00+09:00</published><updated>2020-12-20T04:00:00+09:00</updated><id>http://localhost:4000/programming/diamond_problem</id><content type="html" xml:base="http://localhost:4000/programming/diamond_problem/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
-&lt;p&gt;더닝 크루커 효과라고 혹시 알고있는가?&lt;/p&gt;
+&lt;p&gt;다이아몬드 문제는 면접 때 들었던 다중상속에 관한 이야기다.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/images/dunning_kruger.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;사실 최근에 객체지향언어를 자주 사용한 것도 아니라 답변을 못했다.
+&lt;br /&gt;배울 게 아직 많다고 느낀다.&lt;/p&gt;
 
-&lt;p&gt;이 글을 쓰는 이유는 내가 현재 우매함의 봉우리를 지나 절망의 계곡에 갇혀있기 때문이다..&lt;/p&gt;
-
-&lt;p&gt;최근에 입사하고 아직 배울 게 많다고 느꼈다. 부족한만큼 열심히 해보자.&lt;/p&gt;
-
-&lt;p&gt;긴 인트로는 싫어하니 깨달음의 비탈길로 나서기 위한 포스팅을 시작하겠다.&lt;/p&gt;
+&lt;p&gt;긴 인트로는 싫어하니 바로 본론으로 들어가보자.&lt;/p&gt;
 
 &lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
 
@@ -138,7 +165,7 @@ Clean Code, Chapte 2&lt;/p&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;출력이 어떻게 될지 머릿속에 그려진다면 어느정도 다중상속에 대한 지식이 있는 것 같아보인다.&lt;/p&gt;
+&lt;p&gt;아래를 보지 않고도 출력이 어떻게 될지 머릿속에 그려진다면 어느정도 다중상속에 대한 지식이 있는 것 같아보인다.&lt;/p&gt;
 
 &lt;p&gt;참고로 소멸자는 생성자가 호출된 순서와 정반대로 호출된다.&lt;/p&gt;
 
@@ -202,7 +229,9 @@ C's constructor called
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;위 코드의 출력은 어떻게 될지 상상해보자.&lt;/p&gt;
+&lt;p&gt;뭔가 이상함을 느끼고 있는가? &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; 클래스를 상속받은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;D&lt;/code&gt;를 상속중이다. 이 경우에 생성자는 어떻게 생성과 소멸을 반복할지 명확하지 않다.&lt;/p&gt;
+
+&lt;p&gt;위 코드의 출력은 어떻게 될까?&lt;/p&gt;
 
 &lt;p&gt;이러한 경우 상속 관계는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; 클래스가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;B&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C&lt;/code&gt;를 상속했지만, 실제로 생성되는 인스턴스는 두 개의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;를 가지게 된다.&lt;/p&gt;
 
@@ -228,7 +257,9 @@ d.C::getX() = 2
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C++&lt;/code&gt;에서는 이러한 상황을 막기위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual&lt;/code&gt;이라는 키워드를 통해 다이아몬드 문제를 해결했다.&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;C++&lt;/code&gt;은 이를 막기위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual&lt;/code&gt;이라는 키워드를 통해 다이아몬드 문제를 해결했다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual&lt;/code&gt;에 대한 자세한 설명은 내가 아니더라도 충분히 많은 블로그 및 문서에서 다룰 것이라 생각하기에 관련된 코드만을 올려두겠다.&lt;/p&gt;
 
 &lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;B&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
@@ -257,12 +288,12 @@ d.B::getX() = 42
 d.C::getX() = 42
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;결과값에서 알 수 있듯이 virtual을 사용한다면 하나의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;의 (기본생성자)생성자를 호출한다.&lt;/p&gt;
+&lt;p&gt;결과값을 보고 알 수 있듯이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;virtual&lt;/code&gt;을 사용한다면 하나의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;의 (기본생성자)생성자를 호출한다.&lt;/p&gt;
 
 &lt;h2 id=&quot;in-java&quot;&gt;in Java&lt;/h2&gt;
 &lt;p&gt;자바에서는 다이아몬드 문제를 막기위해 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;interface&lt;/code&gt;를 두어 그 외에 클래스는 다중상속을 불가능하게 했다.&lt;/p&gt;
 
-&lt;p&gt;끝!&lt;/p&gt;
+&lt;p&gt;긴 포스트를 읽느라 수고했다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/images/IMG_0946.gif&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
 
@@ -354,9 +385,9 @@ reference to hello is ambiguous, both method hello() in A and method hello() in 
 
 &lt;h1 id=&quot;마치며&quot;&gt;마치며,,&lt;/h1&gt;
 
-&lt;p&gt;이번 포스팅에서는 다이아몬드 문제에 대해 알아보았다. 가장 기본적인 것인데 머리속에 담아두지 않았던 게 아쉽다.&lt;/p&gt;
+&lt;p&gt;이번 포스팅에서는 다이아몬드 문제에 대해 알아보았다. 가장 기본적인 것이고 1학년 때도 이와같은 상황을 배웠었다.&lt;/p&gt;
 
-&lt;p&gt;이번 포스팅이 객체지향을 이해하는데 큰 도움이 되었으면 좋겠다.&lt;/p&gt;
+&lt;p&gt;아쉽게도 계속 머리에 담아두진 않았지만, 이번 포스팅을 통해 객체지향을 이해하는데 도움이 되었으면 좋겠다.&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
@@ -2042,134 +2073,4 @@ Content-Type: text/plain
     &lt;li&gt;https://developer.mozilla.org/ko/docs/Web/HTTP/CORS&lt;/li&gt;
     &lt;li&gt;https://evan-moon.github.io/2020/05/21/about-cors/&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="CORS" /><summary type="html">Introduction</summary></entry><entry><title type="html">그런 REST API로 괜찮은가.</title><link href="http://localhost:4000/backend/REST/" rel="alternate" type="text/html" title="그런 REST API로 괜찮은가." /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/backend/REST</id><content type="html" xml:base="http://localhost:4000/backend/REST/">&lt;h1 id=&quot;representaion-state-transfer&quot;&gt;REpresentaion State Transfer&lt;/h1&gt;
-
-&lt;p&gt;1991년에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WWW&lt;/code&gt;이 출시된 이후 인터넷 정보를 어떻게 공유할 것인가에 대한 연구가 활발히 진행됐는데, 그 예로 가장 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt;라는 프로토콜이 만들어졌다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Roy T.Fielding&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;의 창시자이며 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 프로토콜 개발에 참여했던 연구진으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 개발이후 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP object model&lt;/code&gt;이란 이름의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 아키텍쳐를 발표했다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Roy T.Fielding: “How do i improve HTTP without breaking the Web?”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;rest-api&quot;&gt;REST API&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 아키텍쳐 스타일(제약조건의 집합)을 따르는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;는 아키텍쳐 스타일의 집합이기 때문에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hyper archittecture styles&lt;/code&gt;라고도 불린다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;client-server&lt;/li&gt;
-  &lt;li&gt;stateless&lt;/li&gt;
-  &lt;li&gt;cache&lt;/li&gt;
-  &lt;li&gt;uniform interface&lt;/li&gt;
-  &lt;li&gt;layered system&lt;/li&gt;
-  &lt;li&gt;code-on-demand(Optional)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;대부분 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 기반에서 사용할 경우 쉽게 지켜질 수 있는 부분이나, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uniform interface&lt;/code&gt;에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt; 조건을 지키기 매우 까다롭다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uniform interface&lt;/code&gt;는 클라이언트 혹은 서버가 변경된다 해서 상대방까지 업데이트를 해야하는 상황을 막기위해 반드시 충족되어야 하는 조건이다.
-이를 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;독립적 진화&lt;/code&gt;라 하며 아래는 오늘 날 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST API&lt;/code&gt;라 불리우는 것들에게서 충족시키기 어려운 조건들이다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;self-descriptive messages&lt;/li&gt;
-  &lt;li&gt;hypermedia as the engine of application state(HATEOAS)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;이를 잘 지키는 플랫폼은 현재 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Web&lt;/code&gt;이 있다.&lt;/p&gt;
-
-&lt;h1 id=&quot;rest가-웹의-독립적-진화에-도움을-주었나&quot;&gt;REST가 웹의 독립적 진화에 도움을 주었나?&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;HTTP에 지속적으로 영향을 줌&lt;/li&gt;
-  &lt;li&gt;HOST 헤더 추가&lt;/li&gt;
-  &lt;li&gt;길이 제한을 다루는 방법을 명시&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;414 UIL Too Long&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP/1.1&lt;/code&gt; 명세 최신판에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;에 대한 언급이 들어감&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;rest-api는-반드시-따라야-하나&quot;&gt;REST API는 반드시 따라야 하나?&lt;/h1&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Roy T.Fielding: “REST emphasizes evolvability to sustain an unconrollable system. If you think you have control over the system or aren’t interested in evolvability, don’t waste your time arguing about REST”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h1 id=&quot;api를-rest-api로-구현해보자&quot;&gt;API를 REST API로 구현해보자.&lt;/h1&gt;
-
-&lt;h2 id=&quot;웹과-http-api에-차이점&quot;&gt;웹과 HTTP API에 차이점&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt; &lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;웹 페이지&lt;/th&gt;
-      &lt;th style=&quot;text-align: left&quot;&gt;HTTP API&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Protocol&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HTTP&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HTTP&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;communication&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Human - Machine&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Machine - Machine&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;Media Type&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;HTML&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt;JSON&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTML&lt;/code&gt;에 비해 불안전하다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTML&lt;/code&gt;은 명세에 대해 해석 가능하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;self-descriptive&lt;/code&gt;하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HATEOAS&lt;/code&gt;하다.&lt;/p&gt;
-
-&lt;p&gt;그러면 우리는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;을 통해 정보를 주고받는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt; 환경에서 어떻게 해야 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;REST&lt;/code&gt;에 대해 만족시킬 수 있을까?&lt;/p&gt;
-
-&lt;h2 id=&quot;self-descriptive&quot;&gt;Self-descriptive&lt;/h2&gt;
-
-&lt;h3 id=&quot;media-type을-정의한다&quot;&gt;Media type을 정의한다.&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;미디어 타입을 정의 후 문서로 정리한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IANA&lt;/code&gt;에 미디어 타입을 등록할 수 있다. 만든 문서를 미디어 타입의 명세로 등록한다.&lt;/li&gt;
-  &lt;li&gt;이제 이 메세지를 보는 사람은 명세를 찾아갈 수 있으므로 이 메세지의 의미를 온전히 해석 가능하다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;profile&quot;&gt;Profile&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;id&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;에 대한 정의를 문서로 작성한다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt; 헤더에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;profile relation&lt;/code&gt;으로 해당 명세를 링크한다.&lt;/li&gt;
-  &lt;li&gt;이제 메세지를 보는 사람은 명세를 찾아갈 수 있으므로 이 문서의 의미를 온전히 해석할 수 있다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;클라이언트가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt; 헤더에 대한 명세를 이해해야하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Content negotiation&lt;/code&gt;을 할 수 없다.&lt;/p&gt;
-
-&lt;h2 id=&quot;hateoas&quot;&gt;HATEOAS&lt;/h2&gt;
-
-&lt;h3 id=&quot;data에-하이퍼링크를-추가한다&quot;&gt;data에 하이퍼링크를 추가한다.&lt;/h3&gt;
-
-&lt;p&gt;이는 링크를 표현하는 방법을 직접 정의해야하는 단점이있다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;JSON API&lt;/li&gt;
-  &lt;li&gt;HAL&lt;/li&gt;
-  &lt;li&gt;UBER&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;등 이미 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;JSON&lt;/code&gt;에서 하이퍼 링크를 표현하는 방법을 정의한 명세를 활용할 수 있지만, 기존에 내가 구현했던 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;를 고쳐야하는 단점이 있다.&lt;/p&gt;
-
-&lt;h3 id=&quot;http-헤더로-표현&quot;&gt;HTTP 헤더로 표현&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Link&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Location&lt;/code&gt; 등의 헤더로 표현한다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://tv.naver.com/v/2292653&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="REST" /><summary type="html">REpresentaion State Transfer</summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="CORS" /><summary type="html">Introduction</summary></entry></feed>
