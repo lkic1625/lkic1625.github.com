@@ -377,9 +377,9 @@ var store = [{
         "url": "http://localhost:4000/programming/meaningful_naming/",
         "teaser": null
       },{
-        "title": "Prototype",
-        "excerpt":" ","categories": [],
-        "tags": [],
-        "url": "http://localhost:4000/prototype/",
+        "title": "prototype",
+        "excerpt":"Introduction redis 공부 중 예제에서 prototype을 사용했다. 처음에는 아 이거~ 하면서 아는 듯이 사용했지만 이게 뭐하는 건지 제대로 알고 쓴 적이 없다는 걸 느꼈다. 가볍게 써보는 prototype에 대한 포스트다. 아, 그리고 최근들어 포스트를 작성할 때 듣고있는 노래를 기록해보고 있다. 지금 내가 듣고 있는 노래는 SATIE Trois gymnopédies: No. 1, Lent...","categories": ["js"],
+        "tags": ["js","asynchronous"],
+        "url": "http://localhost:4000/js/prototype/",
         "teaser": null
       }]
