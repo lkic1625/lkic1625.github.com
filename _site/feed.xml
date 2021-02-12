@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-12T21:32:42+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Redis, Commands</title><link href="http://localhost:4000/redis/reids_03/" rel="alternate" type="text/html" title="Redis, Commands" /><published>2021-02-12T00:00:00+09:00</published><updated>2021-02-12T04:00:00+09:00</updated><id>http://localhost:4000/redis/reids_03</id><content type="html" xml:base="http://localhost:4000/redis/reids_03/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-12T22:38:20+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Redis, Commands</title><link href="http://localhost:4000/redis/reids_03/" rel="alternate" type="text/html" title="Redis, Commands" /><published>2021-02-12T00:00:00+09:00</published><updated>2021-02-12T04:00:00+09:00</updated><id>http://localhost:4000/redis/reids_03</id><content type="html" xml:base="http://localhost:4000/redis/reids_03/">&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;&gt;
+&lt;/script&gt;
+
+&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;집밖에도 안 나가는 설 당일 포스트를 쓴다.&lt;/p&gt;
 
@@ -156,7 +159,25 @@
 
 &lt;h2 id=&quot;pipelines&quot;&gt;Pipelines&lt;/h2&gt;
 
-&lt;p&gt;파이프라인은 레디스 서버에 복수의 요청을&lt;/p&gt;
+&lt;p&gt;파이프라인은 레디스 서버에 복수의 요청을 한 번에 처리할 수 있도록 한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Redis는 고성능의 key-value store지만, TCP 기반의 클라이언트-서버 모델을 따르기에 아래와 같이 동작하고, 네트워크 IO에 대한 &lt;strong&gt;병목&lt;/strong&gt;이 존재할 수밖에 없습니다.(물리적인 네트워크 지연, 3-way handshake 등의 이유로)&lt;br /&gt;&lt;br /&gt;PlanB의 백엔드 엔지니어링&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Round Trip Time(RTT)&lt;/code&gt;란 커맨드를 전송하고 그에 대한 응답을 레디스 서버로부터 얻는데까지 걸리는 시간을 의미한다. 예를들면 \(n\)개의 커맨드를 전송할 경우 \(n\)개 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RTT&lt;/code&gt;를 받게 되는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/redis_connection_without_pipeline.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;레디스는 이러한 병목 현상 완화를 위해 파이프라인을 제공한다. 자세한 코드는 5장에서 볼 수 있지만, 파이프라인을 사용한다면 아래와 같이 통신이 이루어질 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/redis_connection_with_pipeline.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;마치며&quot;&gt;마치며,&lt;/h1&gt;
+
+&lt;p&gt;오늘은 레디스가 제공하는 여러 커맨드를 알아보았다.&lt;/p&gt;
+
+&lt;p&gt;현 챕터에서는 자료구조에 대한 튜닝 혹은 기본설정 또한 다룬다. 꼭 다루고 싶은 주제가 아니기에 위 포스트에선 생략했다. 나중에 기회가 되면 다루고 싶긴 하다&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
@@ -164,7 +185,7 @@
     &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
     &lt;li&gt;https://redis.io/topics&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><category term="time-series" /><summary type="html">Introduction</summary></entry><entry><title type="html">prototype</title><link href="http://localhost:4000/js/prototype/" rel="alternate" type="text/html" title="prototype" /><published>2020-12-27T00:00:00+09:00</published><updated>2020-12-28T04:00:00+09:00</updated><id>http://localhost:4000/js/prototype</id><content type="html" xml:base="http://localhost:4000/js/prototype/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><category term="time-series" /><summary type="html"></summary></entry><entry><title type="html">prototype</title><link href="http://localhost:4000/js/prototype/" rel="alternate" type="text/html" title="prototype" /><published>2020-12-27T00:00:00+09:00</published><updated>2020-12-28T04:00:00+09:00</updated><id>http://localhost:4000/js/prototype</id><content type="html" xml:base="http://localhost:4000/js/prototype/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redis&lt;/code&gt; 공부 중 예제에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prototype&lt;/code&gt;을 사용했다. 처음에는 아 이거~ 하면서 아는 듯이 사용했지만 이게 뭐하는 건지 제대로 알고 쓴 적이 없다는 걸 느꼈다.&lt;/p&gt;
 
