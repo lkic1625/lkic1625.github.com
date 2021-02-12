@@ -1,0 +1,791 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Redis, Commands  |  untitled</title>
+<meta name="description" content="Introduction">
+
+
+  <meta name="author" content="조원빈">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="untitled">
+<meta property="og:title" content="Redis, Commands">
+<meta property="og:url" content="http://localhost:4000/redis/reids_03/">
+
+
+  <meta property="og:description" content="Introduction">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-02-12T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2021-02-12T04:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/redis/reids_03/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "조원빈",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="untitled Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          untitled
+          <span class="site-subtitle">기록용 블로그입니다.</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">연도별 포스트</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar_logo2.jpg" alt="조원빈" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">조원빈</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Was mich nicht umbringt, macht mich stärker.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="mailto:lkic1625@gmail.com" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Redis, Commands">
+    <meta itemprop="description" content="Introduction">
+    <meta itemprop="datePublished" content="2021-02-12T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2021-02-12T04:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Redis, Commands
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On This Page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#commands">Commands</a>
+    <ul>
+      <li><a href="#pubsub">Pub/Sub</a>
+        <ul>
+          <li><a href="#publish">PUBLISH</a></li>
+          <li><a href="#subscribe-unsubscribe">SUBSCRIBE, UNSUBSCRIBE</a></li>
+        </ul>
+      </li>
+      <li><a href="#transcations">Transcations</a>
+        <ul>
+          <li><a href="#multi-exec">MULTI, EXEC</a></li>
+          <li><a href="#watch-unwatch">WATCH, UNWATCH</a>
+            <ul>
+              <li><a href="#optimistic-lockgin-using-check-and-set">Optimistic lockgin using check-and-set</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><a href="#pipelines">Pipelines</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="introduction">Introduction</h1>
+
+<p>집밖에도 안 나가는 설 당일 포스트를 쓴다.</p>
+
+<p>지금 듣고 있는 노래 <code class="language-plaintext highlighter-rouge">새소년 (SE SO NEON) ‘자유(Jayu)’</code>다.</p>
+
+<h1 id="commands">Commands</h1>
+
+<p>레디스에서는 네트워크 통신 지연을 줄여 줄 여러가지 기능을 제공한다. 이와 관련된 커맨드를 알아보도록 하자.</p>
+
+<h2 id="pubsub">Pub/Sub</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Pub/Sub</code>는 수신자에게 메세지를 직접적으로 전달하지 않는 패턴이다. <code class="language-plaintext highlighter-rouge">Publisher</code>는 채널에 메세지를 보내고 <code class="language-plaintext highlighter-rouge">Subscriber</code>는 채널을 구독 중이라면 메세지를 전달받는다.</p>
+
+<p>아래는 <code class="language-plaintext highlighter-rouge">Pub/Sub</code> 패턴을 사용하는 예다.</p>
+<ul>
+  <li>뉴스와 날씨 정보</li>
+  <li>채팅 서비스</li>
+  <li>푸쉬메세지</li>
+  <li>SaltStack과 같은 Remote code excution</li>
+</ul>
+
+<h3 id="publish">PUBLISH</h3>
+
+<p><code class="language-plaintext highlighter-rouge">PUBLISH</code>를 통해 레디스 채널에 메세지를 보낸다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">redis</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">redis</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">channel</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span> <span class="c1">// 1</span>
+<span class="kd">var</span> <span class="nx">command</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span> <span class="c1">// 2</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="nx">channel</span><span class="p">,</span> <span class="nx">command</span><span class="p">);</span> <span class="c1">// 3</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">quit</span><span class="p">();</span>
+</code></pre></div></div>
+
+<h3 id="subscribe-unsubscribe">SUBSCRIBE, UNSUBSCRIBE</h3>
+
+<p>한 개 이상의 채널을 구독 혹은 구독취소한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">PSUBSCRIBE</code>, <code class="language-plaintext highlighter-rouge">PUNSUBSCRIBE</code>도 비슷한 동작을 하지만 <code class="language-plaintext highlighter-rouge">glob-style pattern</code>을 지원한다.</p>
+
+<blockquote>
+  <p>glob-style pattern</p>
+  <ul>
+    <li>h?llo subscribes to hello, hallo and hxllo</li>
+    <li>h*llo subscribes to hllo and heeeello</li>
+    <li>h[ae]llo subscribes to hello and hallo, but not hillo</li>
+  </ul>
+</blockquote>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">os</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">os</span><span class="dl">"</span><span class="p">);</span> <span class="c1">// 1</span>
+<span class="kd">var</span> <span class="nx">redis</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">redis</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">COMMANDS</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// 2</span>
+<span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">DATE</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// 3</span>
+ <span class="kd">var</span> <span class="nx">now</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">DATE </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">now</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">());</span>
+<span class="p">};</span>
+<span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">PING</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// 4</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">PONG</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">HOSTNAME</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// 5</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">HOSTNAME </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">os</span><span class="p">.</span><span class="nx">hostname</span><span class="p">());</span>
+<span class="p">};</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">message</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">channel</span><span class="p">,</span> <span class="nx">commandName</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 6</span>
+ <span class="k">if</span> <span class="p">(</span><span class="nx">COMMANDS</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">commandName</span><span class="p">))</span> <span class="p">{</span> <span class="c1">// 7</span>
+ <span class="kd">var</span> <span class="nx">commandFunction</span> <span class="o">=</span> <span class="nx">COMMANDS</span><span class="p">[</span><span class="nx">commandName</span><span class="p">];</span> <span class="c1">// 8</span>
+ <span class="nx">commandFunction</span><span class="p">();</span> <span class="c1">// 9</span>
+ <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="c1">// 10</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">Unknown command: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">commandName</span><span class="p">);</span>
+ <span class="p">}</span>
+<span class="p">});</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="dl">"</span><span class="s2">global</span><span class="dl">"</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span> <span class="c1">// 11</span>
+</code></pre></div></div>
+
+<h2 id="transcations">Transcations</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Transcation</code>은 <code class="language-plaintext highlighter-rouge">atomic</code>하게 레디스 커맨드를 실행시킬 수 있다.</p>
+
+<h3 id="multi-exec">MULTI, EXEC</h3>
+
+<p><code class="language-plaintext highlighter-rouge">MULTI</code>는 트랜잭션에 시작을, <code class="language-plaintext highlighter-rouge">EXEC</code>가 끝을 나타낸다.
+모든 커맨드는 대기열에 올라 <code class="language-plaintext highlighter-rouge">EXEC</code> 커맨드가 동작할 때 서버로 보내진다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">EXEC</code> 커맨드 대신 <code class="language-plaintext highlighter-rouge">DISCARD</code>를 사용하여 트랜잭션이 실행되지 않도록 할 수 있다.</p>
+
+<blockquote>
+  <p>Flushes all previously queued commands in a transaction and restores the connection state to normal.</p>
+</blockquote>
+
+<p><code class="language-plaintext highlighter-rouge">SQL</code>과는 달리 트랜잭션으로 발생한 변경사항은 트랜잭션이 도중에 오류를 일으켜도 롤백이 불가능하다.
+중간에 실패한 커맨드는 무시한 체 다음 명령어를 계속해서 실행한다.</p>
+
+<p>모든 커맨드가 한 번에 대기열에 올라가기 때문에 트랜잭션 내부 상태에 따라 다른 결정이 불가능하다.</p>
+
+<p>아래는 통장에 상태에 따라 <code class="language-plaintext highlighter-rouge">DISCARD</code> 혹은 입금을 진행하는 예제코드다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">redis</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">redis</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">();</span>
+<span class="kd">function</span> <span class="nx">transfer</span><span class="p">(</span><span class="k">from</span><span class="p">,</span> <span class="nx">to</span><span class="p">,</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 1</span>
+ <span class="nx">client</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="k">from</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">balance</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 2</span>
+ <span class="kd">var</span> <span class="nx">multi</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">multi</span><span class="p">();</span> <span class="c1">// 3</span>
+ <span class="nx">multi</span><span class="p">.</span><span class="nx">decrby</span><span class="p">(</span><span class="k">from</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span> <span class="c1">// 4</span>
+ <span class="nx">multi</span><span class="p">.</span><span class="nx">incrby</span><span class="p">(</span><span class="nx">to</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span> <span class="c1">// 5</span>
+ <span class="k">if</span> <span class="p">(</span><span class="nx">balance</span> <span class="o">&gt;=</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 6</span>
+ <span class="nx">multi</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">reply</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 7</span>
+ <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">reply</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="c1">// 8</span>
+ <span class="p">});</span>
+ <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+ <span class="nx">multi</span><span class="p">.</span><span class="nx">discard</span><span class="p">();</span> <span class="c1">// 9</span>
+ <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="dl">"</span><span class="s2">Insufficient funds</span><span class="dl">"</span><span class="p">),</span> <span class="kc">null</span><span class="p">);</span> <span class="c1">// 10</span>
+ <span class="p">}</span>
+ <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="watch-unwatch">WATCH, UNWATCH</h3>
+
+<p><code class="language-plaintext highlighter-rouge">WATCH</code>는 트랜잭션에서 현재 등록된 키들이 모두 변경되지 않았다는 것을 확인할 수 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">EXEC</code>가 호출되면, 트랜잭션의 동작여부와 상관없이 등록된 모든 키는 <code class="language-plaintext highlighter-rouge">UNWATCH</code> 상태가 된다.
+클라이언트 연결이 종료될 경우에도 이와 같은 동작을 한다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">UNWATCH</code>는 인자 없이 호출 시 등록된 모든 키를 제거한다. 이는 트랜잭션 내부에서 해당 키들이 필요없어지고 새로운 키들을 이용할 경우에 매우 유용하다.</p>
+
+<h4 id="optimistic-lockgin-using-check-and-set">Optimistic lockgin using check-and-set</h4>
+
+<p><code class="language-plaintext highlighter-rouge">WATCH</code>는 트랜잭션에서 <code class="language-plaintext highlighter-rouge">check-and-set(CAS)</code> 동작을 제공한다.</p>
+
+<p>위 커맨드는 특정 키가 변경되는 것을 감시하며, <code class="language-plaintext highlighter-rouge">EXEC</code> 커맨드가 시작되기 전에 만약 하나의 키 값이라도 변경될 시, 현재 트랜잭션을 기각한다.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">redis</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">redis</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">client</span> <span class="o">=</span> <span class="nx">redis</span><span class="p">.</span><span class="nx">createClient</span><span class="p">();</span>
+<span class="kd">function</span> <span class="nx">zpop</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 1</span>
+ <span class="nx">client</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">watchErr</span><span class="p">,</span> <span class="nx">watchReply</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 2</span>
+ <span class="nx">client</span><span class="p">.</span><span class="nx">zrange</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">zrangeErr</span><span class="p">,</span> <span class="nx">zrangeReply</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 3</span>
+ <span class="kd">var</span> <span class="nx">multi</span> <span class="o">=</span> <span class="nx">client</span><span class="p">.</span><span class="nx">multi</span><span class="p">();</span> <span class="c1">// 4</span>
+ <span class="nx">multi</span><span class="p">.</span><span class="nx">zrem</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">zrangeReply</span><span class="p">);</span> <span class="c1">// 5</span>
+ <span class="nx">multi</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">transactionErr</span><span class="p">,</span> <span class="nx">transactionReply</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 6</span>
+ <span class="k">if</span> <span class="p">(</span><span class="nx">transactionReply</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nx">callback</span><span class="p">(</span><span class="nx">zrangeReply</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="c1">// 7</span>
+ <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+ <span class="nx">zpop</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">callback</span><span class="p">);</span> <span class="c1">// 8</span>
+ <span class="p">}</span>
+ <span class="p">});</span>
+ <span class="p">});</span>
+ <span class="p">});</span>
+<span class="p">}</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">zadd</span><span class="p">(</span><span class="dl">"</span><span class="s2">presidents</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1732</span><span class="p">,</span> <span class="dl">"</span><span class="s2">George Washington</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">zadd</span><span class="p">(</span><span class="dl">"</span><span class="s2">presidents</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1809</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Abraham Lincoln</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">client</span><span class="p">.</span><span class="nx">zadd</span><span class="p">(</span><span class="dl">"</span><span class="s2">presidents</span><span class="dl">"</span><span class="p">,</span> <span class="mi">1858</span><span class="p">,</span> <span class="dl">"</span><span class="s2">Theodore Roosevelt</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">zpop</span><span class="p">(</span><span class="dl">"</span><span class="s2">presidents</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">member</span><span class="p">)</span> <span class="p">{</span>
+ <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">The first president in the group is:</span><span class="dl">"</span><span class="p">,</span> <span class="nx">member</span><span class="p">);</span>
+ <span class="nx">client</span><span class="p">.</span><span class="nx">quit</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<h2 id="pipelines">Pipelines</h2>
+
+<p>파이프라인은 레디스 서버에 복수의 요청을</p>
+
+<blockquote>
+  <font size="6">Refernce</font>
+  <ul>
+    <li>Maxwell Dayvson Da Silva, Redis Essentials</li>
+    <li>https://redis.io/topics</li>
+  </ul>
+</blockquote>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#database" class="page__taxonomy-item" rel="tag">database</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#nodejs" class="page__taxonomy-item" rel="tag">nodejs</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#nosql" class="page__taxonomy-item" rel="tag">NoSQL</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#redis" class="page__taxonomy-item" rel="tag">redis</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#time-series" class="page__taxonomy-item" rel="tag">time-series</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#redis" class="page__taxonomy-item" rel="tag">redis</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2021-02-12">February 12, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Redis%2C+Commands%20http%3A%2F%2Flocalhost%3A4000%2Fredis%2Freids_03%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fredis%2Freids_03%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fredis%2Freids_03%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/js/prototype/" class="pagination--pager" title="prototype
+">이전</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">다음</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/js/prototype/" rel="permalink">prototype
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/programming/meaningful_naming/" rel="permalink">의미있는 변수명
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/redis/time_series_with_redis/" rel="permalink">시계열 데이터 관측(작성 중)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  최대 1 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/programming/diamond_problem/" rel="permalink">Diamond Problem
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 분 소요
+
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://github.com/lkic1625" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.instagram.com/__b1n__/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2021 조원빈. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>

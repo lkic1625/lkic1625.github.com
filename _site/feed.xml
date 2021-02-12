@@ -1,4 +1,170 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-01-17T23:37:20+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">prototype</title><link href="http://localhost:4000/js/prototype/" rel="alternate" type="text/html" title="prototype" /><published>2020-12-27T00:00:00+09:00</published><updated>2020-12-28T04:00:00+09:00</updated><id>http://localhost:4000/js/prototype</id><content type="html" xml:base="http://localhost:4000/js/prototype/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-02-12T21:32:42+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">untitled</title><subtitle>기록용 블로그입니다. 개발관련 게시글을 주로 올립니다.</subtitle><author><name>조원빈</name></author><entry><title type="html">Redis, Commands</title><link href="http://localhost:4000/redis/reids_03/" rel="alternate" type="text/html" title="Redis, Commands" /><published>2021-02-12T00:00:00+09:00</published><updated>2021-02-12T04:00:00+09:00</updated><id>http://localhost:4000/redis/reids_03</id><content type="html" xml:base="http://localhost:4000/redis/reids_03/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;집밖에도 안 나가는 설 당일 포스트를 쓴다.&lt;/p&gt;
+
+&lt;p&gt;지금 듣고 있는 노래 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;새소년 (SE SO NEON) ‘자유(Jayu)’&lt;/code&gt;다.&lt;/p&gt;
+
+&lt;h1 id=&quot;commands&quot;&gt;Commands&lt;/h1&gt;
+
+&lt;p&gt;레디스에서는 네트워크 통신 지연을 줄여 줄 여러가지 기능을 제공한다. 이와 관련된 커맨드를 알아보도록 하자.&lt;/p&gt;
+
+&lt;h2 id=&quot;pubsub&quot;&gt;Pub/Sub&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Pub/Sub&lt;/code&gt;는 수신자에게 메세지를 직접적으로 전달하지 않는 패턴이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Publisher&lt;/code&gt;는 채널에 메세지를 보내고 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Subscriber&lt;/code&gt;는 채널을 구독 중이라면 메세지를 전달받는다.&lt;/p&gt;
+
+&lt;p&gt;아래는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Pub/Sub&lt;/code&gt; 패턴을 사용하는 예다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;뉴스와 날씨 정보&lt;/li&gt;
+  &lt;li&gt;채팅 서비스&lt;/li&gt;
+  &lt;li&gt;푸쉬메세지&lt;/li&gt;
+  &lt;li&gt;SaltStack과 같은 Remote code excution&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;publish&quot;&gt;PUBLISH&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PUBLISH&lt;/code&gt;를 통해 레디스 채널에 메세지를 보낸다.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;channel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;command&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;publish&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;channel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;quit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;subscribe-unsubscribe&quot;&gt;SUBSCRIBE, UNSUBSCRIBE&lt;/h3&gt;
+
+&lt;p&gt;한 개 이상의 채널을 구독 혹은 구독취소한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PSUBSCRIBE&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PUNSUBSCRIBE&lt;/code&gt;도 비슷한 동작을 하지만 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;glob-style pattern&lt;/code&gt;을 지원한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;glob-style pattern&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;h?llo subscribes to hello, hallo and hxllo&lt;/li&gt;
+    &lt;li&gt;h*llo subscribes to hllo and heeeello&lt;/li&gt;
+    &lt;li&gt;h[ae]llo subscribes to hello and hallo, but not hillo&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;os&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;COMMANDS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{};&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;COMMANDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DATE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;DATE &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toISOString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;COMMANDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;PING&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 4&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;PONG&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;COMMANDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;HOSTNAME&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 5&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;HOSTNAME &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hostname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;channel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;commandName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 6&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;COMMANDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hasOwnProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commandName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 7&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;commandFunction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;COMMANDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;commandName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 8&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;commandFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 9&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 10&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Unknown command: &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;commandName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;subscribe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 11&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;transcations&quot;&gt;Transcations&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Transcation&lt;/code&gt;은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;atomic&lt;/code&gt;하게 레디스 커맨드를 실행시킬 수 있다.&lt;/p&gt;
+
+&lt;h3 id=&quot;multi-exec&quot;&gt;MULTI, EXEC&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MULTI&lt;/code&gt;는 트랜잭션에 시작을, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXEC&lt;/code&gt;가 끝을 나타낸다.
+모든 커맨드는 대기열에 올라 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXEC&lt;/code&gt; 커맨드가 동작할 때 서버로 보내진다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXEC&lt;/code&gt; 커맨드 대신 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DISCARD&lt;/code&gt;를 사용하여 트랜잭션이 실행되지 않도록 할 수 있다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Flushes all previously queued commands in a transaction and restores the connection state to normal.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SQL&lt;/code&gt;과는 달리 트랜잭션으로 발생한 변경사항은 트랜잭션이 도중에 오류를 일으켜도 롤백이 불가능하다.
+중간에 실패한 커맨드는 무시한 체 다음 명령어를 계속해서 실행한다.&lt;/p&gt;
+
+&lt;p&gt;모든 커맨드가 한 번에 대기열에 올라가기 때문에 트랜잭션 내부 상태에 따라 다른 결정이 불가능하다.&lt;/p&gt;
+
+&lt;p&gt;아래는 통장에 상태에 따라 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DISCARD&lt;/code&gt; 혹은 입금을 진행하는 예제코드다.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;transfer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;decrby&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 4&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;incrby&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 5&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;balance&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 6&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 7&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 8&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;discard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 9&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Insufficient funds&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 10&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;watch-unwatch&quot;&gt;WATCH, UNWATCH&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WATCH&lt;/code&gt;는 트랜잭션에서 현재 등록된 키들이 모두 변경되지 않았다는 것을 확인할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXEC&lt;/code&gt;가 호출되면, 트랜잭션의 동작여부와 상관없이 등록된 모든 키는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UNWATCH&lt;/code&gt; 상태가 된다.
+클라이언트 연결이 종료될 경우에도 이와 같은 동작을 한다.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;UNWATCH&lt;/code&gt;는 인자 없이 호출 시 등록된 모든 키를 제거한다. 이는 트랜잭션 내부에서 해당 키들이 필요없어지고 새로운 키들을 이용할 경우에 매우 유용하다.&lt;/p&gt;
+
+&lt;h4 id=&quot;optimistic-lockgin-using-check-and-set&quot;&gt;Optimistic lockgin using check-and-set&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WATCH&lt;/code&gt;는 트랜잭션에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;check-and-set(CAS)&lt;/code&gt; 동작을 제공한다.&lt;/p&gt;
+
+&lt;p&gt;위 커맨드는 특정 키가 변경되는 것을 감시하며, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EXEC&lt;/code&gt; 커맨드가 시작되기 전에 만약 하나의 키 값이라도 변경될 시, 현재 트랜잭션을 기각한다.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createClient&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;zpop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 1&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;watch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;watchErr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;watchReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 2&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zrange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zrangeErr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;zrangeReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 3&lt;/span&gt;
+ &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 4&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zrem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;zrangeReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 5&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;multi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;transactionErr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;transactionReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 6&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;transactionReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zrangeReply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 7&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;zpop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;callback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 8&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zadd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;presidents&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1732&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;George Washington&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zadd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;presidents&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1809&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Abraham Lincoln&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;zadd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;presidents&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1858&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;Theodore Roosevelt&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;zpop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;presidents&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;The first president in the group is:&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;member&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;client&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;quit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;pipelines&quot;&gt;Pipelines&lt;/h2&gt;
+
+&lt;p&gt;파이프라인은 레디스 서버에 복수의 요청을&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Maxwell Dayvson Da Silva, Redis Essentials&lt;/li&gt;
+    &lt;li&gt;https://redis.io/topics&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="redis" /><category term="NoSQL" /><category term="database" /><category term="redis" /><category term="nodejs" /><category term="time-series" /><summary type="html">Introduction</summary></entry><entry><title type="html">prototype</title><link href="http://localhost:4000/js/prototype/" rel="alternate" type="text/html" title="prototype" /><published>2020-12-27T00:00:00+09:00</published><updated>2020-12-28T04:00:00+09:00</updated><id>http://localhost:4000/js/prototype</id><content type="html" xml:base="http://localhost:4000/js/prototype/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;redis&lt;/code&gt; 공부 중 예제에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prototype&lt;/code&gt;을 사용했다. 처음에는 아 이거~ 하면서 아는 듯이 사용했지만 이게 뭐하는 건지 제대로 알고 쓴 적이 없다는 걸 느꼈다.&lt;/p&gt;
 
@@ -1669,7 +1835,58 @@ If-Match: *
     &lt;li&gt;https://www.zerocho.com/category/HTTP/post/5b3ba2d0b3dabd001b53b9db&lt;/li&gt;
     &lt;li&gt;https://feel5ny.github.io/2019/10/05/HTTP_007-2/&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="network" /><category term="header" /><summary type="html">Introduction</summary></entry><entry><title type="html">Node.js 이벤트 루프</title><link href="http://localhost:4000/nodejs/node_event_loop/" rel="alternate" type="text/html" title="Node.js 이벤트 루프" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/node_event_loop</id><content type="html" xml:base="http://localhost:4000/nodejs/node_event_loop/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="HTTP" /><category term="network" /><category term="header" /><summary type="html">Introduction</summary></entry><entry><title type="html">동기, 비동기, 블록킹 그리고 논 블록킹</title><link href="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="alternate" type="text/html" title="동기, 비동기, 블록킹 그리고 논 블록킹" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous</id><content type="html" xml:base="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자.&lt;/p&gt;
+
+&lt;p&gt;이번 포스트 주제는 말은 비슷해 보이지만 뭔가 다른 두 쌍에 대해 알아보자.&lt;/p&gt;
+
+&lt;h1 id=&quot;blockingnon-blocking&quot;&gt;Blocking/Non-Blocking&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blocking&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-blocking&lt;/code&gt; 호출되는 함수가 바로 리턴하는가에 차이다.&lt;/p&gt;
+
+&lt;p&gt;호출된 함수가 바로 리턴해서 호출한 함수에게 제어권을 넘겨주고 호출한 함수가 다른일을 할 수 있는 기회를 줄 수 있으면, 논블록킹이다.&lt;/p&gt;
+
+&lt;p&gt;그렇지 않고 호출된 함수가 자신의 작업을 모두 마칠 때까지 호출한 함수에게 제어권을 넘겨주지 않고 대기하게 만든다면 블록킹이다.&lt;/p&gt;
+
+&lt;h1 id=&quot;synchronousasynchronous&quot;&gt;Synchronous/Asynchronous&lt;/h1&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;는 호출되는 함수의 작업 완료 여부를 누가 신경쓰는가에 차이다.&lt;/p&gt;
+
+&lt;p&gt;호출되는 함수에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;callback&lt;/code&gt;을 전달해서 호출되는 함수의 작업이 완료되면, 전달받은 callback을 실행하고, 호출하는 함수는 작업 완료 여부를 신경쓰지 않으면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;다.&lt;/p&gt;
+
+&lt;p&gt;호출하는 함수가 호출되는 함수의 작업 완료 후 리턴을 기다리거나 호출되는 함수로부터 바로 리턴 받더라도 작업 완료 여부를 호출하는 함수 스스로 계속 스스로 확인하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;다.&lt;/p&gt;
+
+&lt;h1 id=&quot;blocking-with-synchronous-non-blocking-with-asynchronous&quot;&gt;Blocking with Synchronous, Non-Blocking with Asynchronous&lt;/h1&gt;
+
+&lt;p&gt;이와 같이 묶인 조합은 상당히 비슷한 동작을 진행하는 둘이기에 이해가 쉽다. 아래 그림을 참조하자.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/ibm-devwokrs-2x2matrix.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;non-blocking-with-synchronous&quot;&gt;Non-Blocking with Synchronous&lt;/h1&gt;
+
+&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴을 하지만, 호출한 함수가 작업 완료여부를 계속해서 확인하는 것이다. 작업 완료 전까지는 호출한 함수가 계속해서 물으며 진행은 못하지만 또 다른 작업을 진행할 수는 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/nonblocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;blocking-with-asynchronous&quot;&gt;Blocking with Asynchronous&lt;/h1&gt;
+
+&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴하지 않지만, 이에 대한 완료여부를 호출한 함수가 신경쓰지 않는 것이다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/blocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;참고한 블로그에서는 이에대한 예시로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;의 조합을 언급했다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 쪽에서 callback 지옥을 헤치면서 Async로 전진해와도, 결국 DB 작업 호출 시에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;에서 제공하는 드라이버를 호출하게 되는데, 이 드라이버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Blocking&lt;/code&gt; 방식이라고 한다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Blocking-Async는 별다른 장점이 없어서 일부러 사용할 필요는 없지만, NonBlocking-Async 방식을 쓰는데 그 과정 중에 하나라도 Blocking으로 동작하는 놈이 포함되어 있다면 의도하지 않게 Blocking-Async로 동작할 수 있다.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
+  &lt;ul&gt;
+    &lt;li&gt;http://homoefficio.github.io/2017/02/19/Blocking-NonBlocking-Synchronous-Asynchronous/&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="os" /><category term="sync" /><summary type="html">Introduction</summary></entry><entry><title type="html">Node.js 이벤트 루프</title><link href="http://localhost:4000/nodejs/node_event_loop/" rel="alternate" type="text/html" title="Node.js 이벤트 루프" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/nodejs/node_event_loop</id><content type="html" xml:base="http://localhost:4000/nodejs/node_event_loop/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;를 통해 개발하면서 사용할 줄만 알았지 제대로 된 개념하나 안 잡힌 것 같아 포스트를 작성한다. 이벤트 루프에 대해 알아보자. 블로그에서 최근 작성한 글 중에서 가장 긴 글이 되지 않을까 싶다.&lt;/p&gt;
 
@@ -1927,330 +2144,4 @@ If-Match: *
     &lt;li&gt;https://developer.ibm.com/tutorials/learn-nodejs-the-event-loop/&lt;/li&gt;
     &lt;li&gt;https://www.voidcanvas.com/nodejs-event-loop&lt;/li&gt;
   &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="js" /><category term="event_loop" /><summary type="html">Introduction</summary></entry><entry><title type="html">동기, 비동기, 블록킹 그리고 논 블록킹</title><link href="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/" rel="alternate" type="text/html" title="동기, 비동기, 블록킹 그리고 논 블록킹" /><published>2020-11-28T00:00:00+09:00</published><updated>2020-11-27T04:00:00+09:00</updated><id>http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous</id><content type="html" xml:base="http://localhost:4000/js/Blocking_NonBlocking_Synchronous_Asynchronous/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
-
-&lt;p&gt;최근 꽤나 오래 일을 해오신 개발자 분도 둘의 차이를 모르는 것 같아 놀랐다. 꼭 구분해야할 것이라곤 생각 안 하지만 말의 미묘한 차이는 커뮤니케이션에도 치명적일 수 있으니 한 번 정리해보자.&lt;/p&gt;
-
-&lt;p&gt;이번 포스트 주제는 말은 비슷해 보이지만 뭔가 다른 두 쌍에 대해 알아보자.&lt;/p&gt;
-
-&lt;h1 id=&quot;blockingnon-blocking&quot;&gt;Blocking/Non-Blocking&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;blocking&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;non-blocking&lt;/code&gt; 호출되는 함수가 바로 리턴하는가에 차이다.&lt;/p&gt;
-
-&lt;p&gt;호출된 함수가 바로 리턴해서 호출한 함수에게 제어권을 넘겨주고 호출한 함수가 다른일을 할 수 있는 기회를 줄 수 있으면, 논블록킹이다.&lt;/p&gt;
-
-&lt;p&gt;그렇지 않고 호출된 함수가 자신의 작업을 모두 마칠 때까지 호출한 함수에게 제어권을 넘겨주지 않고 대기하게 만든다면 블록킹이다.&lt;/p&gt;
-
-&lt;h1 id=&quot;synchronousasynchronous&quot;&gt;Synchronous/Asynchronous&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;는 호출되는 함수의 작업 완료 여부를 누가 신경쓰는가에 차이다.&lt;/p&gt;
-
-&lt;p&gt;호출되는 함수에게 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;callback&lt;/code&gt;을 전달해서 호출되는 함수의 작업이 완료되면, 전달받은 callback을 실행하고, 호출하는 함수는 작업 완료 여부를 신경쓰지 않으면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Asynchronous&lt;/code&gt;다.&lt;/p&gt;
-
-&lt;p&gt;호출하는 함수가 호출되는 함수의 작업 완료 후 리턴을 기다리거나 호출되는 함수로부터 바로 리턴 받더라도 작업 완료 여부를 호출하는 함수 스스로 계속 스스로 확인하면 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Synchronous&lt;/code&gt;다.&lt;/p&gt;
-
-&lt;h1 id=&quot;blocking-with-synchronous-non-blocking-with-asynchronous&quot;&gt;Blocking with Synchronous, Non-Blocking with Asynchronous&lt;/h1&gt;
-
-&lt;p&gt;이와 같이 묶인 조합은 상당히 비슷한 동작을 진행하는 둘이기에 이해가 쉽다. 아래 그림을 참조하자.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/ibm-devwokrs-2x2matrix.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;non-blocking-with-synchronous&quot;&gt;Non-Blocking with Synchronous&lt;/h1&gt;
-
-&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴을 하지만, 호출한 함수가 작업 완료여부를 계속해서 확인하는 것이다. 작업 완료 전까지는 호출한 함수가 계속해서 물으며 진행은 못하지만 또 다른 작업을 진행할 수는 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/nonblocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;blocking-with-asynchronous&quot;&gt;Blocking with Asynchronous&lt;/h1&gt;
-
-&lt;p&gt;위에 정의대로라면 호출된 함수는 바로 리턴하지 않지만, 이에 대한 완료여부를 호출한 함수가 신경쓰지 않는 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/blocking_with_sync.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;참고한 블로그에서는 이에대한 예시로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;과 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt;의 조합을 언급했다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Node.js&lt;/code&gt; 쪽에서 callback 지옥을 헤치면서 Async로 전진해와도, 결국 DB 작업 호출 시에는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MySQL&lt;/code&gt;에서 제공하는 드라이버를 호출하게 되는데, 이 드라이버가 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Blocking&lt;/code&gt; 방식이라고 한다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Blocking-Async는 별다른 장점이 없어서 일부러 사용할 필요는 없지만, NonBlocking-Async 방식을 쓰는데 그 과정 중에 하나라도 Blocking으로 동작하는 놈이 포함되어 있다면 의도하지 않게 Blocking-Async로 동작할 수 있다.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;http://homoefficio.github.io/2017/02/19/Blocking-NonBlocking-Synchronous-Asynchronous/&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="js" /><category term="os" /><category term="sync" /><summary type="html">Introduction</summary></entry><entry><title type="html">CORS(작성중)</title><link href="http://localhost:4000/backend/CORS/" rel="alternate" type="text/html" title="CORS(작성중)" /><published>2020-11-27T00:00:00+09:00</published><updated>2020-11-30T04:00:00+09:00</updated><id>http://localhost:4000/backend/CORS</id><content type="html" xml:base="http://localhost:4000/backend/CORS/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node&lt;/code&gt; 개발할 때, 따로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt;란 단어를 책에선 본 적은 있지만 제대로 다루지는 않았다 헤더에 와일드 카드를 추가하던가, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cors&lt;/code&gt; 모듈을 사용하여 가능한 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt;를 설정하라는 것은 익히 알고 있었으나 그 속 내부까지 파고들어 가볼까 한다.&lt;/p&gt;
-
-&lt;h1 id=&quot;cors란&quot;&gt;CORS란&lt;/h1&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/CORS_principle.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Cross Origin Resource Sharing(CORS)&lt;/code&gt;는 웹서버를 개발하다보면 자주 마주칠 수 있는 상황이다.&lt;/p&gt;
-
-&lt;p&gt;이는 도메인 또는 포트가 다른 서버의 자원을 요청할 경우 보안상의 이유로 브라우저는 스크립트에서 시작한 교차 출처 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 요청을 제한한다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;API&lt;/code&gt;를 사용하는 웹 애플리케이션은 자신의 출처와 동일한 리소스만 불러올 수 있으며, 다른 출처의 리소스를 불러오려면 그 출처에서 올바른 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 헤더를 포함한 응답을 반환해야 한다.&lt;/p&gt;
-
-&lt;p&gt;간단히 요약하자면 브라우저에서 서버로 하는 요청은 반드시 같은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;이어야 한다는 것이다.&lt;/p&gt;
-
-&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 표준은 웹 브라우저에서 해당 정보를 읽는 것이 허용된 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;을 서버에서 설명할 수 있도록 새로운 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 헤더를 추가한다.&lt;/p&gt;
-
-&lt;p&gt;보통은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;preflight&lt;/code&gt;를 우선 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 메서드로 전달 후 서버에서 허가가 떨어졌을 경우 실제 요청을 보내도록 진행된다 . 필요한 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Authenticate&lt;/code&gt;를 요청할 수 있다.&lt;/p&gt;
-
-&lt;h2 id=&quot;cors를-사용하는-요청&quot;&gt;CORS를 사용하는 요청?&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 표준은 다음과 같은 경우 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 요청을 허용한다.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Fetch API 호출&lt;/li&gt;
-  &lt;li&gt;웹 폰트&lt;/li&gt;
-  &lt;li&gt;WebGL 텍스쳐&lt;/li&gt;
-  &lt;li&gt;drawImage()&lt;/li&gt;
-  &lt;li&gt;이미지로부터 추출하는 CSS Shapes&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;origin&quot;&gt;Origin?&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;URI&lt;/code&gt;에 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Path&lt;/code&gt; 이전 부분을 나타낸다.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;은 페칭된 출처를 나타낸다. 쉽게 말하면 요청한 클라이언트가 어디서 요청했는지 그 위치를 알려준다.&lt;/p&gt;
-
-&lt;p&gt;브라우저의 개발자 도구에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Location&lt;/code&gt; 객체가 가진 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;origin&lt;/code&gt;의 프로퍼티에 접근하면 쉽게 그 값을 알아낼 수 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;console.log(location.origin);
-VM76:1 https://lkic1625.github.io
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;sopsame-origin-policy&quot;&gt;SOP(Same-Origin Policy)&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SOP&lt;/code&gt;는 &lt;a href=&quot;https://tools.ietf.org/html/rfc6454#section-3&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;RFC6454&lt;/code&gt;&lt;/a&gt;에서 처음 등장한 보안 정책으로 같은 출처에서만 리소스를 공유할 수 있다는 정책이다.&lt;/p&gt;
-
-&lt;p&gt;하지만 웹 환경에서는 다른 출처의 리소스를 가져오는 일이 굉장히 흔하므로 예외 조항인 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 정책에 한해 출처가 다른 리소스를 허용했다.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Access to network resources varies depending on whether the resources are in the same origin as the content attempting to access them.&lt;br /&gt;&lt;br /&gt;
-Generally, reading information from another origin is forbidden. However, an origin is permitted to use some kinds of resources retrieved from other origins. For example, an origin is permitted to execute script, render images, and apply style sheets from any origin. Likewise, an origin can display content from another origin, such as an HTML document in an HTML frame. Network resources can also opt into letting other origins read their information, for example, using Cross-Origin Resource Sharing.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;same-origin&quot;&gt;Same Origin?&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;에서 가장 잘 알아둬야할 점은 같은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin&lt;/code&gt;을 구별하는 사항이 서버의 구현된 스펙이 아닌 브라우저에 구현된 스펙이라는 것이다. 브라우저마다 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;IE&lt;/code&gt; 같은 경우는 포트가 달라도 호스트가 같다면 같은 출처로 보며, 포트마다 다른 출처라고 하는 브라우저도 존재한다.&lt;/p&gt;
-
-&lt;p&gt;서버가 같은 출처에서 보낸 요청만 받겠다는 로직을 가지고 있는 경우가 아니라면 서버는 정상적으로 응답을 하고, 브라우저에서는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 정책 위반이라고 판단하고 응답을 &lt;b&gt;폐기&lt;/b&gt;할 수 있다는 말이다.&lt;/p&gt;
-
-&lt;p&gt;서버는 계속해서 정상적으로 응답한다고 뜨는데, 계속해서 오류가 나는 경우 디버깅이 매우 힘들 것이다. 따라서, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CORS&lt;/code&gt; 관련하여 제대로 알고 있는 것이 매우 중요하다.&lt;/p&gt;
-
-&lt;h2 id=&quot;접근-제어-시나리오&quot;&gt;접근 제어 시나리오&lt;/h2&gt;
-
-&lt;h3 id=&quot;simple-requests&quot;&gt;Simple requests&lt;/h3&gt;
-
-&lt;p&gt;단순 요청은 서버간에 간단한 통신을 하고, 교차출처 전용 헤더(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Allow-Origin&lt;/code&gt;)를 사용하여 권한을 처리한다.&lt;/p&gt;
-
-&lt;p&gt;단순 요청은 매우 간편해 보이지만, 보안적으로 상당히 취약하므로 특정 상황에서만 가능하다.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;요청의 메소드는 GET, HEAD, POST 중 하나여야 한다.&lt;/li&gt;
-  &lt;li&gt;Accept, Accept-Language, Content-Language, Content-Type, DPR, Downlink, Save-Data, Viewport-Width, Width를 제외한 헤더를 사용하면 안된다.&lt;/li&gt;
-  &lt;li&gt;만약 Content-Type를 사용하는 경우에는 application/x-www-form-urlencoded, multipart/form-data, text/plain만 허용된다.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;제약 조건을 알아봤으니 이제 직접 예제를 봐보자. 예를들어, https://foo.example 의 웹 컨텐츠가  https://bar.other 도메인의 컨텐츠를 호출하길 원할 때, foo.example에 배포된 자바스크립트에는 아래와 같은 코드가 사용될 수 있다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const xhr = new XMLHttpRequest();
-const url = 'https://bar.other/resources/public-data/';
-
-xhr.open('GET', url);
-xhr.onreadystatechange = someHandler;
-xhr.send();
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/simple-req-updated.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Request
-GET /resources/public-data/ HTTP/1.1
-Host: bar.other
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-us,en;q=0.5
-Accept-Encoding: gzip,deflate
-Connection: keep-alive
-Origin: https://foo.example
-
-Response
-HTTP/1.1 200 OK
-Date: Mon, 01 Dec 2008 00:23:53 GMT
-Server: Apache/2
-Access-Control-Allow-Origin: *
-Keep-Alive: timeout=2, max=100
-Connection: Keep-Alive
-Transfer-Encoding: chunked
-Content-Type: application/xml
-
-[…XML Data…]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;요청 헤더에서 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Origin: https://foo.example&lt;/code&gt;과 응답 헤더의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Allow-Origin: *&lt;/code&gt;이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Simple request&lt;/code&gt;의 핵심이며, 와일드카드(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*&lt;/code&gt;)를 사용할 경우 모든 경우의 교차출처를 허용하겠다는 의미다.&lt;/p&gt;
-
-&lt;h3 id=&quot;preflight-request&quot;&gt;Preflight request&lt;/h3&gt;
-
-&lt;p&gt;프리플라이트 요청은 앞에서 말한 단순 요청과 달리 먼저 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 메서드를 통해 다른 도메인의 리소스 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP&lt;/code&gt; 요청이 가능한지 먼저 확인한다.&lt;/p&gt;
-
-&lt;p&gt;요청시 유저에게 영향을 줄 수 있기 때문에 사전 전송을 통해 안전한지를 확인하는 작업이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/preflight_correct.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;OPTIONS /resources/post-here/ HTTP/1.1
-Host: bar.other
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-us,en;q=0.5
-Accept-Encoding: gzip,deflate
-Connection: keep-alive
-Origin: http://foo.example
-Access-Control-Request-Method: POST
-Access-Control-Request-Headers: X-PINGOTHER, Content-Type
-
-
-HTTP/1.1 204 No Content
-Date: Mon, 01 Dec 2008 01:15:39 GMT
-Server: Apache/2
-Access-Control-Allow-Origin: https://foo.example
-Access-Control-Allow-Methods: POST, GET, OPTIONS
-Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
-Access-Control-Max-Age: 86400
-Vary: Accept-Encoding, Origin
-Keep-Alive: timeout=2, max=100
-Connection: Keep-Alive
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OPTIONS&lt;/code&gt; 메서드를 사용해 프리플라이트 요청을 날린 결과물이다. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SAFE METHOD&lt;/code&gt;이기에 서버의 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;resource&lt;/code&gt;를 변경하지 않는다.&lt;/p&gt;
-
-&lt;p&gt;프리플라이트 요청에서 주의깊게 살펴볼 부분은 아래와 같다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Request-Method: POST
-Access-Control-Request-Headers: X-PINGOTHER, Content-Type
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Request-Method: POST&lt;/code&gt;: 실제 요청에서 전송할 메서드를 알려준다.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Request-Headers: X-PINGOTHER, Content-Type&lt;/code&gt;: 실제 요청에서 이 헤더를 함께 전송한다는 의미다.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;이번엔 응답 부분을 살펴보자.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Access-Control-Allow-Origin: http://foo.example
-Access-Control-Allow-Methods: POST, GET, OPTIONS
-Access-Control-Allow-Headers: X-PINGOTHER, Content-Type
-Access-Control-Max-Age: 8640
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Access-Control-Allow-Origin: http://foo.example: 요청 가능한 출처를 의미합니다.&lt;/li&gt;
-  &lt;li&gt;Access-Control-Allow-Methods: POST, GET, OPTIONS: 요청 가능한 메서드를 의미한다.&lt;/li&gt;
-  &lt;li&gt;Access-Control-Allow-Headers: X-PINGOTHER, Content-Type&lt;/li&gt;
-  &lt;li&gt;Access-Control-Max-Age: 8640:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;아래는 이후 직접적인 교차 출처 요청, 응답 헤더이다.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST /resources/post-here/ HTTP/1.1
-Host: bar.other
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-us,en;q=0.5
-Accept-Encoding: gzip,deflate
-Connection: keep-alive
-X-PINGOTHER: pingpong
-Content-Type: text/xml; charset=UTF-8
-Referer: https://foo.example/examples/preflightInvocation.html
-Content-Length: 55
-Origin: https://foo.example
-Pragma: no-cache
-Cache-Control: no-cache
-
-&amp;lt;person&amp;gt;&amp;lt;name&amp;gt;Arun&amp;lt;/name&amp;gt;&amp;lt;/person&amp;gt;
-
-
-HTTP/1.1 200 OK
-Date: Mon, 01 Dec 2008 01:15:40 GMT
-Server: Apache/2
-Access-Control-Allow-Origin: https://foo.example
-Vary: Accept-Encoding, Origin
-Content-Encoding: gzip
-Content-Length: 235
-Keep-Alive: timeout=2, max=99
-Connection: Keep-Alive
-Content-Type: text/plain
-
-[Some GZIP'd payload]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;credentialed-request&quot;&gt;Credentialed request&lt;/h3&gt;
-
-&lt;p&gt;인증정보를 포함한 요청은 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP cookies&lt;/code&gt;와 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HTTP Authentication&lt;/code&gt; 정보를 인식 가능하다.&lt;/p&gt;
-
-&lt;p&gt;요청 시 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fetch&lt;/code&gt;에 함부로 쿠키 정보나 인증과 관련된 헤더를 담을 수 없다. 이를 지원하게 해주는 것이 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;credentials&lt;/code&gt; 옵션이다.&lt;/p&gt;
-
-&lt;p&gt;예제를 보며 이야기하자.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;const invocation = new XMLHttpRequest();
-const url = 'http://bar.other/resources/credentialed-content/';
-
-function callOtherDomain() {
-  if (invocation) {
-    invocation.open('GET', url, true);
-    invocation.withCredentials = true;
-    invocation.onreadystatechange = handler;
-    invocation.send();
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;7번째 줄을 확인해보면, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XMLHttpRequest&lt;/code&gt;가 가지고 있는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;withCredentials&lt;/code&gt;을 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;로 변경했다.
-이 프로퍼티는 기본적으로 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;false&lt;/code&gt;값을 가지는 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;boolean&lt;/code&gt; 타입이다.&lt;/p&gt;
-
-&lt;p&gt;실제로, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Access-Control-Allow-Credentials: true&lt;/code&gt;을 포함하지 않을 경우 브라우저는 현재 요청이 단순 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GET&lt;/code&gt;요청이므로 기각할 것이다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/cred-req-updated.png&quot; alt=&quot;이미지&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /resources/credentialed-content/ HTTP/1.1
-Host: bar.other
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:71.0) Gecko/20100101 Firefox/71.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: en-us,en;q=0.5
-Accept-Encoding: gzip,deflate
-Connection: keep-alive
-Referer: http://foo.example/examples/credential.html
-Origin: http://foo.example
-Cookie: pageAccess=2
-
-
-HTTP/1.1 200 OK
-Date: Mon, 01 Dec 2008 01:34:52 GMT
-Server: Apache/2
-Access-Control-Allow-Origin: https://foo.example
-Access-Control-Allow-Credentials: true
-Cache-Control: no-cache
-Pragma: no-cache
-Set-Cookie: pageAccess=3; expires=Wed, 31-Dec-2008 01:34:53 GMT
-Vary: Accept-Encoding, Origin
-Content-Encoding: gzip
-Content-Length: 106
-Keep-Alive: timeout=2, max=100
-Connection: Keep-Alive
-Content-Type: text/plain
-
-
-[text/plain payload]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;font size=&quot;6&quot;&gt;Refernce&lt;/font&gt;
-  &lt;ul&gt;
-    &lt;li&gt;https://developer.mozilla.org/ko/docs/Web/HTTP/CORS&lt;/li&gt;
-    &lt;li&gt;https://evan-moon.github.io/2020/05/21/about-cors/&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="backend" /><category term="backend" /><category term="CORS" /><summary type="html">Introduction</summary></entry></feed>
+&lt;/blockquote&gt;</content><author><name>조원빈</name></author><category term="nodejs" /><category term="js" /><category term="event_loop" /><summary type="html">Introduction</summary></entry></feed>

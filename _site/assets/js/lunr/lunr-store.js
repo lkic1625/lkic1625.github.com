@@ -382,4 +382,10 @@ var store = [{
         "tags": ["js","asynchronous"],
         "url": "http://localhost:4000/js/prototype/",
         "teaser": null
+      },{
+        "title": "Redis, Commands",
+        "excerpt":"Introduction 집밖에도 안 나가는 설 당일 포스트를 쓴다. 지금 듣고 있는 노래 새소년 (SE SO NEON) ‘자유(Jayu)’다. Commands 레디스에서는 네트워크 통신 지연을 줄여 줄 여러가지 기능을 제공한다. 이와 관련된 커맨드를 알아보도록 하자. Pub/Sub Pub/Sub는 수신자에게 메세지를 직접적으로 전달하지 않는 패턴이다. Publisher는 채널에 메세지를 보내고 Subscriber는 채널을 구독 중이라면 메세지를 전달받는다....","categories": ["redis"],
+        "tags": ["NoSQL","database","redis","nodejs","time-series"],
+        "url": "http://localhost:4000/redis/reids_03/",
+        "teaser": null
       }]
