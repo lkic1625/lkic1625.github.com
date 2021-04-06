@@ -344,7 +344,7 @@ int main() {
 }
 ```
 
-><font size="6">Refernce</font>
+><font size="6">Reference</font>
 - https://cp-algorithms.com/algebra/factorization.html#toc-tgt-9
 - https://ko.wikipedia.org/wiki/폴라드_로_알고리즘
 - https://aruz.tistory.com/140
