@@ -15,4 +15,4 @@ title: "About"
 
 관심있는 분야는 `abstract algebra`, `cryptography`, `algorithm` 입니다.
 
-최근에는 데이터베이스 캐싱에 관심이 생겨 `Redis`를 공부 중입니다.
+최근 관심있게 읽고있는 개발 서적은 `HTTP/2 in Action`, `Database Internals`입니다.
