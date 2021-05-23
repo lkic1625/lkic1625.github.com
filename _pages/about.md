@@ -15,4 +15,4 @@ title: "About"
 
 관심있는 분야는 `abstract algebra`, `cryptography`, `algorithm` 입니다.
 
-최근 관심있게 읽고있는 개발 서적은 `gRPC: Up and Running: Building Cloud Native Applications with Go and Java for Docker and Kubernetes`, `Database Internals`입니다.
+최근 관심있게 읽고있는 개발 서적은 `gRPC: Up and Running`, `Database Internals`입니다.
