@@ -29,7 +29,7 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 자바의 스트림 파이프라이닝은 강력한 코드 생산성을 줄 수 있다.
 > A sequence of elements supporting sequential and parallel aggregate operations.
 
-병렬 스트림은 앞서 발췌해온 문구에서도 짐작할 수 있듯이, 스트림 파이프라이닝의 연산을 병렬적으로 시행할 수 있도록 한다.
+병렬 스트림은 위 발췌해온 문구에서도 짐작할 수 있듯이, 스트림 파이프라이닝의 연산을 병렬적으로 시행할 수 있도록 한다.
 
 > In programming, concurrency is the composition of independently executing processes, **while parallelism is the simultaneous execution of (possibly related) computations.** Concurrency is about dealing with lots of things at once.
 
@@ -126,7 +126,7 @@ L1 캐시의 경우 실제로 메인 메모리에 올라간 데이터보다 100
 
 자바의 병렬 스트림은 위와 같이 다양한 요소에 의존적이기 때문에 사용하는 기준이 명확하지 않다.
 
-`Brian Goetz`는 이러한 모호할 수 있는 기준을 명확하게 단정짓기 위해 **$$NQ$$ model하지만 **을 제시했는데, 이는 아래와 같다.
+`Brian Goetz`는 이러한 모호할 수 있는 기준을 명확하게 하기위해 **$$NQ$$ mode**을 제시했는데, 이는 아래와 같다.
 
 ```
 $$N = \text{the number of data elements}$$
