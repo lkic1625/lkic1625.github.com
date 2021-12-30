@@ -24,33 +24,28 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 
 자바의 병렬 스트림에 대해 알아보자.
 
-## 자바의 스트림이란
+## 자바의 스트림
 
 우선, `Stream`(스트림)이란 자바 8 버전부터 지원하는 데이터 처리 연산을 지원하는 데이터의 연속이다.
 > A sequence of elements supporting sequential and parallel aggregate operations.
 
 자바의 스트림 파이프라이닝은 현업에서 강력한 생산성을 줄 수 있다.
 
-## 병렬 스트림이란
+## 병렬 스트림
 
 병렬 스트림은 앞서 발췌해온 문구에서도 짐작할 수 있듯이, 스트림 파이프라이닝의 연산을 병렬적으로 시행할 수 있도록 한다.
 
 > In programming, concurrency is the composition of independently executing processes, **while parallelism is the simultaneous execution of (possibly related) computations.** Concurrency is about dealing with lots of things at once.
-> 출처, https://go.dev/blog/waza-talk#:~:text=In%20programming%2C%20concurrency%20is%20the,lots%20of%20things%20at%20once.
 
 동시에 진행되는 연산은 성능적인 측면에서 분명 강력한 이점을 가져다 줄 것이다.
 <br>
-우리는 모든 코드에 병렬 스트림을 아니, 그냥 기본적으로 스트림을 병렬로 돌릴 수 있도록 짜는게 낫지 않을까?
-<br>
-하지만 그렇지 않은 이유는 병렬 연산이 항상 이점을 가져다 주지는 않기 때문이다.
+하지만 당연하게도 항상 성능 개선을 제공하지 못하며 병렬 스트림을 사용할 수 있는 경우는 제한적이다.
 
-어떤 이유로 병렬 스트림이 항상 사용되지 않는지, 언제 써야 그러면 적절할지에 대해 알기 위해서는 내부에서 병렬 스트림이 어떻게 동작하는지 알아야 한다. 이에 대해 한 번 짚어보도록 하자.
+그렇다면 어떤 이유로 병렬 스트림이 항상 사용되지 않는지, 언제 써야 그러면 적절할까? 이에 대해 알기 위해서는 내부에서 병렬 스트림이 어떻게 동작하는지 알아야 한다.
 
-## 병렬 스트림의 내부
+## 병렬 스트림의 구현(ForkJoinPool)
 
 병렬 스트림은 내부에서 `ForkJoinPool` 이라는 것을 사용해 구현되었다.
-
-### ForkJoinPool
 
 `ForkJoinPool`이란 자바 7 버전 이후 추가된 기능이며, 한 작업(task)을 여러 개로(sub task) 나누어 각각 다른 스레드에서 연산할 수 있도록 한다.
 ![이미지](/assets/images/ForkJoinPoolStructure.png)
@@ -67,9 +62,9 @@ src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 <br>
 이를 위해 병렬 스트림은 `Spliterator`의 `trySplit` 메서드를 이용해 재귀적으로 데이터를 분해한다.
 >An object for traversing and partitioning elements of a source. The source of elements covered by a Spliterator could be, for example, an array, a Collection, an IO channel, or a generator function.
-> 출처, https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html
 
-`trySplit`이란 메서드가 이를 담당하고, 아래는 `ArrayList.java`에 실제 구현체다.  
+
+아래는 `ArrayList.java` 안에 실제 구현체다.  
 ```java
 public ArrayList<E>.ArrayListSpliterator trySplit() {
   int hi = getFence(), lo = index, mid = (lo + hi) >>> 1;
@@ -81,7 +76,7 @@ public ArrayList<E>.ArrayListSpliterator trySplit() {
 
 자바 코드에 익숙하거나, 분할 정복 알고리즘에 대해 어느정도 알고 있다면 어떤식으로 동작하는지 쉽게 유추해볼 수 있을 것이다.
 <br>
-여기서 **중요한 건** `trySplit`을 구현하기 위해 중앙점(mid point)을 찾아야 하고, `LinkedList`와 같이 자료구조는 실제 데이터의 크기를 알고있지 않기 때문에, $$O(N)$$ 에 시간복잡도가 필요하다는 점이다.
+여기서 **중요한 건** `trySplit`을 구현하기 위해 중앙점(mid point)을 찾아야 하고, `LinkedList`와 같이 자료구조는 실제 데이터의 크기를 알고있지 않기 때문에, $$O(n)$$ 에 시간복잡도가 필요하다는 점이다.
 <br>
 이는 곧 다시 언급하겠지만, 병렬 스트림의 성능 저하의 원인 중 하나이다.
 
@@ -101,11 +96,13 @@ public ArrayList<E>.ArrayListSpliterator trySplit() {
 
 ### Source splitting
 
-`ArrayList`의 경우에는 가장 적합한 예제로 볼 수 있다. 내부에 이미 해당 리스트의 크기를 알고 있기 때문에 쉽게 중간점을 찾을 수 있고, (균형잡힌 이진 트리로) 쪼개기 적합하다.
+`ArrayList`의 경우에는 병렬 스트림을 사용하기 가장 적합한 예제로 볼 수 있다. 내부에 이미 해당 리스트의 크기를 알고 있기 때문에 쉽게 중간점을 찾을 수 있고, (균형잡힌 이진 트리로) 쪼개기 적합하다.
 
-반면에 `LinkedList`는 중간점을 찾기 위해 전체 리스트의 절반을 순회해야 하는 문제점을 가지고 있다. 이렇게 된다면 나뉘는데 $$O(NlogN)$$의 시간이 소요될 것이다.
+반면에 `LinkedList`는 중간점을 찾기 위해 전체 리스트의 절반을 순회해야 하는 문제점을 가지고 있다. 이렇게 된다면 나누는데 항상 $$O(n)$$ 의 시간이 걸리게 된다.
 <br>
 `LinkedList`는 이러한 분할 연산의 비효율적인 구조를 피하기 위해 불균형 이진 트리를(unbalanced binary tree)를 생성하게 된다.
+<br>
+하지만, 불균형 이진 트리를 생성하게 되므로 분할과 집계 과정에 $$O(n)$$이 소요된다. (`ArrayList`는 $$O(logn)$$이다.)
 
 추가로 `Hash-based`, `Tree-based` 자료구조는 `LinkedList`만큼 비효율적이진 않지만, 기존 배열처럼 분할할 크기를 예측할 수 없어 경우에 따라 최적화가 어려울 수 있다.
 
@@ -113,7 +110,7 @@ public ArrayList<E>.ArrayListSpliterator trySplit() {
 
 `reduce`와 같은 집계 작업은 매우 효율적이지만, 두 `Set`을 병합하는 등의 작업은 비효율적일 수 있다.
 
-집계 작업은 연산하는 트리에 높이에 의존적이기 때문에 불균형 트리에 경우 최대 $$O(N)$$의 작업이 반복될 수 있다.
+집계 작업은 연산하는 트리에 높이에 의존적이기 때문에 불균형 트리에 경우 최대 $$O(n)$$의 작업이 반복될 수 있다.
 
 또한 연산 트리를 마지막으로 합칠 때, `sorted`, `collect` 등의 메서드는 `sequential`한 작업이기 때문에 이 또한, 병렬 스트림의 성능 저하 원인이 될 수 있다.
 
@@ -126,8 +123,6 @@ L1 캐시의 경우 실제로 메인 메모리에 올라간 데이터보다 100
 캐싱을 할 때는 캐시 라인(x86 칩의 경우 64 바이트) 기준으로 데이터를 가져오는데, 메모리 엑세스의 선형적인 패턴이 보이는 경우 하드웨어는 다음 원소도 필요할 것이라고 가정하고 프리페치를 진행한다.
 <br>
 그렇기에 배열과 같은 연속적이고 메모리 지역성이 높은 자료구조에 경우 프리페치가 성능적으로 큰 이점을 가져올 것이다.
-<br>
-또한, 배열은 페치당 연산량을 극대화할 수 있다.
 
 자바 구현의 경우 대부분 객체의 필드를 연속적으로 메인 메모리에 배치하도록 구현되어 있는데, `primitive` 한 타입의 필드를 가지고 있다면 메모리 지역성이 매우 높아 캐싱에 큰 이점이 있다.
 
@@ -139,14 +134,13 @@ L1 캐시의 경우 실제로 메인 메모리에 올라간 데이터보다 100
 
 `Brian Goetz`는 이러한 모호할 수 있는 기준을 명확하게 단정짓기 위해 `$$NQ$$ model`를 제시했는데, 이는 아래와 같다.
 
-- $$N = \text{the number of data elements}$$
-- $$Q = \text{the amount of work performed per element}$$
-
-$$NQ > 10,000$$ 인 경우 병렬 스트림을 사용하는 기준으로 보며,
+$$N = \text{the number of data elements}$$
 <br>
-앞서 설명했던 병렬 스트림에 성능에 영향을 줄 수 있는 다양한 요인들 또한 $$Q$$ 즉, 연산량에 의해 완화될 수 있다고 했다.
+$$Q = \text{the amount of work performed per element}$$
 
-심지어 `LinkedList` 또한 원소 하나당 큰 연산량을 지니는 작업에 경우 충분히 병렬 스트림으로 성능 개선을 이뤄낼 수 있다고 언급한다.
+$$NQ > 10,000$$ 인 경우 병렬 스트림을 사용하는 기준으로 보며, 앞서 설명했던 병렬 스트림에 성능에 영향을 줄 수 있는 다양한 요인들 또한 $$Q$$에 의해 완화될 수 있다.
+
+심지어 `LinkedList` 역시 원소 하나당 큰 연산량을 지니는 작업에 경우 충분히 병렬 스트림으로 성능 개선을 이뤄낼 수 있다.
 
 # 마무리 지으며
 
@@ -160,3 +154,5 @@ $$NQ > 10,000$$ 인 경우 병렬 스트림을 사용하는 기준으로 보며,
 ><font size="6">Refernce</font>
 - https://developer.ibm.com/articles/j-java-streams-5-brian-goetz/
 - https://m.blog.naver.com/tmondev/220945933678
+- https://go.dev/blog/waza-talk#:~:text=In%20programming%2C%20concurrency%20is%20the,lots%20of%20things%20at%20once
+- https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html  
