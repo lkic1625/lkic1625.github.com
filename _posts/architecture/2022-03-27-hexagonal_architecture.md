@@ -1,5 +1,5 @@
 ---
-title: "Hexagonal Architecture"
+title: "육각형 아키텍쳐"
 tags:
   - architecture
   - hexagonal architecture
@@ -12,9 +12,9 @@ toc: true
 
 소프트웨어 개발에 있어서 아키텍쳐는 떼려야 뗄 수 없는 관계입니다. 우리는 종종 [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (`Model-View-Controller`), [MVP](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)(`Model-View-Presenter`) 등 여러 패턴의 아키텍쳐를 접해봤었습니다.
 
-하지만 개인적으론 아키텍쳐로 인해 이점을 얻어본 경험이 있는가에 대해서는 확신이 들지 않았습니다. 꽤나 중요하다는 이야기는 들어봤지만 그게 왜 중요한지, 개발 주기와 어떤 관계가 있을지가 상당히 모호하다는 인상이었습니다.
+하지만 개인적으론 아키텍쳐로 인해 이점을 얻어본 경험이 있는가에 대해서는 확신이 들지 않았습니다. 꽤나 중요하다는 이야기는 들어봤지만 그게 왜 중요한지, 개발 주기와 어떤 관계가 있을지가 상당히 모호하다는 인상이었죠.
 
-이번 포스트에서는 이러한 소프트웨어 아키텍쳐의 중요성과 함께 사내 `golang` 프로젝트에서 육각형 설계(**Hexagonal Architecture**)를 선택한 이유에 대해 간단히 포스트를 해보겠습니다. 이 글은 저와 같이 아키텍쳐가 왜 중요한지, 실제로 그러한 아키텍쳐는 무엇이 있을지 궁금한 분들이 읽으면 좋을 것이라 생각합니다.
+이번 포스트에서는 이러한 소프트웨어 아키텍쳐의 중요성과 함께 사내 `golang` 프로젝트에서 육각형 설계(**Hexagonal Architecture**)를 선택한 이유에 대해 간단히 포스트를 해보려합니다. 이 글은 저와 같이 아키텍쳐가 왜 중요한지, 실제로 그러한 아키텍쳐는 무엇이 있을지 궁금한 분들에게 추천 드립니다.
 
 # 아키텍쳐는 왜 중요한가
 
@@ -50,7 +50,7 @@ toc: true
 
 육각형 설계(`Hexagonal Architecture`)란, 포트와 어답터 패턴(`Ports and Adapters pattern`)이라고도 불리며, 느슨한 연결(`loosely coupled`)을 지향하는 아키텍쳐입니다. 소프트웨어 아키텍쳐들의 개요을 읽어보면 워낙 추상적인 말로 써있다보니 사실 개인적으로도 잘 와닿지 않습니다. 오히려 구조부터 차근차근 파보는 게 좋을 것 같으니, 거두절미하고 바로 설명으로 넘어가보겠습니다.
 
-![Untitled](/assets/images/hexagonal.png)
+![Untitled](/assets/images/hexgonal.png)
 
 <center><i>그림 3. 육각형 아키텍쳐의 구조도[4]</i></center>
 
@@ -92,9 +92,7 @@ type (s SQLRepository) Create(entity Entity) error {
 
 오늘은 소프트웨어 아키텍쳐에 대한 중요성, 육각형 아키텍쳐는 어떤 구조인지를 가볍게 살펴보았습니다.
 
-사실 이렇게 정리해도 아직까지는 아키텍쳐의 추상적이고 모호한 부분이 완전히 사라진 건 아닙니다. 또한, 이러한 특성은 실제 개발할 때도 나타난다고 생각합니다. 이론적인 부분은 분명히 현실에서 타협할 수 없는 부분과 맞닿아 있고, 이러한 이유로 이론적인 것을 완벽히 가져갈 수 없을지도 모릅니다.
-
-다만, 어떤 것이든 트레이드 오프(trade-off)가 있기 마련이고 각자 상황에 맞는 아키텍쳐를, 개발 방식을 선택할 수 있어야 하기에 이 글이 누군가의 선택의 근거가 되기를 바랍니다.
+사실 이렇게 정리해도 아직까지는 아키텍쳐의 추상적이고 모호한 부분이 완전히 사라진 건 아닙니다. 또한, 이러한 특성은 실제 개발할 때도 나타난다고 생각합니다. 이론적인 부분은 분명히 현실에서 완벽히 적용할 수 없는 부분을 가지고 있으며, 완벽히 가져갈 수 없을지도 모릅니다. 다만, 어떤 것이든 트레이드 오프(trade-off)가 있기 마련이고 각자 상황에 맞는 아키텍쳐를, 개발 방식을 선택할 수 있어야 하기에 이 글도 아키텍쳐를 선택하는 근거 중 하나가 되면 좋겠습니다.
 
 # References
 
@@ -110,4 +108,4 @@ type (s SQLRepository) Create(entity Entity) error {
 
 [6] [https://en.wikipedia.org/wiki/Coupling_(computer_programming)](https://en.wikipedia.org/wiki/Coupling_(computer_programming))
 
-[7] [https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html](
+[7] https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html
