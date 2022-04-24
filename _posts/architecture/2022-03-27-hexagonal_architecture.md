@@ -10,7 +10,7 @@ toc: true
 ---
 # 개요
 
-소프트웨어 개발에 있어서 아키텍쳐는 떼려야 뗄 수 없는 관계입니다. 우리는 종종 [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (`Model-View-Controller`), [MVP](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter#:~:text=Model%E2%80%93view%E2%80%93presenter%20(MVP,is%20pushed%20to%20the%20presenter)(`Model-View-Presenter`) 등 여러 패턴의 아키텍쳐를 접해봤었습니다.
+소프트웨어 개발에 있어서 아키텍쳐는 떼려야 뗄 수 없는 관계입니다. 우리는 종종 [MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (`Model-View-Controller`), [MVP](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)(`Model-View-Presenter`) 등 여러 패턴의 아키텍쳐를 접해봤었습니다.
 
 하지만 개인적으론 아키텍쳐로 인해 이점을 얻어본 경험이 있는가에 대해서는 확신이 들지 않았습니다. 꽤나 중요하다는 이야기는 들어봤지만 그게 왜 중요한지, 개발 주기와 어떤 관계가 있을지가 상당히 모호하다는 인상이었습니다.
 
@@ -32,13 +32,13 @@ toc: true
 
 ![Untitled](/assets/images/lower-time.png)
 
-<center>*그림 1, 소프트웨어 개발 주기에서 낮은 품질*</center>
+<center><i>그림 1, 소프트웨어 개발 주기에서 낮은 품질</i></center>
 
 반면에, 잘 짜여진 아키텍쳐 위에서의 코드 설계는 분명히 처음에 느린 개발 속도와 복잡함을 가지고 있지만, 기존에 코드들이 잘 모듈화 되어 이를 **재사용** 하면서 제품 개발을 효율적으로 만들고, 모듈화되어 관리되는 상황은 작은 부분의 코드 이해만 가지고도 쉽게 개발할 수 있도록 만듭니다.
 
 ![Untitled](/assets/images/good-time.png)
 
-<center>*그림 2, 소프트웨어 개발 주기에서 높은 품질과 낮은 품질*</center>
+<center><i>그림 2, 소프트웨어 개발 주기에서 높은 품질과 낮은 품질</i></center>
 
 우리는 제품을 만들며, 항상 **소프트웨어의 품질**과 **빠른 개발** 사이에서 저울질합니다만, 앞선 설명을 듣고나면 이는 장기적인 관점과 단기적인 관점에서의 **경제성을 택하는 문제**로 치환할 수 있을 것 같습니다.
 
@@ -50,9 +50,9 @@ toc: true
 
 육각형 설계(`Hexagonal Architecture`)란, 포트와 어답터 패턴(`Ports and Adapters pattern`)이라고도 불리며, 느슨한 연결(`loosely coupled`)을 지향하는 아키텍쳐입니다. 소프트웨어 아키텍쳐들의 개요을 읽어보면 워낙 추상적인 말로 써있다보니 사실 개인적으로도 잘 와닿지 않습니다. 오히려 구조부터 차근차근 파보는 게 좋을 것 같으니, 거두절미하고 바로 설명으로 넘어가보겠습니다.
 
-<center>![Untitled](/assets/images/hexagonal.png)</center>
+![Untitled](/assets/images/hexagonal.png)
 
-*그림 3. 육각형 아키텍쳐의 구조도[4]*
+<center><i>그림 3. 육각형 아키텍쳐의 구조도[4]</i></center>
 
 간단히 계층을 설명해보자면 가장 안에는 하지만 **도메인 계층**, 중간에는 **어플리케이션 계층**, 외부 의존성과 실제로 통신하는 **인프라스트럭쳐 계층**이 있습니다. **어플리케이션 계층**은 실제 도메인과 외부 의존성 사이에서 실제 비지니스 로직을 만드는 역할을 하고 있고, 느슨한 연결을 돕는 중간 다리입니다.
 
@@ -76,7 +76,7 @@ type (s SQLRepository) Create(entity Entity) error {
 }
 ```
 
-<center>*코드 1. 포트와 어답터 예시*</center>
+<center><i>코드 1. 포트와 어답터 예시</i></center>
 
 따라서, 어플리케이션 계층의 핵심 비지니스 로직은 데이터베이스가 어떻게 연결되는지, 데이터베이스가 어떤 것인지 등을 **전혀 몰라도** 됩니다. 이처럼 제한적인 관심사와 외부 의존성과의 느슨한 연결은 비지니스 로직을 견고하게 가져갈 수 있도록 만들 것입니다. 실제로 넷플릭스의 경우도 육각형 아키텍쳐 상에서 데이터베이스 교체하는 큰 작업이 단 한 줄의 코드 변경과 함께 2시간 만의 끝났다고 언급했습니다.[5]
 
