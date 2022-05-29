@@ -38,7 +38,7 @@ public class OrderStateTester extends TestCase {
   ...
 }
 ```
-<center><i>코드 1. 전형적인 테스트 구조]</i></center>
+<center><i>코드 1. 전형적인 테스트 구조</i></center>
 
 그렇다면 **검증**한다는 것은 정확히 어떤 것을 검증하는 것일까요? 여기서 우리가 꼭 알아야 할 단어가 등장합니다. 바로, `Behavior verification` 과 `State verification` 입니다.
 
@@ -252,5 +252,4 @@ public UserMailNotificationServiceTest {
 # References
 
 [1] [https://martinfowler.com/articles/mocksArentStubs.html#TestIsolation](https://martinfowler.com/articles/mocksArentStubs.html#TestIsolation)
-
 [2] [http://xunitpatterns.com/Test Double.html](http://xunitpatterns.com/Test%20Double.html)
