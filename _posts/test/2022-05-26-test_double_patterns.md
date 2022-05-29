@@ -21,7 +21,7 @@ toc: true
 
 # 기본적인 테스트 방법
 
-우리는 기본적으로 테스트할 때, [Given-When-Then](https://en.wikipedia.org/wiki/Given-When-Then#:~:text=Given%2DWhen%2DThen%20(GWT,words%20given%2C%20when%20and%20then.)(혹은 Arrange-Act-Assert) 구조를 따라갑니다. **주어진 상황**에서 테스트 대상이 올바르게 **동작**하는지 **검증**하는 방식으로 구성되어 있죠.
+우리는 기본적으로 테스트할 때, [Given-When-Then](https://en.wikipedia.org/wiki/Given-When-Then)(혹은 Arrange-Act-Assert) 구조를 따라갑니다. **주어진 상황**에서 테스트 대상이 올바르게 **동작**하는지 **검증**하는 방식으로 구성되어 있죠.
 
 ```java
 public class OrderStateTester extends TestCase {
@@ -245,7 +245,7 @@ public UserMailNotificationServiceTest {
 
 정리하고 든 생각입니다만, 이정도로까지 이해도를 깊게 가져갈 필요는 없어보입니다. 분명 `Stubbing` 과 `Mocking` 의 차이는 중요할 수 있지만, 라이브러리를 사용하는 입장에서는 모르고 사용해도 좋은 단위 테스트를 작성할 수 있으니까요.
 
-이전에도 언급했지만 이론적인 부분과 실무는 항상 **타협점이 존재한다** 생각합니다. 이상적인 상황은 현실에선 드물기 때문이죠. [`Mockito` 역시 `Mocking Framework` 가 아니고 실질적으론 `Test Spy framework` 입니다.](https://github.com/mockito/mockito/wiki/FAQ#is-it-really-a-mocking-framework) 이런 사례를 보아도 중요한 부분은 아닌 것 같습니다.
+이전에도 언급했지만 이론적인 부분과 실무는 항상 **타협점이 존재한다** 생각합니다. 이상적인 상황은 현실에선 드물기 때문이죠. [`Mockito` 역시 `Mocking Framework` 가 아니고 실질적으론 `Test Spy framework` 입니다.](https://github.com/mockito/mockito/wiki/FAQ#is-it-really-a-mocking-framework) 이런 사례에서도 볼 수 있듯이 명확한 정의는 중요한 것이 아니라고 느껴집니다.
 
 각자가 생각하는 각 조직이 생각하는 테스트에 중요성이 있을 것이고, 서로간의 상호협의, 공유만 존재한다면 Mock 이 뭐고, Stub 이 뭔지 몰라도 충분히 상관없다 느낍니다. `Test Double Patterns` 는 아무리 생각해도 뇌절 같아요.
 
