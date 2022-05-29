@@ -4,7 +4,7 @@ tags:
   - test
   - test_double_patterns
 categories:
-  - spring
+  - test
 last_modified_at: 2022-05-29T13:00:00+17:00
 toc: true
 ---
