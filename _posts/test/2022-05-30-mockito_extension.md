@@ -1,5 +1,5 @@
 ---
-title: "MockitoExtension.class"
+title: "MockitoExtension"
 tags:
   - test
   - mockito

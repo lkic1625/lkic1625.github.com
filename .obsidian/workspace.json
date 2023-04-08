@@ -1,0 +1,167 @@
+{
+  "main": {
+    "id": "0d6c5dc6c547bc2d",
+    "type": "split",
+    "children": [
+      {
+        "id": "0727d4e1c147267b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d40a8a1cea04913b",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "_posts/database/2022-10-09-database_internals.md.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "111024a92140e944",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "9a4a680d7dd238ca",
+    "type": "split",
+    "children": [
+      {
+        "id": "d47e1722b1e0b0df",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "2d9d4fcc79d7a9c8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "30fdb5773cf07411",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "오브젝트",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "477156403b11a395",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "780cacefce9852fb",
+    "type": "split",
+    "children": [
+      {
+        "id": "ed33dd05cf6b3efb",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6bc9a3a3fe74c2a6",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "0d14548524e11f23",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "a22328fc1dbe4723",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "7eb65e2597f3300c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "2d9d4fcc79d7a9c8",
+  "lastOpenFiles": [
+    "_posts/database/2023-04-08-distributed_trx.md.md",
+    "_posts/database/2022-10-09-database_internals.md.md",
+    "Pasted image 20221010212336.png",
+    "Pasted image 20221010213826.png",
+    "_posts/database/Untitled.md",
+    "_posts/database/2020-11-14-innoDB_index_page.md",
+    "Pasted image 20221018000553.png",
+    "Pasted image 20221018001121.png",
+    "Pasted image 20221017234008.png",
+    "Pasted image 20221017232921.png"
+  ]
+}
