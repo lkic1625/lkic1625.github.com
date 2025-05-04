@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>closest pair | Hammer&#39;s Blog</title>
+<meta name="title" content="closest pair" />
+<meta name="description" content="
+definition
+
+input: $$p_1, p_2, p_3, &hellip; p_n$$  $$(p_i = (x_i, y_i))$$
+output: $$p_i, p_j$$ with smallest $$p_i - p_j$$
+
+Brute-force algorithm
+minDist = infinity
+for i = 1 to length(P) - 1 do
+    for j = i &#43; 1 to length(P) do
+        let p = P[i], q = P[j]
+        if dist(p, q) &lt; minDist  then
+            minDist = dist(p, q)
+            closestPair = (p, q)
+return closestPair
+time complexity: $$O(n^2)$$
+Divide and Conquer algorithm
+
+점들을 x좌표에 따라 정렬한다.
+점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 $$x = x_mid$$를 기준으로 양옆으로 분할한다.
+왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 $$d_{Lmin}$$과 $$d_{Rmin}$$을 찾을 수 있다.
+분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 $$d_{LRmin}$$을 구한다.
+최종적으로 찾고자 하는 최근접 거리는 $$d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})$$이다.
+
+time complexity
+시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자." />
+<meta name="keywords" content="divide and conquer,algorithm," />
+
+
+<meta property="og:url" content="http://localhost:1313/closest-pair/">
+  <meta property="og:site_name" content="Hammer&#39;s Blog">
+  <meta property="og:title" content="closest pair">
+  <meta property="og:description" content="definition input: $$p_1, p_2, p_3, … p_n$$ $$(p_i = (x_i, y_i))$$ output: $$p_i, p_j$$ with smallest $$p_i - p_j$$ Brute-force algorithm minDist = infinity for i = 1 to length(P) - 1 do for j = i &#43; 1 to length(P) do let p = P[i], q = P[j] if dist(p, q) &lt; minDist then minDist = dist(p, q) closestPair = (p, q) return closestPair time complexity: $$O(n^2)$$
+Divide and Conquer algorithm 점들을 x좌표에 따라 정렬한다. 점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 $$x = x_mid$$를 기준으로 양옆으로 분할한다. 왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 $$d_{Lmin}$$과 $$d_{Rmin}$$을 찾을 수 있다. 분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 $$d_{LRmin}$$을 구한다. 최종적으로 찾고자 하는 최근접 거리는 $$d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})$$이다. time complexity 시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:tag" content="Divide and Conquer">
+    <meta property="article:tag" content="Algorithm">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="closest pair">
+  <meta name="twitter:description" content="definition input: $$p_1, p_2, p_3, … p_n$$ $$(p_i = (x_i, y_i))$$ output: $$p_i, p_j$$ with smallest $$p_i - p_j$$ Brute-force algorithm minDist = infinity for i = 1 to length(P) - 1 do for j = i &#43; 1 to length(P) do let p = P[i], q = P[j] if dist(p, q) &lt; minDist then minDist = dist(p, q) closestPair = (p, q) return closestPair time complexity: $$O(n^2)$$
+Divide and Conquer algorithm 점들을 x좌표에 따라 정렬한다. 점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 $$x = x_mid$$를 기준으로 양옆으로 분할한다. 왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 $$d_{Lmin}$$과 $$d_{Rmin}$$을 찾을 수 있다. 분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 $$d_{LRmin}$$을 구한다. 최종적으로 찾고자 하는 최근접 거리는 $$d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})$$이다. time complexity 시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.">
+
+
+
+
+  <meta itemprop="name" content="closest pair">
+  <meta itemprop="description" content="definition input: $$p_1, p_2, p_3, … p_n$$ $$(p_i = (x_i, y_i))$$ output: $$p_i, p_j$$ with smallest $$p_i - p_j$$ Brute-force algorithm minDist = infinity for i = 1 to length(P) - 1 do for j = i &#43; 1 to length(P) do let p = P[i], q = P[j] if dist(p, q) &lt; minDist then minDist = dist(p, q) closestPair = (p, q) return closestPair time complexity: $$O(n^2)$$
+Divide and Conquer algorithm 점들을 x좌표에 따라 정렬한다. 점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 $$x = x_mid$$를 기준으로 양옆으로 분할한다. 왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 $$d_{Lmin}$$과 $$d_{Rmin}$$을 찾을 수 있다. 분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 $$d_{LRmin}$$을 구한다. 최종적으로 찾고자 하는 최근접 거리는 $$d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})$$이다. time complexity 시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.">
+  <meta itemprop="wordCount" content="450">
+  <meta itemprop="keywords" content="Divide and Conquer,Algorithm">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  :root {
+      --width: 720px;
+      --font-main: Verdana, sans-serif;
+      --font-secondary: Verdana, sans-serif;
+      --font-scale: 1em;
+      --background-color: #fff;
+      --heading-color: #222;
+      --text-color: #444;
+      --link-color: #3273dc;
+      --visited-color:  #8b6fcb;
+      --code-background-color: #f5f5f5;
+      --code-color: #333;
+      --blockquote-color: #222;
+      --pre-border-color: #eee;
+  }
+
+  @media (prefers-color-scheme: dark) {
+      :root {
+          --background-color: #01242e;
+          --heading-color: #eee;
+          --text-color: #ddd;
+          --link-color: #8cc2dd;
+          --visited-color:  #8b6fcb;
+          --code-background-color: #1a1a1a;
+          --code-color: #ddd;
+          --blockquote-color: #ccc;
+          --pre-border-color: #333;
+      }
+  }
+
+  body {
+      font-family: var(--font-secondary);
+      font-size: var(--font-scale);
+      margin: auto;
+      padding: 20px;
+      max-width: var(--width);
+      text-align: left;
+      background-color: var(--background-color);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      color: var(--text-color);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-main);
+      color: var(--heading-color);
+  }
+
+  a {
+      color: var(--link-color);
+      cursor: pointer;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+
+  nav a {
+      margin-right: 8px;
+  }
+
+  strong, b {
+      color: var(--heading-color);
+  }
+
+  button {
+      margin: 0;
+      cursor: pointer;
+  }
+
+  time {
+   	font-family: monospace;
+    	font-style: normal;
+    	font-size: 15px;
+  }
+
+  main {
+      line-height: 1.6;
+  }
+
+  table {
+      width: 100%;
+  }
+
+  hr {
+      border: 0;
+      border-top: 1px dashed;
+  }
+
+  img {
+      max-width: 100%;
+  }
+
+  code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 2px 4px;
+      background-color: var(--code-background-color);
+      color: var(--code-color);
+      border-radius: 3px;
+      font-size: 0.9em;
+  }
+
+  pre {
+      background-color: var(--code-background-color) !important;
+      border: 1px solid var(--pre-border-color);
+      border-radius: 4px;
+      padding: 1em;
+      overflow-x: auto;
+      margin: 1em 0;
+  }
+
+  pre code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: var(--code-color);
+  }
+
+  blockquote {
+      border-left: 1px solid #999;
+      color: var(--code-color);
+      padding-left: 20px;
+      font-style: italic;
+  }
+
+  footer {
+      padding: 25px 0;
+      text-align: center;
+  }
+
+  .title:hover {
+      text-decoration: none;
+  }
+
+  .title h1 {
+      font-size: 1.5em;
+  }
+
+  .inline {
+      width: auto !important;
+  }
+
+   
+  .highlight, .code, div.highlight {
+      background-color: var(--code-background-color) !important;
+      color: var(--code-color);
+      border-radius: 4px;
+      margin: 1em 0;
+      overflow-x: auto;
+      border: 1px solid var(--pre-border-color);
+  }
+
+  .highlight pre, .code pre {
+      padding: 1em;
+      margin: 0;
+      overflow-x: auto;
+      border: none;
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight, .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .chroma .k, .chroma .kd, .chroma .kn, .chroma .kr {
+      color: #569cd6;  
+  }
+
+  .highlight .s, .highlight .s1, .highlight .s2, .chroma .s, .chroma .s1, .chroma .s2 {
+      color: #ce9178;  
+  }
+
+  .highlight .c, .highlight .c1, .highlight .cm, .chroma .c, .chroma .c1, .chroma .cm {
+      color: #6a9955;  
+  }
+
+  .highlight .n, .highlight .nb, .highlight .nc, .chroma .n, .chroma .nb, .chroma .nc {
+      color: var(--code-color);  
+  }
+
+   
+  ul.blog-posts {
+      list-style-type: none;
+      padding: unset;
+  }
+
+  ul.blog-posts li {
+      display: flex;
+  }
+
+  ul.blog-posts li span {
+      flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+      color: var(--visited-color);
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            
+            throwOnError : false
+        });
+    });
+</script> </head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Hammer&#39;s Blog</h2>
+</a>
+<nav><a href="/">Home</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>closest pair</h1>
+<p>
+  <i>
+    <time datetime='0001-01-01'>
+      01 Jan, 0001
+    </time>
+  </i>
+</p>
+
+<content>
+  <script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<h1 id="definition">definition</h1>
+<ul>
+<li>input: $$p_1, p_2, p_3, &hellip; p_n$$  $$(p_i = (x_i, y_i))$$</li>
+<li>output: $$p_i, p_j$$ with smallest $$p_i - p_j$$</li>
+</ul>
+<h1 id="brute-force-algorithm">Brute-force algorithm</h1>
+<pre tabindex="0"><code>minDist = infinity
+for i = 1 to length(P) - 1 do
+    for j = i + 1 to length(P) do
+        let p = P[i], q = P[j]
+        if dist(p, q) &lt; minDist  then
+            minDist = dist(p, q)
+            closestPair = (p, q)
+return closestPair
+</code></pre><p>time complexity: $$O(n^2)$$</p>
+<h1 id="divide-and-conquer-algorithm">Divide and Conquer algorithm</h1>
+<ol>
+<li>점들을 x좌표에 따라 정렬한다.</li>
+<li>점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 $$x = x_mid$$를 기준으로 양옆으로 분할한다.</li>
+<li>왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 $$d_{Lmin}$$과 $$d_{Rmin}$$을 찾을 수 있다.</li>
+<li>분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 $$d_{LRmin}$$을 구한다.</li>
+<li>최종적으로 찾고자 하는 최근접 거리는 $$d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})$$이다.</li>
+</ol>
+<h2 id="time-complexity">time complexity</h2>
+<p>시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.</p>
+<p><img src="/assets/images/closestpair.png" alt="이미지1"></p>
+<p>우선 먼저 생각해야하는 것은 최악의 경우에도 $$d = min(d_{Lmin}, d_{Rmin})$$ band 내에서는 $$n^2$$ 미만의 점을 가진다.
+또한 각점에 대해 반대편에 확인해야 할 점의 개수는 최대 6개이다. 따라서, $$6n$$의 계산시간이 필요하다. 이에 대한 자세한 설명은 아래 <a href="#lemma">Lemma 항목</a>을 참고</p>
+<p>이 알고리즘의 연산의 수행 횟수를 재귀식으로 표현한다면 $$T(n) = 2T(n/2) + O(n)$$으로 표현할 수 있으며 마스터 정리에 따라 $$O(nlogn)$$이다.</p>
+<h3 id="lemma">Lemma</h3>
+<p>$$Claim$$:
+A rectangle of width $$d$$ and height $$2d$$ can contain at most six points such that any two points are at distance at least $$d$$</p>
+<p>$$Proof$$:
+This will be an intuitive proof by construction. We shall begin to place points into the box until it is impossible to add any more. First imagine a circle of radius d around each point representing the area that we are not allowed to insert another point into. We can minimize the overlapping area of such a circle with the rectangle by placing the point on the corner of the rectangle as in the following figure:</p>
+<p><img src="/assets/images/figbox1.gif" alt="이미지2"></p>
+<p>Hence we can place points somewhere inside the light blue area or on the edges of the circles. Hence we put one more in the middle of the left side leaving the entire box covered except for the remaining two corners and the middle of the right side (all three of these points being right on the boundaries of the circles). Once we do this we have the following structure:</p>
+<p><img src="/assets/images/figbox2.gif" alt="이미지3"></p>
+<p>Note that there are now six points in the square. If you try to move any one of these points in any direction within the boundaries of the rectangle, then you would be moving two points too close toghether.</p>
+<p>Hence we can&rsquo;t possibly add any more points to this rectangle without putting violating the distance property between the points. Therefore six is the maximum number of points we can have.</p>
+<blockquote>
+<p><font size="6">Refernce</font></p></blockquote>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Closest_pair_of_points_problem">https://en.wikipedia.org/wiki/Closest_pair_of_points_problem</a></li>
+<li><a href="https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf">https://sites.cs.ucsb.edu/~suri/cs235/ClosestPair.pdf</a></li>
+<li><a href="https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html">https://www.cs.mcgill.ca/~cs251/ClosestPair/proofbox.html</a></li>
+</ul>
+
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/divide-and-conquer/">#Divide and Conquer</a>
+  
+  <a href="http://localhost:1313/blog/algorithm/">#Algorithm</a>
+  
+</p>
+
+  </main>
+  <footer>Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</footer>
+
+    
+</body>
+
+</html>

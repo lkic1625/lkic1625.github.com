@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>scheduling | Hammer&#39;s Blog</title>
+<meta name="title" content="scheduling" />
+<meta name="description" content="
+activity selection problem
+$$n$$개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는?
+$$input$$: $$j_1, j_2, j_3, &hellip; j_n$$ ($$j_i = (s_i, f_i)$$)
+$$output$$: maximum number of scheduled interval.
+알고리즘
+
+목록 $$S$$에 남는 회의 중 가장 일찍 끝나는 회의 $$S_{min}$$을 선택한다.
+$$S_{min}$$과 겹치는 회의를 $$S$$에서 모두 지운다.
+$$S$$가 텅빌 때까지 반복한다.
+
+정확성 증명
+$$Claim$$: 가장 종료 시간이 빠른 회의($$S_{min}$$)를 포함하는 최적해가 반드시 존재한다." />
+<meta name="keywords" content="greedy,algorithm," />
+
+
+<meta property="og:url" content="http://localhost:1313/scheduling/">
+  <meta property="og:site_name" content="Hammer&#39;s Blog">
+  <meta property="og:title" content="scheduling">
+  <meta property="og:description" content="activity selection problem $$n$$개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는?
+$$input$$: $$j_1, j_2, j_3, … j_n$$ ($$j_i = (s_i, f_i)$$)
+$$output$$: maximum number of scheduled interval.
+알고리즘 목록 $$S$$에 남는 회의 중 가장 일찍 끝나는 회의 $$S_{min}$$을 선택한다. $$S_{min}$$과 겹치는 회의를 $$S$$에서 모두 지운다. $$S$$가 텅빌 때까지 반복한다. 정확성 증명 $$Claim$$: 가장 종료 시간이 빠른 회의($$S_{min}$$)를 포함하는 최적해가 반드시 존재한다.">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:tag" content="Greedy">
+    <meta property="article:tag" content="Algorithm">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="scheduling">
+  <meta name="twitter:description" content="activity selection problem $$n$$개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는?
+$$input$$: $$j_1, j_2, j_3, … j_n$$ ($$j_i = (s_i, f_i)$$)
+$$output$$: maximum number of scheduled interval.
+알고리즘 목록 $$S$$에 남는 회의 중 가장 일찍 끝나는 회의 $$S_{min}$$을 선택한다. $$S_{min}$$과 겹치는 회의를 $$S$$에서 모두 지운다. $$S$$가 텅빌 때까지 반복한다. 정확성 증명 $$Claim$$: 가장 종료 시간이 빠른 회의($$S_{min}$$)를 포함하는 최적해가 반드시 존재한다.">
+
+
+
+
+  <meta itemprop="name" content="scheduling">
+  <meta itemprop="description" content="activity selection problem $$n$$개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는?
+$$input$$: $$j_1, j_2, j_3, … j_n$$ ($$j_i = (s_i, f_i)$$)
+$$output$$: maximum number of scheduled interval.
+알고리즘 목록 $$S$$에 남는 회의 중 가장 일찍 끝나는 회의 $$S_{min}$$을 선택한다. $$S_{min}$$과 겹치는 회의를 $$S$$에서 모두 지운다. $$S$$가 텅빌 때까지 반복한다. 정확성 증명 $$Claim$$: 가장 종료 시간이 빠른 회의($$S_{min}$$)를 포함하는 최적해가 반드시 존재한다.">
+  <meta itemprop="wordCount" content="232">
+  <meta itemprop="keywords" content="Greedy,Algorithm">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  :root {
+      --width: 720px;
+      --font-main: Verdana, sans-serif;
+      --font-secondary: Verdana, sans-serif;
+      --font-scale: 1em;
+      --background-color: #fff;
+      --heading-color: #222;
+      --text-color: #444;
+      --link-color: #3273dc;
+      --visited-color:  #8b6fcb;
+      --code-background-color: #f5f5f5;
+      --code-color: #333;
+      --blockquote-color: #222;
+      --pre-border-color: #eee;
+  }
+
+  @media (prefers-color-scheme: dark) {
+      :root {
+          --background-color: #01242e;
+          --heading-color: #eee;
+          --text-color: #ddd;
+          --link-color: #8cc2dd;
+          --visited-color:  #8b6fcb;
+          --code-background-color: #1a1a1a;
+          --code-color: #ddd;
+          --blockquote-color: #ccc;
+          --pre-border-color: #333;
+      }
+  }
+
+  body {
+      font-family: var(--font-secondary);
+      font-size: var(--font-scale);
+      margin: auto;
+      padding: 20px;
+      max-width: var(--width);
+      text-align: left;
+      background-color: var(--background-color);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      color: var(--text-color);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-main);
+      color: var(--heading-color);
+  }
+
+  a {
+      color: var(--link-color);
+      cursor: pointer;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+
+  nav a {
+      margin-right: 8px;
+  }
+
+  strong, b {
+      color: var(--heading-color);
+  }
+
+  button {
+      margin: 0;
+      cursor: pointer;
+  }
+
+  time {
+   	font-family: monospace;
+    	font-style: normal;
+    	font-size: 15px;
+  }
+
+  main {
+      line-height: 1.6;
+  }
+
+  table {
+      width: 100%;
+  }
+
+  hr {
+      border: 0;
+      border-top: 1px dashed;
+  }
+
+  img {
+      max-width: 100%;
+  }
+
+  code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 2px 4px;
+      background-color: var(--code-background-color);
+      color: var(--code-color);
+      border-radius: 3px;
+      font-size: 0.9em;
+  }
+
+  pre {
+      background-color: var(--code-background-color) !important;
+      border: 1px solid var(--pre-border-color);
+      border-radius: 4px;
+      padding: 1em;
+      overflow-x: auto;
+      margin: 1em 0;
+  }
+
+  pre code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: var(--code-color);
+  }
+
+  blockquote {
+      border-left: 1px solid #999;
+      color: var(--code-color);
+      padding-left: 20px;
+      font-style: italic;
+  }
+
+  footer {
+      padding: 25px 0;
+      text-align: center;
+  }
+
+  .title:hover {
+      text-decoration: none;
+  }
+
+  .title h1 {
+      font-size: 1.5em;
+  }
+
+  .inline {
+      width: auto !important;
+  }
+
+   
+  .highlight, .code, div.highlight {
+      background-color: var(--code-background-color) !important;
+      color: var(--code-color);
+      border-radius: 4px;
+      margin: 1em 0;
+      overflow-x: auto;
+      border: 1px solid var(--pre-border-color);
+  }
+
+  .highlight pre, .code pre {
+      padding: 1em;
+      margin: 0;
+      overflow-x: auto;
+      border: none;
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight, .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .chroma .k, .chroma .kd, .chroma .kn, .chroma .kr {
+      color: #569cd6;  
+  }
+
+  .highlight .s, .highlight .s1, .highlight .s2, .chroma .s, .chroma .s1, .chroma .s2 {
+      color: #ce9178;  
+  }
+
+  .highlight .c, .highlight .c1, .highlight .cm, .chroma .c, .chroma .c1, .chroma .cm {
+      color: #6a9955;  
+  }
+
+  .highlight .n, .highlight .nb, .highlight .nc, .chroma .n, .chroma .nb, .chroma .nc {
+      color: var(--code-color);  
+  }
+
+   
+  ul.blog-posts {
+      list-style-type: none;
+      padding: unset;
+  }
+
+  ul.blog-posts li {
+      display: flex;
+  }
+
+  ul.blog-posts li span {
+      flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+      color: var(--visited-color);
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            
+            throwOnError : false
+        });
+    });
+</script> </head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Hammer&#39;s Blog</h2>
+</a>
+<nav><a href="/">Home</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>scheduling</h1>
+<p>
+  <i>
+    <time datetime='0001-01-01'>
+      01 Jan, 0001
+    </time>
+  </i>
+</p>
+
+<content>
+  <script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<h1 id="activity-selection-problem">activity selection problem</h1>
+<p>$$n$$개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는?</p>
+<p>$$input$$: $$j_1, j_2, j_3, &hellip; j_n$$ ($$j_i = (s_i, f_i)$$)<br>
+$$output$$: maximum number of scheduled interval.</p>
+<h2 id="알고리즘">알고리즘</h2>
+<ol>
+<li>목록 $$S$$에 남는 회의 중 가장 일찍 끝나는 회의 $$S_{min}$$을 선택한다.</li>
+<li>$$S_{min}$$과 겹치는 회의를 $$S$$에서 모두 지운다.</li>
+<li>$$S$$가 텅빌 때까지 반복한다.</li>
+</ol>
+<h2 id="정확성-증명">정확성 증명</h2>
+<p>$$Claim$$: 가장 종료 시간이 빠른 회의($$S_{min}$$)를 포함하는 최적해가 반드시 존재한다.</p>
+<p>$$Proof$$:
+$$S$$의 최적해 중 $$S_{min}$$을 포함하지 않은 해가 있다고 가정하자. 이 답은 서로 겹치지 않은 회의 목록이다.
+이 목록에서 첫 번째로 개최되는 회의를 지우고 $$S_{min}$$을 대신 추가해 새로운 목록을 만든다하자.
+$$S_{min}$$은 S에서 가장 일찍 끝나는 회의이기 때문에 겹치지 않고 새로 만든 목록 또한 최적해이다.
+따라서 $$S_{min}$$을 선택해 최적해를 항상 구할 수 있다.</p>
+<h1 id="interval-partitioning">Interval Partitioning</h1>
+<p>$$input$$: $$j_1, j_2, j_3, &hellip; j_n$$ ($$j_i = (s_i, f_i)$$)<br>
+$$output$$: find minimum number of classroom to schedule all lectures so that no two occur at the same time in the same room</p>
+<h2 id="알고리즘-1">알고리즘</h2>
+<pre tabindex="0"><code>Algorithm Interval Partition {
+    Sort all intervals by start time
+
+    While there are intervals left {
+        Let i be the next one
+
+        If there is an existing classroom whose
+        schedule is compatible with i {
+            Add i to the compatible classroom that has been
+            free for the longest time
+        }
+        Else {
+            Create a new classroom and add i to it
+        }
+    }
+}
+</code></pre><blockquote>
+<p><font size="6">Refernce</font></p></blockquote>
+<ul>
+<li><a href="https://stumash.github.io/Algorithm_Notes/greedy/intervals/intervals.html">https://stumash.github.io/Algorithm_Notes/greedy/intervals/intervals.html</a></li>
+<li>구종만 지음, 알고리즘 문제 해결 전략, 인사이트, 9장<br></li>
+</ul>
+
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/greedy/">#Greedy</a>
+  
+  <a href="http://localhost:1313/blog/algorithm/">#Algorithm</a>
+  
+</p>
+
+  </main>
+  <footer>Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</footer>
+
+    
+</body>
+
+</html>

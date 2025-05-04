@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Network Flow on Hammer&#39;s Blog</title>
+    <link>http://localhost:1313/blog/network-flow/</link>
+    <description>Recent content in Network Flow on Hammer&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>© 조원빈 - All rights reserved</copyright>
+    <atom:link href="http://localhost:1313/blog/network-flow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bipartite matching</title>
+      <link>http://localhost:1313/bipartite-matching/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/bipartite-matching/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;bipartite-matching이분-매칭&#34;&gt;Bipartite Matching(이분 매칭)&lt;/h1&gt;&#xA;&lt;h2 id=&#34;1-graph-mathcing&#34;&gt;1. Graph Mathcing&lt;/h2&gt;&#xA;&lt;p&gt;Graph의 Mathcing이란 단순 그래프가 주어졌을 때 끝점을 공유하지 않는 간선의 집합을 표현하는 방법이다.&#xA;아래 사진은 올바른 매칭이 진행되었을 때 결과이다.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/images/matching.png&#34; alt=&#34;그래프 이미지&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;이 때 가장 큰 매칭을 찾아내는 문제를 최대 매칭 문제라고한다.&#xA;하지만 가장 General한 Mathcing 알고리즘은 &lt;a href=&#34;https://en.wikipedia.org/wiki/Blossom_algorithm&#34;&gt;꽤나 복잡하여&lt;/a&gt; 알고리즘 대회에서는 좀 더 단순한 형태로 등장하게 된다.&lt;/p&gt;&#xA;&lt;h2 id=&#34;2-이분매칭&#34;&gt;2. 이분매칭&lt;/h2&gt;&#xA;&lt;p&gt;이분 그래프란 정점을 두 그룹으로 나누어 모든 간선이 서로 다른 그룹의 정점들을 연결하도록 할 수 있는 그래프다.&#xA;이분 그래프는 두 집합의 대응 관계를 표현하기 위해 흔히 사용된다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ford-fulkerson</title>
+      <link>http://localhost:1313/ford-fulkerson/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/ford-fulkerson/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;network-flow&#34;&gt;network flow&lt;/h1&gt;&#xA;&lt;h2 id=&#34;flow-network란&#34;&gt;flow network란&lt;/h2&gt;&#xA;&lt;p&gt;그래프 이론에서 &lt;code&gt;flow network&lt;/code&gt;란 각각의 &lt;code&gt;edge&lt;/code&gt;가 &lt;code&gt;capacity&lt;/code&gt;을 가지고 있고 &lt;code&gt;flow&lt;/code&gt;를 전달하는 &lt;code&gt;Directed Graph&lt;/code&gt;이다.&lt;/p&gt;&#xA;&lt;p&gt;네트워크는 &lt;code&gt;graph&lt;/code&gt;이며 $$G = (V, E)$$, $$V$$는 정점의 집합, $$E$$는 $$V$$의 간선의 집합으로써 $$V$$ x $$V$$의 &lt;code&gt;subset&lt;/code&gt;이다.&#xA;이와 함께 $$c: V$$ x $$V → ℝ∞$$ 용량 함수 또한 정의된다.&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Without_loss_of_generality&#34;&gt;$$WLOG$$&lt;/a&gt;&lt;br&gt;&#xA;if $$(u, v) ∈ E$$ then $$(v, u) ∈ E$$&lt;br&gt;&#xA;if $$(u, v) ∉ E$$ then $$c(v, u)$$ = 0&lt;/p&gt;&#xA;&lt;p&gt;서로 다른 노드 &lt;code&gt;source&lt;/code&gt; $$s$$와 &lt;code&gt;sink&lt;/code&gt; $$t$$가 구분될 경우 $$(G, c, s, t)$$ 를 &lt;code&gt;flow network&lt;/code&gt;라 한다.&#xA;&lt;img src=&#34;%5Cassets%5Cimages%5CNetwork_Flow.svg.png&#34; alt=&#34;이미지1&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ford-fulkerson 정당성 증명</title>
+      <link>http://localhost:1313/ford-fulkerson-%EC%A0%95%EB%8B%B9%EC%84%B1-%EC%A6%9D%EB%AA%85/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/ford-fulkerson-%EC%A0%95%EB%8B%B9%EC%84%B1-%EC%A6%9D%EB%AA%85/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;p&gt;이 포스트는 &lt;a href=&#34;../ford_fulkerson&#34;&gt;FordFulkerson&lt;/a&gt;의 정당성 증명에 관한 포스트입니다.&lt;/p&gt;&#xA;&lt;h1 id=&#34;proof-of-correctness&#34;&gt;proof of correctness&lt;/h1&gt;&#xA;&lt;h2 id=&#34;cut-이란&#34;&gt;cut 이란.&lt;/h2&gt;&#xA;&lt;p&gt;&lt;code&gt;Min-cut&lt;/code&gt; 문제를 이용하여 증명을 하기 때문에 먼저 &lt;code&gt;cut&lt;/code&gt;에 대해 알아보자&lt;/p&gt;&#xA;&lt;p&gt;그래프 이론에서 &lt;code&gt;cut&lt;/code&gt;이란 그래프의 정점을 두 개의 서로소 부분집합으로 분할 하는 것을 말한다. 어떤 컷이든 하나의 끝점이 있는 간선의 집합 &lt;code&gt;cut-set&lt;/code&gt;을 결정한다.&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;flow netwrok&lt;/code&gt;에서는  &lt;code&gt;s-t cut&lt;/code&gt;이라하며, 소스와 싱크를 다른 부분집합에 속하게 한다. 이 때 &lt;code&gt;cut-set&lt;/code&gt;은 반드시 소스에서 싱크로가는 간선만을 포함한다. &lt;code&gt;The capacity of an s–t cut&lt;/code&gt;은  &lt;code&gt;cut-set&lt;/code&gt;의 포함되는 간선의 용량의 총합이다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

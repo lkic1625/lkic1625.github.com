@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>topological sort | Hammer&#39;s Blog</title>
+<meta name="title" content="topological sort" />
+<meta name="description" content="
+Definition
+$$input$$: $$DAG(\text{Directed Acyclic Graph})$$
+$$output$$: Node sequence $$(v_1, v_2, &hellip; , v_n)$$ such that no edge $$v_j \to v_i$$ (j &gt; i)
+Invariant
+$$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.
+$$Proof$$:
+$$indegree$$가 0인 노드가 하나도 없는 $$DAG$$를 가정하자. 모든 노드는 그러면 $$indegree$$가 1보다 크거나 같다.
+어떤 노드 하나를 골라 $$indegree$$가 가리키는 부모 노드를 탐색할 때,
+모든 노드들은 $$indegree$$가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.
+노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다." />
+<meta name="keywords" content="DAG,traveling,search,algorithm," />
+
+
+<meta property="og:url" content="http://localhost:1313/topological-sort/">
+  <meta property="og:site_name" content="Hammer&#39;s Blog">
+  <meta property="og:title" content="topological sort">
+  <meta property="og:description" content="Definition $$input$$: $$DAG(\text{Directed Acyclic Graph})$$
+$$output$$: Node sequence $$(v_1, v_2, … , v_n)$$ such that no edge $$v_j \to v_i$$ (j &gt; i)
+Invariant $$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.
+$$Proof$$: $$indegree$$가 0인 노드가 하나도 없는 $$DAG$$를 가정하자. 모든 노드는 그러면 $$indegree$$가 1보다 크거나 같다.
+어떤 노드 하나를 골라 $$indegree$$가 가리키는 부모 노드를 탐색할 때, 모든 노드들은 $$indegree$$가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.
+노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다.">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:tag" content="DAG">
+    <meta property="article:tag" content="Traveling">
+    <meta property="article:tag" content="Search">
+    <meta property="article:tag" content="Algorithm">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="topological sort">
+  <meta name="twitter:description" content="Definition $$input$$: $$DAG(\text{Directed Acyclic Graph})$$
+$$output$$: Node sequence $$(v_1, v_2, … , v_n)$$ such that no edge $$v_j \to v_i$$ (j &gt; i)
+Invariant $$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.
+$$Proof$$: $$indegree$$가 0인 노드가 하나도 없는 $$DAG$$를 가정하자. 모든 노드는 그러면 $$indegree$$가 1보다 크거나 같다.
+어떤 노드 하나를 골라 $$indegree$$가 가리키는 부모 노드를 탐색할 때, 모든 노드들은 $$indegree$$가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.
+노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다.">
+
+
+
+
+  <meta itemprop="name" content="topological sort">
+  <meta itemprop="description" content="Definition $$input$$: $$DAG(\text{Directed Acyclic Graph})$$
+$$output$$: Node sequence $$(v_1, v_2, … , v_n)$$ such that no edge $$v_j \to v_i$$ (j &gt; i)
+Invariant $$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.
+$$Proof$$: $$indegree$$가 0인 노드가 하나도 없는 $$DAG$$를 가정하자. 모든 노드는 그러면 $$indegree$$가 1보다 크거나 같다.
+어떤 노드 하나를 골라 $$indegree$$가 가리키는 부모 노드를 탐색할 때, 모든 노드들은 $$indegree$$가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.
+노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다.">
+  <meta itemprop="wordCount" content="288">
+  <meta itemprop="keywords" content="DAG,Traveling,Search,Algorithm">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  :root {
+      --width: 720px;
+      --font-main: Verdana, sans-serif;
+      --font-secondary: Verdana, sans-serif;
+      --font-scale: 1em;
+      --background-color: #fff;
+      --heading-color: #222;
+      --text-color: #444;
+      --link-color: #3273dc;
+      --visited-color:  #8b6fcb;
+      --code-background-color: #f5f5f5;
+      --code-color: #333;
+      --blockquote-color: #222;
+      --pre-border-color: #eee;
+  }
+
+  @media (prefers-color-scheme: dark) {
+      :root {
+          --background-color: #01242e;
+          --heading-color: #eee;
+          --text-color: #ddd;
+          --link-color: #8cc2dd;
+          --visited-color:  #8b6fcb;
+          --code-background-color: #1a1a1a;
+          --code-color: #ddd;
+          --blockquote-color: #ccc;
+          --pre-border-color: #333;
+      }
+  }
+
+  body {
+      font-family: var(--font-secondary);
+      font-size: var(--font-scale);
+      margin: auto;
+      padding: 20px;
+      max-width: var(--width);
+      text-align: left;
+      background-color: var(--background-color);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      color: var(--text-color);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-main);
+      color: var(--heading-color);
+  }
+
+  a {
+      color: var(--link-color);
+      cursor: pointer;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+
+  nav a {
+      margin-right: 8px;
+  }
+
+  strong, b {
+      color: var(--heading-color);
+  }
+
+  button {
+      margin: 0;
+      cursor: pointer;
+  }
+
+  time {
+   	font-family: monospace;
+    	font-style: normal;
+    	font-size: 15px;
+  }
+
+  main {
+      line-height: 1.6;
+  }
+
+  table {
+      width: 100%;
+  }
+
+  hr {
+      border: 0;
+      border-top: 1px dashed;
+  }
+
+  img {
+      max-width: 100%;
+  }
+
+  code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 2px 4px;
+      background-color: var(--code-background-color);
+      color: var(--code-color);
+      border-radius: 3px;
+      font-size: 0.9em;
+  }
+
+  pre {
+      background-color: var(--code-background-color) !important;
+      border: 1px solid var(--pre-border-color);
+      border-radius: 4px;
+      padding: 1em;
+      overflow-x: auto;
+      margin: 1em 0;
+  }
+
+  pre code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: var(--code-color);
+  }
+
+  blockquote {
+      border-left: 1px solid #999;
+      color: var(--code-color);
+      padding-left: 20px;
+      font-style: italic;
+  }
+
+  footer {
+      padding: 25px 0;
+      text-align: center;
+  }
+
+  .title:hover {
+      text-decoration: none;
+  }
+
+  .title h1 {
+      font-size: 1.5em;
+  }
+
+  .inline {
+      width: auto !important;
+  }
+
+   
+  .highlight, .code, div.highlight {
+      background-color: var(--code-background-color) !important;
+      color: var(--code-color);
+      border-radius: 4px;
+      margin: 1em 0;
+      overflow-x: auto;
+      border: 1px solid var(--pre-border-color);
+  }
+
+  .highlight pre, .code pre {
+      padding: 1em;
+      margin: 0;
+      overflow-x: auto;
+      border: none;
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight, .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .chroma .k, .chroma .kd, .chroma .kn, .chroma .kr {
+      color: #569cd6;  
+  }
+
+  .highlight .s, .highlight .s1, .highlight .s2, .chroma .s, .chroma .s1, .chroma .s2 {
+      color: #ce9178;  
+  }
+
+  .highlight .c, .highlight .c1, .highlight .cm, .chroma .c, .chroma .c1, .chroma .cm {
+      color: #6a9955;  
+  }
+
+  .highlight .n, .highlight .nb, .highlight .nc, .chroma .n, .chroma .nb, .chroma .nc {
+      color: var(--code-color);  
+  }
+
+   
+  ul.blog-posts {
+      list-style-type: none;
+      padding: unset;
+  }
+
+  ul.blog-posts li {
+      display: flex;
+  }
+
+  ul.blog-posts li span {
+      flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+      color: var(--visited-color);
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            
+            throwOnError : false
+        });
+    });
+</script> </head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Hammer&#39;s Blog</h2>
+</a>
+<nav><a href="/">Home</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>topological sort</h1>
+<p>
+  <i>
+    <time datetime='0001-01-01'>
+      01 Jan, 0001
+    </time>
+  </i>
+</p>
+
+<content>
+  <script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<h1 id="definition">Definition</h1>
+<p>$$input$$: $$DAG(\text{Directed Acyclic Graph})$$<br>
+$$output$$: Node sequence $$(v_1, v_2, &hellip; , v_n)$$ such that no edge $$v_j \to v_i$$ (j &gt; i)</p>
+<h1 id="invariant">Invariant</h1>
+<p>$$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.</p>
+<p>$$Proof$$:
+$$indegree$$가 0인 노드가 하나도 없는 $$DAG$$를 가정하자. 모든 노드는 그러면 $$indegree$$가 1보다 크거나 같다.</p>
+<p>어떤 노드 하나를 골라 $$indegree$$가 가리키는 부모 노드를 탐색할 때,
+모든 노드들은 $$indegree$$가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.</p>
+<p>노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다.</p>
+<p>$$\Box$$ $$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.</p>
+<h1 id="algorithm">algorithm</h1>
+<ul>
+<li>find nodes indegree == 0</li>
+<li>insert q</li>
+<li>Iterate until all nodes are checked.</li>
+</ul>
+<h2 id="문제-줄세우기">문제: 줄세우기</h2>
+<p>N명의 학생들을 키 순서대로 줄을 세우려고 한다. 각 학생의 키를 직접 재서 정렬하면 간단하겠지만, 마땅한 방법이 없어서 두 학생의 키를 비교하는 방법을 사용하기로 하였다. 그나마도 모든 학생들을 다 비교해 본 것이 아니고, 일부 학생들의 키만을 비교해 보았다.</p>
+<p>일부 학생들의 키를 비교한 결과가 주어졌을 때, 줄을 세우는 프로그램을 작성하시오.</p>
+<h3 id="입력">입력</h3>
+<p>첫째 줄에 N(1≤N≤32,000), M(1≤M≤100,000)이 주어진다. M은 키를 비교한 회수이다. 다음 M개의 줄에는 키를 비교한 두 학생의 번호 A, B가 주어진다. 이는 학생 A가 학생 B의 앞에 서야 한다는 의미이다.</p>
+<p>학생들의 번호는 1번부터 N번이다.</p>
+<h3 id="출력">출력</h3>
+<p>첫째 줄부터 앞에서부터 줄을 세운 결과를 출력한다. 답이 여러 가지인 경우에는 아무거나 출력한다.</p>
+<h3 id="정답-코드">정답 코드</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#00f">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f">#include&lt;vector&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f">#include&lt;algorithm&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f">#include&lt;queue&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">using</span> <span style="color:#00f">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">const</span> <span style="color:#2b91af">int</span> MAX = 32001;
+</span></span><span style="display:flex;"><span><span style="color:#2b91af">int</span> n, m, a, b, node[MAX];
+</span></span><span style="display:flex;"><span>queue&lt;<span style="color:#2b91af">int</span>&gt; v[MAX];
+</span></span><span style="display:flex;"><span>queue&lt;<span style="color:#2b91af">int</span>&gt; q;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2b91af">int</span> main() {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	cin &gt;&gt; n &gt;&gt; m;
+</span></span><span style="display:flex;"><span>	<span style="color:#00f">for</span> (<span style="color:#2b91af">int</span> i = 0; i &lt; m; i++) {
+</span></span><span style="display:flex;"><span>		scanf(<span style="color:#a31515">&#34;%d %d&#34;</span>, &amp;a, &amp;b);
+</span></span><span style="display:flex;"><span>		node[b]++;
+</span></span><span style="display:flex;"><span>		v[a].push(b);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#00f">for</span> (<span style="color:#2b91af">int</span> i = 1; i &lt;= n; i++) {
+</span></span><span style="display:flex;"><span>		<span style="color:#00f">if</span> (!node[i]) q.push(i);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#00f">while</span> (!q.empty()) {
+</span></span><span style="display:flex;"><span>		<span style="color:#2b91af">int</span> root = q.front();
+</span></span><span style="display:flex;"><span>		q.pop();
+</span></span><span style="display:flex;"><span>		printf(<span style="color:#a31515">&#34;%d &#34;</span>, root);
+</span></span><span style="display:flex;"><span>		<span style="color:#00f">while</span> (!v[root].empty()) {
+</span></span><span style="display:flex;"><span>			<span style="color:#2b91af">int</span> child = v[root].front();
+</span></span><span style="display:flex;"><span>			v[root].pop();
+</span></span><span style="display:flex;"><span>			node[child]--;
+</span></span><span style="display:flex;"><span>			<span style="color:#00f">if</span> (!node[child]) {
+</span></span><span style="display:flex;"><span>				q.push(child);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p><font size="6">Refernce</font></p></blockquote>
+<ul>
+<li><a href="https://math.stackexchange.com/questions/3232341/prove-that-a-directed-graph-with-no-cycles-has-at-least-one-node-of-indegree-zer">https://math.stackexchange.com/questions/3232341/prove-that-a-directed-graph-with-no-cycles-has-at-least-one-node-of-indegree-zer</a></li>
+</ul>
+
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/dag/">#DAG</a>
+  
+  <a href="http://localhost:1313/blog/traveling/">#Traveling</a>
+  
+  <a href="http://localhost:1313/blog/search/">#Search</a>
+  
+  <a href="http://localhost:1313/blog/algorithm/">#Algorithm</a>
+  
+</p>
+
+  </main>
+  <footer>Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</footer>
+
+    
+</body>
+
+</html>

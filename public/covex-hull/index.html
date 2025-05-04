@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>covex hull | Hammer&#39;s Blog</title>
+<meta name="title" content="covex hull" />
+<meta name="description" content="
+Graham Scan
+pseudo code
+sort by y-order; //$$p_1, p_2, ..., p_n$$
+stack.push($$p_1, p_2$$);
+for i = 3 to $$n$$ do
+  while next $$\angle next, top, $$p_i$$ != CCW
+    stack.pop()
+  stack.push($$p_i$$)
+return stack
+Analysis of Graham Scan
+
+Invariant $$&lt;p_1, &hellip; ,stack.top()&gt;$$ is convex
+기울기 공식:
+$$D = det\begin{vmatrix} 1 &amp; p_x &amp; p_y \ 1 &amp; q_x &amp; q_y \ 1 &amp; r_x &amp; r_y \end{vmatrix}$$
+
+
+if $$D &gt; 0$$ then $$\angle p, q, r$$ is CCW
+else if $$D &lt; 0$$ $$\angle p, q, r$$ is CW
+else then $$\angle p, q, r$$ is straight
+$$D = p \cdot (q \times r)$$ 이다.
+
+
+정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요
+
+
+time complexity: $$O(nlogn)$$
+
+Divide and Conquer
+pseudo code
+" />
+<meta name="keywords" content="divide and conquer,algorithm," />
+
+
+<meta property="og:url" content="http://localhost:1313/covex-hull/">
+  <meta property="og:site_name" content="Hammer&#39;s Blog">
+  <meta property="og:title" content="covex hull">
+  <meta property="og:description" content="Graham Scan pseudo code sort by y-order; //$$p_1, p_2, ..., p_n$$ stack.push($$p_1, p_2$$); for i = 3 to $$n$$ do while next $$\angle next, top, $$p_i$$ != CCW stack.pop() stack.push($$p_i$$) return stack Analysis of Graham Scan Invariant $$&lt;p_1, … ,stack.top()&gt;$$ is convex 기울기 공식: $$D = det\begin{vmatrix} 1 &amp; p_x &amp; p_y \ 1 &amp; q_x &amp; q_y \ 1 &amp; r_x &amp; r_y \end{vmatrix}$$ if $$D &gt; 0$$ then $$\angle p, q, r$$ is CCW else if $$D &lt; 0$$ $$\angle p, q, r$$ is CW else then $$\angle p, q, r$$ is straight $$D = p \cdot (q \times r)$$ 이다. 정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요 time complexity: $$O(nlogn)$$ Divide and Conquer pseudo code">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:tag" content="Divide and Conquer">
+    <meta property="article:tag" content="Algorithm">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="covex hull">
+  <meta name="twitter:description" content="Graham Scan pseudo code sort by y-order; //$$p_1, p_2, ..., p_n$$ stack.push($$p_1, p_2$$); for i = 3 to $$n$$ do while next $$\angle next, top, $$p_i$$ != CCW stack.pop() stack.push($$p_i$$) return stack Analysis of Graham Scan Invariant $$&lt;p_1, … ,stack.top()&gt;$$ is convex 기울기 공식: $$D = det\begin{vmatrix} 1 &amp; p_x &amp; p_y \ 1 &amp; q_x &amp; q_y \ 1 &amp; r_x &amp; r_y \end{vmatrix}$$ if $$D &gt; 0$$ then $$\angle p, q, r$$ is CCW else if $$D &lt; 0$$ $$\angle p, q, r$$ is CW else then $$\angle p, q, r$$ is straight $$D = p \cdot (q \times r)$$ 이다. 정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요 time complexity: $$O(nlogn)$$ Divide and Conquer pseudo code">
+
+
+
+
+  <meta itemprop="name" content="covex hull">
+  <meta itemprop="description" content="Graham Scan pseudo code sort by y-order; //$$p_1, p_2, ..., p_n$$ stack.push($$p_1, p_2$$); for i = 3 to $$n$$ do while next $$\angle next, top, $$p_i$$ != CCW stack.pop() stack.push($$p_i$$) return stack Analysis of Graham Scan Invariant $$&lt;p_1, … ,stack.top()&gt;$$ is convex 기울기 공식: $$D = det\begin{vmatrix} 1 &amp; p_x &amp; p_y \ 1 &amp; q_x &amp; q_y \ 1 &amp; r_x &amp; r_y \end{vmatrix}$$ if $$D &gt; 0$$ then $$\angle p, q, r$$ is CCW else if $$D &lt; 0$$ $$\angle p, q, r$$ is CW else then $$\angle p, q, r$$ is straight $$D = p \cdot (q \times r)$$ 이다. 정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요 time complexity: $$O(nlogn)$$ Divide and Conquer pseudo code">
+  <meta itemprop="wordCount" content="230">
+  <meta itemprop="keywords" content="Divide and Conquer,Algorithm">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  :root {
+      --width: 720px;
+      --font-main: Verdana, sans-serif;
+      --font-secondary: Verdana, sans-serif;
+      --font-scale: 1em;
+      --background-color: #fff;
+      --heading-color: #222;
+      --text-color: #444;
+      --link-color: #3273dc;
+      --visited-color:  #8b6fcb;
+      --code-background-color: #f5f5f5;
+      --code-color: #333;
+      --blockquote-color: #222;
+      --pre-border-color: #eee;
+  }
+
+  @media (prefers-color-scheme: dark) {
+      :root {
+          --background-color: #01242e;
+          --heading-color: #eee;
+          --text-color: #ddd;
+          --link-color: #8cc2dd;
+          --visited-color:  #8b6fcb;
+          --code-background-color: #1a1a1a;
+          --code-color: #ddd;
+          --blockquote-color: #ccc;
+          --pre-border-color: #333;
+      }
+  }
+
+  body {
+      font-family: var(--font-secondary);
+      font-size: var(--font-scale);
+      margin: auto;
+      padding: 20px;
+      max-width: var(--width);
+      text-align: left;
+      background-color: var(--background-color);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      color: var(--text-color);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-main);
+      color: var(--heading-color);
+  }
+
+  a {
+      color: var(--link-color);
+      cursor: pointer;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+
+  nav a {
+      margin-right: 8px;
+  }
+
+  strong, b {
+      color: var(--heading-color);
+  }
+
+  button {
+      margin: 0;
+      cursor: pointer;
+  }
+
+  time {
+   	font-family: monospace;
+    	font-style: normal;
+    	font-size: 15px;
+  }
+
+  main {
+      line-height: 1.6;
+  }
+
+  table {
+      width: 100%;
+  }
+
+  hr {
+      border: 0;
+      border-top: 1px dashed;
+  }
+
+  img {
+      max-width: 100%;
+  }
+
+  code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 2px 4px;
+      background-color: var(--code-background-color);
+      color: var(--code-color);
+      border-radius: 3px;
+      font-size: 0.9em;
+  }
+
+  pre {
+      background-color: var(--code-background-color) !important;
+      border: 1px solid var(--pre-border-color);
+      border-radius: 4px;
+      padding: 1em;
+      overflow-x: auto;
+      margin: 1em 0;
+  }
+
+  pre code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: var(--code-color);
+  }
+
+  blockquote {
+      border-left: 1px solid #999;
+      color: var(--code-color);
+      padding-left: 20px;
+      font-style: italic;
+  }
+
+  footer {
+      padding: 25px 0;
+      text-align: center;
+  }
+
+  .title:hover {
+      text-decoration: none;
+  }
+
+  .title h1 {
+      font-size: 1.5em;
+  }
+
+  .inline {
+      width: auto !important;
+  }
+
+   
+  .highlight, .code, div.highlight {
+      background-color: var(--code-background-color) !important;
+      color: var(--code-color);
+      border-radius: 4px;
+      margin: 1em 0;
+      overflow-x: auto;
+      border: 1px solid var(--pre-border-color);
+  }
+
+  .highlight pre, .code pre {
+      padding: 1em;
+      margin: 0;
+      overflow-x: auto;
+      border: none;
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight, .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .chroma .k, .chroma .kd, .chroma .kn, .chroma .kr {
+      color: #569cd6;  
+  }
+
+  .highlight .s, .highlight .s1, .highlight .s2, .chroma .s, .chroma .s1, .chroma .s2 {
+      color: #ce9178;  
+  }
+
+  .highlight .c, .highlight .c1, .highlight .cm, .chroma .c, .chroma .c1, .chroma .cm {
+      color: #6a9955;  
+  }
+
+  .highlight .n, .highlight .nb, .highlight .nc, .chroma .n, .chroma .nb, .chroma .nc {
+      color: var(--code-color);  
+  }
+
+   
+  ul.blog-posts {
+      list-style-type: none;
+      padding: unset;
+  }
+
+  ul.blog-posts li {
+      display: flex;
+  }
+
+  ul.blog-posts li span {
+      flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+      color: var(--visited-color);
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            
+            throwOnError : false
+        });
+    });
+</script> </head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Hammer&#39;s Blog</h2>
+</a>
+<nav><a href="/">Home</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>covex hull</h1>
+<p>
+  <i>
+    <time datetime='0001-01-01'>
+      01 Jan, 0001
+    </time>
+  </i>
+</p>
+
+<content>
+  <script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<h1 id="graham-scan">Graham Scan</h1>
+<h2 id="pseudo-code">pseudo code</h2>
+<pre tabindex="0"><code>sort by y-order; //$$p_1, p_2, ..., p_n$$
+stack.push($$p_1, p_2$$);
+for i = 3 to $$n$$ do
+  while next $$\angle next, top, $$p_i$$ != CCW
+    stack.pop()
+  stack.push($$p_i$$)
+return stack
+</code></pre><h2 id="analysis-of-graham-scan">Analysis of Graham Scan</h2>
+<ol>
+<li>Invariant $$&lt;p_1, &hellip; ,stack.top()&gt;$$ is convex</li>
+<li>기울기 공식:
+$$D = det\begin{vmatrix} 1 &amp; p_x &amp; p_y \ 1 &amp; q_x &amp; q_y \ 1 &amp; r_x &amp; r_y \end{vmatrix}$$</li>
+</ol>
+<ul>
+<li>if $$D &gt; 0$$ then $$\angle p, q, r$$ is CCW</li>
+<li>else if $$D &lt; 0$$ $$\angle p, q, r$$ is CW</li>
+<li>else then $$\angle p, q, r$$ is straight</li>
+<li>$$D = p \cdot (q \times r)$$ 이다.</li>
+</ul>
+<ol start="3">
+<li>정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요</li>
+</ol>
+<ul>
+<li>time complexity: $$O(nlogn)$$</li>
+</ul>
+<h1 id="divide-and-conquer">Divide and Conquer</h1>
+<h2 id="pseudo-code-1">pseudo code</h2>
+<p><img src="/assets/images/merging.PNG" alt="이미지1"></p>
+<ul>
+<li>sort by x-order</li>
+<li>Let $$A$$ be the set of $$n/2$$ leftmost points and $$B$$ the set of $$n/2$$ rightmost points</li>
+<li>Reculsively compute $$CovexHull(A)$$ and $$ConvexHull(B)$$</li>
+<li>Merge to obtain CovexHull(S)
+<ul>
+<li>a = rightmost point of $$CovexHull(A)$$</li>
+<li>b = leftmost point of $$ConvexHull(B)$$</li>
+<li>while $$\overline{ab}$$ not lower tangent of $$CovexHull(A)$$ and $$ConvexHull(B)$$
+<ol>
+<li>while $$\overline{ab}$$ not lower tangent to :$$ConvexHull(A)$$</li>
+</ol>
+<ul>
+<li>set $$a = a-1$$(move $$a$$ $$CW$$)</li>
+</ul>
+<ol start="2">
+<li>while $$\overline{ab}$$ not lower tangent to :$$ConvexHull(B)$$</li>
+</ol>
+<ul>
+<li>set $$b = b+1$$(move $$b$$ $$CCW$$)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>return $$\overline{ab}$$</li>
+</ul>
+<h2 id="analysis-of-divide-and-conquer">Analysis of Divide and conquer</h2>
+<ul>
+<li>처음 정렬에 걸리는 시간 $$O(nlong)$$</li>
+<li>. $$T(N) = 2T(N/2) + O(N)$$</li>
+<li>Merge 즉, 합치는 데 걸리는 시간은 선형이다.</li>
+<li>마스터 정리에 의하여 $$T(N) = O(nlogn)$$</li>
+</ul>
+<blockquote>
+<p><font size="6">Refernce</font></p></blockquote>
+<ul>
+<li><a href="https://sites.cs.ucsb.edu/~suri/cs235/ConvexHull.pdf">https://sites.cs.ucsb.edu/~suri/cs235/ConvexHull.pdf</a></li>
+</ul>
+
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/divide-and-conquer/">#Divide and Conquer</a>
+  
+  <a href="http://localhost:1313/blog/algorithm/">#Algorithm</a>
+  
+</p>
+
+  </main>
+  <footer>Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</footer>
+
+    
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Greedy on Hammer&#39;s Blog</title>
+    <link>http://localhost:1313/blog/greedy/</link>
+    <description>Recent content in Greedy on Hammer&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>© 조원빈 - All rights reserved</copyright>
+    <atom:link href="http://localhost:1313/blog/greedy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>scheduling</title>
+      <link>http://localhost:1313/scheduling/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/scheduling/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;activity-selection-problem&#34;&gt;activity selection problem&lt;/h1&gt;&#xA;&lt;p&gt;$$n$$개의 팀이 회의하고 싶은 시간을 제출했다고 했을 때 한 개의 회의실에서 선택할 수 있는 최대 회의 개수는?&lt;/p&gt;&#xA;&lt;p&gt;$$input$$: $$j_1, j_2, j_3, &amp;hellip; j_n$$ ($$j_i = (s_i, f_i)$$)&lt;br&gt;&#xA;$$output$$: maximum number of scheduled interval.&lt;/p&gt;&#xA;&lt;h2 id=&#34;알고리즘&#34;&gt;알고리즘&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;목록 $$S$$에 남는 회의 중 가장 일찍 끝나는 회의 $$S_{min}$$을 선택한다.&lt;/li&gt;&#xA;&lt;li&gt;$$S_{min}$$과 겹치는 회의를 $$S$$에서 모두 지운다.&lt;/li&gt;&#xA;&lt;li&gt;$$S$$가 텅빌 때까지 반복한다.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;정확성-증명&#34;&gt;정확성 증명&lt;/h2&gt;&#xA;&lt;p&gt;$$Claim$$: 가장 종료 시간이 빠른 회의($$S_{min}$$)를 포함하는 최적해가 반드시 존재한다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>shortest path</title>
+      <link>http://localhost:1313/shortest-path/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/shortest-path/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;definition&#34;&gt;definition&lt;/h1&gt;&#xA;&lt;p&gt;$$input$$: $$G=(V,E,g), v_0 \in V$$&lt;br&gt;&#xA;$$output$$: shortest path $$v_0$$ to $$v_i$$ $$(v_i \in V)$$&lt;/p&gt;&#xA;&lt;h1 id=&#34;다익스트라-알고리즘&#34;&gt;다익스트라 알고리즘&lt;/h1&gt;&#xA;&lt;p&gt;다익스트라 알고리즘은 &lt;code&gt;Invariant&lt;/code&gt;를 중심으로 진행된다. 이는 아래와 같다&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;: $$\forall{u} \in T, d_{min}(u) = \text{shortest path}$$&lt;/li&gt;&#xA;&lt;li&gt;$$\forall{u} \notin T, \text{shortest path} v_0 \to T_0 \to u is \text{shortest path then insert u to T} (T_0 \in T)$$&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;정확성-증명&#34;&gt;정확성 증명&lt;/h2&gt;&#xA;&lt;p&gt;Proof of Dijkstra&amp;rsquo;s algorithm is constructed by induction on the number of visited nodes.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>tree diameter</title>
+      <link>http://localhost:1313/tree-diameter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tree-diameter/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;트리의-지름&#34;&gt;트리의 지름&lt;/h1&gt;&#xA;&lt;h2 id=&#34;문제&#34;&gt;문제&lt;/h2&gt;&#xA;&lt;p&gt;트리(tree)는 사이클이 없는 무방향 그래프이다. 트리에서는 어떤 두 노드를 선택해도 둘 사이에 경로가 항상 하나만 존재하게 된다. 트리에서 어떤 두 노드를 선택해서 양쪽으로 쫙 당길 때, 가장 길게 늘어나는 경우가 있을 것이다. 이럴 때 트리의 모든 노드들은 이 두 노드를 지름의 끝 점으로 하는 원 안에 들어가게 된다.&lt;/p&gt;&#xA;&lt;p&gt;이런 두 노드 사이의 경로의 길이를 트리의 지름이라고 한다. 정확히 정의하자면 트리에 존재하는 모든 경로들 중에서 가장 긴 것의 길이를 말한다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

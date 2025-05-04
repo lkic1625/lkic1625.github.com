@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Traveling on Hammer&#39;s Blog</title>
+    <link>http://localhost:1313/blog/traveling/</link>
+    <description>Recent content in Traveling on Hammer&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>© 조원빈 - All rights reserved</copyright>
+    <atom:link href="http://localhost:1313/blog/traveling/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>topological sort</title>
+      <link>http://localhost:1313/topological-sort/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/topological-sort/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;definition&#34;&gt;Definition&lt;/h1&gt;&#xA;&lt;p&gt;$$input$$: $$DAG(\text{Directed Acyclic Graph})$$&lt;br&gt;&#xA;$$output$$: Node sequence $$(v_1, v_2, &amp;hellip; , v_n)$$ such that no edge $$v_j \to v_i$$ (j &amp;gt; i)&lt;/p&gt;&#xA;&lt;h1 id=&#34;invariant&#34;&gt;Invariant&lt;/h1&gt;&#xA;&lt;p&gt;$$DAG$$에서 $$indegree$$가 0인 노드는 반드시 존재한다.&lt;/p&gt;&#xA;&lt;p&gt;$$Proof$$:&#xA;$$indegree$$가 0인 노드가 하나도 없는 $$DAG$$를 가정하자. 모든 노드는 그러면 $$indegree$$가 1보다 크거나 같다.&lt;/p&gt;&#xA;&lt;p&gt;어떤 노드 하나를 골라 $$indegree$$가 가리키는 부모 노드를 탐색할 때,&#xA;모든 노드들은 $$indegree$$가 0이상이기 때문에 반드시 부모 노드를 가지게 된다.&lt;/p&gt;&#xA;&lt;p&gt;노드의 개수는 무한하지 않기 때문에 이 탐색은 순환하며 가정이 모순임을 나타낸다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

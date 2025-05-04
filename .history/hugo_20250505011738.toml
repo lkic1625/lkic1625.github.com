@@ -1,0 +1,47 @@
+baseURL = 'https://lkic1625.github.io/'
+languageCode = 'ko-kr'
+title = "Hammer's Blog"
+theme = 'hugo-bearblog'
+
+# Basic settings
+copyright = "© 조원빈 - All rights reserved"
+defaultContentLanguage = "ko"
+enableEmoji = true
+
+# Generate a nice robots.txt for SEO
+enableRobotsTXT = true
+
+# Generate "Bearblog"-like URLs
+disableKinds = ["taxonomy"]
+ignoreErrors = ["error-disable-taxonomy"]
+[permalinks]
+  blog = "/:slug/"
+  tags = "/blog/:slug"
+
+[author]
+  name = "조원빈"
+  email = "lkic1625@gmail.com"
+  
+  # A subtitle that appears below the blog title on the home page
+  subtitle = "기록용 블로그입니다."
+
+[params]
+  # These are the meta tags that will be used in the generated HTML
+  metaKeywords = ["blog", "tech", "development", "programming", "조원빈"]
+
+# Syntax Highlighting 설정
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "vs"
+    tabWidth = 4
+
+# Math 설정
+[markup.goldmark.renderer]
+  unsafe = true  # LaTeX 수식이 HTML로 변환될 수 있도록 함

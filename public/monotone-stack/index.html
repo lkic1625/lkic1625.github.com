@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>monotone stack | Hammer&#39;s Blog</title>
+<meta name="title" content="monotone stack" />
+<meta name="description" content="
+Inroduction
+오늘 다뤄볼 알고리즘은 monotone stack이다 특정 PS 기법으로 사용되기에 예제와 함께 풀어보겠다.
+Monoton Stack
+Monotone Stack은 이름처럼 단조 증가(감소) 스택을 만든다.
+다만, 증가하는 스택의 규칙을 따르도록 구성하려면 pop, push가 필수적이다.
+위 과정에서 저장해두었던 여러 정보를 통해 PS를 푸는 기법이다.
+위 설명만 하자니 솔직히 나라도 못 알아 들을 것 같다. 애초에 기법 또한 특정 알고리즘이라기 보단 sliding window와 같은 방법론적인 부분이 크다 생각하여 예시가 꼭 필요해보인다. 보통은 알고리즘의 설명 이후 문제를 소개하곤 하지만, 이번엔 문제를 먼저 소개해보도록 하자." />
+<meta name="keywords" content="stack,algorithm," />
+
+
+<meta property="og:url" content="http://localhost:1313/monotone-stack/">
+  <meta property="og:site_name" content="Hammer&#39;s Blog">
+  <meta property="og:title" content="monotone stack">
+  <meta property="og:description" content="Inroduction 오늘 다뤄볼 알고리즘은 monotone stack이다 특정 PS 기법으로 사용되기에 예제와 함께 풀어보겠다.
+Monoton Stack Monotone Stack은 이름처럼 단조 증가(감소) 스택을 만든다.
+다만, 증가하는 스택의 규칙을 따르도록 구성하려면 pop, push가 필수적이다. 위 과정에서 저장해두었던 여러 정보를 통해 PS를 푸는 기법이다.
+위 설명만 하자니 솔직히 나라도 못 알아 들을 것 같다. 애초에 기법 또한 특정 알고리즘이라기 보단 sliding window와 같은 방법론적인 부분이 크다 생각하여 예시가 꼭 필요해보인다. 보통은 알고리즘의 설명 이후 문제를 소개하곤 하지만, 이번엔 문제를 먼저 소개해보도록 하자.">
+  <meta property="og:locale" content="ko_kr">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:tag" content="Stack">
+    <meta property="article:tag" content="Algorithm">
+
+
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="monotone stack">
+  <meta name="twitter:description" content="Inroduction 오늘 다뤄볼 알고리즘은 monotone stack이다 특정 PS 기법으로 사용되기에 예제와 함께 풀어보겠다.
+Monoton Stack Monotone Stack은 이름처럼 단조 증가(감소) 스택을 만든다.
+다만, 증가하는 스택의 규칙을 따르도록 구성하려면 pop, push가 필수적이다. 위 과정에서 저장해두었던 여러 정보를 통해 PS를 푸는 기법이다.
+위 설명만 하자니 솔직히 나라도 못 알아 들을 것 같다. 애초에 기법 또한 특정 알고리즘이라기 보단 sliding window와 같은 방법론적인 부분이 크다 생각하여 예시가 꼭 필요해보인다. 보통은 알고리즘의 설명 이후 문제를 소개하곤 하지만, 이번엔 문제를 먼저 소개해보도록 하자.">
+
+
+
+
+  <meta itemprop="name" content="monotone stack">
+  <meta itemprop="description" content="Inroduction 오늘 다뤄볼 알고리즘은 monotone stack이다 특정 PS 기법으로 사용되기에 예제와 함께 풀어보겠다.
+Monoton Stack Monotone Stack은 이름처럼 단조 증가(감소) 스택을 만든다.
+다만, 증가하는 스택의 규칙을 따르도록 구성하려면 pop, push가 필수적이다. 위 과정에서 저장해두었던 여러 정보를 통해 PS를 푸는 기법이다.
+위 설명만 하자니 솔직히 나라도 못 알아 들을 것 같다. 애초에 기법 또한 특정 알고리즘이라기 보단 sliding window와 같은 방법론적인 부분이 크다 생각하여 예시가 꼭 필요해보인다. 보통은 알고리즘의 설명 이후 문제를 소개하곤 하지만, 이번엔 문제를 먼저 소개해보도록 하자.">
+  <meta itemprop="wordCount" content="435">
+  <meta itemprop="keywords" content="Stack,Algorithm">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  :root {
+      --width: 720px;
+      --font-main: Verdana, sans-serif;
+      --font-secondary: Verdana, sans-serif;
+      --font-scale: 1em;
+      --background-color: #fff;
+      --heading-color: #222;
+      --text-color: #444;
+      --link-color: #3273dc;
+      --visited-color:  #8b6fcb;
+      --code-background-color: #f5f5f5;
+      --code-color: #333;
+      --blockquote-color: #222;
+      --pre-border-color: #eee;
+  }
+
+  @media (prefers-color-scheme: dark) {
+      :root {
+          --background-color: #01242e;
+          --heading-color: #eee;
+          --text-color: #ddd;
+          --link-color: #8cc2dd;
+          --visited-color:  #8b6fcb;
+          --code-background-color: #1a1a1a;
+          --code-color: #ddd;
+          --blockquote-color: #ccc;
+          --pre-border-color: #333;
+      }
+  }
+
+  body {
+      font-family: var(--font-secondary);
+      font-size: var(--font-scale);
+      margin: auto;
+      padding: 20px;
+      max-width: var(--width);
+      text-align: left;
+      background-color: var(--background-color);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.5;
+      color: var(--text-color);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-main);
+      color: var(--heading-color);
+  }
+
+  a {
+      color: var(--link-color);
+      cursor: pointer;
+      text-decoration: none;
+  }
+
+  a:hover {
+      text-decoration: underline;
+  }
+
+  nav a {
+      margin-right: 8px;
+  }
+
+  strong, b {
+      color: var(--heading-color);
+  }
+
+  button {
+      margin: 0;
+      cursor: pointer;
+  }
+
+  time {
+   	font-family: monospace;
+    	font-style: normal;
+    	font-size: 15px;
+  }
+
+  main {
+      line-height: 1.6;
+  }
+
+  table {
+      width: 100%;
+  }
+
+  hr {
+      border: 0;
+      border-top: 1px dashed;
+  }
+
+  img {
+      max-width: 100%;
+  }
+
+  code {
+      font-family: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 2px 4px;
+      background-color: var(--code-background-color);
+      color: var(--code-color);
+      border-radius: 3px;
+      font-size: 0.9em;
+  }
+
+  pre {
+      background-color: var(--code-background-color) !important;
+      border: 1px solid var(--pre-border-color);
+      border-radius: 4px;
+      padding: 1em;
+      overflow-x: auto;
+      margin: 1em 0;
+  }
+
+  pre code {
+      background-color: transparent;
+      padding: 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: var(--code-color);
+  }
+
+  blockquote {
+      border-left: 1px solid #999;
+      color: var(--code-color);
+      padding-left: 20px;
+      font-style: italic;
+  }
+
+  footer {
+      padding: 25px 0;
+      text-align: center;
+  }
+
+  .title:hover {
+      text-decoration: none;
+  }
+
+  .title h1 {
+      font-size: 1.5em;
+  }
+
+  .inline {
+      width: auto !important;
+  }
+
+   
+  .highlight, .code, div.highlight {
+      background-color: var(--code-background-color) !important;
+      color: var(--code-color);
+      border-radius: 4px;
+      margin: 1em 0;
+      overflow-x: auto;
+      border: 1px solid var(--pre-border-color);
+  }
+
+  .highlight pre, .code pre {
+      padding: 1em;
+      margin: 0;
+      overflow-x: auto;
+      border: none;
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight, .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .chroma {
+      background-color: var(--code-background-color) !important;
+  }
+
+   
+  .highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .chroma .k, .chroma .kd, .chroma .kn, .chroma .kr {
+      color: #569cd6;  
+  }
+
+  .highlight .s, .highlight .s1, .highlight .s2, .chroma .s, .chroma .s1, .chroma .s2 {
+      color: #ce9178;  
+  }
+
+  .highlight .c, .highlight .c1, .highlight .cm, .chroma .c, .chroma .c1, .chroma .cm {
+      color: #6a9955;  
+  }
+
+  .highlight .n, .highlight .nb, .highlight .nc, .chroma .n, .chroma .nb, .chroma .nc {
+      color: var(--code-color);  
+  }
+
+   
+  ul.blog-posts {
+      list-style-type: none;
+      padding: unset;
+  }
+
+  ul.blog-posts li {
+      display: flex;
+  }
+
+  ul.blog-posts li span {
+      flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+      color: var(--visited-color);
+  }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css" integrity="sha384-3UiQGuEI4TTMaFmGIZumfRPtfKQ3trwQE2JgosJxCnGmQpL/lJdjpcHkaaFwHlcI" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js" integrity="sha384-G0zcxDFp5LWZtDuRMnBkk3EphCK1lhEf4UEyEM693ka574TZGwo4IWwS6QLzM/2t" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            
+            throwOnError : false
+        });
+    });
+</script> </head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>Hammer&#39;s Blog</h2>
+</a>
+<nav><a href="/">Home</a>
+
+
+<a href="/blog">Blog</a>
+
+</nav>
+</header>
+  <main>
+
+<h1>monotone stack</h1>
+<p>
+  <i>
+    <time datetime='0001-01-01'>
+      01 Jan, 0001
+    </time>
+  </i>
+</p>
+
+<content>
+  <script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+</script>
+<h1 id="inroduction">Inroduction</h1>
+<p>오늘 다뤄볼 알고리즘은 <code>monotone stack</code>이다 특정 PS 기법으로 사용되기에 예제와 함께 풀어보겠다.</p>
+<h1 id="monoton-stack">Monoton Stack</h1>
+<p><code>Monotone Stack</code>은 이름처럼 단조 증가(감소) 스택을 만든다.</p>
+<p>다만, 증가하는 스택의 규칙을 따르도록 구성하려면 <code>pop</code>, <code>push</code>가 필수적이다.
+위 과정에서 저장해두었던 여러 정보를 통해 PS를 푸는 기법이다.</p>
+<p>위 설명만 하자니 솔직히 나라도 못 알아 들을 것 같다. 애초에 기법 또한 특정 알고리즘이라기 보단 <code>sliding window</code>와 같은 방법론적인 부분이 크다 생각하여 예시가 꼭 필요해보인다. 보통은 알고리즘의 설명 이후 문제를 소개하곤 하지만, 이번엔 문제를 먼저 소개해보도록 하자.</p>
+<h2 id="빗물이-넘쳐흘러">빗물이 넘쳐흘러</h2>
+<p><a href="https://www.acmicpc.net/problem/17421">백준 17421 빗물이 넘쳐 흘러</a></p>
+<p>처음에는 <a href="https://codeforces.com/contest/448/problem/C">codeforces 448C Painting Fence</a>의 분할정복 접근법과 유사한 문제로 생각했다.</p>
+<p>해당 문제의 입력 개수가 적었다면 충분히 <code>분할 정복</code>으로 풀 수 있는 문제였으나 아쉽게도 테스트 케이스 수는 TLE를 일으킬 수 밖에 없어 새로운 알고리즘을 도입해야했다. 그것이 바로 모노톤 스택이다.</p>
+<h3 id="응용">응용</h3>
+<p>해당 문제를 어떻게하면 모노톤 스택과 결을 맞춰 구현할 수 있을까?</p>
+<p>간단하게 생각해보자. 우리가 직접 한 덩어리가 채워지는 걸 어떻게 확인하는가? 왼쪽에서부터 차례대로 블럭의 높이를 보며 갑자기 움푹 파이는 즉, 물이 고이는 순간(혹은 구조)? 확인할 것이다.</p>
+<p>그렇게 되는 순간은? 높이가 단조 증가하다가 갑자기 감소하는 시점이다. 즉 해당 블럭을 <code>pivot</code>으로 생각하여 해당 웅덩이를 나눌 수 있다.</p>
+<p>모노톤 스택의 구조랑 비슷하지 않은가? 계속 단조 증가하는 값을 저장하다 규칙이 깨지는 값이 들어오는 순간 규칙을 지키기 위해 블럭을 <code>pop</code>해야 한다.</p>
+<p>그렇다. 우리는 단순히 규칙을 지키며 stack을 운영하며 <code>pivot</code>을 기점으로 특정 operation을 진행하면 되는 것이다.</p>
+<p>다만, 이 문제에서 중요하게 짚어야할 점은 여러개의 웅덩이가 하나로 합쳐지는 시점이다. 이 때에는 주의깊게 operation을 지정하며 기존에 모아왔던 웅덩이를 전부 빼주어야 한다.</p>
+<h3 id="결국은">결국은..</h3>
+<p>모노톤 스택은 단순히 단조 증가 형태를 유지하며 운영하고 그 스택에 저장되는 값은 그간 스캔해왔던 누적 값을 저장해둔다.</p>
+<p>빗물이 넘쳐 흘러는 모노톤 스택의 예를 확실하게 보여주는 예시라 생각한다. 아래 코드를 통해 더욱 확실히 이해할 수 있을 것이다.</p>
+<h3 id="최종-코드">최종 코드</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#00f">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f">#include&lt;algorithm&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f">#include&lt;stack&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f">#include&lt;vector&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#00f"></span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">using</span> <span style="color:#00f">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">const</span> <span style="color:#2b91af">long</span> <span style="color:#2b91af">long</span> MAX_N = 100&#39;000 + 5, MAX_HEIGHT = 1&#39;000&#39;000, TIME_BOUND = MAX_N * MAX_HEIGHT;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2b91af">long</span> <span style="color:#2b91af">long</span> N, K, height[MAX_N], ans, k;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00f">struct</span> <span style="color:#2b91af">Segment</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">int</span> left, right, height, segmented;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#2b91af">int</span> main() {
+</span></span><span style="display:flex;"><span>    <span style="color:#008000">//FAST I/O
+</span></span></span><span style="display:flex;"><span><span style="color:#008000"></span>    ios::sync_with_stdio(0);
+</span></span><span style="display:flex;"><span>    cin.tie(0), cout.tie(0);
+</span></span><span style="display:flex;"><span>    cin &gt;&gt; N &gt;&gt; K;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    stack&lt;Segment&gt; st;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00f">for</span> (<span style="color:#2b91af">int</span> i = 0; i &lt;= N; i++) {
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">if</span> (i != N) {
+</span></span><span style="display:flex;"><span>            cin &gt;&gt; height[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">int</span> left = i;
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">int</span> segmented = 0;
+</span></span><span style="display:flex;"><span>        <span style="color:#2b91af">bool</span> isFirst = true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00f">while</span> (!st.empty() &amp;&amp; st.top().height &gt;= height[i]) {
+</span></span><span style="display:flex;"><span>            left = st.top().left;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#2b91af">long</span> <span style="color:#2b91af">long</span> diff = st.top().height - height[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#00f">if</span> (diff &gt; 0) {
+</span></span><span style="display:flex;"><span>                <span style="color:#00f">if</span> (isFirst) {
+</span></span><span style="display:flex;"><span>                    isFirst = false;
+</span></span><span style="display:flex;"><span>                    k++;
+</span></span><span style="display:flex;"><span>                    segmented++;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                k -= st.top().segmented;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#00f">else</span> {
+</span></span><span style="display:flex;"><span>                segmented += st.top().segmented;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#00f">if</span> (k == K) {
+</span></span><span style="display:flex;"><span>                cout &lt;&lt; ans &lt;&lt; endl;
+</span></span><span style="display:flex;"><span>                <span style="color:#00f">return</span> 0;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            ans += diff * (st.top().right - st.top().left + 1);
+</span></span><span style="display:flex;"><span>            st.pop();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        st.push({ left, i, height[i], segmented });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout &lt;&lt; -1;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/stack/">#Stack</a>
+  
+  <a href="http://localhost:1313/blog/algorithm/">#Algorithm</a>
+  
+</p>
+
+  </main>
+  <footer>Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</footer>
+
+    
+</body>
+
+</html>

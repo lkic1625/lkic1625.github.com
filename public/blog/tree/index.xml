@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tree on Hammer&#39;s Blog</title>
+    <link>http://localhost:1313/blog/tree/</link>
+    <description>Recent content in Tree on Hammer&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>© 조원빈 - All rights reserved</copyright>
+    <atom:link href="http://localhost:1313/blog/tree/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>segment tree</title>
+      <link>http://localhost:1313/segment-tree/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/segment-tree/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;개요&#34;&gt;개요&lt;/h1&gt;&#xA;&lt;p&gt;구간별로 합을 저장해두는 자료구조이다. 특정 쿼리에 대해 $$O(logn + k)$$로 처리 가능하며 공간 복잡도와 생성 과정에서 $$O(nlogn)$$이 사용된다.&lt;/p&gt;&#xA;&lt;h2 id=&#34;구조-설명&#34;&gt;구조 설명&lt;/h2&gt;&#xA;&lt;p&gt;$$S$$를 구간 혹은 세그먼트의 집합이라고 하고, $$p_1, p_2, &amp;hellip;, p_m$$을 오름차순으로 정렬한 구간의 끝점 (혹은 &lt;code&gt;endpoint&lt;/code&gt;)라 하자.&#xA;각각의 점에 따라 분할되는 구간을 생각했을 때 이를 &lt;code&gt;elementary intervals&lt;/code&gt;라 한다.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/images/seg_tree_intervals.png&#34; alt=&#34;이미지1&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;elementary intervals&lt;/code&gt;들은 연속적인 두 개의 끝점에선 개구간을, 한 점으로 이루어진 경우에는 폐구간을 갖는다.&#xA;한 점을 구간으로 취급하는 이유는 쿼리에 대한 응답에서 내부의 끝점과 &lt;code&gt;elementary intervals&lt;/code&gt;를 구분할 필요가 없기 때문이다(?)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

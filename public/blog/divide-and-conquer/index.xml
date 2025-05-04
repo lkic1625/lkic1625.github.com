@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Divide and Conquer on Hammer&#39;s Blog</title>
+    <link>http://localhost:1313/blog/divide-and-conquer/</link>
+    <description>Recent content in Divide and Conquer on Hammer&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>© 조원빈 - All rights reserved</copyright>
+    <atom:link href="http://localhost:1313/blog/divide-and-conquer/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>closest pair</title>
+      <link>http://localhost:1313/closest-pair/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/closest-pair/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;definition&#34;&gt;definition&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;input: $$p_1, p_2, p_3, &amp;hellip; p_n$$  $$(p_i = (x_i, y_i))$$&lt;/li&gt;&#xA;&lt;li&gt;output: $$p_i, p_j$$ with smallest $$p_i - p_j$$&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h1 id=&#34;brute-force-algorithm&#34;&gt;Brute-force algorithm&lt;/h1&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;minDist = infinity&#xA;for i = 1 to length(P) - 1 do&#xA;    for j = i + 1 to length(P) do&#xA;        let p = P[i], q = P[j]&#xA;        if dist(p, q) &amp;lt; minDist  then&#xA;            minDist = dist(p, q)&#xA;            closestPair = (p, q)&#xA;return closestPair&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;time complexity: $$O(n^2)$$&lt;/p&gt;&#xA;&lt;h1 id=&#34;divide-and-conquer-algorithm&#34;&gt;Divide and Conquer algorithm&lt;/h1&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;점들을 x좌표에 따라 정렬한다.&lt;/li&gt;&#xA;&lt;li&gt;점들이 두개의 같은 크기의 집합으로 나뉘도록 수직선 $$x = x_mid$$를 기준으로 양옆으로 분할한다.&lt;/li&gt;&#xA;&lt;li&gt;왼쪽과 오른쪽의 점들의 집합에 대해 재귀적으로 문제를 해결한다. 이것을 통해 왼쪽과 오른쪽에서의 최근접 거리인 $$d_{Lmin}$$과 $$d_{Rmin}$$을 찾을 수 있다.&lt;/li&gt;&#xA;&lt;li&gt;분할선 기준으로 나뉜 쌍들이 존재할 수 있으므로 중간에 존재하는 쌍들 중 거리가 최소가 되는 $$d_{LRmin}$$을 구한다.&lt;/li&gt;&#xA;&lt;li&gt;최종적으로 찾고자 하는 최근접 거리는 $$d = min(d_{Lmin}, d_{Rmin}, d_{LRmin})$$이다.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;time-complexity&#34;&gt;time complexity&lt;/h2&gt;&#xA;&lt;p&gt;시간복잡도의 가장 영향을 미치는 부분인 4번 항목에 대해 알아보자.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>covex hull</title>
+      <link>http://localhost:1313/covex-hull/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/covex-hull/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;graham-scan&#34;&gt;Graham Scan&lt;/h1&gt;&#xA;&lt;h2 id=&#34;pseudo-code&#34;&gt;pseudo code&lt;/h2&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sort by y-order; //$$p_1, p_2, ..., p_n$$&#xA;stack.push($$p_1, p_2$$);&#xA;for i = 3 to $$n$$ do&#xA;  while next $$\angle next, top, $$p_i$$ != CCW&#xA;    stack.pop()&#xA;  stack.push($$p_i$$)&#xA;return stack&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;analysis-of-graham-scan&#34;&gt;Analysis of Graham Scan&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Invariant $$&amp;lt;p_1, &amp;hellip; ,stack.top()&amp;gt;$$ is convex&lt;/li&gt;&#xA;&lt;li&gt;기울기 공식:&#xA;$$D = det\begin{vmatrix} 1 &amp;amp; p_x &amp;amp; p_y \ 1 &amp;amp; q_x &amp;amp; q_y \ 1 &amp;amp; r_x &amp;amp; r_y \end{vmatrix}$$&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;if $$D &amp;gt; 0$$ then $$\angle p, q, r$$ is CCW&lt;/li&gt;&#xA;&lt;li&gt;else if $$D &amp;lt; 0$$ $$\angle p, q, r$$ is CW&lt;/li&gt;&#xA;&lt;li&gt;else then $$\angle p, q, r$$ is straight&lt;/li&gt;&#xA;&lt;li&gt;$$D = p \cdot (q \times r)$$ 이다.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;ol start=&#34;3&#34;&gt;&#xA;&lt;li&gt;정렬 이후 $$O(n)$$번의 스캔이 일어나며 반복 수행마다 $$logn$$의 시간 소요&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;time complexity: $$O(nlogn)$$&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h1 id=&#34;divide-and-conquer&#34;&gt;Divide and Conquer&lt;/h1&gt;&#xA;&lt;h2 id=&#34;pseudo-code-1&#34;&gt;pseudo code&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;http://localhost:1313/assets/images/merging.PNG&#34; alt=&#34;이미지1&#34;&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

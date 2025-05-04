@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Prime on Hammer&#39;s Blog</title>
+    <link>http://localhost:1313/blog/prime/</link>
+    <description>Recent content in Prime on Hammer&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <copyright>© 조원빈 - All rights reserved</copyright>
+    <atom:link href="http://localhost:1313/blog/prime/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pollard&#39;s rho algorithm</title>
+      <link>http://localhost:1313/pollards-rho-algorithm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/pollards-rho-algorithm/</guid>
+      <description>&lt;script type=&#34;text/javascript&#34;&#xA;src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&#34;&gt;&#xA;&lt;/script&gt;&#xA;&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;&#xA;&lt;p&gt;이번 포스트에서 다룰 알고리즘은 폴라드 $$\rho$$ 알고리즘이다. 폴라드 $$\rho$$ 알고리즘은 빠른 소인수 분해를 위한 알고리즘이다.&lt;/p&gt;&#xA;&lt;p&gt;백준에 &lt;a href=&#34;https://www.acmicpc.net/problem/4149&#34;&gt;큰 수 소인수분해 4149&lt;/a&gt; 문제 풀이와 함께 진행하겠다.&lt;/p&gt;&#xA;&lt;h1 id=&#34;core-ideas&#34;&gt;Core ideas&lt;/h1&gt;&#xA;&lt;p&gt;소인수 분해하려는 숫자 $$n = pq$$에서 $$p$$는 자명하지 않은 &lt;b&gt;인수&lt;/b&gt;라고 가정하자. 다항식을 $$n$$으로 나누는 연산 $$g(x) = (x^2 + 1)\text{ mod n}$$은 암호학에 유사난수 수열을 생성(&lt;code&gt;PRG&lt;/code&gt;)할 때 사용된다.&lt;/p&gt;&#xA;&lt;p&gt;이때 시작값을 적당히 2로 설정하면&lt;/p&gt;&#xA;&lt;p&gt;$$x_1 = g(2),,x_2=g(g(2)),,x_3=g(g(g(2)))$$&lt;/p&gt;&#xA;&lt;p&gt;위와 같은 형태로 수열이 생성된다. 이를 $${x_k}$$라 하자. 그러면 이 수열은 다른 수열 $${x_k ,mod,p}$$ 과 관련이 있다. 하지만 $$p$$가 사전에 주어지지 않았기 때문에, 두 번째 수열은 위 알고리즘으로 계산 불가능하다. 여기서 첫 번째 수열과 두 번째 수열의 관계가 &lt;code&gt;폴라드 로&lt;/code&gt; 알고리즘의 &lt;b&gt;핵심&lt;/b&gt; 아이디어다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
