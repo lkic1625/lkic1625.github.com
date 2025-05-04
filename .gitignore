@@ -1,0 +1,56 @@
+# Cursor Editor
+.cursor/
+.cursor.json
+.vscode/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.idea_modules/
+
+# Hugo
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+.hugo_build.lock
+
+# Dependencies
+/node_modules/
+/jspm_packages/
+/bower_components/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temp files
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+
+# History
+.history/
+
+# Build outputs
+/dist/
+/tmp/
+/out-tsc/
+/build/ 
