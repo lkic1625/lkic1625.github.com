@@ -1,3 +1,0 @@
-{{ $image := resources.Get (.Get "src") }}
-{{ $alt := .Get "alt" | default "" }}
-<img src="{{ $image.RelPermalink }}" alt="{{ $alt }}" {{ with .Get "class" }}class="{{ . }}"{{ end }}> 
