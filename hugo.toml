@@ -45,3 +45,7 @@ ignoreErrors = ["error-disable-taxonomy"]
 # Math 설정
 [markup.goldmark.renderer]
   unsafe = true  # LaTeX 수식이 HTML로 변환될 수 있도록 함
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
