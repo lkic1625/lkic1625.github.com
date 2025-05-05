@@ -2,7 +2,7 @@
 5년차 백엔드 엔지니어이며, 현재 채널톡에서 재직 중입니다. 기록하는 걸 중요하게 생각하고 최근에 다시 개인 블로그를 열심히 작성해보려고 합니다.
 
 ## My most recent posts
-- [분산시스템에서의 트랜잭션과 합의](/consensus-in-distributed-systems)
+- [분산시스템에서의 트랜잭션과 합의](/2pc-raft-정리)
 - [데이터베이스 인터널스 정리](/database-internals)
 
 ## Tech blog
