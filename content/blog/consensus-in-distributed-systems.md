@@ -156,13 +156,13 @@ tags = ["database",]
 
 ## References
 
-[1] [https://www.postgresql.org/docs/current/sql-prepare-transaction.html](https://www.postgresql.org/docs/current/sql-prepare-transaction.html)
-[2] [https://www.mongodb.com/docs/v3.6/tutorial/perform-two-phase-commits](https://www.mongodb.com/docs/v3.6/tutorial/perform-two-phase-commits/)
-[3] [https://github.com/cockroachdb/cockroach/blob/master/docs/design.md](https://github.com/cockroachdb/cockroach/blob/master/docs/design.md)
-[4] [https://docs.yugabyte.com/preview/faq/comparisons/google-spanner/](https://docs.yugabyte.com/preview/faq/comparisons/google-spanner/)
-[5] [https://github.com/cockroachdb/cockroach/blob/master/pkg/kv/kvserver/raft.go](https://github.com/cockroachdb/cockroach/blob/master/pkg/kv/kvserver/raft.go)
-[6] [https://github.com/etcd-io/raft](https://github.com/etcd-io/raft)
-[7] [https://github.com/hashicorp/raft](https://github.com/hashicorp/raft)
-[8] [https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-857.pdf](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-857.pdf)
-[9] [https://github.com/etcd-io/raft/blob/5fe1c31c515840dd807b8f07d91f704f8334a1b6/raft.go#L387](https://github.com/etcd-io/raft/blob/5fe1c31c515840dd807b8f07d91f704f8334a1b6/raft.go#L387)
+[1] [https://www.postgresql.org/docs/current/sql-prepare-transaction.html](https://www.postgresql.org/docs/current/sql-prepare-transaction.html)<br>
+[2] [https://www.mongodb.com/docs/v3.6/tutorial/perform-two-phase-commits](https://www.mongodb.com/docs/v3.6/tutorial/perform-two-phase-commits/)<br>
+[3] [https://github.com/cockroachdb/cockroach/blob/master/docs/design.md](https://github.com/cockroachdb/cockroach/blob/master/docs/design.md)<br>
+[4] [https://docs.yugabyte.com/preview/faq/comparisons/google-spanner/](https://docs.yugabyte.com/preview/faq/comparisons/google-spanner/)<br>
+[5] [https://github.com/cockroachdb/cockroach/blob/master/pkg/kv/kvserver/raft.go](https://github.com/cockroachdb/cockroach/blob/master/pkg/kv/kvserver/raft.go)<br>
+[6] [https://github.com/etcd-io/raft](https://github.com/etcd-io/raft)<br>
+[7] [https://github.com/hashicorp/raft](https://github.com/hashicorp/raft)<br>
+[8] [https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-857.pdf](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-857.pdf)<br>
+[9] [https://github.com/etcd-io/raft/blob/5fe1c31c515840dd807b8f07d91f704f8334a1b6/raft.go#L387](https://github.com/etcd-io/raft/blob/5fe1c31c515840dd807b8f07d91f704f8334a1b6/raft.go#L387)<br>
 [10] [https://en.wikipedia.org/wiki/Paxos_(computer_science)](https://en.wikipedia.org/wiki/Paxos_(computer_science))

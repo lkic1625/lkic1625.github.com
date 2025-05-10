@@ -31,7 +31,7 @@ tags = ["Software engineering",]
 
 변정훈님의 내가 생각하는 플랫폼 엔지니어링이라는 글을 작년에 처음 읽었을 때는 "아 그래야지, 그렇겠지 아마."정도의 감상이었다면, 벌크액션 작업을 하면서 계속해서 곱씹게 되었던 거 같다.[3] 복잡해져만 가는 시스템 위에서 적절한 추상화를 만들고, 개발자들에게 이를 강제한다. 그리고 이 추상화 위에서도 반드시 알아야 하는 개념들을 API 스펙으로 정의하고, 개발자들이 이에 대해 고민하고 코드를 작성할 수 있도록 유도한다.
 
-벌크 액션을 작성하면서 이게 어느정도의 *RPS(Request Per Second)*를 가져야하며, DB 부하에 대해 고민해야한다. 일종의 메시지 큐와 비슷한 추상화 정도를 제공해, 재시도 가능성과 *at-least once semantic*을 지켜야하는 코드를 제공한다. 결론적으로 일관적인 인터페이스와 sdk 제공을 통해 동일하게 코드를 작성할 수 있지만, 코드 작성이 의도적으로 개발자가 생각할 포인트를 제공한다.
+벌크 액션을 작성하면서 이게 어느정도의 *RPS*(Request Per Second)를 가져야하며, DB 부하에 대해 고민해야한다. 일종의 메시지 큐와 비슷한 추상화 정도를 제공해, 재시도 가능성과 *at-least once semantic*을 지켜야하는 코드를 제공한다. 결론적으로 일관적인 인터페이스와 sdk 제공을 통해 동일하게 코드를 작성할 수 있지만, 코드 작성이 의도적으로 개발자가 생각할 포인트를 제공한다.
 
 예전에 단위 테스트를 전파하려고 팀 내에서 기여자들을 기반으로 팀 내에 여러 문화를 전파했던 기억이 있는데, 그 때는 일종의 문화나 개발자 인식을 바꾸기 위해서 발로 뛰었다면, 이제는 그냥 서비스로 만드는 게 얼마나 강력한 인식 변화를 이끄는지 이해했던 것 같다.
 
@@ -52,8 +52,8 @@ tags = ["Software engineering",]
 두서 없이 생각나는 걸 몇 가지 적어보았다. 아마도 이러한 생각은 또 언젠가 달라질 수도 있겠지만 이것도 마치 소프트웨어의 생명 주기와 비슷한 게 아닐까? 계속해서 변화해가는 생각이지만, 추후의 확장을 위해 여유를 남겨두듯이.
 
 ## References
-[1] https://go.dev/doc/faq#principles
-[2] https://go.dev/blog/pprof
-[3] https://blog.outsider.ne.kr/1736
-[4] https://en.wikipedia.org/wiki/Occam%27s_razor
+[1] https://go.dev/doc/faq#principles<br>
+[2] https://go.dev/blog/pprof<br>
+[3] https://blog.outsider.ne.kr/1736<br>
+[4] https://en.wikipedia.org/wiki/Occam%27s_razor<br>
 [5] https://lkml.org/lkml/2024/1/26/1013
