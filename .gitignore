@@ -54,3 +54,6 @@ Thumbs.db
 /tmp/
 /out-tsc/
 /build/ 
+
+# Obsidian
+.obsidian
