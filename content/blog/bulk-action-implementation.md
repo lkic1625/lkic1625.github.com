@@ -1,5 +1,6 @@
 +++
 title = "Handling Spike Traffic Reliably"
+slug = "bulk-action-implementation"
 date = "2025-03-21T13:00:00+09:00"
 tags = ["distributed-systems", "go", "redis", "rate-limiting"]
 +++

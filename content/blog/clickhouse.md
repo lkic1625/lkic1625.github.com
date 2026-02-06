@@ -1,5 +1,6 @@
 +++
 title = "More Precise Customer Targeting with ClickHouse"
+slug = "clickhouse"
 date = "2026-01-25T13:00:00+09:00"
 tags = ["OLAP", "ClickHouse"]
 +++
