@@ -2,6 +2,7 @@
 6th-year backend engineer at Channel.io with a passion for distributed systems and high-traffic management.
 
 ## Recent posts
+- [Handling Spike Traffic Reliably: Improvement](/bulk-action-improvement/)
 - [More Precise Customer Targeting with ClickHouse](/clickhouse/)
 - [Handling Spike Traffic Reliably](/bulk-action-implementation/)
 - [Transactions and Consensus in Distributed Systems](/2pc-raft-정리/)
