@@ -45,6 +45,7 @@ Thumbs.db
 *~
 *.tmp
 *.bak
+.swift-module-cache/
 
 # History
 .history/
