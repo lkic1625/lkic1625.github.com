@@ -29,6 +29,10 @@ Over the last 5+ years at Channel.io, I have worked on CRM and marketing systems
 
 ## External writing
 
-- [Handling Traffic Spikes Reliably](https://channel.io/ko/blog/articles/handling-traffic-spikes-f234b322)
-- [Real-time Chat Server Journey (3)](https://channel.io/ko/blog/articles/real-time-chat-server-3-4ab1f0c2)
-- [Real-time Chat Server Journey (1)](https://channel.io/ko/blog/articles/real-time-chat-server-1-a235cf8c)
+- [Handling Spike Traffic Reliably: Improvement (2)](https://channel.io/ko/team/blog/articles/tech-logical-partitioning-0db50646)
+- [Handling Spike Traffic Reliably: Improvement (1)](https://channel.io/ko/team/blog/articles/tech-dynamic-scaling-6748dc7e)
+- [More Precise Customer Targeting with ClickHouse](https://channel.io/ko/team/blog/articles/tech-crm-marketing-clickhouse-16084dd4)
+- [Handling Traffic Spikes Reliably](https://channel.io/ko/team/blog/articles/235661b0)
+- [Real-time Chat Server Journey (3)](https://channel.io/ko/team/blog/articles/ebbb3712)
+- [Real-time Chat Server Journey (2)](https://channel.io/ko/team/blog/articles/7b1edb14)
+- [Real-time Chat Server Journey (1)](https://channel.io/ko/team/blog/articles/4571f5b3)
