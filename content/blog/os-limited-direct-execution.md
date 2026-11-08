@@ -1,7 +1,7 @@
 +++
 title = "LDE와 런타임 스케줄링: Go, Rust, Java"
 slug = "os-limited-direct-execution"
-date = "2026-11-08T00:01:00+09:00"
+date = "2026-10-05T17:22:05+09:00"
 draft = false
 tags = ["os", "ostep", "scheduling", "runtime"]
 +++

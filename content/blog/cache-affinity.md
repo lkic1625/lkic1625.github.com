@@ -1,7 +1,7 @@
 +++
 title = "Cache Affinity와 Seastar"
 slug = "cache-affinity"
-date = "2026-11-08T00:08:00+09:00"
+date = "2026-09-18T13:40:59+09:00"
 draft = false
 tags = ["cs", "cpu", "cache", "seastar"]
 +++

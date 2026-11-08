@@ -1,7 +1,7 @@
 +++
 title = "SIMD와 Vectorized Execution"
 slug = "simd-vectorized-execution"
-date = "2026-11-08T00:09:00+09:00"
+date = "2026-09-18T13:41:12+09:00"
 draft = false
 tags = ["cs", "cpu", "simd", "database"]
 +++

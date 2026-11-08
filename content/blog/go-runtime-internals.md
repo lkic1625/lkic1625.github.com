@@ -1,7 +1,7 @@
 +++
 title = "Go Runtime Internals — 작성 중"
 slug = "go-runtime-internals"
-date = "2026-11-08T00:11:00+09:00"
+date = "2026-09-30T17:41:37+09:00"
 draft = false
 tags = ["cs", "go", "goroutine", "runtime"]
 status = "작성 중"

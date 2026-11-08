@@ -1,7 +1,7 @@
 +++
 title = "프로세스와 cgroup의 CPU 자원 관리"
 slug = "os-process"
-date = "2026-11-08T00:00:00+09:00"
+date = "2026-09-30T14:10:20+09:00"
 draft = false
 tags = ["os", "ostep", "process", "cgroup"]
 +++

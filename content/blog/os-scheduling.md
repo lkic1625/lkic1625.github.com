@@ -1,7 +1,7 @@
 +++
 title = "스케줄링: 네트워크, SQS, HTTP/2"
 slug = "os-scheduling"
-date = "2026-11-08T00:02:00+09:00"
+date = "2026-10-08T17:53:40+09:00"
 draft = false
 tags = ["os", "ostep", "scheduling", "network"]
 +++

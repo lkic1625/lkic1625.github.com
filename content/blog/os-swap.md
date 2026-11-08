@@ -1,7 +1,7 @@
 +++
 title = "Swap과 메모리 관리: Linux, TMO, ZRAM"
 slug = "os-swap"
-date = "2026-11-08T00:06:00+09:00"
+date = "2026-11-02T15:30:04+09:00"
 draft = false
 tags = ["os", "ostep", "memory", "swap"]
 +++

@@ -1,7 +1,7 @@
 +++
 title = "메모리 할당기: glibc, jemalloc, TCMalloc, Java, Go"
 slug = "os-memory-allocation"
-date = "2026-11-08T00:04:00+09:00"
+date = "2026-10-21T13:01:48+09:00"
 draft = false
 tags = ["os", "ostep", "memory", "allocator"]
 +++

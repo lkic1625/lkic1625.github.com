@@ -1,7 +1,7 @@
 +++
 title = "EEVDF Scheduling"
 slug = "eevdf-scheduling"
-date = "2026-11-08T00:07:00+09:00"
+date = "2026-10-02T11:51:54+09:00"
 draft = false
 tags = ["cs", "os", "scheduling", "linux"]
 +++

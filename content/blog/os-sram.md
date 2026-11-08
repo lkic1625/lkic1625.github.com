@@ -1,7 +1,7 @@
 +++
 title = "SRAM의 구조와 용량 확장의 한계"
 slug = "os-sram"
-date = "2026-11-08T00:05:00+09:00"
+date = "2026-11-02T15:30:09+09:00"
 draft = false
 tags = ["os", "ostep", "memory", "sram"]
 +++

@@ -1,7 +1,7 @@
 +++
 title = "주소 변환과 Huge Page"
 slug = "os-address-translation"
-date = "2026-11-08T00:03:00+09:00"
+date = "2026-10-15T01:43:00+09:00"
 draft = false
 tags = ["os", "ostep", "memory", "huge-page"]
 +++
