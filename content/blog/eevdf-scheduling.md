@@ -7,8 +7,8 @@ tags = ["cs", "os", "scheduling", "linux"]
 +++
 
 ## 개요
-이건 단순 공부용 정리이다. EEVDF는 **Earliest Eligible Virtual Deadline First**의 약자이다. 이름 그대로, 실행 자격이 있는 스레드 중에서 virtual deadline이 가장 이른 스레드를 선택한다.
-[4. The Process](/os-process/)에서 CPU별 rq와 cfs_rq의 내부구조를 살펴봤었다. 여기서는 그중 Fairness 수준에서 경쟁하는 스레드들을 어떤 기준으로 선택하는지 알아보자. 설명은 하나의 CPU에서 같은 작업 큐를 두고 경쟁하는 스레드들을 기준으로 단순화한다. 다만, 이는 실제 Linux에서 실행 중인 스레드의 짧은 실행 구간을 보호하는 처리 등도 있으므로, 완벽한 로직이라고 판단하면 안된다.
+이건 단순 공부용 정리이다. EEVDF는 **Earliest Eligible Virtual Deadline First**의 약자이다. 이름 그대로, 실행 자격이 있는 스레드 중에서 virtual deadline이 가장 이른 스레드를 선택한다. [\[1\]](#ref-1)
+[4. The Process](/os-process/)에서 CPU별 rq와 cfs_rq의 내부구조를 살펴봤었다. 여기서는 그중 Fairness 수준에서 경쟁하는 스레드들을 어떤 기준으로 선택하는지 알아보자. 설명은 하나의 CPU에서 같은 작업 큐를 두고 경쟁하는 스레드들을 기준으로 단순화한다. 다만, 이는 실제 Linux에서 실행 중인 스레드의 짧은 실행 구간을 보호하는 처리 등도 있으므로, 완벽한 로직이라고 판단하면 안된다. [\[2\]](#ref-2)
 
 ### 모든 스레드의 1ms는 같을까?
 모든 스레드가 같은 CPU 몫을 가져야 하는 건 아니다. 어떤 스레드는 더 높은 우선순위를 가지고, 그에 따라 더 많은 CPU 시간을 받을 수 있다. Linux에서는 `nice` 값에 대응하는 `weight` 를 통해 이러한 상대적인 몫을 표현한다. (**nice 값이 낮을수록 weight는 높다.**)
@@ -124,6 +124,10 @@ A가 서비스를 더 적게 받았고 B는 남은 실행량이 더 짧지만, �
 > **기본 규칙과 실제 Linux 동작**
 > 여기서는 eligibility와 VD를 중심으로 기본 선택 규칙을 설명했다. 실제 Linux에는 실행 중인 스레드의 짧은 실행 구간을 보호하는 처리 등도 있으므로, 매 순간 VD가 가장 작은 스레드로 즉시 전환한다고 이해하면 안 된다.
 
-### 참고
-- [Linux Kernel: EEVDF Scheduler](https://kernel.org/doc/html/latest/scheduler/sched-eevdf.html)
-- [Linux fair.c: virtual time, eligibility, update_deadline(), pick_eevdf()](https://github.com/torvalds/linux/blob/master/kernel/sched/fair.c)
+## References
+
+<a id="ref-1"></a>
+[1] The Linux Kernel Contributors, “EEVDF Scheduler,” *The Linux Kernel Documentation*. [Online]. Available: <https://kernel.org/doc/html/latest/scheduler/sched-eevdf.html>. Accessed: Nov. 9, 2026.
+
+<a id="ref-2"></a>
+[2] The Linux Kernel Contributors, “kernel/sched/fair.c,” *Linux source code*. [Online]. Available: <https://github.com/torvalds/linux/blob/master/kernel/sched/fair.c>. Accessed: Nov. 9, 2026.

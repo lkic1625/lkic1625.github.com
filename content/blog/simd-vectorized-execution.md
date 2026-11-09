@@ -62,10 +62,10 @@ per-row branch가 없음
 ```
 ## Practical Examples 1. Vectorized Execution
 ### Columnar Storage
-이를 이해하기 위해서 가볍게 열기반 저장소에 대해서 설명해보자. 열기반 저장소는 기본적으로 현대의 시스템들이 매우 많은 column을 가지더라도 실제 쿼리에서는 4~5개의 데이터만을 쿼리하는데에 그친다는 사실에서 시작한다. [1]
+이를 이해하기 위해서 가볍게 열기반 저장소에 대해서 설명해보자. 열기반 저장소는 기본적으로 현대의 시스템들이 매우 많은 column을 가지더라도 실제 쿼리에서는 4~5개의 데이터만을 쿼리하는데에 그친다는 사실에서 시작한다. [\[1\]](#ref-1)
 그렇기에 OLAP와 같은 시스템에서는 이러한 열기반 저장소가 최근에 더욱 채택되고 있다.
 ### Vectorized Execution
-VE는 물론 SIMD라고 볼 수는 없지만, SIMD의 이점을 최대한으로 가져갈 수 있는 방법이다. 실제로도 데이터베이스 개발자들은 SIMD를 명시적으로 쓰지 않고, 단순히 이러한 이점을 가져갈 수 있는 구조에서 최대한 tight loop 코드를 c++로 작성하면서 complier가 분석하기 쉬운 코드로 SIMD의 이점을 더욱 끌어낸다고 한다. [2]
+VE는 물론 SIMD라고 볼 수는 없지만, SIMD의 이점을 최대한으로 가져갈 수 있는 방법이다. 실제로도 데이터베이스 개발자들은 SIMD를 명시적으로 쓰지 않고, 단순히 이러한 이점을 가져갈 수 있는 구조에서 최대한 tight loop 코드를 c++로 작성하면서 complier가 분석하기 쉬운 코드로 SIMD의 이점을 더욱 끌어낸다고 한다. [\[2\]](#ref-2)
 
 VE 모델은 단순히 여러 데이터를 batch 로 가져와서 연산하는 작업이고 이를 통해 SIMD의 이점을 살릴 수 있다. 또한 그것 외에도 아래와 같은 부분에서 큰 이점을 볼 수 있다.
 1. function call 감소
@@ -74,5 +74,9 @@ VE 모델은 단순히 여러 데이터를 batch 로 가져와서 연산하는 �
 4. branch 감소
 
 ## References
-[1] **https://hpts.ws/papers/2013/allwrong.pdf**
-[2] https://duckdb.org/faq?utm_source=chatgpt.com
+
+<a id="ref-1"></a>
+[1] M. Stonebraker, “The Traditional RDBMS Wisdom is All Wrong,” *High Performance Transaction Systems Workshop, presentation slides*. [Online]. Available: <https://hpts.ws/papers/2013/allwrong.pdf>. Accessed: Nov. 9, 2026.
+
+<a id="ref-2"></a>
+[2] DuckDB Contributors, “Frequently Asked Questions,” *DuckDB*. [Online]. Available: <https://duckdb.org/faq>. Accessed: Nov. 9, 2026.

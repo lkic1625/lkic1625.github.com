@@ -14,7 +14,7 @@ tags = ["os", "ostep", "memory", "sram"]
 
 ## SRAM의 구조
 
-우선 SRAM의 구조를 알아야, 실제 SRAM이 확장이 왜 어렵고 어떠한 trade-off가 있을지 알 수 있다.
+우선 SRAM의 구조를 알아야, 실제 SRAM이 확장이 왜 어렵고 어떠한 trade-off가 있을지 알 수 있다. [\[1\]](#ref-1)
 
 ![SRAM 배열 구조](/assets/images/os-notes/sram-array.png)
 
@@ -102,4 +102,5 @@ PD, PU가 Read 시에는 만약 Access 트랜지스터가 너무 강하면 내�
 
 ## References
 
-[1] [https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c14/c14s1/](https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c14/c14s1/)
+<a id="ref-1"></a>
+[1] Massachusetts Institute of Technology, “14.1 Annotated Slides,” *6.004 Computation Structures, MIT OpenCourseWare*, Spring 2017. [Online]. Available: <https://ocw.mit.edu/courses/6-004-computation-structures-spring-2017/pages/c14/c14s1/>. Accessed: Nov. 9, 2026.
