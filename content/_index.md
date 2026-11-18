@@ -1,21 +1,27 @@
-I’m Hammer, a backend engineer. I spent over five years at Channel.io working on CRM and marketing systems that handled more than 100 million messages a month.
+I’m Hammer, a backend engineer. I spent over five years at Channel.io building CRM and marketing systems that handled more than 100 million messages a month.
 
-I write about questions that came up while building those systems. How do you keep one customer’s million-record import from holding up someone else’s campaign? When a queue starts filling up, how do you tell whether adding workers will help? I also keep notes here on databases, operating systems, and LLM inference.
+On this blog, I share lessons from running those systems in production, along with notes on what I’m studying.
 
 ## Selected work
 
-- Helped build a shared queue for bulk jobs so a large import could run alongside smaller campaigns. We later partitioned the queue and adjusted the number of workers based on the backlog. In a load test, processing 100,000 items went from 25 minutes to 4. [How we scaled the queue](/bulk-action-improvement/)
-- Introduced ClickHouse so marketers could combine cart, coupon, and purchase data. For example, they could reach shoppers who had both an item in their cart and an unused coupon for it. [How we built customer targeting](/clickhouse/)
-- Switched from batch aggregation to processing changes as they arrived from DynamoDB, reducing database load from 297 to 36 transactions per second.
-- Tracked down production failures, including an application that ran out of memory and a DynamoDB secondary index that slowed writes to the main table.
+- Built a shared platform for bulk actions such as importing customer records, sending campaign messages, and tagging conversations in bulk. Fair queuing and per-tenant rate limits kept large jobs from monopolizing shared resources.
+- Reduced head-of-line blocking in the bulk action queue through logical partitioning. Together with dynamic worker scaling, this cut the time to process 100,000 items from 25 minutes to 4 in a load test.
+- Introduced ClickHouse for CRM audience segmentation so marketers could target customers using cart, order, and coupon data in a single query.
+- Traced write throttling on a DynamoDB base table to backpressure from a global secondary index (GSI).
 
 ## Start here
 
-- [Handling Spike Traffic Reliably: Improvement](/bulk-action-improvement/)
-- [More Precise Customer Targeting with ClickHouse](/clickhouse/)
-- [Handling Spike Traffic Reliably](/bulk-action-implementation/)
-- [Database Internals](/database-internals/)
-- [Transactions and Consensus in Distributed Systems](/2pc-raft-정리/)
+### In English
+
+- How we built and scaled a shared job queue. [Building the bulk processing system](/bulk-action-implementation/) · [Partitioning the queue and scaling workers](/bulk-action-improvement/)
+- How we made cart, purchase, and coupon data queryable together. [More Precise Customer Targeting with ClickHouse](/clickhouse/)
+
+### In Korean
+
+- [KVCache부터 PagedAttention까지](/kv-cache-paged-attention/) · Nov 18, 2026
+- [메모리 버퍼풀로 살펴보는 PostgreSQL, RocksDB, ClickHouse](/database-buffer-pools/) · Nov 5, 2026
+- [메모리 할당기 — glibc, jemalloc, TCMalloc, Java, Go](/os-memory-allocation/) · Oct 21, 2026
+- [Go, Rust, Java의 런타임 스케줄링](/os-limited-direct-execution/) · Oct 5, 2026
 
 ## External writing
 
