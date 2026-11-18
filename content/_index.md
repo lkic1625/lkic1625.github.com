@@ -7,7 +7,7 @@ On this blog, I share lessons from running those systems in production, along wi
 - Built a shared platform for bulk actions such as importing customer records, sending campaign messages, and tagging conversations in bulk. Fair queuing and per-tenant rate limits kept large jobs from monopolizing shared resources.
 - Reduced head-of-line blocking in the bulk action queue through logical partitioning. Together with dynamic worker scaling, this cut the time to process 100,000 items from 25 minutes to 4 in a load test.
 - Introduced ClickHouse for CRM audience segmentation so marketers could target customers using cart, order, and coupon data in a single query.
-- Traced write throttling on a DynamoDB base table to backpressure from a global secondary index (GSI).
+- Designed an asynchronously updated index table that isolated the main DynamoDB write path from GSI backpressure.
 
 ## Start here
 
