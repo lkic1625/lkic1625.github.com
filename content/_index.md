@@ -1,23 +1,13 @@
-Backend engineer building distributed systems for B2B SaaS.
+I’m Hammer, a backend engineer. I spent over five years at Channel.io working on CRM and marketing systems that handled more than 100 million messages a month.
 
-I work on backend problems where throughput, correctness, and product constraints collide: spike traffic, multi-tenant fairness, streaming pipelines, and reliability under failure.
+I write about questions that came up while building those systems. How do you keep one customer’s million-record import from holding up someone else’s campaign? When a queue starts filling up, how do you tell whether adding workers will help? I also keep notes here on databases, operating systems, and LLM inference.
 
-Over the last 5+ years at Channel.io, I have worked on CRM and marketing systems that process 100M+ messages per month. I care about systems that hold up in production, and I write about the trade-offs behind them here.
+## Selected work
 
-## What you will find here
-
-- Real production problems, not toy examples
-- System design decisions and their trade-offs
-- Notes on distributed systems, databases, and backend architecture
-- Writing that reflects how I think and debug as an engineer
-
-## A few things I have worked on
-
-- Built a bulk processing system that handled 1k/s spike traffic with better fairness and failure isolation
-- Replaced batch-style aggregation with a DynamoDB CDC pipeline and reduced database load from 297 TPS to 36 TPS
-- Introduced ClickHouse for more expressive CRM targeting queries
-- Investigated and fixed production issues such as monolith OOMs and DynamoDB GSI backpressure propagation
-- Designed shared reliability patterns including idempotency, retries, and rate limiting
+- Helped build a shared queue for bulk jobs so a large import could run alongside smaller campaigns. We later partitioned the queue and adjusted the number of workers based on the backlog. In a load test, processing 100,000 items went from 25 minutes to 4. [How we scaled the queue](/bulk-action-improvement/)
+- Introduced ClickHouse so marketers could combine cart, coupon, and purchase data. For example, they could reach shoppers who had both an item in their cart and an unused coupon for it. [How we built customer targeting](/clickhouse/)
+- Switched from batch aggregation to processing changes as they arrived from DynamoDB, reducing database load from 297 to 36 transactions per second.
+- Tracked down production failures, including an application that ran out of memory and a DynamoDB secondary index that slowed writes to the main table.
 
 ## Start here
 
